@@ -1,6 +1,8 @@
 package fall2018.csc2017.GameCentre;
 
 import android.support.annotation.NonNull;
+
+import java.util.ArrayList;
 import java.util.Observable;
 import java.io.Serializable;
 import java.util.Arrays;
@@ -158,5 +160,111 @@ public class Board extends Observable implements Iterable<Tile>, Serializable {
             return nextTile;
         }
 
+    }
+
+    /**
+     * Return the number of inversions within the board for a odd side length.
+     * An inversion is when a larger tile precedes a smaller valued tile.
+     * Therefore, a solved board has no inversions.
+     *
+     * @return the number of inversions present within the board.
+     */
+    int checkInversions(){
+        int inversions = 0;
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        BoardIterator iterator = new BoardIterator();
+        while (iterator.hasNext()){
+            Tile nextTile = iterator.next();
+            if (nextTile.getId()!=numTiles()){
+                arrayList.add(new Integer(nextTile.getId()));
+            }
+
+
+        }
+        for (int i = 0; i < arrayList.size(); i++){
+            Integer item = arrayList.get(i);
+            for (int j = i; j < arrayList.size(); j++){
+                Integer parsedItem = arrayList.get(j);
+                if (parsedItem < item){
+                    inversions++;
+                }
+            }
+        }
+
+        return inversions;
+
+    }
+
+    /**
+     * Returns whether the board is solveable.
+     *
+     * @return whether the board can be solved.
+     */
+
+    boolean isSolveable(){
+        int numTiles = this.numTiles();
+        if (numTiles % 2 == 1){
+            int numInversions = this.checkInversions();
+            if (numInversions % 2 == 0){
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            int numInversions = this.checkInversions();
+            System.out.println("THE NUMBER OF INVERSIONS IS " + numInversions);
+            int[] position = this.getEmptyTilePosition();
+            System.out.println("THE POSITION OF THE EMPTY TILE IS: " + position);
+            int row = position[0];
+            if (row % 2 == 1){ // covers row being even from below case
+                if (numInversions%2 == 1){
+                    return false;
+                } else {
+                    return true;
+                }
+
+            } else { // covers row being odd from below case
+                if (numInversions%2 == 0){
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+    }
+
+    /**
+     * Returns the position of the empty tile within the board in the format [row, column]
+     * @return the position of the empty tile within the board in the format [row, column]
+     */
+    int[] getEmptyTilePosition(){
+        int position = getPos();
+        System.out.println(position); // todo: remove this printy boi
+        int row = position / NUM_ROWS;
+        int column = position % NUM_COLS;
+        int[] list = new int[2];
+        list[0] = row;
+        list[1] = column;
+        return list;
+
+    }
+
+    /**
+     * Returns the index of the empty tile within the board
+     * @return the index of the empty tile within the board
+     */
+    int getPos(){
+        int counter = 0;
+        BoardIterator iterator = new BoardIterator();
+        while (iterator.hasNext()){
+            Tile tile = iterator.next();
+            if (tile.getId() == numTiles()){
+                return counter;
+            } else {
+                counter ++;
+            }
+
+        }
+        return 0;
     }
 }

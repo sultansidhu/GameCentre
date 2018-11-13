@@ -40,9 +40,14 @@ public abstract class BoardManager {
         Tile testTile = new Tile(24);
         testTile.setId(size*size);
         tiles.add(testTile);
-
         Collections.shuffle(tiles);
-        this.board = new Board(tiles);
+        Board dummyBoard = new Board(tiles);
+        while (!dummyBoard.isSolveable()){
+            System.out.println("TELLS WHETHER THE BOARD IS SOLVABLE OR NOT: " + dummyBoard.isSolveable());
+            Collections.shuffle(tiles);
+            dummyBoard = new Board(tiles);
+        }
+        this.board = dummyBoard;
 
     }
     /**
