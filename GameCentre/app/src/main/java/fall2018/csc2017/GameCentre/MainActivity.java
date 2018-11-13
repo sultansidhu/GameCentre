@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -284,10 +286,35 @@ public class MainActivity extends AppCompatActivity {
         {
             makeToast("Logging in...");
             MovementController.username = username;
+            logEveryoneOut(this.logins);
+            this.logins.get(username).setLoggedIn(true);
+            saveObject();
             gotoGameList();
         }
     }
 
+    /**
+     This method iterates through the HashMap and changes each user's "isLoggedIn" attribute
+     to false.
+     @param theMap: the HashMap holding the User object
+     @return null
+     @throws null
+     */
+
+    public void logEveryoneOut(HashMap theMap)
+    {
+        Iterator it = theMap.entrySet().iterator();
+        while (it.hasNext())
+        {
+            HashMap.Entry pair = (HashMap.Entry)it.next();
+            System.out.println(pair.getKey() + " = " + pair.getValue());
+            User u = (User)pair.getValue();
+            u.setLoggedIn(false);
+            this.logins.put((String)pair.getKey(), u);
+            it.remove(); // avoids a ConcurrentModificationException
+        }
+
+    }
     /**
      This method instantiates a new object of type User and adds it to the HashMap.
      The HashMap is then saved in the serialized file.
@@ -307,11 +334,14 @@ public class MainActivity extends AppCompatActivity {
             makeToast("User Already Exists!");
         } else {
             User newUser = new User(username, password, selQ, ans);
+            logEveryoneOut(this.logins);
+            newUser.setLoggedIn(true);
             logins.put(username, newUser);
 
             saveObject();
             makeToast("Success!");
             MovementController.username = username;
+
             gotoGameList();
 
         }

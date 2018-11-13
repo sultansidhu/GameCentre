@@ -202,10 +202,11 @@ public class User implements Serializable
 //    public void setSecurityQuestion(String securityQuestion)
 //    {
 //        this.securityQuestion = securityQuestion;
+//        this.securityQuestion = securityQuestion;
 //    }
 
-    public void setLoggedIn() {
-        isLoggedIn = true;
+    public void setLoggedIn(boolean login) {
+        isLoggedIn = login;
     }
 
     public boolean getLoggedIn() {
