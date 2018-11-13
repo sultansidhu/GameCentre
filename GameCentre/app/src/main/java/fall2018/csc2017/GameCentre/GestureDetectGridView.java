@@ -97,7 +97,7 @@ public class GestureDetectGridView extends GridView {
                     GameActivity.saveObject(users);
                     users = GameActivity.readObject();
                     assert users != null;
-                    if (peekBoardManagerSolved(users.get(username).getStack().peek()) == true) {
+                    if (peekBoardManagerSolved(users.get(username).getStack().peek())) {
                         users.get(username).stopTimer();
                         GameActivity.saveObject(users);
                         System.out.println("Total Time: " + users.get(username).getTotalTime());
@@ -122,7 +122,7 @@ public class GestureDetectGridView extends GridView {
     }
 
 
-    public Object peekBoardManagerSolved(Board board) {
+    public boolean peekBoardManagerSolved(Board board) {
         switch(gameIndex) {
             case 0:
                 return new SlidingBoardManager(board).puzzleSolved();
@@ -130,7 +130,7 @@ public class GestureDetectGridView extends GridView {
                 return new ShogiBoardManager(board).puzzleSolved();
             case 2:
                 return new ConnectFourBoardManager(board).puzzleSolved();
-        };
+        }
         return false;
     }
 
