@@ -17,6 +17,10 @@ public class SlidingBoardManager extends BoardManager implements Serializable {
         super(board);
     }
 
+    public SlidingBoardManager(int size) {
+        super(size);
+    }
+
     /**
      * Return whether the tiles are in row-major order.
      *

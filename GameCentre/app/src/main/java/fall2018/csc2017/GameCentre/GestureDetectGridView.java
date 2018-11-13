@@ -120,6 +120,20 @@ public class GestureDetectGridView extends GridView {
     }
 
 
+    public Object peekBoardManager(Board board) {
+        Object peekedBoardManager = null;
+        switch(gameIndex) {
+            case 0:
+                peekedBoardManager = new SlidingBoardManager(board);
+            case 1:
+                peekedBoardManager = new ShogiBoardManager(board);
+            case 2:
+                peekedBoardManager = new ConnectFourBoardManager(board);
+        };
+        return peekedBoardManager;
+    }
+
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         int action = ev.getActionMasked();

@@ -35,7 +35,8 @@ public class StartingActivity extends AppCompatActivity {
     private fall2018.csc2017.GameCentre.BoardManager boardManager;
     public static int undoLimit;
     private int gameIndex;
-    private ArrayList<Class> boardManagers = new ArrayList<>();
+    private int size;
+   /* private ArrayList<Class> boardManagers = new ArrayList<>();*/
 
 
     /**
@@ -53,9 +54,9 @@ public class StartingActivity extends AppCompatActivity {
         addScoreboardButtonListener();
         Bundle extras = getIntent().getBundleExtra("Extras");
         gameIndex = (extras.getInt("gameIndex"));
-        boardManagers.add(SlidingBoardManager.class);
+        /*boardManagers.add(SlidingBoardManager.class);
         boardManagers.add(ShogiBoardManager.class);
-        boardManagers.add(ConnectFourBoardManager.class);
+        boardManagers.add(ConnectFourBoardManager.class);*/
     }
 
     /**
@@ -122,19 +123,7 @@ public class StartingActivity extends AppCompatActivity {
                 } catch (NumberFormatException e) {
                     undoLimit = -1;
                 } finally {
-                    Class currBoardManager = boardManagers.get(gameIndex);
-                    try {
-                        boardManager = (BoardManager) currBoardManager.getConstructor(int.class).newInstance();
-                    } catch (NoSuchMethodException e) {
-                        e.printStackTrace();
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (InstantiationException e) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e) {
-                        e.printStackTrace();
-                    }
-
+                    selectBoardManager();
                     HashMap<String, User> users = GameActivity.readObject();
                     assert users != null;
                     users.get(username).setAvailableUndos(undoLimit);
@@ -147,6 +136,35 @@ public class StartingActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Selects the correct boardmanager basefd on which game is being played.
+     */
+
+    public void selectBoardManager() {
+        switch(gameIndex) {
+            case 0:
+                boardManager = new SlidingBoardManager(size);
+            case 1:
+                boardManager = new ShogiBoardManager(size);
+            case 2:
+                boardManager = new ConnectFourBoardManager(size);
+        };
+
+    }
+
+    public void setBoardManager(Board board) {
+        switch(gameIndex) {
+            case 0:
+                boardManager = new SlidingBoardManager(board);
+            case 1:
+                boardManager = new ShogiBoardManager(board);
+            case 2:
+                boardManager = new ConnectFourBoardManager(board);
+        };
+    }
+
+
     /**
      * Activate the load button.
      */
@@ -161,7 +179,7 @@ public class StartingActivity extends AppCompatActivity {
                 if (userStack.size() < 1) {
                     Toast.makeText(getApplicationContext(), "No game to load! Start a new game!", Toast.LENGTH_LONG).show();
                 } else {
-                    boardManager = new BoardManager(userStack.peek());
+                    setBoardManager(userStack.peek());
                     makeToastLoadedText();
                     switchToGame();
                 }
@@ -186,7 +204,7 @@ public class StartingActivity extends AppCompatActivity {
         assert users != null;
         Stack<Board> userStack = users.get(username).getStack();
         try {
-            boardManager = new BoardManager(userStack.peek());
+            setBoardManager(userStack.peek());
         } catch (EmptyStackException e) {
             System.out.println("Empty stack, nothing to resume!");
         }
@@ -196,7 +214,7 @@ public class StartingActivity extends AppCompatActivity {
      * Switch to the GameActivity view to play the game.
      */
     private void switchToGame() {
-        Intent tmp = new Intent(this, GameActivity.class);
+        Intent tmp = new Intent(this, GameActivity.class).putExtra("gameIndex", gameIndex);
         startActivity(tmp);
     }
 
