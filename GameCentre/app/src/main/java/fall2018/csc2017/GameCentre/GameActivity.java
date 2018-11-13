@@ -40,6 +40,8 @@ public class GameActivity extends AppCompatActivity implements Observer {
     // Grid View and calculated column height and width based on device size
     private GestureDetectGridView gridView;
     private static int columnWidth, columnHeight;
+    private Bundle extras = getIntent().getExtras();
+    private int gameIndex = extras.getInt("gameIndex");
 
     /**
      * Set up the background image for each button based on the master list
@@ -59,7 +61,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
         assert users != null;
         User user = users.get(username);
         Stack<Board> userStack = user.getStack();
-        boardManager = new BoardManager(userStack.peek());
+        setBoardManager(userStack.peek());
         if (user.getTotalTime() == 0) {
             user.startTimer();
         }
@@ -75,6 +77,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
         gridView = findViewById(R.id.grid);
         gridView.setNumColumns(Board.NUM_COLS);
         gridView.setBoardManager(boardManager);
+        gridView.setGameIndex(gameIndex);
         boardManager.getBoard().addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
@@ -114,7 +117,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
 
                     if (userStack.size() > 1){
                         userStack.pop();
-                        boardManager = new BoardManager(userStack.peek());
+                        setBoardManager(userStack.peek());
 
                     }
                     else{
@@ -134,7 +137,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
 
                 else if (userStack.size() > 1 ) {
                     userStack.pop();
-                    boardManager = new BoardManager(userStack.peek());
+                    setBoardManager(userStack.peek());
                     boardManager.getBoard().addObserver(GameActivity.this);
                     gridView.setBoardManager(boardManager);
                     display();
@@ -171,6 +174,18 @@ public class GameActivity extends AppCompatActivity implements Observer {
      */
     private void makeToastEmptyStack(){
         Toast.makeText(this, "There are no previous boards.", Toast.LENGTH_SHORT).show();
+    }
+
+
+    public void setBoardManager(Board board) {
+        switch(gameIndex) {
+            case 0:
+                boardManager = new SlidingBoardManager(board);
+            case 1:
+                boardManager = new ShogiBoardManager(board);
+            case 2:
+                boardManager = new ConnectFourBoardManager(board);
+        };
     }
 
     /**
