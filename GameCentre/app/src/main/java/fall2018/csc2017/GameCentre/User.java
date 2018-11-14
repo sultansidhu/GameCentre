@@ -65,7 +65,9 @@ public class User implements Serializable
         this.playTime = (long)0.0;
         this.availableUndos = 3; // the default number of undo's for every user.
     }
-
+    String getUsername(){
+        return this.username;
+    }
     /**
      * Returns the password of the user.
      *
