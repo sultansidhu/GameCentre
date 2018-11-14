@@ -1,7 +1,7 @@
 package fall2018.csc2017.GameCentre;
 /*
 ==================================================================
-File Name: StartingActivity.java
+File Name: StartingSlidingActivity.java
 Purpose: This Activity connects to the main menu of SlidingTiles
 and initializes the screen
 Date: October 30, 2018
@@ -27,7 +27,7 @@ import static fall2018.csc2017.GameCentre.MovementController.username;
 /**
  * The initial activity for the sliding puzzle tile game.
  */
-public class StartingActivity extends AppCompatActivity {
+public class StartingSlidingActivity extends AppCompatActivity {
 
     /**
      * The board manager.
@@ -52,8 +52,7 @@ public class StartingActivity extends AppCompatActivity {
         setSizeDropdown();
         setUndoDropdown();
         addScoreboardButtonListener();
-        Bundle extras = getIntent().getBundleExtra("Extras");
-        gameIndex = (extras.getInt("gameIndex"));
+        gameIndex = getIntent().getExtras().getInt("gameIndex");
         /*boardManagers.add(SlidingBoardManager.class);
         boardManagers.add(ShogiBoardManager.class);
         boardManagers.add(ConnectFourBoardManager.class);*/

@@ -21,10 +21,15 @@ public class ShogiBoardManager extends BoardManager {
     }
 
     public boolean isValidTap(int position) {
-        return true;
+        int row = position / Board.NUM_COLS;
+        int col = position % Board.NUM_COLS;
+        return board.getTile(row, col).getId() == board.numTiles();
     };
 
     public void touchMove(int position) {
-
+        if (isValidTap(position)) {
+            int row1 = position / Board.NUM_COLS;
+            int col = position % Board.NUM_COLS;
+        }
     };
 }

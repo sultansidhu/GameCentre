@@ -74,11 +74,20 @@ public class GameListActivity extends AppCompatActivity
      */
     public void launchGame(int game_index)
     {
-        List<Intent> intents = new ArrayList<>();
-        Bundle Extras = new Bundle();
-        Extras.putInt("gameIndex", game_index);
-        intents.add(new Intent(this, StartingActivity.class).putExtra("Extras", Extras));
-        startActivity(intents.get(game_index));
+        Intent intent = null;
+        switch(game_index) {
+            case 0:
+                intent = new Intent(this, StartingSlidingActivity.class); break;
+            case 1:
+                intent = new Intent(this, StartingShogiActivity.class); break;
+            case 2:
+                intent = new Intent(this, StartingConnectFourActivity.class);
+        }
+
+        intent.putExtra("gameIndex", game_index);
+        startActivity(intent);
+
+
     }
 
 }
