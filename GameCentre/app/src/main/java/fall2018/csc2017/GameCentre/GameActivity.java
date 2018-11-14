@@ -16,6 +16,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Stack;
@@ -40,8 +41,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
     // Grid View and calculated column height and width based on device size
     private GestureDetectGridView gridView;
     private static int columnWidth, columnHeight;
-    private Bundle extras = getIntent().getExtras();
-    private int gameIndex = extras.getInt("gameIndex");
+    private int gameIndex;
 
     /**
      * Set up the background image for each button based on the master list
@@ -56,7 +56,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        gameIndex = getIntent().getExtras().getInt("gameIndex");
         HashMap<String, User> users = GameActivity.readObject();
         assert users != null;
         User user = users.get(username);
@@ -181,8 +181,10 @@ public class GameActivity extends AppCompatActivity implements Observer {
         switch(gameIndex) {
             case 0:
                 boardManager = new SlidingBoardManager(board);
+                break;
             case 1:
                 boardManager = new ShogiBoardManager(board);
+                break;
             case 2:
                 boardManager = new ConnectFourBoardManager(board);
         };

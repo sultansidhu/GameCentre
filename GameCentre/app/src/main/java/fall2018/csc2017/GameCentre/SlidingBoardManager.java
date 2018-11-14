@@ -15,6 +15,7 @@ public class SlidingBoardManager extends BoardManager implements Serializable {
 
     public SlidingBoardManager(Board board) {
         super(board);
+        this.board = board;
     }
 
     public SlidingBoardManager(int size) {

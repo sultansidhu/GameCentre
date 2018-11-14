@@ -287,6 +287,7 @@ public class MainActivity extends AppCompatActivity {
             makeToast("Logging in...");
             MovementController.username = username;
             logEveryoneOut(this.logins);
+            readObject();
             this.logins.get(username).setLoggedIn(true);
             saveObject();
             gotoGameList();
@@ -311,6 +312,8 @@ public class MainActivity extends AppCompatActivity {
             User u = (User)pair.getValue();
             u.setLoggedIn(false);
             this.logins.put((String)pair.getKey(), u);
+            saveObject();
+
             it.remove(); // avoids a ConcurrentModificationException
         }
 

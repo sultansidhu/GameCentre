@@ -112,7 +112,7 @@ public class StartingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Spinner dropdown = findViewById(R.id.dropdown);
                 String selectedSize = dropdown.getSelectedItem().toString();
-                int size = Integer.parseInt(selectedSize.substring(0, 1));
+                size = Integer.parseInt(selectedSize.substring(0, 1));
 
                 Spinner undoDropdown = findViewById(R.id.dropdown_undo);
                 String selectedUndo = undoDropdown.getSelectedItem().toString();
@@ -145,8 +145,10 @@ public class StartingActivity extends AppCompatActivity {
         switch(gameIndex) {
             case 0:
                 boardManager = new SlidingBoardManager(size);
+                break;
             case 1:
                 boardManager = new ShogiBoardManager(size);
+                break;
             case 2:
                 boardManager = new ConnectFourBoardManager(size);
         };
@@ -214,15 +216,16 @@ public class StartingActivity extends AppCompatActivity {
      * Switch to the GameActivity view to play the game.
      */
     private void switchToGame() {
-        Intent tmp = new Intent(this, GameActivity.class).putExtra("gameIndex", gameIndex);
-        startActivity(tmp);
+        Intent intent = new Intent(getApplicationContext(), GameActivity.class);
+        intent.putExtra("gameIndex", gameIndex);
+        startActivity(intent);
     }
 
     /**
      * Switches to the scoreboard screen when the scoreboard button is clicked
      */
     private void switchToScoreboardScreen() {
-        Intent tmp = new Intent(this, ScoreboardActivity.class);
-        startActivity(tmp);
+        Intent intent = new Intent(this, ScoreboardActivity.class);
+        startActivity(intent);
     }
 }
