@@ -35,7 +35,7 @@ public class LoginManager {
     {
         if (username.equals("") || password.equals("") || ans.equals(""))
         {
-            makeToast("Data cannot be empty!");
+            makeToast("You must enter username, password, and security answer!");
         }
         else if (!password.equals(password2))
         {
@@ -51,7 +51,7 @@ public class LoginManager {
             newUser.setLoggedIn(true);
             f1.getTheHashMap().put(username, newUser);
 
-            f1.saveObject();
+            f1.saveObject(f1.getTheHashMap());
             makeToast("Success!");
             return true;
         }
@@ -71,7 +71,7 @@ public class LoginManager {
             f1.getTheHashMap().get(username).setLoggedIn(true);
             personLoggedIn = username;
             makeToast("Logging in...");
-            f1.saveObject();
+            f1.saveObject(f1.getTheHashMap());
             //MovementController.username = username;
             return true;
         }

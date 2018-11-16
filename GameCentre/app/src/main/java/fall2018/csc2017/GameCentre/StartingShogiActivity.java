@@ -13,8 +13,6 @@ import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Stack;
 
-import static fall2018.csc2017.GameCentre.MovementController.username;
-
 public class StartingShogiActivity extends AppCompatActivity {
 
     /**
@@ -24,6 +22,8 @@ public class StartingShogiActivity extends AppCompatActivity {
     public int undoLimit;
     private int gameIndex;
     private int size = 7;
+    private String username = new LoginManager().getPersonLoggedIn();
+    private FileManager fm = new FileManager();
 
 
     /**
@@ -85,12 +85,12 @@ public class StartingShogiActivity extends AppCompatActivity {
                     undoLimit = -1;
                 } finally {
                     selectBoardManager();
-                    HashMap<String, User> users = GameActivity.readObject();
+                    HashMap<String, User> users = fm.readObject();
                     assert users != null;
                     users.get(username).setAvailableUndos(undoLimit);
                     users.get(username).setSavedStates(new Stack<Board>());
                     users.get(username).addState(boardManager.getBoard());
-                    GameActivity.saveObject(users);
+                    fm.saveObject(users);
                     switchToGame();
                 }
 
@@ -106,7 +106,7 @@ public class StartingShogiActivity extends AppCompatActivity {
         loadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HashMap<String, User> users = GameActivity.readObject();
+                HashMap<String, User> users = fm.readObject();
                 assert users != null;
                 Stack<Board> userStack = users.get(username).getStack();
                 if (userStack.size() < 1) {
@@ -134,7 +134,7 @@ public class StartingShogiActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        HashMap<String, User> users = GameActivity.readObject();
+        HashMap<String, User> users = fm.readObject();
         assert users != null;
         Stack<Board> userStack = users.get(username).getStack();
         try {
