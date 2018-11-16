@@ -15,9 +15,11 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.GridView;
 import android.widget.Toast;
+
+import java.io.File;
 import java.util.HashMap;
 
-import static fall2018.csc2017.GameCentre.MovementController.username;
+//import static fall2018.csc2017.GameCentre.MovementController.username;
 
 public class GestureDetectGridView extends GridView {
     /*
@@ -51,12 +53,18 @@ public class GestureDetectGridView extends GridView {
 
     private int gameIndex;
 
+    private String username;
+
+    private FileManager fm = new FileManager();
+
     /*
     Overloaded Constructor that takes a Context
     */
     public GestureDetectGridView(Context context) {
         super(context);
         init(context);
+        LoginManager lm = new LoginManager();
+        username = lm.getPersonLoggedIn();
     }
 
     /*
@@ -65,6 +73,8 @@ public class GestureDetectGridView extends GridView {
     public GestureDetectGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
+        LoginManager lm = new LoginManager();
+        username = lm.getPersonLoggedIn();
     }
     /*
     Overloaded Constructor that takes a Context, an AttributeSet, and a defaultStyleAttribute integer
@@ -73,6 +83,8 @@ public class GestureDetectGridView extends GridView {
     public GestureDetectGridView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
+        LoginManager lm = new LoginManager();
+        username = lm.getPersonLoggedIn();
     }
     /*
     An initializer method
@@ -91,23 +103,23 @@ public class GestureDetectGridView extends GridView {
                         (Math.round(event.getX()), Math.round(event.getY()));
                 if (boardManager.isValidTap(position)) {
                     mController.processTapMovement(context, position);
-                    HashMap<String, User> users = GameActivity.readObject();
+                    HashMap<String, User> users = fm.readObject();
                     assert users != null;
                     users.get(username).addState(boardManager.getBoard());
-                    GameActivity.saveObject(users);
-                    users = GameActivity.readObject();
+                    fm.saveObject(users);
+                    users = fm.readObject();
                     assert users != null;
                     if (peekBoardManagerSolved(users.get(username).getStack().peek())) {
                         users.get(username).stopTimer();
-                        GameActivity.saveObject(users);
+                        fm.saveObject(users);
+                        ScoreboardActivity sc = new ScoreboardActivity();
                         System.out.println("Total Time: " + users.get(username).getTotalTime());
-                        ScoreboardActivity.updateUserHighScore(username);
+                        sc.updateUserHighScore(username);
                         switchToScoreboardScreen();
                     }
-
                     return true;
                 } else {
-                    Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
                 }
                 Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
                 return false;

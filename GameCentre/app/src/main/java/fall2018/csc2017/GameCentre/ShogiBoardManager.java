@@ -4,18 +4,30 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ShogiBoardManager extends BoardManager {
-
+public class ShogiBoardManager extends BoardManager
+{
     /**
      * The board being managed.
      */
     private Board board;
 
+    /**
+     * This constructor takes a board object and sets this class' board attribute object
+     * equal to it
+     * @param board, a Board object representing the board
+     * @throws null
+     */
 
     public ShogiBoardManager(Board board) {
         super(board);
         this.board = board;
     }
+
+    /**
+     * This constructor takes an int size and creates the board of size size
+     * @param size, an integer representing the size of the board
+     * @throws null
+     */
 
     public ShogiBoardManager(int size) {
         super(size);
@@ -39,17 +51,42 @@ public class ShogiBoardManager extends BoardManager {
         this.board = new Board(tiles);
     }
 
+    /**
+     * This method returns the board attribute of this board manager
+     * @return Board the board object attribute of this class
+     * @throws null
+     */
+
     public Board getBoard() { return this.board; }
+
+    /**
+     * This method returns whether or not the board has been solved
+     * @return boolean, true if the puzzle has been solved, false otherwise
+     * @throws null
+     */
 
     public boolean puzzleSolved() {
         return false;
     }
+
+    /**
+     * This method returns whether or not the tap made by the user is a valid tap
+     * @return boolean, true if the puzzle has been solved, false otherwise
+     * @throws null
+     */
 
     public boolean isValidTap(int position) {
         int row = position / Board.NUM_COLS;
         int col = position % Board.NUM_COLS;
         return false;
     };
+
+    /**
+     * This method is a stub
+     * @param position: an nt representing the position touched
+     * @return null
+     * @throws null
+     */
 
     public void touchMove(int position) {
         if (isValidTap(position)) {

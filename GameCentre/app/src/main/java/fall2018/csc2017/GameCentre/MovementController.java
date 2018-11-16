@@ -12,7 +12,7 @@ class MovementController {
     /**
      * Username of current player.
      */
-    static String username = null;
+    //static String username = null;
     MovementController() {
     }
 

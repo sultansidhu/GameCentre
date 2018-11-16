@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.util.HashMap;
 
-import static fall2018.csc2017.GameCentre.MovementController.username;
+//import static fall2018.csc2017.GameCentre.MovementController.username;
 
 public class ScoreboardActivity extends AppCompatActivity
 {
@@ -34,6 +34,8 @@ public class ScoreboardActivity extends AppCompatActivity
     Displays high scores in a list format.
      */
 
+    FileManager fm = new FileManager();
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -42,12 +44,13 @@ public class ScoreboardActivity extends AppCompatActivity
         scoresDisplay = findViewById(R.id.scoresDisplay);
         scoresDisplay.setMovementMethod(new ScrollingMovementMethod());
         scoresList = new StringBuilder();
-        HashMap<String, User> users = GameActivity.readObject();
+        HashMap<String, User> users = fm.readObject();
         assert users != null;
+        String username;
 
         for (HashMap.Entry<String, User> entry : users.entrySet()) {
             username = entry.getKey();
-            users = GameActivity.readObject();
+            users = fm.readObject();
             assert users != null;
             User user = users.get(username);
             scoresList.append(username).append(": ").append(user.getHighestScore()).append("\n");
@@ -77,7 +80,7 @@ public class ScoreboardActivity extends AppCompatActivity
      */
     public void resetAllScores() {
         scoresList = new StringBuilder();
-        HashMap<String, User> users = GameActivity.readObject();
+        HashMap<String, User> users = fm.readObject();
         assert users != null;
         for (HashMap.Entry<String, User> entry : users.entrySet()) {
             String username = entry.getKey();
@@ -85,7 +88,7 @@ public class ScoreboardActivity extends AppCompatActivity
             users.get(username).setHighestScore(0);
             scoresList.append(username).append(": 0").append("\n");
         }
-        GameActivity.saveObject(users);
+        fm.saveObject(users);
         scoresDisplay.setText(scoresList);
     }
     /*
@@ -93,9 +96,9 @@ public class ScoreboardActivity extends AppCompatActivity
     @return int
      */
 
-    public static int calculateUserScore(String username)
+    public int calculateUserScore(String username)
     {
-        HashMap<String, User> users = GameActivity.readObject();
+        HashMap<String, User> users = fm.readObject();
         assert users != null;
             User user = users.get(username);
 
@@ -112,16 +115,16 @@ public class ScoreboardActivity extends AppCompatActivity
     @return null
      */
 
-    public static void updateUserHighScore(String username)
+    public void updateUserHighScore(String username)
     {
-            int newScore = calculateUserScore(username);
-            HashMap<String, User> users = GameActivity.readObject();
+            int newScore = this.calculateUserScore(username);
+            HashMap<String, User> users = fm.readObject();
             assert users != null;
             if (newScore > users.get(username).getHighestScore()) {
                 users.get(username).setHighestScore(newScore);
                 Context context = GlobalApplication.getAppContext();
                 Toast.makeText(context, "New High score!", Toast.LENGTH_SHORT).show();
             }
-            GameActivity.saveObject(users);
+            fm.saveObject(users);
         }
 }

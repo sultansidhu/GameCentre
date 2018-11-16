@@ -28,6 +28,13 @@ public class FileManager implements Serializable {
         return theHashMap;
     }
 
+//    public String returnLoggedInUsername()
+//    {
+//        // ITERATE THROUGH THE HASHMAP AND RETURN THE USERNAME
+//        // OF THE USER THAT IS LOGGED IN
+//        return "You still have to do this return loggedInUsername function, silly!";
+//    }
+
     /**
      This method establishes a connection
      with the serialized file and reads the HashMap of user info from the file.
@@ -80,10 +87,10 @@ public class FileManager implements Serializable {
     public void saveUser(User user, String username)
     {
         this.theHashMap.put(username, user);
-        saveObject();
+        saveObject(this.theHashMap);
     }
 
-    public void saveObject()
+    public void saveObject(HashMap<String, User> hashMap)
     {
         FileOutputStream fos;
         ObjectOutputStream objectOut;
@@ -92,8 +99,9 @@ public class FileManager implements Serializable {
         {
             fos = GlobalApplication.getAppContext().openFileOutput("testFile.ser", Context.MODE_PRIVATE);
             objectOut = new ObjectOutputStream(fos);
-            objectOut.writeObject(this.theHashMap);
+            objectOut.writeObject(hashMap);
             objectOut.close();
+            this.theHashMap = hashMap;//Updates the local hashmap...do we need this?
         }
         catch(FileNotFoundException e1)
         {

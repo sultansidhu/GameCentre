@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
      Invoked as soon as the app is run. This will load the login screen, read the HashMap
      from a serialized file, and initialize all the buttons on the screen
      */
+    private FileManager fm = new FileManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        readObject();
+        this.logins = fm.readObject();
 
         addLoginButtonListener();
         addSignUpButtonListener();
@@ -157,11 +158,13 @@ public class MainActivity extends AppCompatActivity {
                 Spinner securityQuestions = findViewById(R.id.securityquestions);
                 String selectedQuestion = securityQuestions.getSelectedItem().toString();
 
-                if (usernameToAdd.equals("") || passwordToAdd.equals("") || securityAnswer.equals("")){
-                    makeToast("Please enter data into all fields!");
-                } else {
-                    create(usernameToAdd, passwordToAdd, confirmPassword, selectedQuestion, securityAnswer);
+                LoginManager lm = new LoginManager();
+                if(lm.create(usernameToAdd, passwordToAdd, confirmPassword, selectedQuestion, securityAnswer))
+                {
+                    gotoGameList();
                 }
+
+
             }
         });
     }
@@ -204,28 +207,28 @@ public class MainActivity extends AppCompatActivity {
      return null
      */
 
-    public void saveObject()
-    {
-        FileOutputStream fos;
-        ObjectOutputStream objectOut;
-
-        try
-        {
-            fos = openFileOutput("testFile.ser", Context.MODE_PRIVATE);
-            objectOut = new ObjectOutputStream(fos);
-            objectOut.writeObject(logins);
-            objectOut.close();
-        }
-        catch(FileNotFoundException e1)
-        {
-            System.out.println("FILE NOT FOUND WHILE SAVING TO SERIALIZED FILE");
-        }
-        catch(IOException e)
-        {
-            System.out.println("IO EXCEPTION WHILE SAVING TO SERIALIZED FILE");
-        }
-
-    }
+//    public void saveObject()
+//    {
+//        FileOutputStream fos;
+//        ObjectOutputStream objectOut;
+//
+//        try
+//        {
+//            fos = openFileOutput("testFile.ser", Context.MODE_PRIVATE);
+//            objectOut = new ObjectOutputStream(fos);
+//            objectOut.writeObject(logins);
+//            objectOut.close();
+//        }
+//        catch(FileNotFoundException e1)
+//        {
+//            System.out.println("FILE NOT FOUND WHILE SAVING TO SERIALIZED FILE");
+//        }
+//        catch(IOException e)
+//        {
+//            System.out.println("IO EXCEPTION WHILE SAVING TO SERIALIZED FILE");
+//        }
+//
+//    }
 
     /**
      This method establishes a connection
@@ -234,39 +237,39 @@ public class MainActivity extends AppCompatActivity {
      return null
      */
 
-    public void readObject()
-    {
-        FileInputStream fis;
-        ObjectInputStream objectIn;
-        try
-        {
-            fis = openFileInput("testFile.ser");
-            objectIn = new ObjectInputStream(fis);
-            @SuppressWarnings("unchecked")
-            HashMap<String, User> hashMapFromFile = (HashMap<String, User>)objectIn.readObject();
-
-            objectIn.close();
-            this.logins = hashMapFromFile;
-
-        }
-        catch(ClassCastException ca)
-        {
-            System.out.println("unable to Cast");
-        }
-        catch(ClassNotFoundException c)
-        {
-            System.out.println("CLASS NOT FOUND WHILE READING FROM SERIALIZED FILE");
-        }
-        catch(FileNotFoundException f)
-        {
-            System.out.println("FILE NOT FOUND WHILE READING FROM SERIALIZED FILE");
-        }
-        catch(IOException e)
-        {
-            System.out.println("IO EXCEPTION WHILE READING FROM SERIALIZED FILE");
-        }
-
-    }
+//    public void readObject()
+//    {
+//        FileInputStream fis;
+//        ObjectInputStream objectIn;
+//        try
+//        {
+//            fis = openFileInput("testFile.ser");
+//            objectIn = new ObjectInputStream(fis);
+//            @SuppressWarnings("unchecked")
+//            HashMap<String, User> hashMapFromFile = (HashMap<String, User>)objectIn.readObject();
+//
+//            objectIn.close();
+//            this.logins = hashMapFromFile;
+//
+//        }
+//        catch(ClassCastException ca)
+//        {
+//            System.out.println("unable to Cast");
+//        }
+//        catch(ClassNotFoundException c)
+//        {
+//            System.out.println("CLASS NOT FOUND WHILE READING FROM SERIALIZED FILE");
+//        }
+//        catch(FileNotFoundException f)
+//        {
+//            System.out.println("FILE NOT FOUND WHILE READING FROM SERIALIZED FILE");
+//        }
+//        catch(IOException e)
+//        {
+//            System.out.println("IO EXCEPTION WHILE READING FROM SERIALIZED FILE");
+//        }
+//
+//    }
 
     /**
      This method verifies if the user has entered the correct password. If the password is correct,
@@ -276,27 +279,27 @@ public class MainActivity extends AppCompatActivity {
      return null
      */
 
-    public void authenticate(String username, String password)
-    {
-        if(!userExists(username))
-        {
-            makeToast("User Does Not Exist!");
-        }
-        else if (!logins.get(username).getPassword().equals(password))
-        {
-            makeToast("Password Rejected!");
-        }
-        else
-        {
-            makeToast("Logging in...");
-            MovementController.username = username;
-            logEveryoneOut(this.logins);
-            readObject();
-            this.logins.get(username).setLoggedIn(true);
-            saveObject();
-            gotoGameList();
-        }
-    }
+//    public void authenticate(String username, String password)
+//    {
+//        if(!userExists(username))
+//        {
+//            makeToast("User Does Not Exist!");
+//        }
+//        else if (!logins.get(username).getPassword().equals(password))
+//        {
+//            makeToast("Password Rejected!");
+//        }
+//        else
+//        {
+//            makeToast("Logging in...");
+//            //MovementController.username = username;
+//            logEveryoneOut(this.logins);
+//            readObject();
+//            this.logins.get(username).setLoggedIn(true);
+//            saveObject();
+//            gotoGameList();
+//        }
+//    }
 
     /**
      This method iterates through the HashMap and changes each user's "isLoggedIn" attribute
@@ -306,53 +309,53 @@ public class MainActivity extends AppCompatActivity {
      @throws null
      */
 
-    public void logEveryoneOut(HashMap theMap)
-    {
-        Iterator it = theMap.entrySet().iterator();
-        while (it.hasNext())
-        {
-            HashMap.Entry pair = (HashMap.Entry)it.next();
-            System.out.println(pair.getKey() + " = " + pair.getValue());
-            User u = (User)pair.getValue();
-            u.setLoggedIn(false);
-            this.logins.put((String)pair.getKey(), u);
-            saveObject();
-
-            it.remove(); // avoids a ConcurrentModificationException
-        }
-
-    }
-    /**
-     This method instantiates a new object of type User and adds it to the HashMap.
-     The HashMap is then saved in the serialized file.
-     @param username: the username of this new account
-            password: the password of this new account
-            password2: the confirm password of this new account
-            selQ: the security question of this new account
-            ans: the answer to the user's security question
-     return null
-     */
-
-    public void create(String username, String password, String password2, String selQ, String ans)
-    {
-        if (!password.equals(password2)){
-            makeToast("Passwords do not match!");
-        } else if (userExists(username)){
-            makeToast("User Already Exists!");
-        } else {
-            User newUser = new User(username, password, selQ, ans);
-            logEveryoneOut(this.logins);
-            newUser.setLoggedIn(true);
-            logins.put(username, newUser);
-
-            saveObject();
-            makeToast("Success!");
-            MovementController.username = username;
-
-            gotoGameList();
-
-        }
-    }
+//    public void logEveryoneOut(HashMap theMap)
+//    {
+//        Iterator it = theMap.entrySet().iterator();
+//        while (it.hasNext())
+//        {
+//            HashMap.Entry pair = (HashMap.Entry)it.next();
+//            System.out.println(pair.getKey() + " = " + pair.getValue());
+//            User u = (User)pair.getValue();
+//            u.setLoggedIn(false);
+//            this.logins.put((String)pair.getKey(), u);
+//            saveObject();
+//
+//            it.remove(); // avoids a ConcurrentModificationException
+//        }
+//
+//    }
+//    /**
+//     This method instantiates a new object of type User and adds it to the HashMap.
+//     The HashMap is then saved in the serialized file.
+//     @param username: the username of this new account
+//            password: the password of this new account
+//            password2: the confirm password of this new account
+//            selQ: the security question of this new account
+//            ans: the answer to the user's security question
+//     return null
+//     */
+//
+//    public void create(String username, String password, String password2, String selQ, String ans)
+//    {
+//        if (!password.equals(password2)){
+//            makeToast("Passwords do not match!");
+//        } else if (userExists(username)){
+//            makeToast("User Already Exists!");
+//        } else {
+//            User newUser = new User(username, password, selQ, ans);
+//            logEveryoneOut(this.logins);
+//            newUser.setLoggedIn(true);
+//            logins.put(username, newUser);
+//
+//            saveObject();
+//            makeToast("Success!");
+//            MovementController.username = username;
+//
+//            gotoGameList();
+//
+//        }
+//    }
 
     /**
      This method makes a Toast/displays text-based information to the user
@@ -372,8 +375,8 @@ public class MainActivity extends AppCompatActivity {
      @return boolean; true if user represented by username is in the HashMap, false otherwise
      */
 
-    public boolean userExists(String username){
-        return logins.containsKey(username);
-    }
-
+//    public boolean userExists(String username){
+//        return logins.containsKey(username);
+//    }
+//
 }

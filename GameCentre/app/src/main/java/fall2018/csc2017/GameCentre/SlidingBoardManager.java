@@ -15,12 +15,24 @@ public class SlidingBoardManager extends BoardManager implements Serializable {
      */
     private Board board;
 
+    /**
+     * This constructor takes a Board object and sets it equal to the class' attribute board
+     * @param board, a board object representing the board
+     * @throws null
+     */
+
     public SlidingBoardManager(Board board) {
         super(board);
         this.board = board;
         Board.NUM_COLS = board.getTiles().length;
         Board.NUM_ROWS = board.getTiles().length;
     }
+
+    /**
+     * This constructor takes an integer size and creates a board of size size
+     * @param size, an integer representing the size of this board
+     * @throws null
+     */
 
     public SlidingBoardManager(int size) {
         super(size);
@@ -38,12 +50,19 @@ public class SlidingBoardManager extends BoardManager implements Serializable {
 
     }
 
+    /**
+     * This method returns the board attribute of this class
+     * @return Board, a board object
+     * @throws null
+     */
+
     public Board getBoard() { return this.board; }
 
     /**
      * Return whether the tiles are in row-major order.
      *
      * @return whether the tiles are in row-major order
+     * @throws null
      */
     public boolean puzzleSolved() {
         int counter = 1;
@@ -103,6 +122,13 @@ public class SlidingBoardManager extends BoardManager implements Serializable {
         }
 
     }
+
+    /**
+     * This method creates a sovlable board
+     * @param tiles, an Arraylist holding tile objects. size, an integer representing the size
+     * of this board
+     * @throws null
+     */
 
     public void makeSolvable(List<Tile> tiles, int size) {
         Tile testTile = new Tile(24);

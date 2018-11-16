@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Stack;
-import static fall2018.csc2017.GameCentre.MovementController.username;
+//import static fall2018.csc2017.GameCentre.MovementController.username;
 
 /**
  * The initial activity for the sliding puzzle tile game.
@@ -36,6 +36,9 @@ public class StartingSlidingActivity extends AppCompatActivity {
     public int undoLimit;
     private int gameIndex;
     private int size;
+    private String username;
+    private FileManager fm = new FileManager();
+   /* private ArrayList<Class> boardManagers = new ArrayList<>();*/
 
 
     /**
@@ -52,6 +55,9 @@ public class StartingSlidingActivity extends AppCompatActivity {
         setUndoDropdown();
         addScoreboardButtonListener();
         gameIndex = getIntent().getExtras().getInt("gameIndex");
+        LoginManager lm = new LoginManager();
+        username = lm.getPersonLoggedIn();
+        assert username != null; //There should be someone logged in once we get to this screen.
         /*boardManagers.add(SlidingBoardManager.class);
         boardManagers.add(ShogiBoardManager.class);
         boardManagers.add(ConnectFourBoardManager.class);*/
@@ -122,20 +128,12 @@ public class StartingSlidingActivity extends AppCompatActivity {
                     undoLimit = -1;
                 } finally {
                     selectBoardManager();
-                    HashMap<String, User> users = GameActivity.readObject();
+                    HashMap<String, User> users = fm.readObject();
                     assert users != null;
-                    User user = users.get(username);
-                    user.setAvailableUndos(undoLimit);
-                    user.setSavedStates(new Stack<Board>());
-                    if (boardManager.getBoard()==null) {
-                        System.out.println("BOARD IS NULL BRUH");
-                    }
-                    user.addState(boardManager.getBoard());
-                    if (user.getStack()==null) {
-                        System.out.println("STACK IS NULL AF!!!");
-                    }
-                    users.put(username, user);
-                    GameActivity.saveObject(users);
+                    users.get(username).setAvailableUndos(undoLimit);
+                    users.get(username).setSavedStates(new Stack<Board>());
+                    users.get(username).addState(boardManager.getBoard());
+                    fm.saveObject(users);
                     switchToGame();
                 }
 
@@ -156,6 +154,7 @@ public class StartingSlidingActivity extends AppCompatActivity {
         boardManager = new SlidingBoardManager(board);
     }
 
+
     /**
      * Activate the load button.
      */
@@ -164,7 +163,7 @@ public class StartingSlidingActivity extends AppCompatActivity {
         loadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HashMap<String, User> users = GameActivity.readObject();
+                HashMap<String, User> users = fm.readObject();
                 assert users != null;
                 Stack<Board> userStack = users.get(username).getStack();
                 if (userStack.size() < 1) {
@@ -191,14 +190,14 @@ public class StartingSlidingActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-       /* HashMap<String, User> users = GameActivity.readObject();
+        HashMap<String, User> users = fm.readObject();
         assert users != null;
         Stack<Board> userStack = users.get(username).getStack();
         try {
             setBoardManager(userStack.peek());
         } catch (EmptyStackException e) {
             System.out.println("Empty stack, nothing to resume!");
-        }*/
+        }
     }
 
     /**
