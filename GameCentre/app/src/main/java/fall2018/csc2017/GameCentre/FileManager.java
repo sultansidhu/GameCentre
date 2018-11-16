@@ -28,6 +28,13 @@ public class FileManager implements Serializable {
         return theHashMap;
     }
 
+    public String returnLoggedInUsername()
+    {
+        // ITERATE THROUGH THE HASHMAP AND RETURN THE USERNAME
+        // OF THE USER THAT IS LOGGED IN
+        return "You still have to do this return loggedInUsername function, silly!";
+    }
+
     /**
      This method establishes a connection
      with the serialized file and reads the HashMap of user info from the file.

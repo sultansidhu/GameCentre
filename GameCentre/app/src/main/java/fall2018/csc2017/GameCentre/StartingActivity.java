@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Stack;
-import static fall2018.csc2017.GameCentre.MovementController.username;
+//import static fall2018.csc2017.GameCentre.MovementController.username;
 
 /**
  * The initial activity for the sliding puzzle tile game.
@@ -36,6 +36,7 @@ public class StartingActivity extends AppCompatActivity {
     public static int undoLimit;
     private int gameIndex;
     private int size;
+    private String username;
    /* private ArrayList<Class> boardManagers = new ArrayList<>();*/
 
 
@@ -54,6 +55,9 @@ public class StartingActivity extends AppCompatActivity {
         addScoreboardButtonListener();
         Bundle extras = getIntent().getBundleExtra("Extras");
         gameIndex = (extras.getInt("gameIndex"));
+        LoginManager lm = new LoginManager();
+        username = lm.getPersonLoggedIn();
+        assert username != null; //There should be someone logged in once we get to this screen.
         /*boardManagers.add(SlidingBoardManager.class);
         boardManagers.add(ShogiBoardManager.class);
         boardManagers.add(ConnectFourBoardManager.class);*/

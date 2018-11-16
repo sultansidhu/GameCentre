@@ -17,7 +17,7 @@ import android.widget.GridView;
 import android.widget.Toast;
 import java.util.HashMap;
 
-import static fall2018.csc2017.GameCentre.MovementController.username;
+//import static fall2018.csc2017.GameCentre.MovementController.username;
 
 public class GestureDetectGridView extends GridView {
     /*
@@ -51,12 +51,16 @@ public class GestureDetectGridView extends GridView {
 
     private int gameIndex;
 
+    private String username;
+
     /*
     Overloaded Constructor that takes a Context
     */
     public GestureDetectGridView(Context context) {
         super(context);
         init(context);
+        LoginManager lm = new LoginManager();
+        username = lm.getPersonLoggedIn();
     }
 
     /*
@@ -65,6 +69,8 @@ public class GestureDetectGridView extends GridView {
     public GestureDetectGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
+        LoginManager lm = new LoginManager();
+        username = lm.getPersonLoggedIn();
     }
     /*
     Overloaded Constructor that takes a Context, an AttributeSet, and a defaultStyleAttribute integer
@@ -73,6 +79,8 @@ public class GestureDetectGridView extends GridView {
     public GestureDetectGridView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
+        LoginManager lm = new LoginManager();
+        username = lm.getPersonLoggedIn();
     }
     /*
     An initializer method
