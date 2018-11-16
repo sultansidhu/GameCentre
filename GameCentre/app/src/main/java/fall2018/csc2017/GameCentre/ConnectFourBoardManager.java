@@ -17,6 +17,8 @@ public class ConnectFourBoardManager extends BoardManager{
         super(size);
     }
 
+    public Board getBoard() { return this.board; }
+
     public boolean puzzleSolved() {
         return true;
     }

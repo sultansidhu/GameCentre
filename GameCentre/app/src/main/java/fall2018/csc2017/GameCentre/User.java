@@ -139,7 +139,7 @@ public class User implements Serializable
      *
      * @param board the board to be added to the stack
      */
-    void addState(Board board) {
+    public void addState(Board board) {
         savedStates.push(board);
     }
 
@@ -147,7 +147,7 @@ public class User implements Serializable
      * Sets a stack of boards as the savedStates of a user.
      * @param savedStates the stack of boards to be set for the savedStates of the user
      */
-    void setSavedStates(Stack<Board> savedStates)
+    public void setSavedStates(Stack<Board> savedStates)
     {
         this.savedStates = savedStates;
     }

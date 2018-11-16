@@ -32,11 +32,10 @@ public class StartingSlidingActivity extends AppCompatActivity {
     /**
      * The board manager.
      */
-    private fall2018.csc2017.GameCentre.BoardManager boardManager;
-    public static int undoLimit;
+    private SlidingBoardManager boardManager;
+    public int undoLimit;
     private int gameIndex;
     private int size;
-   /* private ArrayList<Class> boardManagers = new ArrayList<>();*/
 
 
     /**
@@ -125,9 +124,17 @@ public class StartingSlidingActivity extends AppCompatActivity {
                     selectBoardManager();
                     HashMap<String, User> users = GameActivity.readObject();
                     assert users != null;
-                    users.get(username).setAvailableUndos(undoLimit);
-                    users.get(username).setSavedStates(new Stack<Board>());
-                    users.get(username).addState(boardManager.getBoard());
+                    User user = users.get(username);
+                    user.setAvailableUndos(undoLimit);
+                    user.setSavedStates(new Stack<Board>());
+                    if (boardManager.getBoard()==null) {
+                        System.out.println("BOARD IS NULL BRUH");
+                    }
+                    user.addState(boardManager.getBoard());
+                    if (user.getStack()==null) {
+                        System.out.println("STACK IS NULL AF!!!");
+                    }
+                    users.put(username, user);
                     GameActivity.saveObject(users);
                     switchToGame();
                 }
@@ -141,30 +148,13 @@ public class StartingSlidingActivity extends AppCompatActivity {
      */
 
     public void selectBoardManager() {
-        switch(gameIndex) {
-            case 0:
-                boardManager = new SlidingBoardManager(size);
-                break;
-            case 1:
-                boardManager = new ShogiBoardManager(size);
-                break;
-            case 2:
-                boardManager = new ConnectFourBoardManager(size);
-        };
+        boardManager = new SlidingBoardManager(size);
 
     }
 
     public void setBoardManager(Board board) {
-        switch(gameIndex) {
-            case 0:
-                boardManager = new SlidingBoardManager(board);
-            case 1:
-                boardManager = new ShogiBoardManager(board);
-            case 2:
-                boardManager = new ConnectFourBoardManager(board);
-        };
+        boardManager = new SlidingBoardManager(board);
     }
-
 
     /**
      * Activate the load button.
@@ -201,14 +191,14 @@ public class StartingSlidingActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        HashMap<String, User> users = GameActivity.readObject();
+       /* HashMap<String, User> users = GameActivity.readObject();
         assert users != null;
         Stack<Board> userStack = users.get(username).getStack();
         try {
             setBoardManager(userStack.peek());
         } catch (EmptyStackException e) {
             System.out.println("Empty stack, nothing to resume!");
-        }
+        }*/
     }
 
     /**

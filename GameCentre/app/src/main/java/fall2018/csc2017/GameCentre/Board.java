@@ -2,28 +2,24 @@ package fall2018.csc2017.GameCentre;
 
 import android.support.annotation.NonNull;
 
-import java.util.ArrayList;
-import java.util.Observable;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Observable;
 
-/**
- * The sliding tiles board.
- */
-public class Board extends Observable implements Iterable<Tile>, Serializable {
-
+public class Board extends Observable implements Serializable, Iterable<Tile> {
     /**
      * The number of rows.
      */
 
-    static int NUM_ROWS = 4;
+    static int NUM_ROWS;
 
     /**
      * The number of rows.
      */
-    static int NUM_COLS = 4;
+    static int NUM_COLS;
 
     /**
      * The tiles on the board in row-major order.
@@ -62,7 +58,7 @@ public class Board extends Observable implements Iterable<Tile>, Serializable {
      *
      * @return the number of tiles on the board
      */
-    int numTiles() {
+    public int numTiles() {
         return Board.NUM_ROWS * Board.NUM_COLS;
     }
 
@@ -73,7 +69,7 @@ public class Board extends Observable implements Iterable<Tile>, Serializable {
      * @param col the tile column
      * @return the tile at (row, col)
      */
-    Tile getTile(int row, int col) {
+    public Tile getTile(int row, int col) {
         return tiles[row][col];
     }
 
@@ -85,7 +81,7 @@ public class Board extends Observable implements Iterable<Tile>, Serializable {
      * @param row2 the second tile row
      * @param col2 the second tile col
      */
-    void swapTiles(int row1, int col1, int row2, int col2) {
+    public void swapTiles(int row1, int col1, int row2, int col2) {
         Tile tile1 = getTile(row1, col1);
         Tile tile2 = getTile(row2, col2);
         Tile[][] newTiles = tiles.clone();
