@@ -77,7 +77,11 @@ public class MainActivity extends AppCompatActivity {
                 final String usernameToAuthenticate = fieldUsername.getText().toString().trim();
                 TextView fieldPassword = findViewById(R.id.field_password);
                 final String passwordToAuthenticate = fieldPassword.getText().toString().trim();
-                authenticate(usernameToAuthenticate, passwordToAuthenticate);
+                //authenticate(usernameToAuthenticate, passwordToAuthenticate);
+                LoginManager lm = new LoginManager();
+                if (lm.authenticate(usernameToAuthenticate, passwordToAuthenticate)) {
+                    gotoGameList();
+                }
             }
         });
     }

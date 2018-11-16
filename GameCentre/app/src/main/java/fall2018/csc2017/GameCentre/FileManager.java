@@ -14,13 +14,18 @@ import java.util.HashMap;
 
 public class FileManager implements Serializable {
 
-    private HashMap<String, User> theHashMap;
+    private HashMap<String, User> theHashMap = new HashMap<>();
 
     public FileManager()
     {
         HashMap<String, User> HMfromfile = readObject();
-        if(HMfromfile != null)
+        if(HMfromfile != null) {
             this.theHashMap = HMfromfile;
+        }
+
+    }
+    public HashMap<String, User> getTheHashMap() {
+        return theHashMap;
     }
 
     /**
