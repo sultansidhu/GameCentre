@@ -123,15 +123,7 @@ public class GestureDetectGridView extends GridView {
 
 
     public boolean peekBoardManagerSolved(Board board) {
-        switch(gameIndex) {
-            case 0:
-                return new SlidingBoardManager(board).puzzleSolved();
-            case 1:
-                return new ShogiBoardManager(board).puzzleSolved();
-            case 2:
-                return new ConnectFourBoardManager(board).puzzleSolved();
-        }
-        return false;
+        return new SlidingBoardManager(board).puzzleSolved();
     }
 
 
