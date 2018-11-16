@@ -17,10 +17,8 @@ public abstract class BoardManager {
      * @param board the board
      */
 
-    BoardManager(Board board) {
+    public BoardManager(Board board) {
         this.board = board;
-        Board.NUM_COLS = board.getTiles().length;
-        Board.NUM_ROWS = board.getTiles().length;
     }
 
     /**
@@ -29,25 +27,7 @@ public abstract class BoardManager {
      * @param size: the size of the board being constructed
      *              within the board manager.
      */
-    BoardManager(int size) {
-        List<Tile> tiles = new ArrayList<>();
-        Board.NUM_COLS = size;
-        Board.NUM_ROWS = size;
-        final int numTiles = Board.NUM_ROWS * Board.NUM_COLS;
-        for (int tileNum = 0; tileNum != numTiles-1; tileNum++) {
-            tiles.add(new Tile(tileNum));
-        }
-        Tile testTile = new Tile(24);
-        testTile.setId(size*size);
-        tiles.add(testTile);
-        Collections.shuffle(tiles);
-        Board dummyBoard = new Board(tiles);
-        while (!dummyBoard.isSolveable()){
-            System.out.println("TELLS WHETHER THE BOARD IS SOLVABLE OR NOT: " + dummyBoard.isSolveable());
-            Collections.shuffle(tiles);
-            dummyBoard = new Board(tiles);
-        }
-        this.board = dummyBoard;
+    public BoardManager(int size) {
 
     }
     /**
@@ -55,9 +35,7 @@ public abstract class BoardManager {
      *
      * @return a board
      */
-    Board getBoard() {
-        return board;
-    }
+    public abstract Board getBoard();
 
     public abstract boolean puzzleSolved();
 

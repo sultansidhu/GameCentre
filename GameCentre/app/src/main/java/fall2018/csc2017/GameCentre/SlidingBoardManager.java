@@ -1,6 +1,9 @@
 package fall2018.csc2017.GameCentre;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
@@ -12,15 +15,30 @@ public class SlidingBoardManager extends BoardManager implements Serializable {
      */
     private Board board;
 
-
     public SlidingBoardManager(Board board) {
         super(board);
         this.board = board;
+        Board.NUM_COLS = board.getTiles().length;
+        Board.NUM_ROWS = board.getTiles().length;
     }
 
     public SlidingBoardManager(int size) {
         super(size);
+        List<Tile> tiles = new ArrayList<>();
+        Board.NUM_COLS = size;
+        Board.NUM_ROWS = size;
+        final int numTiles = Board.NUM_ROWS * Board.NUM_COLS;
+        for (int tileNum = 0; tileNum != numTiles-1; tileNum++) {
+            tiles.add(new Tile(tileNum));
+        }
+        makeSolvable(tiles, size);
+        if (this.board==null) {
+            System.out.println("BOARD IS NULL DUDE");
+        }
+
     }
+
+    public Board getBoard() { return this.board; }
 
     /**
      * Return whether the tiles are in row-major order.
@@ -48,10 +66,10 @@ public class SlidingBoardManager extends BoardManager implements Serializable {
         int col = position % Board.NUM_COLS;
         int blankId = board.numTiles();
         // Are any of the 4 the blank tile?
-        Tile above = row == 0 ? null : board.getTile(row - 1, col);
-        Tile below = row == Board.NUM_ROWS - 1 ? null : board.getTile(row + 1, col);
-        Tile left = col == 0 ? null : board.getTile(row, col - 1);
-        Tile right = col == Board.NUM_COLS - 1 ? null : board.getTile(row, col + 1);
+        Tile above = row == 0 ? null : (Tile)board.getTile(row - 1, col);
+        Tile below = row == Board.NUM_ROWS - 1 ? null : (Tile)board.getTile(row + 1, col);
+        Tile left = col == 0 ? null : (Tile)board.getTile(row, col - 1);
+        Tile right = col == Board.NUM_COLS - 1 ? null : (Tile)board.getTile(row, col + 1);
         return (below != null && below.getId() == blankId)
                 || (above != null && above.getId() == blankId)
                 || (left != null && left.getId() == blankId)
@@ -72,9 +90,9 @@ public class SlidingBoardManager extends BoardManager implements Serializable {
 
         if (isValidTap(position))
         {
-            Tile above = row == 0 ? null : board.getTile(row - 1, col);
-            Tile left = col == 0 ? null : board.getTile(row, col - 1);
-            Tile right = col == Board.NUM_COLS - 1 ? null : board.getTile(row, col + 1);
+            Tile above = row == 0 ? null : (Tile)board.getTile(row - 1, col);
+            Tile left = col == 0 ? null : (Tile)board.getTile(row, col - 1);
+            Tile right = col == Board.NUM_COLS - 1 ? null : (Tile)board.getTile(row, col + 1);
 
             if (above != null && above.getId() == blankId) board.swapTiles(row, col, row - 1, col);
             else if (left != null && left.getId() == blankId)
@@ -84,6 +102,20 @@ public class SlidingBoardManager extends BoardManager implements Serializable {
             else board.swapTiles(row, col, row + 1, col);
         }
 
+    }
+
+    public void makeSolvable(List<Tile> tiles, int size) {
+        Tile testTile = new Tile(24);
+        testTile.setId(size*size);
+        tiles.add(testTile);
+        Collections.shuffle(tiles);
+        Board dummyBoard = new Board(tiles);
+        while (!dummyBoard.isSolveable()){
+            System.out.println("TELLS WHETHER THE BOARD IS SOLVABLE OR NOT: " + dummyBoard.isSolveable());
+            Collections.shuffle(tiles);
+            dummyBoard = new Board(tiles);
+        }
+        this.board = dummyBoard;
     }
 
 

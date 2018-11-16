@@ -18,8 +18,9 @@
             </intent-filter>
         </activity>
         <activity android:name="fall2018.csc2017.GameCentre.GameListActivity"></activity>
-        <activity android:name="fall2018.csc2017.GameCentre.StartingActivity"></activity>
-        <activity android:name="fall2018.csc2017.GameCentre.SettingsActivity"></activity>
+        <activity android:name="fall2018.csc2017.GameCentre.StartingSlidingActivity"></activity>
+        <activity android:name="fall2018.csc2017.GameCentre.StartingShogiActivity"></activity>
+        <activity android:name="fall2018.csc2017.GameCentre.StartingConnectFourActivity"></activity>
         <activity android:name="fall2018.csc2017.GameCentre.ScoreboardActivity"></activity>
         <activity android:name="fall2018.csc2017.GameCentre.GameActivity"></activity>
     </application>

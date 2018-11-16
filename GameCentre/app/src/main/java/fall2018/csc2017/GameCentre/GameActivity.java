@@ -64,6 +64,9 @@ public class GameActivity extends AppCompatActivity implements Observer {
         assert users != null;
         User user = users.get(username);
         Stack<Board> userStack = user.getStack();
+        if (userStack.peek() == null) {
+            System.out.println("STACK IS NULL!!!");
+        }
         setBoardManager(userStack.peek());
         if (user.getTotalTime() == 0) {
             user.startTimer();

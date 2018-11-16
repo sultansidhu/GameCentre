@@ -1,7 +1,7 @@
 package fall2018.csc2017.GameCentre;
 /*
 ==================================================================
-File Name: StartingActivity.java
+File Name: StartingSlidingActivity.java
 Purpose: This Activity connects to the main menu of SlidingTiles
 and initializes the screen
 Date: October 30, 2018
@@ -27,13 +27,13 @@ import java.util.Stack;
 /**
  * The initial activity for the sliding puzzle tile game.
  */
-public class StartingActivity extends AppCompatActivity {
+public class StartingSlidingActivity extends AppCompatActivity {
 
     /**
      * The board manager.
      */
-    private fall2018.csc2017.GameCentre.BoardManager boardManager;
-    public static int undoLimit;
+    private SlidingBoardManager boardManager;
+    public int undoLimit;
     private int gameIndex;
     private int size;
     private String username;
@@ -53,8 +53,7 @@ public class StartingActivity extends AppCompatActivity {
         setSizeDropdown();
         setUndoDropdown();
         addScoreboardButtonListener();
-        Bundle extras = getIntent().getBundleExtra("Extras");
-        gameIndex = (extras.getInt("gameIndex"));
+        gameIndex = getIntent().getExtras().getInt("gameIndex");
         LoginManager lm = new LoginManager();
         username = lm.getPersonLoggedIn();
         assert username != null; //There should be someone logged in once we get to this screen.
@@ -146,28 +145,12 @@ public class StartingActivity extends AppCompatActivity {
      */
 
     public void selectBoardManager() {
-        switch(gameIndex) {
-            case 0:
-                boardManager = new SlidingBoardManager(size);
-                break;
-            case 1:
-                boardManager = new ShogiBoardManager(size);
-                break;
-            case 2:
-                boardManager = new ConnectFourBoardManager(size);
-        };
+        boardManager = new SlidingBoardManager(size);
 
     }
 
     public void setBoardManager(Board board) {
-        switch(gameIndex) {
-            case 0:
-                boardManager = new SlidingBoardManager(board);
-            case 1:
-                boardManager = new ShogiBoardManager(board);
-            case 2:
-                boardManager = new ConnectFourBoardManager(board);
-        };
+        boardManager = new SlidingBoardManager(board);
     }
 
 

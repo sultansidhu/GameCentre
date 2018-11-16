@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.example.nizar17.group0506.phase1.slidingtiles"
+        applicationId "com.example.nizar17.group0647.GameCentre"
         minSdkVersion 27
         targetSdkVersion 28
         versionCode 1

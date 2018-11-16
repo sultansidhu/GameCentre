@@ -19,6 +19,8 @@ public class Tile implements Comparable<Tile>, Serializable {
      */
     private int id;
 
+    public void setBackground(int background) { this.background = background;}
+
     /**
      * Return the background id.
      *
