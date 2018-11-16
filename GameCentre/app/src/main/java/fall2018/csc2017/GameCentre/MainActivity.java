@@ -157,11 +157,13 @@ public class MainActivity extends AppCompatActivity {
                 Spinner securityQuestions = findViewById(R.id.securityquestions);
                 String selectedQuestion = securityQuestions.getSelectedItem().toString();
 
-                if (usernameToAdd.equals("") || passwordToAdd.equals("") || securityAnswer.equals("")){
-                    makeToast("Please enter data into all fields!");
-                } else {
-                    create(usernameToAdd, passwordToAdd, confirmPassword, selectedQuestion, securityAnswer);
+                LoginManager lm = new LoginManager();
+                if(lm.create(usernameToAdd, passwordToAdd, confirmPassword, selectedQuestion, securityAnswer))
+                {
+                    gotoGameList();
                 }
+
+
             }
         });
     }
@@ -276,27 +278,27 @@ public class MainActivity extends AppCompatActivity {
      return null
      */
 
-    public void authenticate(String username, String password)
-    {
-        if(!userExists(username))
-        {
-            makeToast("User Does Not Exist!");
-        }
-        else if (!logins.get(username).getPassword().equals(password))
-        {
-            makeToast("Password Rejected!");
-        }
-        else
-        {
-            makeToast("Logging in...");
-            MovementController.username = username;
-            logEveryoneOut(this.logins);
-            readObject();
-            this.logins.get(username).setLoggedIn(true);
-            saveObject();
-            gotoGameList();
-        }
-    }
+//    public void authenticate(String username, String password)
+//    {
+//        if(!userExists(username))
+//        {
+//            makeToast("User Does Not Exist!");
+//        }
+//        else if (!logins.get(username).getPassword().equals(password))
+//        {
+//            makeToast("Password Rejected!");
+//        }
+//        else
+//        {
+//            makeToast("Logging in...");
+//            //MovementController.username = username;
+//            logEveryoneOut(this.logins);
+//            readObject();
+//            this.logins.get(username).setLoggedIn(true);
+//            saveObject();
+//            gotoGameList();
+//        }
+//    }
 
     /**
      This method iterates through the HashMap and changes each user's "isLoggedIn" attribute
@@ -322,37 +324,37 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-    /**
-     This method instantiates a new object of type User and adds it to the HashMap.
-     The HashMap is then saved in the serialized file.
-     @param username: the username of this new account
-            password: the password of this new account
-            password2: the confirm password of this new account
-            selQ: the security question of this new account
-            ans: the answer to the user's security question
-     return null
-     */
-
-    public void create(String username, String password, String password2, String selQ, String ans)
-    {
-        if (!password.equals(password2)){
-            makeToast("Passwords do not match!");
-        } else if (userExists(username)){
-            makeToast("User Already Exists!");
-        } else {
-            User newUser = new User(username, password, selQ, ans);
-            logEveryoneOut(this.logins);
-            newUser.setLoggedIn(true);
-            logins.put(username, newUser);
-
-            saveObject();
-            makeToast("Success!");
-            MovementController.username = username;
-
-            gotoGameList();
-
-        }
-    }
+//    /**
+//     This method instantiates a new object of type User and adds it to the HashMap.
+//     The HashMap is then saved in the serialized file.
+//     @param username: the username of this new account
+//            password: the password of this new account
+//            password2: the confirm password of this new account
+//            selQ: the security question of this new account
+//            ans: the answer to the user's security question
+//     return null
+//     */
+//
+//    public void create(String username, String password, String password2, String selQ, String ans)
+//    {
+//        if (!password.equals(password2)){
+//            makeToast("Passwords do not match!");
+//        } else if (userExists(username)){
+//            makeToast("User Already Exists!");
+//        } else {
+//            User newUser = new User(username, password, selQ, ans);
+//            logEveryoneOut(this.logins);
+//            newUser.setLoggedIn(true);
+//            logins.put(username, newUser);
+//
+//            saveObject();
+//            makeToast("Success!");
+//            MovementController.username = username;
+//
+//            gotoGameList();
+//
+//        }
+//    }
 
     /**
      This method makes a Toast/displays text-based information to the user

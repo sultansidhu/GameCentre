@@ -21,7 +21,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Stack;
 
-import static fall2018.csc2017.GameCentre.MovementController.username;
+//import static fall2018.csc2017.GameCentre.MovementController.username;
 
 /**
  * The game activity.
@@ -42,6 +42,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
     private GestureDetectGridView gridView;
     private static int columnWidth, columnHeight;
     private int gameIndex;
+    private String username;
 
     /**
      * Set up the background image for each button based on the master list
@@ -56,6 +57,8 @@ public class GameActivity extends AppCompatActivity implements Observer {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LoginManager lm = new LoginManager();
+        username = lm.getPersonLoggedIn();
         gameIndex = getIntent().getExtras().getInt("gameIndex");
         HashMap<String, User> users = GameActivity.readObject();
         assert users != null;

@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.util.HashMap;
 
-import static fall2018.csc2017.GameCentre.MovementController.username;
+//import static fall2018.csc2017.GameCentre.MovementController.username;
 
 public class ScoreboardActivity extends AppCompatActivity
 {
@@ -44,6 +44,7 @@ public class ScoreboardActivity extends AppCompatActivity
         scoresList = new StringBuilder();
         HashMap<String, User> users = GameActivity.readObject();
         assert users != null;
+        String username; //created 13:35 friday nov 16
 
         for (HashMap.Entry<String, User> entry : users.entrySet()) {
             username = entry.getKey();
