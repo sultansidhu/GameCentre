@@ -8,7 +8,7 @@ import android.view.MotionEvent;
 import android.widget.GridView;
 import android.widget.Toast;
 
-public class ShogiGestureDetectGridView extends GridView {
+public class ShogiGestureDetectGridView extends GestureDetectGridView {
 
     /*
    An int representing the minimum distance to swipe
@@ -66,8 +66,9 @@ public class ShogiGestureDetectGridView extends GridView {
     public ShogiGestureDetectGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
+        LoginManager lm = new LoginManager();
+        username = lm.getPersonLoggedIn();
     }
-
     /*
     Overloaded Constructor that takes a Context, an AttributeSet, and a defaultStyleAttribute integer
     */
@@ -75,6 +76,8 @@ public class ShogiGestureDetectGridView extends GridView {
     public ShogiGestureDetectGridView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
+        LoginManager lm = new LoginManager();
+        username = lm.getPersonLoggedIn();
     }
 
     private void init(final Context context) {
@@ -117,7 +120,6 @@ public class ShogiGestureDetectGridView extends GridView {
                     Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
                     return true;
                 }
-
                 return false;
             }
 
@@ -128,36 +130,10 @@ public class ShogiGestureDetectGridView extends GridView {
 
         });
     }
-    // TODO: Integrate this
+    // TODO: Implement puzzleSolved
+    @Override
     public boolean peekBoardManagerSolved(Board board) {
         return new ShogiBoardManager(board).puzzleSolved();
-    }
-
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        int action = ev.getActionMasked();
-        gDetector.onTouchEvent(ev);
-
-        if (action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_UP) {
-            mFlingConfirmed = false;
-        } else if (action == MotionEvent.ACTION_DOWN) {
-            mTouchX = ev.getX();
-            mTouchY = ev.getY();
-        } else {
-
-            if (mFlingConfirmed) {
-                return true;
-            }
-
-            float dX = (Math.abs(ev.getX() - mTouchX));
-            float dY = (Math.abs(ev.getY() - mTouchY));
-            if ((dX > SWIPE_MIN_DISTANCE) || (dY > SWIPE_MIN_DISTANCE)) {
-                mFlingConfirmed = true;
-                return true;
-            }
-        }
-
-        return super.onInterceptTouchEvent(ev);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -175,6 +151,4 @@ public class ShogiGestureDetectGridView extends GridView {
         this.boardManager = boardManager;
         mController.setBoardManager(boardManager);
     }
-
-
 }
