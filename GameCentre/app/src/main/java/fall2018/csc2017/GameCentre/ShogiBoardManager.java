@@ -106,4 +106,13 @@ public class ShogiBoardManager extends BoardManager
     }
 
     public void setCurrPlayer(int currPlayer) { this.currPlayer = currPlayer; }
+
+    public void setCurrPlayer(){
+        if (this.currPlayer == 1){
+            this.currPlayer = 2;
+        }
+        else {
+            this.currPlayer = 1;
+        }
+    }
 }

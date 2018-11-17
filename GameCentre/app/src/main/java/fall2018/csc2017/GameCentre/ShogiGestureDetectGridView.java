@@ -95,6 +95,7 @@ public class ShogiGestureDetectGridView extends GridView {
                         // TODO: implement isValidTap properly.
                         if (boardManager.isValidTap(position)) {
                             mController.processTapMovement(context, position);
+                            boardManager.setCurrPlayer();//makes the curr player the opposite player
                             return true;
                         } else { Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show() ;}
                     }
