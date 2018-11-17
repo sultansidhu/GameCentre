@@ -45,9 +45,9 @@ public class ConnectFourBoardManager extends BoardManager{
      */
     public int getBackgroundForPlayer(){
         if (this.currentPlayer == 1){
-            return R.drawable.Red;
+            return R.drawable.red;
         } else{
-            return R.drawable.Black;
+            return R.drawable.black;
         }
     }
 
