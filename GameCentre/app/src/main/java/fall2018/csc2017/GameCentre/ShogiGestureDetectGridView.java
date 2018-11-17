@@ -81,12 +81,12 @@ public class ShogiGestureDetectGridView extends GridView {
                         (Math.round(event.getX()), Math.round(event.getY()));
                 Tile currTile = boardManager.getBoard().getTile(position%7, position%7);
 
-                int currPlayer;
-                if (currTile.getBackground() == R.drawable.black) { currPlayer = 1;}
-                else if (currTile.getBackground() == R.drawable.red) {currPlayer = 2; }
-                else {currPlayer = 0; }
+                int proposedPlayer;
+                if (currTile.getBackground() == R.drawable.black) { proposedPlayer = 1;}
+                else if (currTile.getBackground() == R.drawable.red) {proposedPlayer = 2; }
+                else {proposedPlayer = 0; }
 
-                if (currPlayer == boardManager.getCurrPlayer()) {
+                if (proposedPlayer == boardManager.getCurrPlayer()) {
                     if (tileSelected == -1) {
                         tileSelected = position;
                         return true;

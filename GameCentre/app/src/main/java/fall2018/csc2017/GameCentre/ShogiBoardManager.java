@@ -99,7 +99,7 @@ public class ShogiBoardManager extends BoardManager
             int row1 = position / Board.NUM_COLS;
             int col = position % Board.NUM_COLS;
         }
-    };
+    }
 
     public int getCurrPlayer() {
        return currPlayer;

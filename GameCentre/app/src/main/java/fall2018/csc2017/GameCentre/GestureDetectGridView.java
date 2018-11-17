@@ -101,6 +101,7 @@ public class GestureDetectGridView extends GridView {
             public boolean onSingleTapConfirmed(MotionEvent event) {
                 int position = GestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
+
                 if (boardManager.isValidTap(position)) {
                     mController.processTapMovement(context, position);
                     HashMap<String, User> users = fm.readObject();
