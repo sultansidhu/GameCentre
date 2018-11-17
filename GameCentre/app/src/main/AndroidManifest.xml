@@ -23,6 +23,9 @@
         <activity android:name="fall2018.csc2017.GameCentre.StartingConnectFourActivity"></activity>
         <activity android:name="fall2018.csc2017.GameCentre.ScoreboardActivity"></activity>
         <activity android:name="fall2018.csc2017.GameCentre.GameActivity"></activity>
+        <activity android:name="fall2018.csc2017.GameCentre.SlidingActivity"></activity>
+        <activity android:name="fall2018.csc2017.GameCentre.ShogiActivity"></activity>
+        <activity android:name="fall2018.csc2017.GameCentre.ConnectFourActivity"></activity>
     </application>
 
 </manifest>
