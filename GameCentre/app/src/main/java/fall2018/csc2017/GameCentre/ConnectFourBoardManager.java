@@ -2,6 +2,9 @@ package fall2018.csc2017.GameCentre;
 
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ConnectFourBoardManager extends BoardManager {
 
 
@@ -19,6 +22,21 @@ public class ConnectFourBoardManager extends BoardManager {
 
     public ConnectFourBoardManager(int size) {
         super(size);
+        List<Tile> tiles = new ArrayList<>();
+        Board.NUM_COLS = size;
+        Board.NUM_ROWS = size;
+
+        final int numTiles = 6*6; // TODO: make this changeable
+        for (int tileNum = 0; tileNum != numTiles; tileNum++)
+        {
+            Tile tile = new Tile(tileNum);
+
+            tile.setBackground(R.drawable.tile_25);
+
+            tiles.add(tile);
+        }
+
+        this.board = new Board(tiles);
     }
 
     public Board getBoard() { return this.board; }

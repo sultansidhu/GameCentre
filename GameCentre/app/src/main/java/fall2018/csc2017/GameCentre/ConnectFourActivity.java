@@ -73,12 +73,11 @@ public class ConnectFourActivity extends GameActivity implements Observer {
         System.out.println("the starting time for the playTime is: " + user.playTime);
         users.put(username, user);
         fm.saveObject(users);
-
+        //addUndoButtonListener();
 
         createTileButtons(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_connect4);
         // Add View to activity
-        addUndoButtonListener();
         gridView = findViewById(R.id.grid);
         gridView.setNumColumns(Board.NUM_COLS);
         gridView.setBoardManager(boardManager);
@@ -100,60 +99,60 @@ public class ConnectFourActivity extends GameActivity implements Observer {
     }
 
     /**
-     * Adds the listener for the undo button on the UI
-     */
-    private void addUndoButtonListener() {
-        Button undoButton = findViewById(R.id.UndoButton);
-        undoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                HashMap<String, User> users = fm.readObject();
-                assert users != null;
-                User user = users.get(username);
-                Stack<Board> userStack = user.getGameStack(2);
-
-                if(user.getAvailableUndos() == 0) {
-                    makeToastNoUndo();
-                } else if (user.getAvailableUndos() < 0) {
-
-                    if (userStack.size() > 1){
-                        userStack.pop();
-                        setBoardManager(userStack.peek());
-
-                    }
-                    else{
-                        Toast.makeText(getApplicationContext(), "No more undos possible!", Toast.LENGTH_LONG).show();
-                    }
-
-                    boardManager.getBoard().addObserver(ConnectFourActivity.this);
-                    gridView.setBoardManager(boardManager);
-                    display();
-                    users.put(username, user);
-                    user.setAvailableUndos(user.getAvailableUndos() - 1);
-                    if (user.getGameStack(2).size() > 1){
-                        makeToastUnlimitedUndoText();
-                    }
-                    fm.saveObject(users);
-                }
-
-                else if (userStack.size() > 1 ) {
-                    userStack.pop();
-                    setBoardManager(userStack.peek());
-                    boardManager.getBoard().addObserver(ConnectFourActivity.this);
-                    gridView.setBoardManager(boardManager);
-                    display();
-                    users.put(username, user);
-                    user.setAvailableUndos(user.getAvailableUndos() - 1);
-                    makeToastUndoText(user.getAvailableUndos());
-                    fm.saveObject(users);
-
-                }
-
-                else makeToastEmptyStack();
-            }
-        });
-    }
+//     * Adds the listener for the undo button on the UI
+//     */
+//    private void addUndoButtonListener() {
+//        Button undoButton = findViewById(R.id.UndoButton);
+//        undoButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v)
+//            {
+//                HashMap<String, User> users = fm.readObject();
+//                assert users != null;
+//                User user = users.get(username);
+//                Stack<Board> userStack = user.getGameStack(2);
+//
+//                if(user.getAvailableUndos() == 0) {
+//                    makeToastNoUndo();
+//                } else if (user.getAvailableUndos() < 0) {
+//
+//                    if (userStack.size() > 1){
+//                        userStack.pop();
+//                        setBoardManager(userStack.peek());
+//
+//                    }
+//                    else{
+//                        Toast.makeText(getApplicationContext(), "No more undos possible!", Toast.LENGTH_LONG).show();
+//                    }
+//
+//                    boardManager.getBoard().addObserver(ConnectFourActivity.this);
+//                    gridView.setBoardManager(boardManager);
+//                    display();
+//                    users.put(username, user);
+//                    user.setAvailableUndos(user.getAvailableUndos() - 1);
+//                    if (user.getGameStack(2).size() > 1){
+//                        makeToastUnlimitedUndoText();
+//                    }
+//                    fm.saveObject(users);
+//                }
+//
+//                else if (userStack.size() > 1 ) {
+//                    userStack.pop();
+//                    setBoardManager(userStack.peek());
+//                    boardManager.getBoard().addObserver(ConnectFourActivity.this);
+//                    gridView.setBoardManager(boardManager);
+//                    display();
+//                    users.put(username, user);
+//                    user.setAvailableUndos(user.getAvailableUndos() - 1);
+//                    makeToastUndoText(user.getAvailableUndos());
+//                    fm.saveObject(users);
+//
+//                }
+//
+//                else makeToastEmptyStack();
+//            }
+//        });
+//    }
 
     /**
      * Makes toast representing the number of undo's remaining.
