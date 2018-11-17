@@ -105,11 +105,11 @@ public class GestureDetectGridView extends GridView {
                     mController.processTapMovement(context, position);
                     HashMap<String, User> users = fm.readObject();
                     assert users != null;
-                    users.get(username).addState(boardManager.getBoard());
+                    users.get(username).addState(boardManager.getBoard(), 0);
                     fm.saveObject(users);
                     users = fm.readObject();
                     assert users != null;
-                    if (peekBoardManagerSolved(users.get(username).getStack().peek())) {
+                    if (peekBoardManagerSolved(users.get(username).getGameStack(0).peek())) {
                         users.get(username).stopTimer();
                         fm.saveObject(users);
                         ScoreboardActivity sc = new ScoreboardActivity();

@@ -9,6 +9,7 @@ Author: CSC207 Group 0506
 package fall2018.csc2017.GameCentre;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Stack;
 
 public class User implements Serializable
@@ -24,7 +25,7 @@ public class User implements Serializable
     /**
     This is a stack holding all the game states of the saved game for this user
     */
-    private Stack<Board> savedStates;
+    private HashMap<Integer, Stack<Board>> savedStates;
     /**
     This is answer to this user's security question
     */
@@ -61,7 +62,11 @@ public class User implements Serializable
         this.password = password;
         this.securityQuestion = securityQuestion;
         this.answer = answer;
-        this.savedStates = new Stack<>();
+        this.savedStates = new HashMap<Integer, Stack<Board>>();
+        for(int i = 0; i <= 2; i++){
+            this.savedStates.put(i, new Stack<Board>());
+        }
+        //this.savedStates.put(0, new Stack<Board>());
         this.playTime = (long)0.0;
         this.availableUndos = 3; // the default number of undo's for every user.
     }
@@ -83,9 +88,9 @@ public class User implements Serializable
      *
      * @return the stack of the boards
      */
-    Stack<Board> getStack()
+    Stack<Board> getGameStack(int game)
     {
-        return savedStates;
+        return savedStates.get(game);
     }
 
     void setAvailableUndos(int newUndos){
@@ -124,8 +129,8 @@ public class User implements Serializable
      *
      * @return the number of moves the player has made so far in the game.
      */
-    int getNumMoves() {
-        return getStack().size();
+    int getNumMoves(int game) {
+        return getGameStack(game).size();
     }
 
     /**
@@ -141,15 +146,22 @@ public class User implements Serializable
      *
      * @param board the board to be added to the stack
      */
-    public void addState(Board board) {
-        savedStates.push(board);
+    public void addState(Board board, int game) {
+        try {
+            savedStates.get(game).push(board);
+        }
+        catch(NullPointerException e) {
+            this.savedStates.put(0, new Stack<Board>());
+            savedStates.get(game).push(board);
+        }
+
     }
 
     /**
-     * Sets a stack of boards as the savedStates of a user.
-     * @param savedStates the stack of boards to be set for the savedStates of the user
+     * Sets a HashMap of stack of boards as the savedStates of a user.
+     * @param savedStates the HashMap of boards to be set for the savedStates of the user
      */
-    public void setSavedStates(Stack<Board> savedStates)
+    public void setSavedStates(HashMap<Integer, Stack<Board>> savedStates)
     {
         this.savedStates = savedStates;
     }
