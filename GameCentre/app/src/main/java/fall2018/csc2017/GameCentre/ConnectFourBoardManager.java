@@ -1,16 +1,20 @@
 package fall2018.csc2017.GameCentre;
 
-public class ConnectFourBoardManager extends BoardManager{
+import android.widget.Toast;
+
+public class ConnectFourBoardManager extends BoardManager {
 
 
     /**
      * The board being managed.
      */
     private Board board;
+    private int currentPlayer = 1; // currently the game is set to having player 1 as red and player 2 as black
 
 
     public ConnectFourBoardManager(Board board) {
         super(board);
+        this.board = board;
     }
 
     public ConnectFourBoardManager(int size) {
@@ -18,6 +22,34 @@ public class ConnectFourBoardManager extends BoardManager{
     }
 
     public Board getBoard() { return this.board; }
+
+    public void makeToast(String textToDisplay) {
+        System.out.println(textToDisplay);
+        Toast.makeText(GlobalApplication.getAppContext(), textToDisplay, Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * Switches the player after every turn
+     */
+    public void switchPlayer(){
+        if (this.currentPlayer == 1){
+            this.currentPlayer = 2;
+        } else {
+            this.currentPlayer = 1;
+        }
+    }
+
+    /**
+     * Gets the suitable background depending on the current player
+     * @return the id of the background for the current player
+     */
+    public int getBackgroundForPlayer(){
+        if (this.currentPlayer == 1){
+            return R.drawable.red;
+        } else{
+            return R.drawable.black;
+        }
+    }
 
     /**
      * Returns if a puzzle has been solved after a series of
@@ -324,7 +356,23 @@ public class ConnectFourBoardManager extends BoardManager{
      * @param position the position at which the move is to be made
      */
     public void touchMove(int position) {
-        int row = position / Board.NUM_ROWS;
-        int col = position % Board.NUM_COLS;
+//        int row = position / Board.NUM_ROWS;
+//        int col = position % Board.NUM_COLS;
+        int positionCopy = position;
+        if(isValidTap(position))
+        {
+            //Tile newTile = new Tile(getBackgroundForPlayer());
+            Board.BoardIterator iter = (Board.BoardIterator) board.iterator();
+            Tile tile = null;
+            while (position >= 0){
+                tile = iter.next();
+                position--;
+            }
+            tile.setBackground(getBackgroundForPlayer());
+            switchPlayer(); // this should be the last line of touchMove()
+        } else {
+            makeToast("Invalid Move! Try again");
+        }
+
     };
 }

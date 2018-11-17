@@ -41,6 +41,22 @@ class MovementController {
     }
 
     /**
+     * Processes a tap for the user.
+     * @param context of the application.
+     * @param position that the user tapped.
+     */
+    void processTapMovement(Context context, ConnectFourBoardManager boardManager, int position) {
+
+        if (boardManager.isValidTap(position))
+        {
+            boardManager.touchMove(position);
+            if (boardManager.puzzleSolved(position)) {
+                Toast.makeText(context, "YOU WIN!", Toast.LENGTH_SHORT).show();
+            }
+        } else { Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show(); }
+    }
+
+    /**
      * Overloaded processTapmovement parameters for shogi
      * @param context context
      * @param boardManager boardmanager
@@ -56,6 +72,7 @@ class MovementController {
             }
         }
     }
+
 
 
 

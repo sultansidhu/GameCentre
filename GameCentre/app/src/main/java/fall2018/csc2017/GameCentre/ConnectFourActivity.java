@@ -38,7 +38,7 @@ public class ConnectFourActivity extends GameActivity implements Observer {
     private ArrayList<Button> tileButtons;
 
     // Grid View and calculated column height and width based on device size
-    private ShogiGestureDetectGridView gridView;
+    private Connect4GestureDetectGridView gridView;
     private static int columnWidth, columnHeight;
     private int gameIndex;
     private String username;
