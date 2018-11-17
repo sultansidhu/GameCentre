@@ -99,15 +99,16 @@ public class GestureDetectGridView extends GridView {
             public boolean onSingleTapConfirmed(MotionEvent event) {
                 int position = GestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
+
                 if (boardManager.isValidTap(position)) {
                     mController.processTapMovement(context, position);
                     HashMap<String, User> users = fm.readObject();
                     assert users != null;
-                    users.get(username).addState(boardManager.getBoard());
+                    users.get(username).addState(boardManager.getBoard(), 0);
                     fm.saveObject(users);
                     users = fm.readObject();
                     assert users != null;
-                    if (peekBoardManagerSolved(users.get(username).getStack().peek())) {
+                    if (peekBoardManagerSolved(users.get(username).getGameStack(0).peek())) {
                         users.get(username).stopTimer();
                         fm.saveObject(users);
                         ScoreboardActivity sc = new ScoreboardActivity();

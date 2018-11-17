@@ -64,7 +64,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
         HashMap<String, User> users = fm.readObject();
         assert users != null;
         User user = users.get(username);
-        Stack<Board> userStack = user.getStack();
+        Stack<Board> userStack = user.getGameStack(0);
         if (userStack.peek() == null) {
             System.out.println("STACK IS NULL!!!");
         }
@@ -113,7 +113,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
                 HashMap<String, User> users = fm.readObject();
                 assert users != null;
                 User user = users.get(username);
-                Stack<Board> userStack = user.getStack();
+                Stack<Board> userStack = user.getGameStack(0);
 
                 if(user.getAvailableUndos() == 0) {
                     makeToastNoUndo();
@@ -133,7 +133,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
                     display();
                     users.put(username, user);
                     user.setAvailableUndos(user.getAvailableUndos() - 1);
-                    if (user.getStack().size() > 1){
+                    if (user.getGameStack(0).size() > 1){
                         makeToastUnlimitedUndoText();
                     }
                     fm.saveObject(users);
