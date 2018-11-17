@@ -14,7 +14,7 @@ public class ShogiBoardManager extends BoardManager
     /**
      * represents the current player.
      */
-    private int currPlayer;
+    private int currPlayer = 1;
 
     /**
      * This constructor takes a board object and sets this class' board attribute object
@@ -85,7 +85,17 @@ public class ShogiBoardManager extends BoardManager
         int row = position / Board.NUM_COLS;
         int col = position % Board.NUM_COLS;
         return false;
-    };
+    }
+
+    /**
+     * Overloaded isValidTap with 2 parameters
+     */
+    public boolean isValidTap(int fromTile, int toTile) {
+        if (inSameRow(fromTile, toTile) && !tileBlockingRow(fromTile, toTile)) {
+            return true;
+        }
+        else return inSameCol(fromTile, toTile) && !tileBlockingCol(fromTile, toTile);
+    }
 
     /**
      * This method is a stub
@@ -99,11 +109,56 @@ public class ShogiBoardManager extends BoardManager
             int row1 = position / Board.NUM_COLS;
             int col = position % Board.NUM_COLS;
         }
-    };
+    }
+
+    /**
+     * Overloaded touchMove with 2 parameters.
+     */
+    public void touchMove(int fromTile, int toTile) {
+        if (isValidTap(fromTile, toTile)) {
+            board.swapTiles(fromTile/7, fromTile%7, toTile/7, toTile%7);
+        }
+    }
 
     public int getCurrPlayer() {
        return currPlayer;
     }
 
     public void setCurrPlayer(int currPlayer) { this.currPlayer = currPlayer; }
+
+    public boolean inSameRow(int fromTile, int toTile) {
+        return fromTile/7 == toTile/7;
+    }
+
+    public boolean inSameCol(int fromTile, int toTile) {
+        return fromTile%7 == toTile%7;
+    }
+
+    public boolean tileBlockingRow(int fromTile, int toTile) {
+        int row = fromTile/7;
+        int start = fromTile%7 < toTile%7 ? fromTile%7 : toTile%7;
+        int end = fromTile%7 > toTile%7 ? fromTile%7 : toTile%7;
+        int col = start + 1;
+        while (col < end) {
+            if (getBoard().getTile(row, col).getBackground() != R.drawable.tile_25) {
+                return true;
+            }
+            col++;
+        }
+        return false;
+    }
+
+    public boolean tileBlockingCol(int fromTile, int toTile) {
+        int col = fromTile%7;
+        int start = fromTile/7 < toTile/7 ? fromTile/7 : toTile/7;
+        int end = fromTile/7 > toTile/7 ? fromTile/7 : toTile/7;
+        int row = start + 1;
+        while (row < end) {
+            if (getBoard().getTile(row, col).getBackground() != R.drawable.tile_25) {
+                return true;
+            }
+            row++;
+        }
+        return false;
+    }
 }

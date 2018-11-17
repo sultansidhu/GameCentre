@@ -37,6 +37,23 @@ class MovementController {
             if (boardManager.puzzleSolved()) {
                 Toast.makeText(context, "YOU WIN!", Toast.LENGTH_SHORT).show();
             }
+        } else { Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show(); }
+    }
+
+    /**
+     * Overloaded processTapmovement parameters for shogi
+     * @param context context
+     * @param boardManager boardmanager
+     * @param fromTile subject tile
+     * @param toTile target tile
+     */
+
+    void processTapMovement(Context context, ShogiBoardManager boardManager, int fromTile, int toTile) {
+        if (boardManager.isValidTap(fromTile, toTile)) {
+            boardManager.touchMove(fromTile, toTile);
+            if (boardManager.puzzleSolved()) {
+                Toast.makeText(context, "YOU WIN!", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

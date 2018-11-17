@@ -1,5 +1,6 @@
 package fall2018.csc2017.GameCentre;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
@@ -41,9 +42,14 @@ public class ShogiGestureDetectGridView extends GridView {
     private ShogiBoardManager boardManager;
 
     /**
-     * Returns whether a game piece is currently selected by the user.
+     *  Tile position selected by the user.
      */
     private int tileSelected = -1;
+
+    /**
+     * Username of user currently playing.
+     */
+    private String username;
 
     /*
     Overloaded Constructor that takes a Context
@@ -51,6 +57,8 @@ public class ShogiGestureDetectGridView extends GridView {
     public ShogiGestureDetectGridView(Context context) {
         super(context);
         init(context);
+        LoginManager lm = new LoginManager();
+        username = lm.getPersonLoggedIn();
     }
     /*
     Overloaded Constructor that takes a Context and AttributeSet
@@ -79,30 +87,34 @@ public class ShogiGestureDetectGridView extends GridView {
             public boolean onSingleTapConfirmed(MotionEvent event) {
                 int position = ShogiGestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
-                Tile currTile = boardManager.getBoard().getTile(position%7, position%7);
+                Tile currTile = boardManager.getBoard().getTile(position/7, position%7);
 
-                int currPlayer;
-                if (currTile.getBackground() == R.drawable.black) { currPlayer = 1;}
-                else if (currTile.getBackground() == R.drawable.red) {currPlayer = 2; }
-                else {currPlayer = 0; }
+                int tileOwner;
+                if (currTile.getBackground() == R.drawable.black) { tileOwner = 1; }
+                else if (currTile.getBackground() == R.drawable.red) {tileOwner = 2; }
+                else {tileOwner = 0; }
 
-                if (currPlayer == boardManager.getCurrPlayer()) {
-                    if (tileSelected == -1) {
+                if (tileOwner == boardManager.getCurrPlayer()) {
+                    if (tileSelected == -1
+                            || boardManager.getBoard().getTile(
+                          tileSelected/7, tileSelected%7).getBackground()
+                            == currTile.getBackground()) {
                         tileSelected = position;
                         return true;
                     }
                     else {
-                        // TODO: implement isValidTap properly.
-                        if (boardManager.isValidTap(position)) {
-                            mController.processTapMovement(context, position);
-                            return true;
-                        } else { Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show() ;}
+                        Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
                     }
-
-
+                }
+                else if (tileOwner == 0 && tileSelected != -1 && boardManager.isValidTap(tileSelected, position)) {
+                    mController.processTapMovement(context, boardManager, tileSelected, position);
+                    tileSelected = -1;
+                    boardManager.setCurrPlayer(3 - boardManager.getCurrPlayer());
+                    // TODO: autosave game
+                    return true;
                 }
                 else {
-                    Toast.makeText(context, "NOT YOUR TURN!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
                     return true;
                 }
 
@@ -116,9 +128,52 @@ public class ShogiGestureDetectGridView extends GridView {
 
         });
     }
-
+    // TODO: Integrate this
     public boolean peekBoardManagerSolved(Board board) {
         return new ShogiBoardManager(board).puzzleSolved();
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        int action = ev.getActionMasked();
+        gDetector.onTouchEvent(ev);
+
+        if (action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_UP) {
+            mFlingConfirmed = false;
+        } else if (action == MotionEvent.ACTION_DOWN) {
+            mTouchX = ev.getX();
+            mTouchY = ev.getY();
+        } else {
+
+            if (mFlingConfirmed) {
+                return true;
+            }
+
+            float dX = (Math.abs(ev.getX() - mTouchX));
+            float dY = (Math.abs(ev.getY() - mTouchY));
+            if ((dX > SWIPE_MIN_DISTANCE) || (dY > SWIPE_MIN_DISTANCE)) {
+                mFlingConfirmed = true;
+                return true;
+            }
+        }
+
+        return super.onInterceptTouchEvent(ev);
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        return gDetector.onTouchEvent(ev);
+    }
+
+    /*
+    This function sets the BoardManager attribute of this class
+    @param boardManager
+    @return null
+    */
+    public void setBoardManager(ShogiBoardManager boardManager) {
+        this.boardManager = boardManager;
+        mController.setBoardManager(boardManager);
     }
 
 

@@ -51,8 +51,6 @@ public class GestureDetectGridView extends GridView {
     */
     private BoardManager boardManager;
 
-    private int gameIndex;
-
     private String username;
 
     private FileManager fm = new FileManager();
@@ -164,10 +162,6 @@ public class GestureDetectGridView extends GridView {
         }
 
         return super.onInterceptTouchEvent(ev);
-    }
-
-    public void setGameIndex(int gameIndex) {
-        this.gameIndex = gameIndex;
     }
 
     /*
