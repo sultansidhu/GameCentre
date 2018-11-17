@@ -21,17 +21,16 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Stack;
 
-//import static fall2018.csc2017.GameCentre.MovementController.username;
 
 /**
- * The game activity.
+ * The Sliding Tiles game activity.
  */
-public class GameActivity extends AppCompatActivity implements Observer {
+public class ConnectFourActivity extends GameActivity implements Observer {
 
     /**
      * The board manager.
      */
-    private BoardManager boardManager;
+    private ConnectFourBoardManager boardManager;
 
     /**
      * The buttons to display.
@@ -39,7 +38,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
     private ArrayList<Button> tileButtons;
 
     // Grid View and calculated column height and width based on device size
-    private GestureDetectGridView gridView;
+    private ShogiGestureDetectGridView gridView;
     private static int columnWidth, columnHeight;
     private int gameIndex;
     private String username;
@@ -58,13 +57,12 @@ public class GameActivity extends AppCompatActivity implements Observer {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*LoginManager lm = new LoginManager();
+        LoginManager lm = new LoginManager();
         username = lm.getPersonLoggedIn();
-        gameIndex = getIntent().getExtras().getInt("gameIndex");
         HashMap<String, User> users = fm.readObject();
         assert users != null;
         User user = users.get(username);
-        Stack<Board> userStack = user.getGameStack(0);
+        Stack<Board> userStack = user.getGameStack(2);
         if (userStack.peek() == null) {
             System.out.println("STACK IS NULL!!!");
         }
@@ -98,7 +96,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
                         columnHeight = displayHeight / Board.NUM_ROWS;
                         display();
                     }
-                });*/
+                });
     }
 
     /**
@@ -113,7 +111,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
                 HashMap<String, User> users = fm.readObject();
                 assert users != null;
                 User user = users.get(username);
-                Stack<Board> userStack = user.getGameStack(0);
+                Stack<Board> userStack = user.getGameStack(2);
 
                 if(user.getAvailableUndos() == 0) {
                     makeToastNoUndo();
@@ -128,12 +126,12 @@ public class GameActivity extends AppCompatActivity implements Observer {
                         Toast.makeText(getApplicationContext(), "No more undos possible!", Toast.LENGTH_LONG).show();
                     }
 
-                    boardManager.getBoard().addObserver(GameActivity.this);
+                    boardManager.getBoard().addObserver(ConnectFourActivity.this);
                     gridView.setBoardManager(boardManager);
                     display();
                     users.put(username, user);
                     user.setAvailableUndos(user.getAvailableUndos() - 1);
-                    if (user.getGameStack(0).size() > 1){
+                    if (user.getGameStack(2).size() > 1){
                         makeToastUnlimitedUndoText();
                     }
                     fm.saveObject(users);
@@ -142,7 +140,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
                 else if (userStack.size() > 1 ) {
                     userStack.pop();
                     setBoardManager(userStack.peek());
-                    boardManager.getBoard().addObserver(GameActivity.this);
+                    boardManager.getBoard().addObserver(ConnectFourActivity.this);
                     gridView.setBoardManager(boardManager);
                     display();
                     users.put(username, user);
@@ -182,7 +180,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
 
 
     public void setBoardManager(Board board) {
-
+        boardManager = new ConnectFourBoardManager(board);
     }
 
     /**

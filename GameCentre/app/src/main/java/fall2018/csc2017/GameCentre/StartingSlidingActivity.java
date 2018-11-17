@@ -199,10 +199,10 @@ public class StartingSlidingActivity extends AppCompatActivity {
     }
 
     /**
-     * Switch to the GameActivity view to play the game.
+     * Switch to the SlidingActivity view to play the game.
      */
     private void switchToGame() {
-        Intent intent = new Intent(getApplicationContext(), GameActivity.class);
+        Intent intent = new Intent(getApplicationContext(), SlidingActivity.class);
         intent.putExtra("gameIndex", gameIndex);
         startActivity(intent);
     }

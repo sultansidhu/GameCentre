@@ -118,7 +118,7 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
     /**
      * A class for iterating over each tile in the board.
      */
-    private class BoardIterator implements Iterator<Tile> {
+    protected class BoardIterator implements Iterator<Tile> {
         /**
          * The row number of next tile.
          */

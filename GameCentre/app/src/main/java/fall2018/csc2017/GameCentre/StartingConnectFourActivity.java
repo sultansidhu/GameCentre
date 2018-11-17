@@ -80,6 +80,13 @@ public class StartingConnectFourActivity extends AppCompatActivity
                 Spinner dropdown = findViewById(R.id.dropdownC4);
                 String selectedSize = dropdown.getSelectedItem().toString();
                 size = Integer.parseInt(selectedSize.substring(0, 1));
+                selectBoardManager();
+                HashMap<String, User> users = fm.readObject();
+                assert users != null;
+                users.get(username).setSavedStates(new HashMap<Integer, Stack<Board>>());
+                users.get(username).addState(boardManager.getBoard(), 2);
+                fm.saveObject(users);
+                switchToGame();
 
             }
         });
@@ -118,10 +125,10 @@ public class StartingConnectFourActivity extends AppCompatActivity
     }
 
     /**
-     * Switch to the GameActivity view to play the game.
+     * Switch to the ConnectFourActivity view to play the game.
      */
     private void switchToGame() {
-        Intent intent = new Intent(getApplicationContext(), GameActivity.class);
+        Intent intent = new Intent(getApplicationContext(), ConnectFourActivity.class);
         startActivity(intent);
     }
 

@@ -151,7 +151,7 @@ public class User implements Serializable
             savedStates.get(game).push(board);
         }
         catch(NullPointerException e) {
-            this.savedStates.put(0, new Stack<Board>());
+            this.savedStates.put(game, new Stack<Board>());
             savedStates.get(game).push(board);
         }
 

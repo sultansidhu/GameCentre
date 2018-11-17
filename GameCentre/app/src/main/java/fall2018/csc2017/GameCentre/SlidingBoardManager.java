@@ -101,7 +101,7 @@ public class SlidingBoardManager extends BoardManager implements Serializable {
      * @param position the position
      */
     public void touchMove(int position) {
-        System.out.println("TouchMove is working!!!!!!");
+        // System.out.println("TouchMove is working!!!!!!");
 
         int row = position / Board.NUM_ROWS;
         int col = position % Board.NUM_COLS;

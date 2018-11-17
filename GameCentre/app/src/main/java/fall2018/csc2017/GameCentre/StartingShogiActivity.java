@@ -19,7 +19,7 @@ public class StartingShogiActivity extends AppCompatActivity {
      * The board manager.
      */
     private ShogiBoardManager boardManager;
-    public int undoLimit;
+    public int undoLimit = 3;
     private int gameIndex;
     private int size = 7;
     private String username = new LoginManager().getPersonLoggedIn();
@@ -84,7 +84,15 @@ public class StartingShogiActivity extends AppCompatActivity {
 
                 Spinner undoDropdown = findViewById(R.id.dropdownHS);
                 String selectedUndo = undoDropdown.getSelectedItem().toString();
-                //TODO: switch to ShogiGameActivity, if that class is finished
+                selectBoardManager();
+                HashMap<String, User> users = fm.readObject();
+                assert users != null;
+                users.get(username).setAvailableUndos(undoLimit);
+                users.get(username).setSavedStates(new HashMap<Integer, Stack<Board>>());
+                users.get(username).addState(boardManager.getBoard(), 1);
+                fm.saveObject(users);
+                switchToGame();
+
 
             }
         });
@@ -123,8 +131,8 @@ public class StartingShogiActivity extends AppCompatActivity {
     /**
      * Read the temporary board from disk.
      */
-    @Override
-    protected void onResume() {
+
+    /*protected void onResume() {
         super.onResume();
         HashMap<String, User> users = fm.readObject();
         assert users != null;
@@ -135,12 +143,12 @@ public class StartingShogiActivity extends AppCompatActivity {
             System.out.println("Empty stack, nothing to resume!");
         }
     }
-
+*/
     /**
-     * Switch to the GameActivity view to play the game.
+     * Switch to the ShogiActivity view to play the game.
      */
     private void switchToGame() {
-        Intent intent = new Intent(getApplicationContext(), GameActivity.class);
+        Intent intent = new Intent(getApplicationContext(), ShogiActivity.class);
         startActivity(intent);
     }
 
