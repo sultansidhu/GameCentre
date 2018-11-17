@@ -16,9 +16,6 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Stack;
@@ -69,7 +66,7 @@ public class StartingSlidingActivity extends AppCompatActivity {
      */
 
     public void setSizeDropdown() {
-        Spinner dropdown = findViewById(R.id.dropdown);
+        Spinner dropdown = findViewById(R.id.dropdown_size);
         String[] itemsForDropdown = new String[]{"3x3", "4x4", "5x5"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, itemsForDropdown);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
@@ -114,7 +111,7 @@ public class StartingSlidingActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Spinner dropdown = findViewById(R.id.dropdown);
+                Spinner dropdown = findViewById(R.id.dropdown_size);
                 String selectedSize = dropdown.getSelectedItem().toString();
                 size = Integer.parseInt(selectedSize.substring(0, 1));
 
@@ -131,8 +128,8 @@ public class StartingSlidingActivity extends AppCompatActivity {
                     HashMap<String, User> users = fm.readObject();
                     assert users != null;
                     users.get(username).setAvailableUndos(undoLimit);
-                    users.get(username).setSavedStates(new Stack<Board>());
-                    users.get(username).addState(boardManager.getBoard());
+                    users.get(username).setSavedStates(new HashMap<Integer, Stack<Board>>());
+                    users.get(username).addState(boardManager.getBoard(), 0);
                     fm.saveObject(users);
                     switchToGame();
                 }
@@ -165,7 +162,7 @@ public class StartingSlidingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 HashMap<String, User> users = fm.readObject();
                 assert users != null;
-                Stack<Board> userStack = users.get(username).getStack();
+                Stack<Board> userStack = users.get(username).getGameStack(0);
                 if (userStack.size() < 1) {
                     Toast.makeText(getApplicationContext(), "No game to load! Start a new game!", Toast.LENGTH_LONG).show();
                 } else {
@@ -192,7 +189,8 @@ public class StartingSlidingActivity extends AppCompatActivity {
         super.onResume();
         HashMap<String, User> users = fm.readObject();
         assert users != null;
-        Stack<Board> userStack = users.get(username).getStack();
+        String name = username;
+        Stack<Board> userStack = users.get(username).getGameStack(0);
         try {
             setBoardManager(userStack.peek());
         } catch (EmptyStackException e) {

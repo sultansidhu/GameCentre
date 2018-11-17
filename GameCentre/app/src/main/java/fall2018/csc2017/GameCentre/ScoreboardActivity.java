@@ -103,7 +103,7 @@ public class ScoreboardActivity extends AppCompatActivity
             User user = users.get(username);
 
             double time = user.getTotalTime();
-            int numMoves = user.getNumMoves();
+            int numMoves = user.getNumMoves(0);
             if (time == 0) {
                 return 0;
             } else {

@@ -1,30 +1,18 @@
 package fall2018.csc2017.GameCentre;
 
-/*
-Adapted from:
-https://github.com/DaveNOTDavid/sample-puzzle/blob/master/app/src/main/java/com/davenotdavid/samplepuzzle/GestureDetectGridView.java
-
-This extension of GridView contains built in logic for handling swipes between buttons
- */
-
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.GridView;
 import android.widget.Toast;
 
-import java.io.File;
-import java.util.HashMap;
+public class ShogiGestureDetectGridView extends GridView {
 
-//import static fall2018.csc2017.GameCentre.MovementController.username;
-
-public class GestureDetectGridView extends GridView {
     /*
-    An int representing the minimum distance to swipe
-    */
+   An int representing the minimum distance to swipe
+   */
     public static final int SWIPE_MIN_DISTANCE = 100;
     /*
     The GestureDetector object that will be used here
@@ -46,81 +34,90 @@ public class GestureDetectGridView extends GridView {
     The Y coordinate of the mTouch
     */
     private float mTouchY;
+
     /*
     An instance of BoardManager that will be used in this class
     */
-    private BoardManager boardManager;
 
+    private ShogiBoardManager boardManager;
+
+    /**
+     *  Tile position selected by the user.
+     */
+    private int tileSelected = -1;
+
+    /**
+     * Username of user currently playing.
+     */
     private String username;
-
-    private FileManager fm = new FileManager();
 
     /*
     Overloaded Constructor that takes a Context
     */
-    public GestureDetectGridView(Context context) {
+    public ShogiGestureDetectGridView(Context context) {
         super(context);
         init(context);
         LoginManager lm = new LoginManager();
         username = lm.getPersonLoggedIn();
     }
-
     /*
     Overloaded Constructor that takes a Context and AttributeSet
     */
-    public GestureDetectGridView(Context context, AttributeSet attrs) {
+    public ShogiGestureDetectGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
-        LoginManager lm = new LoginManager();
-        username = lm.getPersonLoggedIn();
     }
+
     /*
     Overloaded Constructor that takes a Context, an AttributeSet, and a defaultStyleAttribute integer
     */
 
-    public GestureDetectGridView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ShogiGestureDetectGridView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
-        LoginManager lm = new LoginManager();
-        username = lm.getPersonLoggedIn();
     }
-    /*
-    An initializer method
-    */
 
     private void init(final Context context) {
         mController = new MovementController();
         gDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-
             /*
             This function is invoked on every tap of the user
             */
             @Override
             public boolean onSingleTapConfirmed(MotionEvent event) {
-                int position = GestureDetectGridView.this.pointToPosition // TODO: THIS IS WHERE THE POSITION IS OBTAINED
+                int position = ShogiGestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
+                Tile currTile = boardManager.getBoard().getTile(position/7, position%7);
 
-                if (boardManager.isValidTap(position)) {
-                    mController.processTapMovement(context, position);
-                    HashMap<String, User> users = fm.readObject();
-                    assert users != null;
-                    users.get(username).addState(boardManager.getBoard(), 0);
-                    fm.saveObject(users);
-                    users = fm.readObject();
-                    assert users != null;
-                    if (peekBoardManagerSolved(users.get(username).getGameStack(0).peek())) {
-                        users.get(username).stopTimer();
-                        fm.saveObject(users);
-                        ScoreboardActivity sc = new ScoreboardActivity();
-                        System.out.println("Total Time: " + users.get(username).getTotalTime());
-                        sc.updateUserHighScore(username);
-                        switchToScoreboardScreen();
+                int tileOwner;
+                if (currTile.getBackground() == R.drawable.black) { tileOwner = 1; }
+                else if (currTile.getBackground() == R.drawable.red) {tileOwner = 2; }
+                else {tileOwner = 0; }
+
+                if (tileOwner == boardManager.getCurrPlayer()) {
+                    if (tileSelected == -1
+                            || boardManager.getBoard().getTile(
+                          tileSelected/7, tileSelected%7).getBackground()
+                            == currTile.getBackground()) {
+                        tileSelected = position;
+                        return true;
                     }
-                    return true;
-                } else {
-                    //Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
+                    else {
+                        Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
+                    }
                 }
-                Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
+                else if (tileOwner == 0 && tileSelected != -1 && boardManager.isValidTap(tileSelected, position)) {
+                    mController.processTapMovement(context, boardManager, tileSelected, position);
+                    tileSelected = -1;
+                    boardManager.setCurrPlayer(3 - boardManager.getCurrPlayer());
+                    // TODO: autosave game
+                    return true;
+                }
+                else {
+                    Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+
                 return false;
             }
 
@@ -131,12 +128,10 @@ public class GestureDetectGridView extends GridView {
 
         });
     }
-
-
+    // TODO: Integrate this
     public boolean peekBoardManagerSolved(Board board) {
-        return new SlidingBoardManager(board).puzzleSolved();
+        return new ShogiBoardManager(board).puzzleSolved();
     }
-
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
@@ -165,15 +160,6 @@ public class GestureDetectGridView extends GridView {
         return super.onInterceptTouchEvent(ev);
     }
 
-    /*
-    Switches to the scoreboard screen if a game is won
-     */
-    private void switchToScoreboardScreen()
-    {
-        Intent tmp = new Intent(GlobalApplication.getAppContext(), ScoreboardActivity.class);
-        GlobalApplication.getAppContext().startActivity(tmp);
-    }
-
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
@@ -185,8 +171,10 @@ public class GestureDetectGridView extends GridView {
     @param boardManager
     @return null
     */
-    public void setBoardManager(BoardManager boardManager) {
+    public void setBoardManager(ShogiBoardManager boardManager) {
         this.boardManager = boardManager;
         mController.setBoardManager(boardManager);
     }
+
+
 }

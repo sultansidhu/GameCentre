@@ -64,7 +64,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
         HashMap<String, User> users = fm.readObject();
         assert users != null;
         User user = users.get(username);
-        Stack<Board> userStack = user.getStack();
+        Stack<Board> userStack = user.getGameStack(0);
         if (userStack.peek() == null) {
             System.out.println("STACK IS NULL!!!");
         }
@@ -84,7 +84,6 @@ public class GameActivity extends AppCompatActivity implements Observer {
         gridView = findViewById(R.id.grid);
         gridView.setNumColumns(Board.NUM_COLS);
         gridView.setBoardManager(boardManager);
-        gridView.setGameIndex(gameIndex);
         boardManager.getBoard().addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
@@ -114,7 +113,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
                 HashMap<String, User> users = fm.readObject();
                 assert users != null;
                 User user = users.get(username);
-                Stack<Board> userStack = user.getStack();
+                Stack<Board> userStack = user.getGameStack(0);
 
                 if(user.getAvailableUndos() == 0) {
                     makeToastNoUndo();
@@ -134,7 +133,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
                     display();
                     users.put(username, user);
                     user.setAvailableUndos(user.getAvailableUndos() - 1);
-                    if (user.getStack().size() > 1){
+                    if (user.getGameStack(0).size() > 1){
                         makeToastUnlimitedUndoText();
                     }
                     fm.saveObject(users);
@@ -245,78 +244,6 @@ public class GameActivity extends AppCompatActivity implements Observer {
 
 
     }
-
-
-    /**
-     This method establishes a connection
-     with the serialized file and reads the HashMap of user info from the file.
-     The read HashMap is then assigned to the "logins" attribute of this class.
-     @return null
-     */
-
-//    public static HashMap<String, User> readObject()
-//    {
-//        FileInputStream fis;
-//        ObjectInputStream objectIn;
-//
-//        Context context = GlobalApplication.getAppContext();
-//        try
-//        {
-//            fis = context.openFileInput("testFile.ser");
-//            objectIn = new ObjectInputStream(fis);
-//            @SuppressWarnings("unchecked")
-//            HashMap<String, User> hashMapFromFile = (HashMap<String, User>) objectIn.readObject();
-//
-//            objectIn.close();
-//            return hashMapFromFile;
-//
-//        }
-//        catch(ClassCastException ca)
-//        {
-//            System.out.println("unable to Cast");
-//        }
-//        catch(ClassNotFoundException c)
-//        {
-//            System.out.println("CLASS NOT FOUND WHILE READING FROM SERIALIZED FILE");
-//        }
-//        catch(FileNotFoundException f)
-//        {
-//            System.out.println("FILE NOT FOUND WHILE READING FROM SERIALIZED FILE");
-//        }
-//        catch(IOException e)
-//        {
-//            System.out.println("IO EXCEPTION WHILE READING FROM SERIALIZED FILE");
-//        }
-//        return null;
-//
-//    }
-//
-//    /**
-//     * Saves the HashMap object to the serialized file.
-//     * @param hashMap the HashMap object to write to file
-//     */
-//    public static void saveObject(HashMap<String, User> hashMap)
-//    {
-//        FileOutputStream fos;
-//        ObjectOutputStream objectOut;
-//        Context context = GlobalApplication.getAppContext();
-//        try
-//        {
-//            fos = context.openFileOutput("testFile.ser", Context.MODE_PRIVATE);
-//            objectOut = new ObjectOutputStream(fos);
-//            objectOut.writeObject(hashMap);
-//            objectOut.close();
-//        }
-//        catch(FileNotFoundException e1)
-//        {
-//            System.out.println("FILE NOT FOUND WHILE SAVING TO SERIALIZED FILE");
-//        }
-//        catch(IOException e)
-//        {
-//            System.out.println("IO EXCEPTION WHILE SAVING TO SERIALIZED FILE");
-//        }
-//
-//    }
 
 
     /**

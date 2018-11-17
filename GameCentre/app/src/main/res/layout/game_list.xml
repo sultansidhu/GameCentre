@@ -29,7 +29,7 @@
         android:layout_width="236dp"
         android:layout_height="96dp"
         android:layout_marginStart="18dp"
-        android:layout_marginTop="144dp"
+        android:layout_marginTop="124dp"
         android:layout_marginEnd="16dp"
         android:text="Sliding Tiles"
         android:textSize="20sp"
@@ -40,10 +40,10 @@
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="98dp"
-        android:layout_height="104dp"
+        android:layout_width="108dp"
+        android:layout_height="85dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="31dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="18dp"
         app:layout_constraintEnd_toStartOf="@+id/btnLaunchSlide"
         app:layout_constraintStart_toStartOf="parent"
@@ -79,24 +79,51 @@
     <Button
         android:id="@+id/btnLaunchShogi"
         android:layout_width="237dp"
-        android:layout_height="84dp"
-        android:layout_marginStart="139dp"
-        android:layout_marginTop="32dp"
+        android:layout_height="92dp"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="19dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="32dp"
         android:text="Hasami Shogi"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnLaunchConnectFour"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnLaunchSlide" />
 
     <Button
         android:id="@+id/btnLaunchConnectFour"
-        android:layout_width="237dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="137dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="147dp"
+        android:layout_width="231dp"
+        android:layout_height="83dp"
+        android:layout_marginStart="143dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="10dp"
         android:text="Connect 4"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnLaunchShogi" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="103dp"
+        android:layout_height="114dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="7dp"
+        app:layout_constraintEnd_toStartOf="@+id/btnLaunchShogi"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+        app:srcCompat="@drawable/red" />
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="120dp"
+        android:layout_height="91dp"
+        android:layout_marginTop="23dp"
+        android:layout_marginEnd="23dp"
+        app:layout_constraintEnd_toStartOf="@+id/btnLaunchConnectFour"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:srcCompat="@drawable/hsicon" />
 
 </android.support.constraint.ConstraintLayout>
