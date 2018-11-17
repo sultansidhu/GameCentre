@@ -7,10 +7,6 @@ import android.view.MotionEvent;
 import android.widget.GridView;
 import android.widget.Toast;
 
-import java.util.HashMap;
-
-import static fall2018.csc2017.GameCentre.MovementController.username;
-
 public class ShogiGestureDetectGridView extends GridView {
 
     /*
@@ -37,16 +33,17 @@ public class ShogiGestureDetectGridView extends GridView {
     The Y coordinate of the mTouch
     */
     private float mTouchY;
+
     /*
     An instance of BoardManager that will be used in this class
     */
 
-    /**
-     * Returns whether a piece is currently selected by the user.
-     */
-    private boolean pieceSelected = false;
+    private ShogiBoardManager boardManager;
 
-    private BoardManager boardManager;
+    /**
+     * Returns whether a game piece is currently selected by the user.
+     */
+    private int tileSelected = -1;
 
     /*
     Overloaded Constructor that takes a Context
@@ -82,13 +79,33 @@ public class ShogiGestureDetectGridView extends GridView {
             public boolean onSingleTapConfirmed(MotionEvent event) {
                 int position = ShogiGestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
-                if (boardManager.isValidTap(position)) {
-                    mController.processTapMovement(context, position);
-                    return true;
-                } else {
-                    Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
+                Tile currTile = boardManager.getBoard().getTile(position%7, position%7);
+
+                int currPlayer;
+                if (currTile.getBackground() == R.drawable.black) { currPlayer = 1;}
+                else if (currTile.getBackground() == R.drawable.red) {currPlayer = 2; }
+                else {currPlayer = 0; }
+
+                if (currPlayer == boardManager.getCurrPlayer()) {
+                    if (tileSelected == -1) {
+                        tileSelected = position;
+                        return true;
+                    }
+                    else {
+                        // TODO: implement isValidTap properly.
+                        if (boardManager.isValidTap(position)) {
+                            mController.processTapMovement(context, position);
+                            return true;
+                        } else { Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show() ;}
+                    }
+
+
                 }
-                Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
+                else {
+                    Toast.makeText(context, "NOT YOUR TURN!", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+
                 return false;
             }
 
