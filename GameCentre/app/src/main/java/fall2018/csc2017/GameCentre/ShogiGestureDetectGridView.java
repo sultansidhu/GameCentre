@@ -89,6 +89,12 @@ public class ShogiGestureDetectGridView extends GridView {
                 if (proposedPlayer == boardManager.getCurrPlayer()) {
                     if (tileSelected == -1) {
                         tileSelected = position;
+                        if (currTile.getBackground() == R.drawable.black){
+                            currTile.setBackground(R.drawable.black_selected);
+                        }
+                        else{
+                            currTile.setBackground(R.drawable.red_selected);
+                        }
                         return true;
                     }
                     else {
@@ -96,6 +102,13 @@ public class ShogiGestureDetectGridView extends GridView {
                         if (boardManager.isValidTap(position)) {
                             mController.processTapMovement(context, position);
                             boardManager.setCurrPlayer();//makes the curr player the opposite player
+                            //TODO: Switch the selected_tile background back to the regular background
+//                            if (currTile.getBackground() == R.drawable.black_selected){
+//                                currTile.setBackground(R.drawable.black);
+//                            }
+//                            else{
+//                                currTile.setBackground(R.drawable.red);
+//                            }
                             return true;
                         } else { Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show() ;}
                     }
