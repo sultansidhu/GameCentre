@@ -33,28 +33,35 @@ public class StartingShogiActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_starting_);
+        setContentView(R.layout.starting_hs);
         addStartButtonListener();
         addLoadButtonListener();
-        setUndoDropdown();
         addScoreboardButtonListener();
+        setSizeDropdown();
         gameIndex = getIntent().getExtras().getInt("gameIndex");
     }
 
-    public void setUndoDropdown() {
-        Spinner dropdown = findViewById(R.id.dropdown_undo);
-        String[] itemsForDropdown = new String[]{"3", "5", "10", "20", "30", "Unlimited"};
+    /**
+     * This method initializes the dropdown menu that displays the various size options
+     * return null
+     */
+
+    public void setSizeDropdown()
+    {
+        Spinner dropdown = findViewById(R.id.dropdownHS);
+        String[] itemsForDropdown = new String[]{"6x6", "7x7", "8x8"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, itemsForDropdown);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         dropdown.setAdapter(adapter);
     }
 
 
+
     /*
     Activate the LaunchScoreboard button
     */
     private void addScoreboardButtonListener() {
-        Button scoreboard = findViewById(R.id.btnScoreboard);
+        Button scoreboard = findViewById(R.id.btnScoreboardHS);
 
         scoreboard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,30 +76,15 @@ public class StartingShogiActivity extends AppCompatActivity {
      */
 
     private void addStartButtonListener() {
-        Button startButton = findViewById(R.id.StartButton);
+        Button startButton = findViewById(R.id.btnStartGameHS);
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Spinner undoDropdown = findViewById(R.id.dropdown_undo);
+                Spinner undoDropdown = findViewById(R.id.dropdownHS);
                 String selectedUndo = undoDropdown.getSelectedItem().toString();
-
-                try {
-                    undoLimit = Integer.parseInt(selectedUndo);
-
-                } catch (NumberFormatException e) {
-                    undoLimit = -1;
-                } finally {
-                    selectBoardManager();
-                    HashMap<String, User> users = fm.readObject();
-                    assert users != null;
-                    users.get(username).setAvailableUndos(undoLimit);
-                    users.get(username).setSavedStates(new HashMap<Integer, Stack<Board>>());
-                    users.get(username).addState(boardManager.getBoard(), 0);
-                    fm.saveObject(users);
-                    switchToGame();
-                }
+                //TODO: switch to ShogiGameActivity, if that class is finished
 
             }
         });
@@ -102,13 +94,13 @@ public class StartingShogiActivity extends AppCompatActivity {
      * Activate the load button.
      */
     private void addLoadButtonListener() {
-        Button loadButton = findViewById(R.id.LoadButton);
+        Button loadButton = findViewById(R.id.btnLoadGameHS);
         loadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 HashMap<String, User> users = fm.readObject();
                 assert users != null;
-                Stack<Board> userStack = users.get(username).getGameStack(0);
+                Stack<Board> userStack = users.get(username).getGameStack(1);
                 if (userStack.size() < 1) {
                     Toast.makeText(getApplicationContext(), "No game to load! Start a new game!", Toast.LENGTH_LONG).show();
                 } else {
@@ -136,7 +128,7 @@ public class StartingShogiActivity extends AppCompatActivity {
         super.onResume();
         HashMap<String, User> users = fm.readObject();
         assert users != null;
-        Stack<Board> userStack = users.get(username).getGameStack(0);
+        Stack<Board> userStack = users.get(username).getGameStack(1);
         try {
             setBoardManager(userStack.peek());
         } catch (EmptyStackException e) {
@@ -149,7 +141,6 @@ public class StartingShogiActivity extends AppCompatActivity {
      */
     private void switchToGame() {
         Intent intent = new Intent(getApplicationContext(), GameActivity.class);
-        intent.putExtra("gameIndex", gameIndex);
         startActivity(intent);
     }
 

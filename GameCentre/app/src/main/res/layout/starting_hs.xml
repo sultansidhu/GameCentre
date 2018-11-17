@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="fall2018.csc2017.GameCentre.StartingShogiActivity">
+
+
+    <Button
+        android:id="@+id/btnLoadGameHS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="37dp"
+        android:layout_marginBottom="224dp"
+        android:text="Load Game" />
+
+    <Button
+        android:id="@+id/btnStartGameHS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/btnLoadGameHS"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="63dp"
+        android:text="New Game" />
+
+    <Spinner
+        android:id="@+id/dropdownHS"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="97dp" />
+
+    <TextView
+        android:id="@+id/txtHSDisplay"
+        android:layout_width="370dp"
+        android:layout_height="59dp"
+        android:layout_alignStart="@+id/btnLoadGameHS"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="-30dp"
+        android:layout_marginTop="197dp"
+        android:text="Welcome to Hasami Shogi! This is a Japanese board game, capture all the enemies to win!" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="41dp"
+        app:srcCompat="@drawable/hsdisplay" />
+
+    <Button
+        android:id="@+id/btnScoreboardHS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/dropdownHS"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-58dp"
+        android:text="Launch Scoreboard" />
+
+</RelativeLayout>
