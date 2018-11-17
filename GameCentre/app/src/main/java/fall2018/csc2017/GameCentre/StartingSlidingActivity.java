@@ -187,7 +187,7 @@ public class StartingSlidingActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        HashMap<String, User> users = fm.readObject();
+        /*HashMap<String, User> users = fm.readObject();
         assert users != null;
         String name = username;
         Stack<Board> userStack = users.get(username).getGameStack(0);
@@ -195,7 +195,7 @@ public class StartingSlidingActivity extends AppCompatActivity {
             setBoardManager(userStack.peek());
         } catch (EmptyStackException e) {
             System.out.println("Empty stack, nothing to resume!");
-        }
+        }*/
     }
 
     /**

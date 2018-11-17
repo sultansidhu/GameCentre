@@ -5,14 +5,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-<fall2018.csc2017.GameCentre.Connect4GestureDetectGridView xmlns:android="http://schemas.android.com/apk/res/android"
+<fall2018.csc2017.GameCentre.SlidingGestureDetectGridView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/grid"
     android:layout_width="wrap_content"
     android:layout_height="670dp"
-    tools:context="fall2018.csc2017.GameCentre.GameActivity" >
+    tools:context="fall2018.csc2017.GameCentre.SlidingActivity" >
 
-</fall2018.csc2017.GameCentre.Connect4GestureDetectGridView>
+</fall2018.csc2017.GameCentre.SlidingGestureDetectGridView>
+
+<!--<fall2018.csc2017.GameCentre.ShogiGestureDetectGridView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/grid2"
+    android:layout_width="wrap_content"
+    android:layout_height="670dp"
+    tools:context="fall2018.csc2017.GameCentre.ShogiActivity" >
+
+</fall2018.csc2017.GameCentre.ShogiGestureDetectGridView>-->
+
+<!--<fall2018.csc2017.GameCentre.Connect4GestureDetectGridView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/grid3"
+    android:layout_width="wrap_content"
+    android:layout_height="670dp"
+    tools:context="fall2018.csc2017.GameCentre.ConnectFourActivity" >
+
+</fall2018.csc2017.GameCentre.Connect4GestureDetectGridView>-->
 
     <Button
         android:id="@+id/UndoButton"
