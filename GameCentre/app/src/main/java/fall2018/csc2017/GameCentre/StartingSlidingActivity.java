@@ -128,8 +128,8 @@ public class StartingSlidingActivity extends AppCompatActivity {
                     HashMap<String, User> users = fm.readObject();
                     assert users != null;
                     users.get(username).setAvailableUndos(undoLimit);
-                    users.get(username).setSavedStates(new Stack<Board>());
-                    users.get(username).addState(boardManager.getBoard());
+                    users.get(username).setSavedStates(new HashMap<Integer, Stack<Board>>());
+                    users.get(username).addState(boardManager.getBoard(), 0);
                     fm.saveObject(users);
                     switchToGame();
                 }
@@ -162,7 +162,7 @@ public class StartingSlidingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 HashMap<String, User> users = fm.readObject();
                 assert users != null;
-                Stack<Board> userStack = users.get(username).getStack();
+                Stack<Board> userStack = users.get(username).getGameStack(0);
                 if (userStack.size() < 1) {
                     Toast.makeText(getApplicationContext(), "No game to load! Start a new game!", Toast.LENGTH_LONG).show();
                 } else {
@@ -189,7 +189,8 @@ public class StartingSlidingActivity extends AppCompatActivity {
         super.onResume();
         HashMap<String, User> users = fm.readObject();
         assert users != null;
-        Stack<Board> userStack = users.get(username).getStack();
+        String name = username;
+        Stack<Board> userStack = users.get(username).getGameStack(0);
         try {
             setBoardManager(userStack.peek());
         } catch (EmptyStackException e) {

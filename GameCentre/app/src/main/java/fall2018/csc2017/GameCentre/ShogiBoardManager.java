@@ -12,6 +12,11 @@ public class ShogiBoardManager extends BoardManager
     private Board board;
 
     /**
+     * represents the current player.
+     */
+    private int currPlayer;
+
+    /**
      * This constructor takes a board object and sets this class' board attribute object
      * equal to it
      * @param board, a Board object representing the board
@@ -49,6 +54,7 @@ public class ShogiBoardManager extends BoardManager
             tiles.add(tile);
         }
         this.board = new Board(tiles);
+        currPlayer = 1;
     }
 
     /**
@@ -93,5 +99,20 @@ public class ShogiBoardManager extends BoardManager
             int row1 = position / Board.NUM_COLS;
             int col = position % Board.NUM_COLS;
         }
-    };
+    }
+
+    public int getCurrPlayer() {
+       return currPlayer;
+    }
+
+    public void setCurrPlayer(int currPlayer) { this.currPlayer = currPlayer; }
+
+    public void setCurrPlayer(){
+        if (this.currPlayer == 1){
+            this.currPlayer = 2;
+        }
+        else {
+            this.currPlayer = 1;
+        }
+    }
 }
