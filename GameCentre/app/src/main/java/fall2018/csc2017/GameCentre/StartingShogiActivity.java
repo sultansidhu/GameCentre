@@ -123,18 +123,18 @@ public class StartingShogiActivity extends AppCompatActivity {
     /**
      * Read the temporary board from disk.
      */
-    @Override
-    protected void onResume() {
-        super.onResume();
-        HashMap<String, User> users = fm.readObject();
-        assert users != null;
-        Stack<Board> userStack = users.get(username).getGameStack(1);
-        try {
-            setBoardManager(userStack.peek());
-        } catch (EmptyStackException e) {
-            System.out.println("Empty stack, nothing to resume!");
-        }
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        HashMap<String, User> users = fm.readObject();
+//        assert users != null;
+//        Stack<Board> userStack = users.get(username).getGameStack(1);
+//        try {
+//            setBoardManager(userStack.peek());
+//        } catch (EmptyStackException e) {
+//            System.out.println("Empty stack, nothing to resume!");
+//        }
+//    }
 
     /**
      * Switch to the GameActivity view to play the game.

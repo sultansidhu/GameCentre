@@ -2,7 +2,7 @@ package fall2018.csc2017.GameCentre;
 
 import android.widget.Toast;
 
-public class ConnectFourBoardManager extends BoardManager{
+public class ConnectFourBoardManager extends BoardManager {
 
 
     /**
@@ -359,7 +359,8 @@ public class ConnectFourBoardManager extends BoardManager{
 //        int row = position / Board.NUM_ROWS;
 //        int col = position % Board.NUM_COLS;
         int positionCopy = position;
-        if(isValidTap(position)){
+        if(isValidTap(position))
+        {
             //Tile newTile = new Tile(getBackgroundForPlayer());
             Board.BoardIterator iter = (Board.BoardIterator) board.iterator();
             Tile tile = null;
@@ -368,7 +369,6 @@ public class ConnectFourBoardManager extends BoardManager{
                 position--;
             }
             tile.setBackground(getBackgroundForPlayer());
-            puzzleSolved(positionCopy);
             switchPlayer(); // this should be the last line of touchMove()
         } else {
             makeToast("Invalid Move! Try again");

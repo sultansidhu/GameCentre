@@ -94,6 +94,7 @@ public class ShogiGestureDetectGridView extends GridView {
                 else if (currTile.getBackground() == R.drawable.red) {tileOwner = 2; }
                 else {tileOwner = 0; }
 
+                // CHECK IF THE TAP IS VALID
                 if (tileOwner == boardManager.getCurrPlayer()) {
                     if (tileSelected == -1
                             || boardManager.getBoard().getTile(

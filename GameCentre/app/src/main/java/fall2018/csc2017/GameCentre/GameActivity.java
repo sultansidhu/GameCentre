@@ -181,7 +181,8 @@ public class GameActivity extends AppCompatActivity implements Observer {
     }
 
 
-    public void setBoardManager(Board board) {
+    public void setBoardManager(Board board)
+    {
         switch(gameIndex) {
             case 0:
                 boardManager = new SlidingBoardManager(board);
