@@ -103,7 +103,7 @@ public class Connect4GestureDetectGridView extends GridView
                 System.out.println("CONNECT 4 GRID VIEW CALLED");
                 int position = Connect4GestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
-                Tile currTile = boardManager.getBoard().getTile(position / boardManager.getBoard().NUM_COLS, position % boardManager.getBoard().NUM_COLS);
+                Tile currTile = boardManager.getBoard().getTile(position / Board.NUM_COLS, position % Board.NUM_COLS);
                 // TODO: CHANGE THE 7 TO A VARIABLE HOLDING THE SELECTED SIZE; THIS MUST BE PASSED THROUGH INTENTS
 
                 if (boardManager.isValidTap(position))
