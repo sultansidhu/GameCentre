@@ -121,15 +121,40 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
                     Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
                     return true;
                 }
-                return false;
+                return super.onSingleTapConfirmed(event);
             }
 
             @Override
             public boolean onDown(MotionEvent event) {
                 return true;
             }
-
         });
+    }
+
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        int action = ev.getActionMasked();
+        gDetector.onTouchEvent(ev);
+
+        if (action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_UP) {
+            mFlingConfirmed = false;
+        } else if (action == MotionEvent.ACTION_DOWN) {
+            mTouchX = ev.getX();
+            mTouchY = ev.getY();
+        } else {
+
+            if (mFlingConfirmed) {
+                return true;
+            }
+
+            float dX = (Math.abs(ev.getX() - mTouchX));
+            float dY = (Math.abs(ev.getY() - mTouchY));
+            if ((dX > SWIPE_MIN_DISTANCE) || (dY > SWIPE_MIN_DISTANCE)) {
+                mFlingConfirmed = true;
+                return true;
+            }
+        }
+
+        return super.onInterceptTouchEvent(ev);
     }
     // TODO: Implement puzzleSolved
     @Override
