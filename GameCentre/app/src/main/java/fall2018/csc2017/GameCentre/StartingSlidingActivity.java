@@ -128,7 +128,7 @@ public class StartingSlidingActivity extends AppCompatActivity {
                     HashMap<String, User> users = fm.readObject();
                     assert users != null;
                     users.get(username).setAvailableUndos(undoLimit);
-                    users.get(username).setSavedStates(new HashMap<Integer, Stack<Board>>());
+                    //users.get(username).setSavedStates(new HashMap<Integer, Stack<Board>>());
                     users.get(username).addState(boardManager.getBoard(), 0);
                     fm.saveObject(users);
                     switchToGame();

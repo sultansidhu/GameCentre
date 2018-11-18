@@ -59,6 +59,7 @@ public class ShogiActivity extends GameActivity implements Observer {
         super.onCreate(savedInstanceState);
         LoginManager lm = new LoginManager();
         username = lm.getPersonLoggedIn();
+        assert username != null;
         HashMap<String, User> users = fm.readObject();
         assert users != null;
         User user = users.get(username);
@@ -92,6 +93,7 @@ public class ShogiActivity extends GameActivity implements Observer {
                                 this);
                         int displayWidth = gridView.getMeasuredWidth();
                         int displayHeight = gridView.getMeasuredHeight();
+
                         columnWidth = displayWidth / Board.NUM_COLS;
                         columnHeight = displayHeight / Board.NUM_ROWS;
                         display();

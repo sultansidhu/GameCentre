@@ -63,12 +63,11 @@ public class User implements Serializable
         this.securityQuestion = securityQuestion;
         this.answer = answer;
         this.savedStates = new HashMap<Integer, Stack<Board>>();
-        for(int i = 0; i <= 2; i++){
+        for(int i = 0; i <= 2; i++) {//Initializes the stack
             this.savedStates.put(i, new Stack<Board>());
         }
-        //this.savedStates.put(0, new Stack<Board>());
         this.playTime = (long)0.0;
-        this.availableUndos = 3; // the default number of undo's for every user.
+        this.availableUndos = 3; // the default number of undos for every user.
     }
     String getUsername(){
         return this.username;
@@ -88,9 +87,9 @@ public class User implements Serializable
      *
      * @return the stack of the boards
      */
-    Stack<Board> getGameStack(int game)
+    Stack<Board> getGameStack(int gameNum)
     {
-        return savedStates.get(game);
+        return savedStates.get(gameNum);
     }
 
     void setAvailableUndos(int newUndos){
@@ -146,14 +145,12 @@ public class User implements Serializable
      *
      * @param board the board to be added to the stack
      */
-    public void addState(Board board, int game) {
-        try {
-            savedStates.get(game).push(board);
-        }
-        catch(NullPointerException e) {
-            this.savedStates.put(game, new Stack<Board>());
-            savedStates.get(game).push(board);
-        }
+    public void addState(Board board, int gameNum) {
+        savedStates.get(gameNum).push(board);
+//        catch(NullPointerException e) {
+//            this.savedStates.put(gameNum, new Stack<Board>());
+//            savedStates.get(gameNum).push(board);
+//        }
 
     }
 

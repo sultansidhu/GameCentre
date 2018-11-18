@@ -18,6 +18,8 @@ public class ConnectFourBoardManager extends BoardManager {
     public ConnectFourBoardManager(Board board) {
         super(board);
         this.board = board;
+        Board.NUM_COLS = board.getTiles().length;
+        Board.NUM_ROWS = board.getTiles().length;
     }
 
     public ConnectFourBoardManager(int size) {

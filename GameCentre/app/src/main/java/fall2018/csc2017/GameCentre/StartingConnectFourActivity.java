@@ -83,7 +83,7 @@ public class StartingConnectFourActivity extends AppCompatActivity
                 selectBoardManager();
                 HashMap<String, User> users = fm.readObject();
                 assert users != null;
-                users.get(username).setSavedStates(new HashMap<Integer, Stack<Board>>());
+                //users.get(username).setSavedStates(new HashMap<Integer, Stack<Board>>());
                 users.get(username).addState(boardManager.getBoard(), 2);
                 fm.saveObject(users);
                 switchToGame();
