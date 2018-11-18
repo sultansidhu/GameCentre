@@ -176,6 +176,8 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
          */
         @Override
         public Tile next() {
+            System.out.println("THE CURRENNT ROW IS: " + row);
+            System.out.println("THE CURRENT COLUMN IS: " + col);
             Tile nextTile = getTile(row, col);
             if (col == Board.NUM_COLS - 1) {
                 col = 0;
