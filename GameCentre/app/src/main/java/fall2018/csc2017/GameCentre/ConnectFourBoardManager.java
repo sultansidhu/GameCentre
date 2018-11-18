@@ -336,7 +336,7 @@ public class ConnectFourBoardManager extends BoardManager {
 
         Board.BoardIterator iter = (Board.BoardIterator) board.iterator();
         Tile next = null;
-        while (position < 0){
+        while (position >= 0){
             next = iter.next();
             position = position - 1;
         }

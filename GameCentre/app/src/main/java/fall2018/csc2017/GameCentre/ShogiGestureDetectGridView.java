@@ -81,6 +81,7 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
     }
 
     private void init(final Context context) {
+        System.out.println("SHOGI INIT CALLED");
         mController = new MovementController();
         gDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             /*
@@ -88,6 +89,8 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
             */
             @Override
             public boolean onSingleTapConfirmed(MotionEvent event) {
+                System.out.println("SHOGI GRID VIEW CALLED");
+
                 int position = ShogiGestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
                 Tile currTile = boardManager.getBoard().getTile(position/7, position%7);
