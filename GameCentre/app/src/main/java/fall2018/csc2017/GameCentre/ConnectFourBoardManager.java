@@ -385,26 +385,33 @@ public class ConnectFourBoardManager extends BoardManager {
     }
 
     /**
+     * Returns whether the current game is drawn (ended in stalemate)
+     * @return whether the curernt game has eneded in stalemate
+     */
+    public boolean gameDrawn(){
+        Board.BoardIterator iter = (Board.BoardIterator) board.iterator();
+        Tile tile = null;
+        while (iter.hasNext()){
+            tile = iter.next();
+            if (tile.getBackground() == R.drawable.tile_25){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Method to process the movement of the touch, if the touch is a valid move
      * @param position the position at which the move is to be made
      */
     public void touchMove(int position) {
         int row = position / Board.NUM_ROWS;
         int col = position % Board.NUM_COLS;
-        //int positionCopy = position;
-        if(isValidTap(position))
-        {
-//            //Tile newTile = new Tile(getBackgroundForPlayer());
-//            Board.BoardIterator iter = (Board.BoardIterator) board.iterator();
-//            Tile tile = null;
-//            while (position >= 0){
-//                tile = iter.next();
-//                position--;
-            board.setTileBackground(row, col, getBackgroundForPlayer());
-            //tile.setBackground(getBackgroundForPlayer());
-            switchPlayer(); // this should be the last line of touchMove()
+        board.setTileBackground(row, col, getBackgroundForPlayer());
+        if (gameDrawn()){
+            makeToast("Game drawn! Start a new game");
         } else {
-            makeToast("Invalid Move! Try again");
+            switchPlayer();
         }
 
     };
