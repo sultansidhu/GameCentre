@@ -80,6 +80,8 @@ public class GestureDetectGridView extends GridView {
             */
             @Override
             public boolean onSingleTapConfirmed(MotionEvent event) {
+                System.out.println("General GRID VIEW CALLED");
+
                 return true;
             }
 

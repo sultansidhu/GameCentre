@@ -97,6 +97,8 @@ public class SlidingGestureDetectGridView extends GestureDetectGridView {
             */
             @Override
             public boolean onSingleTapConfirmed(MotionEvent event) {
+                System.out.println("SLIDING TILES GRID VIEW CALLED");
+
                 int position = SlidingGestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
 
