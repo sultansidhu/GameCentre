@@ -46,14 +46,21 @@ class MovementController {
      * @param position that the user tapped.
      */
     void processTapMovement(Context context, ConnectFourBoardManager boardManager, int position) {
+        if (boardManager.gameOver == false){
+            if (boardManager.isValidTap(position))
+            {
+                boardManager.touchMove(position);
+                if (boardManager.puzzleSolved(position)) {
+                    Toast.makeText(context, "YOU WIN!", Toast.LENGTH_SHORT).show();
+                    boardManager.setGameOver();
+                }
 
-        if (boardManager.isValidTap(position))
-        {
-            boardManager.touchMove(position);
-            if (boardManager.puzzleSolved(position)) {
-                Toast.makeText(context, "YOU WIN!", Toast.LENGTH_SHORT).show();
-            }
-        } else { Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show(); }
+
+            } else { Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show(); }
+        } else {
+            boardManager.makeToast("The game is over! Please start a new game!");
+        }
+
     }
 
     /**

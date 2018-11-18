@@ -118,17 +118,21 @@ public class ShogiBoardManager extends BoardManager
     public void touchMove(int fromTile, int toTile) {
         if (isValidTap(fromTile, toTile)) {
             board.swapTiles(fromTile/7, fromTile%7, toTile/7, toTile%7);
-            if (checkCapturedLeft(toTile)) {
-                board.setTileBackground(toTile/7, toTile%7 - 1, R.drawable.tile_25);
+            int left = checkCapturedLeft(toTile);
+            for (int i = 1; i<= left; i++) {
+                board.setTileBackground(toTile/7, toTile%7 - i, R.drawable.tile_25);
             }
-            if (checkCapturedRight(toTile)) {
-                board.setTileBackground(toTile/7, toTile%7 + 1, R.drawable.tile_25);
+            int right = checkCapturedRight(toTile);
+            for (int i = 1; i <= right; i++) {
+                board.setTileBackground(toTile/7, toTile%7 + i, R.drawable.tile_25);
             }
-            if (checkCapturedUp(toTile)) {
-                board.setTileBackground(toTile/7 - 1, toTile%7, R.drawable.tile_25);
+            int up = checkCapturedUp(toTile);
+            for (int i = 1; i<= up; i++) {
+                board.setTileBackground(toTile/7 - i, toTile%7, R.drawable.tile_25);
             }
-            if (checkCapturedDown(toTile)) {
-                board.setTileBackground(toTile/7 + 1, toTile%7, R.drawable.tile_25);
+            int down = checkCapturedDown(toTile);
+            for (int i = 1; i<= down; i++) {
+                board.setTileBackground(toTile/7 + i, toTile%7, R.drawable.tile_25);
             }
 
             Toast.makeText(GlobalApplication.getAppContext(), "Player "+board.getCurrPlayer() + "'s turn", Toast.LENGTH_SHORT).show();
@@ -149,41 +153,102 @@ public class ShogiBoardManager extends BoardManager
         return board.getTile(row, col).getBackground() == R.drawable.red;
     }
 
-    private boolean checkCapturedDown(int toTile) {
+    private int checkCapturedDown(int toTile) {
+        int numCap = 0;
+        int nextRow = toTile/7 + 1;
         if (isBlack(toTile/7, toTile%7)) {
-            return isRed(toTile/7 + 1, toTile%7) && isBlack(toTile/7 + 2, toTile%7);
+            while (isRed(nextRow, toTile%7)) {
+                numCap++;
+                nextRow++;
+            }
+            if (isBlack(nextRow, toTile%7) && numCap > 0) {
+                return numCap;
+            } else { return 0; }
         }
         else if (isRed(toTile/7, toTile%7)) {
-            return isBlack(toTile/7 + 1, toTile%7) && isRed(toTile/7 + 2, toTile%7);
+            while (isBlack(nextRow, toTile%7)) {
+                numCap++;
+                nextRow++;
+            }
+            if (isRed(nextRow, toTile%7) && numCap > 0) {
+                return numCap;
+            } else { return 0; }
         }
-        return false;    }
+        return 0;
+    }
 
-    private boolean checkCapturedUp(int toTile) {
+    private int checkCapturedUp(int toTile) {
+        int numCap = 0;
+        int nextRow = toTile/7 - 1;
         if (isBlack(toTile/7, toTile%7)) {
-            return isRed(toTile/7 - 1, toTile%7) && isBlack(toTile/7 - 2, toTile%7);
+            while (isRed(nextRow, toTile%7)) {
+                numCap++;
+                nextRow--;
+            }
+            if (isBlack(nextRow, toTile%7) && numCap > 0) {
+                return numCap;
+            } else { return 0; }
         }
         else if (isRed(toTile/7, toTile%7)) {
-            return isBlack(toTile/7 - 1, toTile%7) && isRed(toTile/7 - 2, toTile%7);
+            while (isBlack(nextRow, toTile%7)) {
+                numCap++;
+                nextRow--;
+            }
+            if (isRed(nextRow, toTile%7) && numCap > 0) {
+                return numCap;
+            } else { return 0; }
         }
-        return false;    }
+        return 0;
+    }
 
-    private boolean checkCapturedRight(int toTile) {
+    private int checkCapturedRight(int toTile) {
+        int numCap = 0;
+        int nextCol = toTile%7 + 1;
         if (isBlack(toTile/7, toTile%7)) {
-            return isRed(toTile/7, toTile%7 + 1) && isBlack(toTile/7, toTile%7 + 2);
+            while (isRed(toTile/7, nextCol)) {
+                numCap++;
+                nextCol++;
+            }
+            if (isBlack(toTile/7, nextCol) && numCap > 0) {
+                System.out.println("CAPTURED: " + numCap);
+                return numCap;
+            } else { return 0; }
         }
         else if (isRed(toTile/7, toTile%7)) {
-            return isBlack(toTile/7, toTile%7 + 1) && isRed(toTile/7, toTile%7 + 2);
+            while (isBlack(toTile/7, nextCol)) {
+                numCap++;
+                nextCol++;
+            }
+            if (isRed(toTile/7, nextCol) && numCap > 0) {
+                System.out.println("CAPTURED: " + numCap);
+                return numCap;
+            } else { return 0; }
         }
-        return false;    }
+        return 0;
+    }
 
-    private boolean checkCapturedLeft(int toTile) {
+    private int checkCapturedLeft(int toTile) {
+        int numCap = 0;
+        int nextCol = toTile%7 - 1;
         if (isBlack(toTile/7, toTile%7)) {
-            return isRed(toTile/7, toTile%7 - 1) && isBlack(toTile/7, toTile%7 - 2);
+            while (isRed(toTile/7, nextCol)) {
+                numCap++;
+                nextCol--;
+            }
+            if (isBlack(toTile/7, nextCol) && numCap > 0) {
+                return numCap;
+            } else { return 0; }
         }
         else if (isRed(toTile/7, toTile%7)) {
-            return isBlack(toTile/7, toTile%7 - 1) && isRed(toTile/7, toTile%7 - 2);
+            while (isBlack(toTile/7, nextCol)) {
+                numCap++;
+                nextCol--;
+            }
+            if (isRed(toTile/7, nextCol) && numCap > 0) {
+                return numCap;
+            } else { return 0; }
         }
-        return false;
+        return 0;
     }
 
     public boolean inSameRow(int fromTile, int toTile) {

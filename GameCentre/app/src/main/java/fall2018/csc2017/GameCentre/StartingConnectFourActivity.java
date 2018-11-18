@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -86,7 +87,36 @@ public class StartingConnectFourActivity extends AppCompatActivity
                 //users.get(username).setSavedStates(new HashMap<Integer, Stack<Board>>());
                 users.get(username).addState(boardManager.getBoard(), 2);
                 fm.saveObject(users);
-                switchToGame();
+
+
+                TextView p2username = findViewById(R.id.txtP2UsernameC4);
+                String p2usernameString = p2username.getText().toString().trim();
+                TextView p2password = findViewById(R.id.txtP2PasswordC4);
+                String p2passwordString = p2password.getText().toString().trim();
+
+                if(p2usernameString.equals(""))
+                {
+                    Toast.makeText(getApplicationContext(), "Signing P2 as Guest", Toast.LENGTH_SHORT).show();
+                    boardManager.getBoard().setOpponentString("Guest");
+                    switchToGame();
+                }
+                else if(p2passwordString.equals(""))
+                {
+                    Toast.makeText(getApplicationContext(), "Password Field is Empty!", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+
+                    LoginManager lm = new LoginManager();
+                    if(lm.authenticateP2(p2usernameString, p2passwordString))
+                    {
+                        Toast.makeText(getApplicationContext(), "Starting Game...", Toast.LENGTH_SHORT).show();
+                        switchToGame();
+                    }
+                    else
+                        Toast.makeText(getApplicationContext(), "Invalid Credentials...", Toast.LENGTH_SHORT).show();
+
+                }
 
             }
         });

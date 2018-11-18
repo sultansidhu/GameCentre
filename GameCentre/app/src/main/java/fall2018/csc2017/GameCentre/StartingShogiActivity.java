@@ -10,7 +10,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Stack;
 
@@ -93,20 +92,34 @@ public class StartingShogiActivity extends AppCompatActivity {
                 users.get(username).addState(boardManager.getBoard(), 1);
                 fm.saveObject(users);
 
-                TextView p2username = findViewById(R.id.txtP2Username);
+                TextView p2username = findViewById(R.id.txtP2UsernameHS);
                 String p2usernameString = p2username.getText().toString().trim();
-                TextView p2password = findViewById(R.id.txtP2Password);
+                TextView p2password = findViewById(R.id.txtP2PasswordHS);
                 String p2passwordString = p2password.getText().toString().trim();
 
-                LoginManager lm = new LoginManager();
-                if(lm.authenticateP2(p2usernameString, p2passwordString))
+                if(p2usernameString.equals(""))
                 {
-                    Toast.makeText(getApplicationContext(), "Starting Game...", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Signing P2 as Guest", Toast.LENGTH_SHORT).show();
+                    boardManager.getBoard().setOpponentString("Guest");
                     switchToGame();
-                    boardManager.getBoard().setOpponentString(p2usernameString);
+                }
+                else if(p2passwordString.equals(""))
+                {
+                    Toast.makeText(getApplicationContext(), "Password Field is Empty!", Toast.LENGTH_SHORT).show();
                 }
                 else
-                    Toast.makeText(getApplicationContext(), "Invalid Username...", Toast.LENGTH_SHORT).show();
+                {
+
+                    LoginManager lm = new LoginManager();
+                    if(lm.authenticateP2(p2usernameString, p2passwordString))
+                    {
+                        Toast.makeText(getApplicationContext(), "Starting Game...", Toast.LENGTH_SHORT).show();
+                        switchToGame();
+                    }
+                    else
+                        Toast.makeText(getApplicationContext(), "Invalid Credentials...", Toast.LENGTH_SHORT).show();
+
+                }
 
 
             }
