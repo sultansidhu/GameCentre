@@ -25,6 +25,7 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
      * The tiles on the board in row-major order.
      */
     private Tile[][] tiles = new Tile[NUM_ROWS][NUM_COLS];
+    private String opponent;
 
     private int currPlayer = 1;
 
@@ -42,6 +43,18 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
                 this.tiles[row][col] = iter.next();
             }
         }
+    }
+
+    /**
+    *This method sets the opponent attribute of this class to the string opponent
+     @param opponent, a String representing the opponent
+     @return null
+     @throws null
+    */
+
+    public void setOpponentString(String opponent)
+    {
+        this.opponent = opponent;
     }
 
 

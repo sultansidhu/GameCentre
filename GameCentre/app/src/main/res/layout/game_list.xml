@@ -78,28 +78,28 @@
 
     <Button
         android:id="@+id/btnLaunchShogi"
-        android:layout_width="237dp"
-        android:layout_height="92dp"
-        android:layout_marginStart="140dp"
-        android:layout_marginTop="19dp"
-        android:layout_marginEnd="7dp"
-        android:layout_marginBottom="32dp"
+        android:layout_width="225dp"
+        android:layout_height="77dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="13dp"
         android:text="Hasami Shogi"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/btnLaunchConnectFour"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView9"
         app:layout_constraintTop_toBottomOf="@+id/btnLaunchSlide" />
 
     <Button
         android:id="@+id/btnLaunchConnectFour"
-        android:layout_width="231dp"
-        android:layout_height="83dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="10dp"
+        android:layout_width="233dp"
+        android:layout_height="71dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="7dp"
         android:text="Connect 4"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView2"
         app:layout_constraintTop_toBottomOf="@+id/btnLaunchShogi" />
 
     <ImageView

@@ -77,6 +77,20 @@ public class LoginManager {
         }
         return false;
     }
+
+    public boolean authenticateP2(String username, String password){
+        if (!f1.getTheHashMap().containsKey(username)){
+            makeToast("User Does Not Exist!");
+            return false;
+        }
+        else if(!f1.getTheHashMap().get(username).getPassword().equals(password)){
+            makeToast("Password Rejected!");
+            return false;
+        }
+        else
+            return true;
+    }
+
     public void setUsersLoggedOut(HashMap<String, User> theHashMap){
         if(personLoggedIn != null){
             User u1 = theHashMap.get(personLoggedIn);

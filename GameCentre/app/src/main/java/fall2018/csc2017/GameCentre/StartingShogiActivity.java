@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.EmptyStackException;
@@ -91,7 +92,21 @@ public class StartingShogiActivity extends AppCompatActivity {
                 users.get(username).setSavedStates(new HashMap<Integer, Stack<Board>>());
                 users.get(username).addState(boardManager.getBoard(), 1);
                 fm.saveObject(users);
-                switchToGame();
+
+                TextView p2username = findViewById(R.id.txtP2Username);
+                String p2usernameString = p2username.getText().toString().trim();
+                TextView p2password = findViewById(R.id.txtP2Password);
+                String p2passwordString = p2password.getText().toString().trim();
+
+                LoginManager lm = new LoginManager();
+                if(lm.authenticateP2(p2usernameString, p2passwordString))
+                {
+                    Toast.makeText(getApplicationContext(), "Starting Game...", Toast.LENGTH_SHORT).show();
+                    switchToGame();
+                    boardManager.getBoard().setOpponentString(p2usernameString);
+                }
+                else
+                    Toast.makeText(getApplicationContext(), "Invalid Username...", Toast.LENGTH_SHORT).show();
 
 
             }
