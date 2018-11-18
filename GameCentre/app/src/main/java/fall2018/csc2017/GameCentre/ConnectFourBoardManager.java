@@ -13,6 +13,7 @@ public class ConnectFourBoardManager extends BoardManager {
      */
     private Board board;
     private int currentPlayer = 1; // currently the game is set to having player 1 as red and player 2 as black
+    public boolean gameOver = false;
 
 
     public ConnectFourBoardManager(Board board) {
@@ -115,7 +116,7 @@ public class ConnectFourBoardManager extends BoardManager {
         Board.BoardIterator iter = (Board.BoardIterator) board.iterator();
         Tile nextTile = null;
         while (position >= 0){
-            System.out.println("THE POSITION IS ------========------- :" + position);
+            //System.out.println("THE POSITION IS ------========------- :" + position);
             nextTile = iter.next();
             position--;
         }
@@ -184,6 +185,28 @@ public class ConnectFourBoardManager extends BoardManager {
             rowNewlyAdded = position / board.NUM_COLS;
         }
         return colorCounter;
+    }
+//
+//    /**
+//     * Returns whether the game is over or not within the current board manager
+//     * @return whether the game is over
+//     */
+//    public boolean gameOver() {
+//        for (int i = 0; i < board.numTiles(); i++) {
+//            if (puzzleSolved(i)) {
+//                System.out.println("The i value is " + i);
+//                System.out.println("THIS BOY PRINTS IF THE PUZZLE HAS BEEN SOLVED ON THE MOST RECENT TAP: " + puzzleSolved(i));
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
+
+    /**
+     * Sets the status of the current game as over
+     */
+    public void setGameOver(){
+        this.gameOver = true;
     }
 
     /**
