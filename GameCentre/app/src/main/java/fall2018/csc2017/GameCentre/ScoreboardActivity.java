@@ -107,7 +107,7 @@ public class ScoreboardActivity extends AppCompatActivity
             if (time == 0) {
                 return 0;
             } else {
-                return (int) Math.round(100 * ((1 / numMoves) + 100000 / (time)));
+                return (int) Math.round(20000 * ((1 / numMoves) + 100000 / (time)));
             }
     }
     /*

@@ -8,6 +8,8 @@ import android.view.MotionEvent;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import java.util.HashMap;
+
 public class ShogiGestureDetectGridView extends GestureDetectGridView {
 
     /*
@@ -51,6 +53,9 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
      */
     private String username;
 
+
+    private FileManager fm = new FileManager();
+
     /*
     Overloaded Constructor that takes a Context
     */
@@ -81,7 +86,6 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
     }
 
     private void init(final Context context) {
-        System.out.println("SHOGI INIT CALLED");
         mController = new MovementController();
         gDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             /*
@@ -89,8 +93,6 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
             */
             @Override
             public boolean onSingleTapConfirmed(MotionEvent event) {
-                System.out.println("SHOGI GRID VIEW CALLED");
-
                 int position = ShogiGestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
                 Tile currTile = boardManager.getBoard().getTile(position/7, position%7);
@@ -101,7 +103,7 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
                 else {tileOwner = 0; }
 
                 // CHECK IF THE TAP IS VALID
-                if (tileOwner == boardManager.getCurrPlayer()) {
+                if (tileOwner == boardManager.getBoard().getCurrPlayer()) {
                     if (tileSelected == -1
                             || boardManager.getBoard().getTile(
                           tileSelected/7, tileSelected%7).getBackground()
@@ -116,15 +118,21 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
                 else if (tileOwner == 0 && tileSelected != -1 && boardManager.isValidTap(tileSelected, position)) {
                     mController.processTapMovement(context, boardManager, tileSelected, position);
                     tileSelected = -1;
-                    boardManager.setCurrPlayer(3 - boardManager.getCurrPlayer());
-                    // TODO: autosave game
-                    return true;
+                    boardManager.getBoard().setCurrPlayer(3 - boardManager.getBoard().getCurrPlayer());
+                    HashMap<String, User> users = fm.readObject();
+                    assert users != null;
+                    users.get(username).addState(boardManager.getBoard(), 1);
+                    fm.saveObject(users);
+                    if (boardManager.puzzleSolved()) {
+                        switchToScoreboardScreen();
+                    }
+
                 }
                 else {
                     Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
-                    return true;
+
                 }
-                return super.onSingleTapConfirmed(event);
+                return true;
             }
 
             @Override
@@ -159,7 +167,6 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
 
         return super.onInterceptTouchEvent(ev);
     }
-    // TODO: Implement puzzleSolved
     @Override
     public boolean peekBoardManagerSolved(Board board) {
         return new ShogiBoardManager(board).puzzleSolved();

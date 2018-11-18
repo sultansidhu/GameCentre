@@ -12,11 +12,6 @@ public class ShogiBoardManager extends BoardManager
     private Board board;
 
     /**
-     * represents the current player.
-     */
-    private int currPlayer = 1;
-
-    /**
      * This constructor takes a board object and sets this class' board attribute object
      * equal to it
      * @param board, a Board object representing the board
@@ -54,7 +49,6 @@ public class ShogiBoardManager extends BoardManager
             tiles.add(tile);
         }
         this.board = new Board(tiles);
-        currPlayer = 1;
     }
 
     /**
@@ -72,7 +66,7 @@ public class ShogiBoardManager extends BoardManager
      */
 
     public boolean puzzleSolved() {
-        return false;
+        return getBoard().numBlacks() <= 3 || getBoard().numReds() <= 3;
     }
 
     /**
@@ -117,14 +111,70 @@ public class ShogiBoardManager extends BoardManager
     public void touchMove(int fromTile, int toTile) {
         if (isValidTap(fromTile, toTile)) {
             board.swapTiles(fromTile/7, fromTile%7, toTile/7, toTile%7);
+            if (checkCapturedLeft(toTile)) {
+                board.setTileBackground(toTile/7, toTile%7 - 1, R.drawable.tile_25);
+            }
+            if (checkCapturedRight(toTile)) {
+                board.setTileBackground(toTile/7, toTile%7 + 1, R.drawable.tile_25);
+            }
+            if (checkCapturedUp(toTile)) {
+                board.setTileBackground(toTile/7 - 1, toTile%7, R.drawable.tile_25);
+            }
+            if (checkCapturedDown(toTile)) {
+                board.setTileBackground(toTile/7 + 1, toTile%7, R.drawable.tile_25);
+            }
         }
     }
 
-    public int getCurrPlayer() {
-       return currPlayer;
+    private boolean isBlack(int row, int col) {
+        if (row > 6 || row < 0 || col > 6 || col < 0) {
+            return false;
+        }
+        return board.getTile(row, col).getBackground() == R.drawable.black;
+    }
+    private boolean isRed(int row, int col) {
+        if (row > 6 || row < 0 || col > 6 || col < 0) {
+            return false;
+        }
+        return board.getTile(row, col).getBackground() == R.drawable.red;
     }
 
-    public void setCurrPlayer(int currPlayer) { this.currPlayer = currPlayer; }
+    private boolean checkCapturedDown(int toTile) {
+        if (isBlack(toTile/7, toTile%7)) {
+            return isRed(toTile/7 + 1, toTile%7) && isBlack(toTile/7 + 2, toTile%7);
+        }
+        else if (isRed(toTile/7, toTile%7)) {
+            return isBlack(toTile/7 + 1, toTile%7) && isRed(toTile/7 + 2, toTile%7);
+        }
+        return false;    }
+
+    private boolean checkCapturedUp(int toTile) {
+        if (isBlack(toTile/7, toTile%7)) {
+            return isRed(toTile/7 - 1, toTile%7) && isBlack(toTile/7 - 2, toTile%7);
+        }
+        else if (isRed(toTile/7, toTile%7)) {
+            return isBlack(toTile/7 - 1, toTile%7) && isRed(toTile/7 - 2, toTile%7);
+        }
+        return false;    }
+
+    private boolean checkCapturedRight(int toTile) {
+        if (isBlack(toTile/7, toTile%7)) {
+            return isRed(toTile/7, toTile%7 + 1) && isBlack(toTile/7, toTile%7 + 2);
+        }
+        else if (isRed(toTile/7, toTile%7)) {
+            return isBlack(toTile/7, toTile%7 + 1) && isRed(toTile/7, toTile%7 + 2);
+        }
+        return false;    }
+
+    private boolean checkCapturedLeft(int toTile) {
+        if (isBlack(toTile/7, toTile%7)) {
+            return isRed(toTile/7, toTile%7 - 1) && isBlack(toTile/7, toTile%7 - 2);
+        }
+        else if (isRed(toTile/7, toTile%7)) {
+            return isBlack(toTile/7, toTile%7 - 1) && isRed(toTile/7, toTile%7 - 2);
+        }
+        return false;
+    }
 
     public boolean inSameRow(int fromTile, int toTile) {
         return fromTile/7 == toTile/7;

@@ -26,6 +26,8 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
      */
     private Tile[][] tiles = new Tile[NUM_ROWS][NUM_COLS];
 
+    private int currPlayer = 1;
+
     /**
      * A new board of tiles in row-major order.
      * Precondition: len(tiles) == NUM_ROWS * NUM_COLS
@@ -62,6 +64,28 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
         return Board.NUM_ROWS * Board.NUM_COLS;
     }
 
+    public int numBlacks() {
+        Iterator<Tile> iter = iterator();
+        int numBlacks = 0;
+        while (iter.hasNext()) {
+            if (iter.next().getBackground()==R.drawable.black) {
+                numBlacks++;
+            }
+        }
+        return numBlacks;
+    }
+
+    public int numReds() {
+        Iterator<Tile> iter = iterator();
+        int numReds = 0;
+        while (iter.hasNext()) {
+            if (iter.next().getBackground()==R.drawable.red) {
+                numReds++;
+            }
+        }
+        return numReds;
+    }
+
     /**
      * Return the tile at (row, col)
      *
@@ -88,6 +112,12 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
         newTiles[row1][col1] = tile2;
         newTiles[row2][col2] = tile1;
         tiles = newTiles;
+        setChanged();
+        notifyObservers();
+    }
+
+    public void setTileBackground(int row, int col, int background) {
+        getTile(row, col).setBackground(background);
         setChanged();
         notifyObservers();
     }
@@ -263,4 +293,8 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
         }
         return 0;
     }
+
+    public void setCurrPlayer(int currPlayer) { this.currPlayer = currPlayer; }
+
+    public int getCurrPlayer() { return currPlayer; }
 }

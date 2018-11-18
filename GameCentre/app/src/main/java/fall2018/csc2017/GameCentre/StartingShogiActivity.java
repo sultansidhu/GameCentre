@@ -109,7 +109,7 @@ public class StartingShogiActivity extends AppCompatActivity {
                 HashMap<String, User> users = fm.readObject();
                 assert users != null;
                 Stack<Board> userStack = users.get(username).getGameStack(1);
-                if (userStack.size() < 1) {
+                if (userStack == null || userStack.size() < 1) {
                     Toast.makeText(getApplicationContext(), "No game to load! Start a new game!", Toast.LENGTH_LONG).show();
                 } else {
                     setBoardManager(userStack.peek());

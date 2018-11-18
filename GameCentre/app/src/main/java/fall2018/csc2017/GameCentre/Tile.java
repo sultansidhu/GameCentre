@@ -3,11 +3,12 @@ package fall2018.csc2017.GameCentre;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
+import java.util.Observable;
 
 /**
  * A Tile in a sliding tiles puzzle.
  */
-public class Tile implements Comparable<Tile>, Serializable {
+public class Tile extends Observable implements Comparable<Tile>, Serializable {
 
     /**
      * The background id to find the tile image.
@@ -19,7 +20,11 @@ public class Tile implements Comparable<Tile>, Serializable {
      */
     private int id;
 
-    public void setBackground(int background) { this.background = background;}
+    public void setBackground(int background) {
+        this.background = background;
+        setChanged();
+        notifyObservers();
+    }
 
     /**
      * Return the background id.
