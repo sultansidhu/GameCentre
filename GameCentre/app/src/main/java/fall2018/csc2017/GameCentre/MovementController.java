@@ -67,8 +67,12 @@ class MovementController {
     void processTapMovement(Context context, ShogiBoardManager boardManager, int fromTile, int toTile) {
         if (boardManager.isValidTap(fromTile, toTile)) {
             boardManager.touchMove(fromTile, toTile);
-            if (boardManager.puzzleSolved()) {
-                Toast.makeText(context, "YOU WIN!", Toast.LENGTH_SHORT).show();
+            if (boardManager.puzzleSolved())
+            {
+                if(boardManager.getBoard().numBlacks() <= 1)
+                    Toast.makeText(context, "BLACK WINS!", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(context, "RED WINS!", Toast.LENGTH_SHORT).show();
             }
         }
     }
