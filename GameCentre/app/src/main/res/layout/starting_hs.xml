@@ -33,7 +33,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="0dp"
-        android:layout_marginBottom="97dp" />
+        android:layout_marginBottom="39dp" />
 
     <TextView
         android:id="@+id/txtHSDisplay"
@@ -63,5 +63,29 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="-58dp"
         android:text="Launch Scoreboard" />
+
+    <EditText
+        android:id="@+id/txtP2UsernameHS"
+        android:layout_width="154dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="66dp"
+        android:layout_marginBottom="151dp"
+        android:layout_toStartOf="@+id/btnStartGameHS"
+        android:ems="10"
+        android:hint="P2 Username...."
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/txtP2PasswordHS"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/txtP2UsernameHS"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="-2dp"
+        android:layout_marginEnd="25dp"
+        android:ems="10"
+        android:hint="P2 Password..."
+        android:inputType="textPassword" />
 
 </RelativeLayout>

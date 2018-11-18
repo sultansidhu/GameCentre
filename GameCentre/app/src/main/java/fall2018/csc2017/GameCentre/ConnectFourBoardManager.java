@@ -13,6 +13,7 @@ public class ConnectFourBoardManager extends BoardManager {
      */
     private Board board;
     private int currentPlayer = 1; // currently the game is set to having player 1 as red and player 2 as black
+    public boolean gameOver = false;
 
 
     public ConnectFourBoardManager(Board board) {
@@ -109,9 +110,13 @@ public class ConnectFourBoardManager extends BoardManager {
      * @return an int representing the colorID of the found tile
      */
     public int getTileColor(int position){
+        if (position == 36){
+            System.out.println("POSITION BECAME 36 MAYDAY MAYDAY");
+        }
         Board.BoardIterator iter = (Board.BoardIterator) board.iterator();
         Tile nextTile = null;
         while (position >= 0){
+            //System.out.println("THE POSITION IS ------========------- :" + position);
             nextTile = iter.next();
             position--;
         }
@@ -125,6 +130,8 @@ public class ConnectFourBoardManager extends BoardManager {
      * length 4 or more on either diagonal of the newly added chip
      */
     public boolean checkDiagonals(int position){
+//        System.out.println("THE POSITION IN checkdiagonals IS %%%%%%%%%%%%%%%%%%%: " + position);
+
         int currentPlayerID = getCurrentPlayer(position);
         int leftDiagUp = checkLeftDiagUp(currentPlayerID, position);
         int leftDiagDown = checkLeftDiagDown(currentPlayerID, position);
@@ -142,10 +149,10 @@ public class ConnectFourBoardManager extends BoardManager {
         int colorCounter = 0;
         int colNewlyAdded = position % board.NUM_COLS;
         int rowNewlyAdded = position / board.NUM_COLS;
-        while (colNewlyAdded >= 0 && rowNewlyAdded <= board.NUM_ROWS){
+        while (colNewlyAdded >= 0 && rowNewlyAdded < board.NUM_ROWS && rowNewlyAdded >= 0){
             // here check for same color and increment colorCounter
             // TODO: CHECK FOR R.DRAWABLE.BLACK OR R.DRAWABLE.RED DEPENDING ON THE CURRENT PLAYER'S ID.
-            if (getTileColor(position) == currentPlayerID){
+            if ((getTileColor(position) == currentPlayerID)&&(getTileColor(position)!=R.drawable.tile_25)){
                 colorCounter++;
             } else {
                 break; // TODO: GET THESE FUNCTIONS CHECKED BY TEAM MEMBERS
@@ -166,9 +173,9 @@ public class ConnectFourBoardManager extends BoardManager {
         int colorCounter = 0;
         int colNewlyAdded = position % board.NUM_COLS;
         int rowNewlyAdded = position / board.NUM_COLS;
-        while (colNewlyAdded <= board.NUM_COLS && rowNewlyAdded >= 0){
+        while (colNewlyAdded < board.NUM_COLS && rowNewlyAdded >= 0 && colNewlyAdded >= 0){
             // here check for same color and increment colorCounter
-            if (getTileColor(position) == currentPlayerID){
+            if ((getTileColor(position) == currentPlayerID)&&(getTileColor(position)!=R.drawable.tile_25)){
                 colorCounter++;
             } else {
                 break; // TODO: GET THESE FUNCTIONS CHECKED BY TEAM MEMBERS
@@ -178,6 +185,28 @@ public class ConnectFourBoardManager extends BoardManager {
             rowNewlyAdded = position / board.NUM_COLS;
         }
         return colorCounter;
+    }
+//
+//    /**
+//     * Returns whether the game is over or not within the current board manager
+//     * @return whether the game is over
+//     */
+//    public boolean gameOver() {
+//        for (int i = 0; i < board.numTiles(); i++) {
+//            if (puzzleSolved(i)) {
+//                System.out.println("The i value is " + i);
+//                System.out.println("THIS BOY PRINTS IF THE PUZZLE HAS BEEN SOLVED ON THE MOST RECENT TAP: " + puzzleSolved(i));
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
+
+    /**
+     * Sets the status of the current game as over
+     */
+    public void setGameOver(){
+        this.gameOver = true;
     }
 
     /**
@@ -189,9 +218,9 @@ public class ConnectFourBoardManager extends BoardManager {
         int colorCounter = 0;
         int colNewlyAdded = position % board.NUM_COLS;
         int rowNewlyAdded = position / board.NUM_COLS;
-        while (colNewlyAdded <= board.NUM_COLS && rowNewlyAdded <= board.NUM_ROWS){
+        while (colNewlyAdded < board.NUM_COLS && rowNewlyAdded < board.NUM_ROWS && colNewlyAdded >= 0 && rowNewlyAdded >= 0){
             // here check for same color and increment colorCounter
-            if (getTileColor(position) == currentPlayerID){
+            if ((getTileColor(position) == currentPlayerID)&&(getTileColor(position)!=R.drawable.tile_25)){
                 colorCounter++;
             } else {
                 break; // TODO: GET THESE FUNCTIONS CHECKED BY TEAM MEMBERS
@@ -215,12 +244,14 @@ public class ConnectFourBoardManager extends BoardManager {
         int rowNewlyAdded = position / board.NUM_COLS;
         while (colNewlyAdded >= 0 && rowNewlyAdded >= 0){ // TODO: CHECK THESE INEQUALITIES FOR ALL SIMILAR FUNCTIONS
             // here check for same color and increment colorCounter
-            if (getTileColor(position) == currentPlayerID){
+            if ((getTileColor(position) == currentPlayerID)&&(getTileColor(position)!=R.drawable.tile_25)){
                 colorCounter++;
             } else {
                 break; // TODO: GET THESE FUNCTIONS CHECKED BY TEAM MEMBERS
             }
             position = position - (board.NUM_COLS + 1);
+//            System.out.println("THE POSITION IN checkleftdiag IS %%%%%%%%%%%%%%%%%%%: " + position);
+
             colNewlyAdded = position % board.NUM_COLS;
             rowNewlyAdded = position / board.NUM_COLS;
         }
@@ -248,7 +279,7 @@ public class ConnectFourBoardManager extends BoardManager {
         int colorCounter = 0;
         while (colNewlyAdded >= 0){
             // check if there is a same colored tile to the left, and increment colorCounter
-            if (getTileColor(position) == currentPlayerID){
+            if ((getTileColor(position) == currentPlayerID)&&(getTileColor(position)!=R.drawable.tile_25)){
                 colorCounter++;
             } else {
                 break; // TODO: GET THESE FUNCTIONS CHECKED BY TEAM MEMBERS
@@ -266,17 +297,20 @@ public class ConnectFourBoardManager extends BoardManager {
      * @return the number of the same colored tiles to the right
      */
     public int numRight(int currentPlayerID, int position){
+
         int colNewlyAdded = position % board.NUM_COLS;
+        int rowNewlyAdded = position / board.NUM_ROWS;
         int colorCounter = 0;
-        while (colNewlyAdded <= board.NUM_COLS){
+        while (colNewlyAdded < board.NUM_COLS && rowNewlyAdded < board.NUM_ROWS){
             // check if there is a same colored tile to the right, and increment colorCounter
-            if (getTileColor(position) == currentPlayerID){
+            if ((getTileColor(position) == currentPlayerID)&&(getTileColor(position)!=R.drawable.tile_25)){
                 colorCounter++;
             } else {
                 break; // TODO: GET THESE FUNCTIONS CHECKED BY TEAM MEMBERS
             }
             position = position + 1;
             colNewlyAdded = position % board.NUM_COLS;
+            rowNewlyAdded = position / board.NUM_ROWS;
         }
         return colorCounter;
     }
@@ -287,6 +321,8 @@ public class ConnectFourBoardManager extends BoardManager {
      * under the newly added chip.
      */
     public boolean checkUnder(int position){
+//        System.out.println("THE POSITION IN checkunder IS %%%%%%%%%%%%%%%%%%%: " + position);
+
         int currentPlayerColor = getCurrentPlayer(position);
         int colorCounter = 0; // to be incremented if same color found.
         int rowNewTile = position / board.NUM_ROWS;
@@ -303,6 +339,7 @@ public class ConnectFourBoardManager extends BoardManager {
         }
         return (colorCounter > 3);
     }
+    // TODO: ADD GAME OVER WHEN THERE ARE NO PLACES LEFT TO PLACE CHIPS
 
     /**
      * Returns if the position tapped by the use is a valid tap.
@@ -332,7 +369,7 @@ public class ConnectFourBoardManager extends BoardManager {
      * @return whether there is an empty tile present on the tapped tile.
      */
     public boolean checkEmptyTile(int position){
-        int blankID = 25;
+        //int blankID = R.drawable.tile_25;
 
         Board.BoardIterator iter = (Board.BoardIterator) board.iterator();
         Tile next = null;
@@ -340,7 +377,7 @@ public class ConnectFourBoardManager extends BoardManager {
             next = iter.next();
             position = position - 1;
         }
-        return next.getBackground() == blankID;
+        return next.getBackground() == R.drawable.tile_25;
 
 
     }
@@ -351,17 +388,18 @@ public class ConnectFourBoardManager extends BoardManager {
      * @return
      */
     public boolean checkUnderneath(int position){
-        int blankID = 25;
+        //int blankID = 25;
         int positionBelow = position + board.NUM_ROWS;
         int numRows = positionBelow / board.NUM_ROWS;
-        if(numRows <= board.NUM_ROWS){
+        if(numRows < board.NUM_ROWS){
             Board.BoardIterator iter = (Board.BoardIterator) board.iterator();
             Tile next = null;
-            while (positionBelow < 0){
+            while (positionBelow >= 0){
                 next = iter.next();
-                positionBelow --;
+                positionBelow--;
+                //numRows = positionBelow / board.NUM_ROWS;
             }
-            return next.getBackground() == blankID;
+            return !(next.getBackground() == R.drawable.tile_25);
         } else {
             return true;
         }
@@ -370,26 +408,33 @@ public class ConnectFourBoardManager extends BoardManager {
     }
 
     /**
+     * Returns whether the current game is drawn (ended in stalemate)
+     * @return whether the curernt game has eneded in stalemate
+     */
+    public boolean gameDrawn(){
+        Board.BoardIterator iter = (Board.BoardIterator) board.iterator();
+        Tile tile = null;
+        while (iter.hasNext()){
+            tile = iter.next();
+            if (tile.getBackground() == R.drawable.tile_25){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Method to process the movement of the touch, if the touch is a valid move
      * @param position the position at which the move is to be made
      */
     public void touchMove(int position) {
-//        int row = position / Board.NUM_ROWS;
-//        int col = position % Board.NUM_COLS;
-        int positionCopy = position;
-        if(isValidTap(position))
-        {
-            //Tile newTile = new Tile(getBackgroundForPlayer());
-            Board.BoardIterator iter = (Board.BoardIterator) board.iterator();
-            Tile tile = null;
-            while (position >= 0){
-                tile = iter.next();
-                position--;
-            }
-            tile.setBackground(getBackgroundForPlayer());
-            switchPlayer(); // this should be the last line of touchMove()
+        int row = position / Board.NUM_ROWS;
+        int col = position % Board.NUM_COLS;
+        board.setTileBackground(row, col, getBackgroundForPlayer());
+        if (gameDrawn()){
+            makeToast("Game drawn! Start a new game");
         } else {
-            makeToast("Invalid Move! Try again");
+            switchPlayer();
         }
 
     };

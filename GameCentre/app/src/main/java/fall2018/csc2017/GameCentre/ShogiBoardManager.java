@@ -1,5 +1,7 @@
 package fall2018.csc2017.GameCentre;
 
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -127,6 +129,9 @@ public class ShogiBoardManager extends BoardManager
             for (int i = 1; i<= down; i++) {
                 board.setTileBackground(toTile/7 + i, toTile%7, R.drawable.tile_25);
             }
+
+            Toast.makeText(GlobalApplication.getAppContext(), "Player "+board.getCurrPlayer() + "'s turn", Toast.LENGTH_SHORT).show();
+
         }
     }
 
@@ -249,7 +254,8 @@ public class ShogiBoardManager extends BoardManager
         return fromTile%7 == toTile%7;
     }
 
-    public boolean tileBlockingRow(int fromTile, int toTile) {
+    public boolean tileBlockingRow(int fromTile, int toTile)
+    {
         int row = fromTile/7;
         int start = fromTile%7 < toTile%7 ? fromTile%7 : toTile%7;
         int end = fromTile%7 > toTile%7 ? fromTile%7 : toTile%7;
@@ -268,8 +274,10 @@ public class ShogiBoardManager extends BoardManager
         int start = fromTile/7 < toTile/7 ? fromTile/7 : toTile/7;
         int end = fromTile/7 > toTile/7 ? fromTile/7 : toTile/7;
         int row = start + 1;
-        while (row < end) {
-            if (getBoard().getTile(row, col).getBackground() != R.drawable.tile_25) {
+        while (row < end)
+        {
+            if (getBoard().getTile(row, col).getBackground() != R.drawable.tile_25)
+            {
                 return true;
             }
             row++;
