@@ -147,7 +147,7 @@ public class ShogiBoardManager extends BoardManager
         }
         return board.getTile(row, col).getBackground() == R.drawable.black;
     }
-    private boolean isRed(int row, int col) {
+    protected boolean isRed(int row, int col) {
         if (row > 6 || row < 0 || col > 6 || col < 0) {
             return false;
         }

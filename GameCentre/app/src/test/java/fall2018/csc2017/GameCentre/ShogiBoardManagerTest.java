@@ -55,6 +55,10 @@ public class ShogiBoardManagerTest {
 
     @Test
     public void isRed(){
+        ShogiBoardManager bm = makeOneMoveBoard();
+        assertEquals(false, bm.isRed(3, 1));//Black tile
+        assertEquals(false, bm.isRed(2, 0));//Blank tile
+        assertEquals(true, bm.isRed(6, 6)); //Red tile
 
     }
 
@@ -78,7 +82,7 @@ public class ShogiBoardManagerTest {
     public void tileBlockingRow() {
         ShogiBoardManager bm = makeOneMoveBoard();
         assertEquals(false, bm.tileBlockingRow(22, 27));//row only has 1 tile
-        assertEquals(true, bm.tileBlockingRow(0, 2));//row has multiple tiles
+        assertEquals(true, bm.tileBlockingRow(42, 47));//row has multiple tiles
         bm.touchMove(44, 23);
         assertEquals(true, bm.tileBlockingRow(22, 23));//Try to go on top of a tile
     }
