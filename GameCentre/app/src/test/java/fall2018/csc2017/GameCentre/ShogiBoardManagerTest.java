@@ -48,6 +48,7 @@ public class ShogiBoardManagerTest {
     }
     public void makeSolvedBoard(){
         ShogiBoardManager bm = new ShogiBoardManager(7);
-        
+        //fake comment
+
     }
 }
