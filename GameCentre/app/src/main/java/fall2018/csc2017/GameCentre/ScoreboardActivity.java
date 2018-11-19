@@ -50,15 +50,23 @@ public class ScoreboardActivity extends AppCompatActivity
 
         for (HashMap.Entry<String, User> entry : users.entrySet()) {
             username = entry.getKey();
-            users = fm.readObject();
-            assert users != null;
-            User user = users.get(username);
-            scoresList.append(username).append(": ").append(user.getHighestScore()).append("\n");
+            generateScoreRow(username);
 
         }
         scoresDisplay.setText(scoresList);
+        fm.saveObject(users);
 
         addResetScoresButtonListener();
+    }
+    public void generateScoreRow(String username){
+        HashMap<String, User> users = fm.readObject();
+        assert users != null;
+        User user = users.get(username);
+        scoresList.append(username);
+        for (int i = 0; i <= 2; i++) {
+            scoresList.append(": ").append(user.getHighestScore(i)).append(" || ");
+        }
+        scoresList.append("\n");
     }
     /*
     Adds a reset scores button listener which calls a method to set all user high scores to 0.
@@ -84,9 +92,10 @@ public class ScoreboardActivity extends AppCompatActivity
         assert users != null;
         for (HashMap.Entry<String, User> entry : users.entrySet()) {
             String username = entry.getKey();
-
-            users.get(username).setHighestScore(0);
-            scoresList.append(username).append(": 0").append("\n");
+            for (int i = 0; i <= 2; i++) {
+                users.get(username).setHighestScore(i, 0);
+            }
+            generateScoreRow(username);
         }
         fm.saveObject(users);
         scoresDisplay.setText(scoresList);
@@ -115,13 +124,13 @@ public class ScoreboardActivity extends AppCompatActivity
     @return null
      */
 
-    public void updateUserHighScore(String username)
+    public void updateUserHighScore(String username, int gameIndex)
     {
             int newScore = this.calculateUserScore(username);
             HashMap<String, User> users = fm.readObject();
             assert users != null;
-            if (newScore > users.get(username).getHighestScore()) {
-                users.get(username).setHighestScore(newScore);
+            if (newScore > users.get(username).getHighestScore(gameIndex)) {
+                users.get(username).setHighestScore(gameIndex, newScore);
                 Context context = GlobalApplication.getAppContext();
                 Toast.makeText(context, "New High score!", Toast.LENGTH_SHORT).show();
             }

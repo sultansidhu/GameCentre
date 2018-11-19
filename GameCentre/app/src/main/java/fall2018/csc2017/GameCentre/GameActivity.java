@@ -115,9 +115,9 @@ public class GameActivity extends AppCompatActivity implements Observer {
                 User user = users.get(username);
                 Stack<Board> userStack = user.getGameStack(0);
 
-                if(user.getAvailableUndos() == 0) {
+                if(user.getAvailableUndos(gameIndex) == 0) {
                     makeToastNoUndo();
-                } else if (user.getAvailableUndos() < 0) {
+                } else if (user.getAvailableUndos(gameIndex) < 0) {
 
                     if (userStack.size() > 1){
                         userStack.pop();
@@ -132,7 +132,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
                     gridView.setBoardManager(boardManager);
                     display();
                     users.put(username, user);
-                    user.setAvailableUndos(user.getAvailableUndos() - 1);
+                    user.setAvailableUndos(gameIndex, user.getAvailableUndos(gameIndex) -1);
                     if (user.getGameStack(0).size() > 1){
                         makeToastUnlimitedUndoText();
                     }
@@ -146,8 +146,8 @@ public class GameActivity extends AppCompatActivity implements Observer {
                     gridView.setBoardManager(boardManager);
                     display();
                     users.put(username, user);
-                    user.setAvailableUndos(user.getAvailableUndos() - 1);
-                    makeToastUndoText(user.getAvailableUndos());
+                    user.setAvailableUndos(gameIndex, user.getAvailableUndos(gameIndex) - 1);
+                    makeToastUndoText(user.getAvailableUndos(gameIndex));
                     fm.saveObject(users);
 
                 }

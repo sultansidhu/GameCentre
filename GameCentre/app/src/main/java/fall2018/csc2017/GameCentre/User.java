@@ -31,9 +31,9 @@ public class User implements Serializable
     */
     private String answer;
     /**
-    This is the current highest score of this user
+    This is the current highest score of this user per game
     */
-    private int highestScore = 0;
+    private HashMap<Integer, Integer> highestScore;
     /**
     This is the security question of this user
     */
@@ -45,7 +45,7 @@ public class User implements Serializable
     /**
     This is a couter keeping track of the available undos foe a user
      */
-    private int availableUndos;
+    private HashMap<Integer, Integer> availableUndos;
 
     private boolean isLoggedIn = false;
 
@@ -62,12 +62,17 @@ public class User implements Serializable
         this.password = password;
         this.securityQuestion = securityQuestion;
         this.answer = answer;
+        this.highestScore = new HashMap<Integer, Integer>();
         this.savedStates = new HashMap<Integer, Stack<Board>>();
+        this.availableUndos = new HashMap<Integer, Integer>();
         for(int i = 0; i <= 2; i++) {//Initializes the stack
             this.savedStates.put(i, new Stack<Board>());
+            this.highestScore.put(i, 0);
+            this.availableUndos.put(i, 3); // the default number of undos for every user.
         }
         this.playTime = (long)0.0;
-        this.availableUndos = 3; // the default number of undos for every user.
+        for (int i = 0; i <= 2; i++) {
+        }
     }
     String getUsername(){
         return this.username;
@@ -92,11 +97,15 @@ public class User implements Serializable
         return savedStates.get(gameNum);
     }
 
-    void setAvailableUndos(int newUndos){
-        this.availableUndos = newUndos;
+    void setAvailableUndos(int gameIndex, int newUndos){
+        assert gameIndex <=2;
+        assert gameIndex >= 0;
+        this.availableUndos.put(gameIndex, newUndos);
     }
-    int getAvailableUndos(){
-        return this.availableUndos;
+    int getAvailableUndos(int gameIndex){
+        assert gameIndex <=2;
+        assert gameIndex >= 0;
+        return this.availableUndos.get(gameIndex);
     }
 
     /**
@@ -189,9 +198,9 @@ public class User implements Serializable
      *
      * @return the highest score of the user
      */
-    int getHighestScore()
+    int getHighestScore(int gameIndex)
     {
-        return highestScore;
+        return highestScore.get(gameIndex);
     }
 
     /**
@@ -199,9 +208,9 @@ public class User implements Serializable
      *
      * @param highestScore the new highestScore of the user
      */
-    void setHighestScore(int highestScore)
+    void setHighestScore(int gameIndex, int highestScore)
     {
-        this.highestScore = highestScore;
+        this.highestScore.put(gameIndex, highestScore);
     }
 
 //
@@ -232,8 +241,7 @@ public class User implements Serializable
     @Override
     public String toString() {
         String username = this.username;
-        double highestScore = this.highestScore;
-        return "User: " + username + " || Highest score: " + highestScore + " ";
+        return "User: " + username + " || Highest score for SlidingTiles: " + highestScore.get(0) + " Highest score for Shogi: " +highestScore.get(1) + " Highest score for Connect 4: " + highestScore.get(2);
     }
 
 

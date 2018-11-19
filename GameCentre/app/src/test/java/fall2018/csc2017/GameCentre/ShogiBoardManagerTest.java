@@ -12,6 +12,7 @@ public class ShogiBoardManagerTest {
 
     @Test
     public void puzzleSolved() {
+
     }
 
     @Test
@@ -44,5 +45,9 @@ public class ShogiBoardManagerTest {
 
     @Test
     public void tileBlockingCol() {
+    }
+    public void makeSolvedBoard(){
+        ShogiBoardManager bm = new ShogiBoardManager(7);
+        
     }
 }

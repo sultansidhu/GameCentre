@@ -95,6 +95,15 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
             public boolean onSingleTapConfirmed(MotionEvent event) {
                 int position = ShogiGestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
+                System.out.println(Math.round(event.getX()));
+                System.out.println("Y is");
+                System.out.println(Math.round(event.getY()));
+                System.out.println("position");
+                System.out.println(position);
+                System.out.println("Row is");
+                System.out.println(position/7);
+                System.out.println("Column is");
+                System.out.println(position%7);
                 Tile currTile = boardManager.getBoard().getTile(position/7, position%7);
 
                 int tileOwner;

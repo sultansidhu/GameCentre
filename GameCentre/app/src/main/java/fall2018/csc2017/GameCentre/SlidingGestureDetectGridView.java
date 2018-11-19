@@ -114,7 +114,7 @@ public class SlidingGestureDetectGridView extends GestureDetectGridView {
                         fm.saveObject(users);
                         ScoreboardActivity sc = new ScoreboardActivity();
                         System.out.println("Total Time: " + users.get(username).getTotalTime());
-                        sc.updateUserHighScore(username);
+                        sc.updateUserHighScore(username, 0);
                         switchToScoreboardScreen();
                     }
                     return true;
