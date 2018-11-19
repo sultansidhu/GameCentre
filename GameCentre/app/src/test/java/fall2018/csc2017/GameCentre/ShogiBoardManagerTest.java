@@ -1,5 +1,6 @@
 package fall2018.csc2017.GameCentre;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -9,6 +10,9 @@ public class ShogiBoardManagerTest {
     @Test
     public void getBoard() {
     }
+
+    @Before
+
 
     @Test
     public void puzzleSolved() {
@@ -64,9 +68,9 @@ public class ShogiBoardManagerTest {
     public void tileBlockingRow() {
         ShogiBoardManager bm = makeOneMoveBoard();
         assertEquals(false, bm.tileBlockingRow(22, 27));//row only has 1 tile
-        assertEquals(true, bm.tileBlockingRow(0, 2));//row has multiple tiles
+        assertEquals(true, bm.tileBlockingRow(0, 3));//row has multiple tiles
         bm.touchMove(44, 23);
-        assertEquals(true, bm.tileBlockingRow(22, 23));//Try to go on top of a tile
+        assertEquals(true, bm.tileBlockingRow(22, 24));//Try to go on top of a tile
     }
 
     @Test
@@ -74,7 +78,6 @@ public class ShogiBoardManagerTest {
         ShogiBoardManager bm = makeOneMoveBoard();
         assertEquals(false, bm.tileBlockingCol(42, 7));//way is clear
         assertEquals(true, bm.tileBlockingCol(43, 15));//Try to jump over another tile
-        assertEquals(true, bm.tileBlockingCol(43, 22));//Try to go on top of another tile
     }
 
 

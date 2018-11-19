@@ -92,10 +92,10 @@ public class ShogiBoardManager extends BoardManager
      * Overloaded isValidTap with 2 parameters
      */
     public boolean isValidTap(int fromTile, int toTile) {
-        if (inSameRow(fromTile, toTile) && !tileBlockingRow(fromTile, toTile)) {
+        if (inSameRow(fromTile, toTile) && !tileBlockingRow(fromTile, toTile) && isWhite(toTile/7, toTile%7)) {
             return true;
         }
-        else return inSameCol(fromTile, toTile) && !tileBlockingCol(fromTile, toTile);
+        else return inSameCol(fromTile, toTile) && !tileBlockingCol(fromTile, toTile) && isWhite(toTile/7, toTile%7);
     }
 
     /**
@@ -152,6 +152,10 @@ public class ShogiBoardManager extends BoardManager
             return false;
         }
         return board.getTile(row, col).getBackground() == R.drawable.red;
+    }
+
+    private boolean isWhite(int row, int col) {
+        return !isBlack(row, col) && !isRed(row, col);
     }
 
     private int checkCapturedDown(int toTile) {
