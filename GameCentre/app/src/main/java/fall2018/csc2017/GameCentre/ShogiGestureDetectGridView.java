@@ -104,6 +104,10 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
                 System.out.println(position/7);
                 System.out.println("Column is");
                 System.out.println(position%7);
+                return checkTap(position);
+            }
+            public boolean checkTap(int position){
+
                 Tile currTile = boardManager.getBoard().getTile(position/7, position%7);
 
                 int tileOwner;
@@ -115,7 +119,7 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
                 if (tileOwner == boardManager.getBoard().getCurrPlayer()) {
                     if (tileSelected == -1
                             || boardManager.getBoard().getTile(
-                          tileSelected/7, tileSelected%7).getBackground()
+                            tileSelected/7, tileSelected%7).getBackground()
                             == currTile.getBackground()) {
                         tileSelected = position;
                         return true;

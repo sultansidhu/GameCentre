@@ -135,7 +135,7 @@ public class ShogiBoardManager extends BoardManager
                 board.setTileBackground(toTile/7 + i, toTile%7, R.drawable.tile_25);
             }
 
-            Toast.makeText(GlobalApplication.getAppContext(), "Player "+ (3 - board.getCurrPlayer()) + "'s turn", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(GlobalApplication.getAppContext(), "Player "+ (3 - board.getCurrPlayer()) + "'s turn", Toast.LENGTH_SHORT).show();
             //TODO: I JUST PUT 3- TO MAKE IT SWAP PROPERLY....PROBABLY SHOULD FIND A  BETTER SOLUTION TO THIS!
 
         }
