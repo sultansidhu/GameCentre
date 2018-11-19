@@ -62,6 +62,9 @@ public class ShogiBoardManagerTest {
 
     @Test
     public void tileBlockingRow() {
+        ShogiBoardManager bm = makeOneMoveBoard();
+        assertEquals(false, bm.tileBlockingRow(22, 27));//row only has 1 tile
+        assertEquals(true, bm.tileBlockingRow(0, 2));//row has multiple tiles
     }
 
     @Test
