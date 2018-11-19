@@ -13,6 +13,8 @@ public class ShogiBoardManager extends BoardManager
      */
     private Board board;
 
+    private int size;
+
     /**
      * This constructor takes a board object and sets this class' board attribute object
      * equal to it
@@ -23,6 +25,8 @@ public class ShogiBoardManager extends BoardManager
     public ShogiBoardManager(Board board) {
         super(board);
         this.board = board;
+        Board.NUM_COLS = board.getTiles().length;
+        Board.NUM_ROWS = board.getTiles().length;
     }
 
     /**
@@ -33,6 +37,7 @@ public class ShogiBoardManager extends BoardManager
 
     public ShogiBoardManager(int size) {
         super(size);
+        this.size = size;
         List<Tile> tiles = new ArrayList<>();
         Board.NUM_COLS = size;
         Board.NUM_ROWS = size;
@@ -130,7 +135,8 @@ public class ShogiBoardManager extends BoardManager
                 board.setTileBackground(toTile/7 + i, toTile%7, R.drawable.tile_25);
             }
 
-            Toast.makeText(GlobalApplication.getAppContext(), "Player "+board.getCurrPlayer() + "'s turn", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(GlobalApplication.getAppContext(), "Player "+ (3 - board.getCurrPlayer()) + "'s turn", Toast.LENGTH_SHORT).show();
+            //TODO: I JUST PUT 3- TO MAKE IT SWAP PROPERLY....PROBABLY SHOULD FIND A  BETTER SOLUTION TO THIS!
 
         }
     }

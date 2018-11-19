@@ -61,6 +61,11 @@ public class Connect4GestureDetectGridView extends GridView
      */
     private String username;
 
+    /**
+    The file manager instance
+     */
+    private FileManager fm = new FileManager();
+
     /*
     Overloaded Constructor that takes a Context
     */
@@ -109,6 +114,10 @@ public class Connect4GestureDetectGridView extends GridView
                 if (boardManager.isValidTap(position))
                 {
                     mController.processTapMovement(context, boardManager, position);
+                    HashMap<String, User> users = fm.readObject();
+                    assert users != null;
+                    users.get(username).addState(boardManager.getBoard(), 2);
+                    fm.saveObject(users);
                     return true;
                 }
                 else

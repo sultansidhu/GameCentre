@@ -59,6 +59,7 @@ public class ShogiActivity extends GameActivity implements Observer {
         super.onCreate(savedInstanceState);
         LoginManager lm = new LoginManager();
         username = lm.getPersonLoggedIn();
+        assert username != null;
         HashMap<String, User> users = fm.readObject();
         assert users != null;
         User user = users.get(username);
@@ -92,6 +93,7 @@ public class ShogiActivity extends GameActivity implements Observer {
                                 this);
                         int displayWidth = gridView.getMeasuredWidth();
                         int displayHeight = gridView.getMeasuredHeight();
+
                         columnWidth = displayWidth / Board.NUM_COLS;
                         columnHeight = displayHeight / Board.NUM_ROWS;
                         display();
@@ -113,9 +115,9 @@ public class ShogiActivity extends GameActivity implements Observer {
                 User user = users.get(username);
                 Stack<Board> userStack = user.getGameStack(1);
 
-                if(user.getAvailableUndos() == 0) {
+                if(user.getAvailableUndos(gameIndex) == 0) {
                     makeToastNoUndo();
-                } else if (user.getAvailableUndos() < 0) {
+                } else if (user.getAvailableUndos(gameIndex) < 0) {
 
                     if (userStack.size() > 1){
                         userStack.pop();
@@ -130,7 +132,7 @@ public class ShogiActivity extends GameActivity implements Observer {
                     gridView.setBoardManager(boardManager);
                     display();
                     users.put(username, user);
-                    user.setAvailableUndos(user.getAvailableUndos() - 1);
+                    user.setAvailableUndos(gameIndex, user.getAvailableUndos(gameIndex) - 1);
                     if (user.getGameStack(1).size() > 1){
                         makeToastUnlimitedUndoText();
                     }
@@ -144,8 +146,8 @@ public class ShogiActivity extends GameActivity implements Observer {
                     gridView.setBoardManager(boardManager);
                     display();
                     users.put(username, user);
-                    user.setAvailableUndos(user.getAvailableUndos() - 1);
-                    makeToastUndoText(user.getAvailableUndos());
+                    user.setAvailableUndos(gameIndex, user.getAvailableUndos(gameIndex) - 1);
+                    makeToastUndoText(user.getAvailableUndos(gameIndex));
                     fm.saveObject(users);
 
                 }
