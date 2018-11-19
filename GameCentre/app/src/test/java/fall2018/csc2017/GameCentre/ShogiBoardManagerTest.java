@@ -65,11 +65,19 @@ public class ShogiBoardManagerTest {
         ShogiBoardManager bm = makeOneMoveBoard();
         assertEquals(false, bm.tileBlockingRow(22, 27));//row only has 1 tile
         assertEquals(true, bm.tileBlockingRow(0, 2));//row has multiple tiles
+        bm.touchMove(44, 23);
+        assertEquals(true, bm.tileBlockingRow(22, 23));//Try to go on top of a tile
     }
 
     @Test
     public void tileBlockingCol() {
+        ShogiBoardManager bm = makeOneMoveBoard();
+        assertEquals(false, bm.tileBlockingCol(42, 7));//way is clear
+        assertEquals(true, bm.tileBlockingCol(43, 15));//Try to jump over another tile
+        assertEquals(true, bm.tileBlockingCol(43, 22));//Try to go on top of another tile
     }
+
+
     public ShogiBoardManager makeOneMoveBoard(){
         ShogiBoardManager bm = new ShogiBoardManager(7);
         bm.touchMove(1, 22);
