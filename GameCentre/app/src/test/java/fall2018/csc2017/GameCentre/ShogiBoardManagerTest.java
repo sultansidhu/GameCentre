@@ -25,6 +25,11 @@ public class ShogiBoardManagerTest {
 
     @Test
     public void isValidTap() {
+        ShogiBoardManager bm = makeOneMoveBoard();
+        assertEquals(false, bm.isValidTap(48, 6));//move red onto black
+        assertEquals(false, bm.isValidTap(42, 43));//move red onto another red
+        assertEquals(false, bm.isValidTap(43, 37));//red diagonal
+        assertEquals(true, bm.isValidTap(46, 39));//red moving up.
     }
 
     @Test
@@ -41,10 +46,18 @@ public class ShogiBoardManagerTest {
 
     @Test
     public void inSameRow() {
+        ShogiBoardManager bm = makeMidGameBoard();
+        assertEquals(false, bm.inSameRow(0, 7));
+        assertEquals(false, bm.inSameRow(0, 48));
+        assertEquals(true, bm.inSameRow(14, 16));
     }
 
     @Test
     public void inSameCol() {
+        ShogiBoardManager bm = makeOneMoveAwayforRed();
+        assertEquals(false, bm.inSameCol(0, 8));
+        assertEquals(true, bm.inSameCol(15, 22));
+        assertEquals(false, bm.inSameCol(1,2));
     }
 
     @Test
