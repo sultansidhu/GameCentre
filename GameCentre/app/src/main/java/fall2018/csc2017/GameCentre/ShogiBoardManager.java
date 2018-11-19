@@ -141,7 +141,7 @@ public class ShogiBoardManager extends BoardManager
         }
     }
 
-    private boolean isBlack(int row, int col) {
+    protected boolean isBlack(int row, int col) {
         if (row > 6 || row < 0 || col > 6 || col < 0) {
             return false;
         }

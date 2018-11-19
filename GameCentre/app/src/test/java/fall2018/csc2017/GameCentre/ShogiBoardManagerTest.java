@@ -45,6 +45,20 @@ public class ShogiBoardManagerTest {
     }
 
     @Test
+    public void isBlack(){
+        ShogiBoardManager bm = makeOneMoveBoard();
+        assertEquals(false, bm.isBlack(6, 0));//Red tile
+        assertEquals(false, bm.isBlack(5, 3)); //Blank tile
+        assertEquals(true, bm.isBlack(3, 1));//Moved black tile
+        assertEquals(true, bm.isBlack(0,0));//Black tile that did not move
+    }
+
+    @Test
+    public void isRed(){
+
+    }
+
+    @Test
     public void inSameRow() {
         ShogiBoardManager bm = makeMidGameBoard();
         assertEquals(false, bm.inSameRow(0, 7));
@@ -74,7 +88,7 @@ public class ShogiBoardManagerTest {
         ShogiBoardManager bm = makeOneMoveBoard();
         assertEquals(false, bm.tileBlockingCol(42, 7));//way is clear
         assertEquals(true, bm.tileBlockingCol(43, 15));//Try to jump over another tile
-        assertEquals(true, bm.tileBlockingCol(43, 22));//Try to go on top of another tile
+
     }
 
 
