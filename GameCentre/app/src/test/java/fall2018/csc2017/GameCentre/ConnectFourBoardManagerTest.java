@@ -43,26 +43,10 @@ public class ConnectFourBoardManagerTest {
         ConnectFourBoardManager bm = makeRedOneMoveAwayBoard();
         bm.touchMove(12);
         assertEquals(false, bm.checkDiagonals(12));
-        bm.touchMove(15);
+        bm = makeRedWinDiagonalBoard();
         assertEquals(true, bm.checkDiagonals(15));
         bm = makeRedWinVerticalBoard();
         assertEquals(true, bm.checkDiagonals(13));
-    }
-
-    @Test
-    public void checkRightDiagDown() {
-    }
-
-    @Test
-    public void checkRightDiagUp() {
-    }
-
-    @Test
-    public void checkLeftDiagDown() {
-    }
-
-    @Test
-    public void checkLeftDiagUp() {
     }
 
     @Test
@@ -129,6 +113,11 @@ public class ConnectFourBoardManagerTest {
 
     @Test
     public void gameDrawn() {
+        ConnectFourBoardManager bm = makeRedWinDiagonalBoard();
+        assertEquals(false, bm.gameDrawn());
+        bm = makeEarlyBoard();
+        assertEquals(false, bm.gameDrawn());
+        //TODO: Write true tests for gameDrawn
     }
 
 
