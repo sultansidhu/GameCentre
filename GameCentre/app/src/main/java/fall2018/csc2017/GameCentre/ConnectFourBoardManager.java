@@ -434,7 +434,7 @@ public class ConnectFourBoardManager extends BoardManager {
         int row = position / Board.NUM_ROWS;
         int col = position % Board.NUM_COLS;
         board.setTileBackground(row, col, getBackgroundForPlayer());
-        Toast.makeText(GlobalApplication.getAppContext(), "Player "+(3-this.currentPlayer)+"'s turn", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(GlobalApplication.getAppContext(), "Player "+(3-this.currentPlayer)+"'s turn", Toast.LENGTH_SHORT).show();
         // TODO: the 3-this.currentplayer is probably a code smell, there should be a better solutions to this!
         if (gameDrawn()){
             makeToast("Game drawn! Start a new game");

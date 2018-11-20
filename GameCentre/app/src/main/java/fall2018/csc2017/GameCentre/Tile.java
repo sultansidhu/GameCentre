@@ -60,7 +60,7 @@ public class Tile extends Observable implements Comparable<Tile>, Serializable {
      *
      * @param backgroundId the background id.
      */
-    Tile(int backgroundId) {
+    public Tile(int backgroundId) {
         id = backgroundId + 1;
         // This looks so ugly.
         switch (backgroundId + 1) {

@@ -40,7 +40,7 @@ public class SlidingActivity extends GameActivity implements Observer {
     // Grid View and calculated column height and width based on device size
     private SlidingGestureDetectGridView gridView;
     private static int columnWidth, columnHeight;
-    private int gameIndex;
+    private int gameIndex = 0;
     private String username;
     private FileManager fm = new FileManager();
 
@@ -55,11 +55,12 @@ public class SlidingActivity extends GameActivity implements Observer {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         LoginManager lm = new LoginManager();
         username = lm.getPersonLoggedIn();
-        gameIndex = getIntent().getExtras().getInt("gameIndex");
+
         HashMap<String, User> users = fm.readObject();
         assert users != null;
         User user = users.get(username);
@@ -86,9 +87,11 @@ public class SlidingActivity extends GameActivity implements Observer {
         boardManager.getBoard().addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
-                new ViewTreeObserver.OnGlobalLayoutListener() {
+                new ViewTreeObserver.OnGlobalLayoutListener()
+                {
                     @Override
-                    public void onGlobalLayout() {
+                    public void onGlobalLayout()
+                    {
                         gridView.getViewTreeObserver().removeOnGlobalLayoutListener(
                                 this);
                         int displayWidth = gridView.getMeasuredWidth();
