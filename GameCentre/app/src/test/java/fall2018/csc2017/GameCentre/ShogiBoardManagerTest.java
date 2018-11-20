@@ -10,6 +10,9 @@ public class ShogiBoardManagerTest {
     public void getBoard() {
     }
 
+    @Before
+
+
     @Test
     public void puzzleSolved() {
         ShogiBoardManager bm = makeOneMoveBoard();
@@ -84,7 +87,7 @@ public class ShogiBoardManagerTest {
         assertEquals(false, bm.tileBlockingRow(22, 27));//row only has 1 tile
         assertEquals(true, bm.tileBlockingRow(42, 47));//row has multiple tiles
         bm.touchMove(44, 23);
-        assertEquals(true, bm.tileBlockingRow(22, 23));//Try to go on top of a tile
+        assertEquals(true, bm.tileBlockingRow(22, 24));//Try to go on top of a tile
     }
 
     @Test
