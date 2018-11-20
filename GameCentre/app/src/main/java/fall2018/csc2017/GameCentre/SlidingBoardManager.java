@@ -18,7 +18,6 @@ public class SlidingBoardManager extends BoardManager implements Serializable {
     /**
      * This constructor takes a Board object and sets it equal to the class' attribute board
      * @param board, a board object representing the board
-     * @throws null
      */
 
     public SlidingBoardManager(Board board) {
@@ -31,7 +30,6 @@ public class SlidingBoardManager extends BoardManager implements Serializable {
     /**
      * This constructor takes an integer size and creates a board of size size
      * @param size, an integer representing the size of this board
-     * @throws null
      */
 
     public SlidingBoardManager(int size) {
@@ -44,16 +42,12 @@ public class SlidingBoardManager extends BoardManager implements Serializable {
             tiles.add(new Tile(tileNum));
         }
         makeSolvable(tiles, size);
-        if (this.board==null) {
-            System.out.println("BOARD IS NULL DUDE");
-        }
 
     }
 
     /**
      * This method returns the board attribute of this class
      * @return Board, a board object
-     * @throws null
      */
 
     public Board getBoard() { return this.board; }
@@ -62,7 +56,6 @@ public class SlidingBoardManager extends BoardManager implements Serializable {
      * Return whether the tiles are in row-major order.
      *
      * @return whether the tiles are in row-major order
-     * @throws null
      */
     public boolean puzzleSolved() {
         int counter = 1;
@@ -85,10 +78,10 @@ public class SlidingBoardManager extends BoardManager implements Serializable {
         int col = position % Board.NUM_COLS;
         int blankId = board.numTiles();
         // Are any of the 4 the blank tile?
-        Tile above = row == 0 ? null : (Tile)board.getTile(row - 1, col);
-        Tile below = row == Board.NUM_ROWS - 1 ? null : (Tile)board.getTile(row + 1, col);
-        Tile left = col == 0 ? null : (Tile)board.getTile(row, col - 1);
-        Tile right = col == Board.NUM_COLS - 1 ? null : (Tile)board.getTile(row, col + 1);
+        Tile above = row == 0 ? null : board.getTile(row - 1, col);
+        Tile below = row == Board.NUM_ROWS - 1 ? null : board.getTile(row + 1, col);
+        Tile left = col == 0 ? null : board.getTile(row, col - 1);
+        Tile right = col == Board.NUM_COLS - 1 ? null : board.getTile(row, col + 1);
         return (below != null && below.getId() == blankId)
                 || (above != null && above.getId() == blankId)
                 || (left != null && left.getId() == blankId)
@@ -97,7 +90,6 @@ public class SlidingBoardManager extends BoardManager implements Serializable {
 
     /**
      * Process a touch at position in the board, swapping tiles as appropriate.
-     *
      * @param position the position
      */
     public void touchMove(int position) {
@@ -109,9 +101,9 @@ public class SlidingBoardManager extends BoardManager implements Serializable {
 
         if (isValidTap(position))
         {
-            Tile above = row == 0 ? null : (Tile)board.getTile(row - 1, col);
-            Tile left = col == 0 ? null : (Tile)board.getTile(row, col - 1);
-            Tile right = col == Board.NUM_COLS - 1 ? null : (Tile)board.getTile(row, col + 1);
+            Tile above = row == 0 ? null : board.getTile(row - 1, col);
+            Tile left = col == 0 ? null : board.getTile(row, col - 1);
+            Tile right = col == Board.NUM_COLS - 1 ? null : board.getTile(row, col + 1);
 
             if (above != null && above.getId() == blankId) board.swapTiles(row, col, row - 1, col);
             else if (left != null && left.getId() == blankId)
@@ -127,10 +119,9 @@ public class SlidingBoardManager extends BoardManager implements Serializable {
      * This method creates a sovlable board
      * @param tiles, an Arraylist holding tile objects. size, an integer representing the size
      * of this board
-     * @throws null
      */
 
-    public void makeSolvable(List<Tile> tiles, int size) {
+    private void makeSolvable(List<Tile> tiles, int size) {
         Tile testTile = new Tile(24);
         testTile.setId(size*size);
         tiles.add(testTile);
