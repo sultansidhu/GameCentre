@@ -81,29 +81,7 @@ public class StartingConnectFourActivity extends StartingActivity
                 TextView p2password = findViewById(R.id.txtP2PasswordC4);
                 String p2passwordString = p2password.getText().toString().trim();
 
-                if(p2usernameString.equals(""))
-                {
-                    Toast.makeText(getApplicationContext(), "Signing P2 as Guest", Toast.LENGTH_SHORT).show();
-                    boardManager.getBoard().setOpponentString("Guest");
-                    switchToGame(2);
-                }
-                else if(p2passwordString.equals(""))
-                {
-                    Toast.makeText(getApplicationContext(), "Password Field is Empty!", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-
-                    LoginManager lm = new LoginManager();
-                    if(lm.authenticateP2(p2usernameString, p2passwordString))
-                    {
-                        Toast.makeText(getApplicationContext(), "Starting Game...", Toast.LENGTH_SHORT).show();
-                        switchToGame(2);
-                    }
-                    else
-                        Toast.makeText(getApplicationContext(), "Invalid Credentials...", Toast.LENGTH_SHORT).show();
-
-                }
+                startButtonHelper(boardManager.getBoard(), p2usernameString, p2passwordString, 2);
 
             }
         });
