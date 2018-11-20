@@ -16,8 +16,6 @@ import java.util.Stack;
 
 public class StartingActivity extends AppCompatActivity
 {
-
-    //SIZE, USERNAME, FILEMANAGER
     private int size;
     private String username;
     public FileManager fm = new FileManager();
@@ -107,31 +105,31 @@ public class StartingActivity extends AppCompatActivity
 
     }
 
-//    public void startButtonHelper(Board board, String p2usernameString, String p2passwordString, int gameParameter)
-//    {
-//        if(p2usernameString.equals(""))
-//        {
-//            Toast.makeText(getApplicationContext(), "Signing P2 as Guest", Toast.LENGTH_SHORT).show();
-//            board.setOpponentString("Guest");
-//            switchToGame(gameParameter);
-//        }
-//        else if(p2passwordString.equals(""))
-//        {
-//            Toast.makeText(getApplicationContext(), "Password Field is Empty!", Toast.LENGTH_SHORT).show();
-//        }
-//        else
-//        {
-//
-//            LoginManager lm = new LoginManager();
-//            if(lm.authenticateP2(p2usernameString, p2passwordString))
-//            {
-//                Toast.makeText(getApplicationContext(), "Starting Game...", Toast.LENGTH_SHORT).show();
-//                switchToGame(gameParameter);
-//            }
-//            else
-//                Toast.makeText(getApplicationContext(), "Invalid Credentials...", Toast.LENGTH_SHORT).show();
-//
-//        }
-//    }
+    public void startButtonHelper(Board board, String p2usernameString, String p2passwordString, int gameParameter)
+    {
+        if(p2usernameString.equals(""))
+        {
+            Toast.makeText(getApplicationContext(), "Signing P2 as Guest", Toast.LENGTH_SHORT).show();
+            board.setOpponentString("Guest");
+            switchToGame(gameParameter);
+        }
+        else if(p2passwordString.equals(""))
+        {
+            Toast.makeText(getApplicationContext(), "Password Field is Empty!", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+
+            LoginManager lm = new LoginManager();
+            if(lm.authenticateP2(p2usernameString, p2passwordString))
+            {
+                Toast.makeText(getApplicationContext(), "Starting Game...", Toast.LENGTH_SHORT).show();
+                switchToGame(gameParameter);
+            }
+            else
+                Toast.makeText(getApplicationContext(), "Invalid Credentials...", Toast.LENGTH_SHORT).show();
+
+        }
+    }
 
 }

@@ -19,11 +19,14 @@ public class FileManager implements Serializable {
     public FileManager()
     {
         HashMap<String, User> HMfromfile = readObject();
-            if(HMfromfile != null) {
-                this.theHashMap = HMfromfile;
-        } else{
-                saveObject(new HashMap<String, User>());
-            }
+        if(HMfromfile != null)
+        {
+            this.theHashMap = HMfromfile;
+        }
+        else
+        {
+            saveObject(new HashMap<String, User>());
+        }
 
     }
     //public HashMap<String, User> readObject() {
