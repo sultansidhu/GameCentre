@@ -24,7 +24,7 @@ import java.util.Stack;
 /**
  * The initial activity for the sliding puzzle tile game.
  */
-public class StartingSlidingActivity extends AppCompatActivity {
+public class StartingSlidingActivity extends StartingActivity {
 
     /**
      * The board manager.
@@ -35,7 +35,6 @@ public class StartingSlidingActivity extends AppCompatActivity {
     private int size;
     private String username;
     private FileManager fm = new FileManager();
-   /* private ArrayList<Class> boardManagers = new ArrayList<>();*/
 
 
     /**
@@ -55,9 +54,6 @@ public class StartingSlidingActivity extends AppCompatActivity {
         LoginManager lm = new LoginManager();
         username = lm.getPersonLoggedIn();
         assert username != null; //There should be someone logged in once we get to this screen.
-        /*boardManagers.add(SlidingBoardManager.class);
-        boardManagers.add(ShogiBoardManager.class);
-        boardManagers.add(ConnectFourBoardManager.class);*/
     }
 
     /**
@@ -87,13 +83,14 @@ public class StartingSlidingActivity extends AppCompatActivity {
     }
 
 
-    /*
+    /**
     Activate the LaunchScoreboard button
     */
     private void addScoreboardButtonListener() {
         Button scoreboard = findViewById(R.id.btnScoreboard);
 
-        scoreboard.setOnClickListener(new View.OnClickListener() {
+        scoreboard.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v) {
                 switchToScoreboardScreen();
@@ -124,94 +121,69 @@ public class StartingSlidingActivity extends AppCompatActivity {
                 } catch (NumberFormatException e) {
                     undoLimit = -1;
                 } finally {
-                    selectBoardManager();
+                    boardManager = (SlidingBoardManager)selectBoardManager(0, size);
                     HashMap<String, User> users = fm.readObject();
                     assert users != null;
                     users.get(username).setAvailableUndos(gameIndex, undoLimit);
                     //users.get(username).setSavedStates(new HashMap<Integer, Stack<Board>>());
                     users.get(username).addState(boardManager.getBoard(), 0);
                     fm.saveObject(users);
-                    switchToGame();
+                    switchToGame(0);
                 }
 
             }
         });
     }
-
-    /**
-     * Selects the correct boardmanager basefd on which game is being played.
-     */
-
-    public void selectBoardManager() {
-        boardManager = new SlidingBoardManager(size);
-
-    }
-
-    public void setBoardManager(Board board) {
-        boardManager = new SlidingBoardManager(board);
-    }
-
 
     /**
      * Activate the load button.
      */
-    private void addLoadButtonListener() {
+    private void addLoadButtonListener()
+    {
         Button loadButton = findViewById(R.id.LoadButton);
         loadButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                HashMap<String, User> users = fm.readObject();
-                assert users != null;
-                Stack<Board> userStack = users.get(username).getGameStack(0);
-                if (userStack == null || userStack.size() < 1) {
-                    Toast.makeText(getApplicationContext(), "No game to load! Start a new game!", Toast.LENGTH_LONG).show();
-                } else {
-                    setBoardManager(userStack.peek());
-                    makeToastLoadedText();
-                    switchToGame();
-                }
+            public void onClick(View v)
+            {
+                onClickHelper(0);
 
             }
         });
     }
-    /**
-     * Display that a game was loaded successfully.
-     */
-    private void makeToastLoadedText() {
-        Toast.makeText(this, "Loaded Game", Toast.LENGTH_SHORT).show();
+
+    public void onClickHelper(int gameParameter)
+    {
+        HashMap<String, User> users = fm.readObject();
+        assert users != null;
+        Stack<Board> userStack = users.get(username).getGameStack(gameParameter);
+        if (userStack.size() < 1)
+        {
+            Toast.makeText(getApplicationContext(), "No game to load! Start a new game!", Toast.LENGTH_LONG).show();
+        } else {
+            makeToastLoadedText();
+            switchToGame(gameParameter);
+        }
     }
+
 
     /**
      * Read the temporary board from disk.
      */
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
         super.onResume();
-        /*HashMap<String, User> users = fm.readObject();
+        HashMap<String, User> users = fm.readObject();
         assert users != null;
-        String name = username;
         Stack<Board> userStack = users.get(username).getGameStack(0);
-        try {
-            setBoardManager(userStack.peek());
-        } catch (EmptyStackException e) {
+        try
+        {
+            setBoardManager(userStack.peek(),0);
+        } catch (EmptyStackException e)
+        {
             System.out.println("Empty stack, nothing to resume!");
-        }*/
+        }
     }
 
-    /**
-     * Switch to the SlidingActivity view to play the game.
-     */
-    private void switchToGame() {
-        Intent intent = new Intent(getApplicationContext(), SlidingActivity.class);
-        intent.putExtra("gameIndex", gameIndex);
-        startActivity(intent);
-    }
 
-    /**
-     * Switches to the scoreboard screen when the scoreboard button is clicked
-     */
-    private void switchToScoreboardScreen() {
-        Intent intent = new Intent(this, ScoreboardActivity.class);
-        startActivity(intent);
-    }
 }

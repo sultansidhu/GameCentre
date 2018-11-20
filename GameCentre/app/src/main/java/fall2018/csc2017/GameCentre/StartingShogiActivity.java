@@ -13,7 +13,7 @@ import android.widget.Toast;
 import java.util.HashMap;
 import java.util.Stack;
 
-public class StartingShogiActivity extends AppCompatActivity {
+public class StartingShogiActivity extends StartingActivity {
 
     /**
      * The board manager.
@@ -63,7 +63,8 @@ public class StartingShogiActivity extends AppCompatActivity {
     private void addScoreboardButtonListener() {
         Button scoreboard = findViewById(R.id.btnScoreboardHS);
 
-        scoreboard.setOnClickListener(new View.OnClickListener() {
+        scoreboard.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v) {
                 switchToScoreboardScreen();
@@ -78,13 +79,14 @@ public class StartingShogiActivity extends AppCompatActivity {
     private void addStartButtonListener() {
         Button startButton = findViewById(R.id.btnStartGameHS);
 
-        startButton.setOnClickListener(new View.OnClickListener() {
+        startButton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v) {
 
                 Spinner undoDropdown = findViewById(R.id.dropdownHS);
                 String selectedUndo = undoDropdown.getSelectedItem().toString();
-                selectBoardManager();
+                boardManager = (ShogiBoardManager)selectBoardManager(1, 7);
                 HashMap<String, User> users = fm.readObject();
                 assert users != null;
                 users.get(username).setAvailableUndos(gameIndex, undoLimit);
@@ -101,7 +103,7 @@ public class StartingShogiActivity extends AppCompatActivity {
                 {
                     Toast.makeText(getApplicationContext(), "Signing P2 as Guest", Toast.LENGTH_SHORT).show();
                     boardManager.getBoard().setOpponentString("Guest");
-                    switchToGame();
+                    switchToGame(1);
                 }
                 else if(p2passwordString.equals(""))
                 {
@@ -114,13 +116,12 @@ public class StartingShogiActivity extends AppCompatActivity {
                     if(lm.authenticateP2(p2usernameString, p2passwordString))
                     {
                         Toast.makeText(getApplicationContext(), "Starting Game...", Toast.LENGTH_SHORT).show();
-                        switchToGame();
+                        switchToGame(1);
                     }
                     else
                         Toast.makeText(getApplicationContext(), "Invalid Credentials...", Toast.LENGTH_SHORT).show();
 
                 }
-
 
             }
         });
@@ -129,77 +130,33 @@ public class StartingShogiActivity extends AppCompatActivity {
     /**
      * Activate the load button.
      */
-    private void addLoadButtonListener() {
+    private void addLoadButtonListener()
+    {
         Button loadButton = findViewById(R.id.btnLoadGameHS);
-        loadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HashMap<String, User> users = fm.readObject();
-                assert users != null;
-                Stack<Board> userStack = users.get(username).getGameStack(1);
-                if (userStack == null || userStack.size() < 1) {
-                    Toast.makeText(getApplicationContext(), "No game to load! Start a new game!", Toast.LENGTH_LONG).show();
-                } else {
-                    setBoardManager(userStack.peek());
-                    makeToastLoadedText();
-                    switchToGame();
-                }
-
+        loadButton.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View view)
+            {
+                onClickHelper(1);
             }
         });
+
     }
 
-    /**
-     * Display that a game was loaded successfully.
-     */
-    private void makeToastLoadedText() {
-        Toast.makeText(this, "Loaded Game", Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * Read the temporary board from disk.
-     */
-
-    /*protected void onResume() {
-        super.onResume();
+    public void onClickHelper(int gameParameter)
+    {
         HashMap<String, User> users = fm.readObject();
         assert users != null;
-        Stack<Board> userStack = users.get(username).getGameStack(1);
-        try {
-            setBoardManager(userStack.peek());
-        } catch (EmptyStackException e) {
-            System.out.println("Empty stack, nothing to resume!");
+        Stack<Board> userStack = users.get(username).getGameStack(gameParameter);
+        if (userStack.size() < 1)
+        {
+            Toast.makeText(getApplicationContext(), "No game to load! Start a new game!", Toast.LENGTH_LONG).show();
+        } else {
+            makeToastLoadedText();
+            switchToGame(gameParameter);
         }
     }
-*/
-    /**
-     * Switch to the ShogiActivity view to play the game.
-     */
-    private void switchToGame() {
-        Intent intent = new Intent(getApplicationContext(), ShogiActivity.class);
-        startActivity(intent);
-    }
 
-    /**
-     * Switches to the scoreboard screen when the scoreboard button is clicked
-     */
-    private void switchToScoreboardScreen() {
-        Intent intent = new Intent(this, ScoreboardActivity.class);
-        startActivity(intent);
-    }
-
-
-    /**
-     * Selects the correct boardmanager basefd on which game is being played.
-     */
-
-    public void selectBoardManager() {
-        boardManager = new ShogiBoardManager(size);
-    }
-
-    public void setBoardManager(Board board) {
-        boardManager = new ShogiBoardManager(board);
-    }
 
 
 }
