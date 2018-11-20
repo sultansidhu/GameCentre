@@ -152,46 +152,15 @@ public class ShogiActivity extends GameActivity implements Observer {
 
                 }
 
-                else makeToastEmptyStack();
+                else
+                    makeToastEmptyStack();
             }
         });
-    }
-
-    /**
-     * Makes toast representing the number of undo's remaining.
-     * @param number number of undo's remaining for the user
-     */
-    private void makeToastUndoText(int number) {
-        Toast.makeText(this, "Undo used: "+number+" undo(s) remain.", Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * Make toast representing the notion that the user has used
-     * all of his/her undo's.
-     */
-    private void makeToastNoUndo() {
-        Toast.makeText(this, "You have used all your undos!", Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * Make toast notifying the user of an empty Board stack.
-     */
-    private void makeToastEmptyStack(){
-        Toast.makeText(this, "There are no previous boards.", Toast.LENGTH_SHORT).show();
     }
 
 
     public void setBoardManager(Board board) {
         boardManager = new ShogiBoardManager(board);
-    }
-
-    /**
-     * Make toast notifying the user of a successful undo
-     * when the number of maximum possible undo's is set to
-     * unlimited.
-     */
-    private void makeToastUnlimitedUndoText() {
-        Toast.makeText(this, "Undo used", Toast.LENGTH_SHORT).show();
     }
 
     /**

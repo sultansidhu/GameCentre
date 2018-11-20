@@ -101,67 +101,12 @@ public class GameActivity extends AppCompatActivity implements Observer {
                 });*/
     }
 
-    /**
-     * Adds the listener for the undo button on the UI
-     */
-    private void addUndoButtonListener() {
-        Button undoButton = findViewById(R.id.UndoButton);
-        undoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                HashMap<String, User> users = fm.readObject();
-                assert users != null;
-                User user = users.get(username);
-                Stack<Board> userStack = user.getGameStack(0);
-
-                if(user.getAvailableUndos(gameIndex) == 0) {
-                    makeToastNoUndo();
-                } else if (user.getAvailableUndos(gameIndex) < 0) {
-
-                    if (userStack.size() > 1){
-                        userStack.pop();
-                        setBoardManager(userStack.peek());
-
-                    }
-                    else{
-                        Toast.makeText(getApplicationContext(), "No more undos possible!", Toast.LENGTH_LONG).show();
-                    }
-
-                    boardManager.getBoard().addObserver(GameActivity.this);
-                    gridView.setBoardManager(boardManager);
-                    display();
-                    users.put(username, user);
-                    user.setAvailableUndos(gameIndex, user.getAvailableUndos(gameIndex) -1);
-                    if (user.getGameStack(0).size() > 1){
-                        makeToastUnlimitedUndoText();
-                    }
-                    fm.saveObject(users);
-                }
-
-                else if (userStack.size() > 1 ) {
-                    userStack.pop();
-                    setBoardManager(userStack.peek());
-                    boardManager.getBoard().addObserver(GameActivity.this);
-                    gridView.setBoardManager(boardManager);
-                    display();
-                    users.put(username, user);
-                    user.setAvailableUndos(gameIndex, user.getAvailableUndos(gameIndex) - 1);
-                    makeToastUndoText(user.getAvailableUndos(gameIndex));
-                    fm.saveObject(users);
-
-                }
-
-                else makeToastEmptyStack();
-            }
-        });
-    }
 
     /**
      * Makes toast representing the number of undo's remaining.
      * @param number number of undo's remaining for the user
      */
-    private void makeToastUndoText(int number) {
+    protected void makeToastUndoText(int number) {
         Toast.makeText(this, "Undo used: "+number+" undo(s) remain.", Toast.LENGTH_SHORT).show();
     }
 
@@ -169,14 +114,14 @@ public class GameActivity extends AppCompatActivity implements Observer {
      * Make toast representing the notion that the user has used
      * all of his/her undo's.
      */
-    private void makeToastNoUndo() {
+    protected void makeToastNoUndo() {
         Toast.makeText(this, "You have used all your undos!", Toast.LENGTH_SHORT).show();
     }
 
     /**
      * Make toast notifying the user of an empty Board stack.
      */
-    private void makeToastEmptyStack(){
+    protected void makeToastEmptyStack(){
         Toast.makeText(this, "There are no previous boards.", Toast.LENGTH_SHORT).show();
     }
 
@@ -190,7 +135,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
      * when the number of maximum possible undo's is set to
      * unlimited.
      */
-    private void makeToastUnlimitedUndoText() {
+    protected void makeToastUnlimitedUndoText() {
         Toast.makeText(this, "Undo used", Toast.LENGTH_SHORT).show();
     }
 
