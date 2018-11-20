@@ -9,7 +9,7 @@ public class LoginManager {
 
     public LoginManager(){
         this.f1 = new FileManager();
-        for(User user: f1.getTheHashMap().values()){
+        for(User user: f1.readObject().values()){
             if(user.getLoggedIn()){
                 assert personLoggedIn == null; //we should only be setting this once
                 personLoggedIn = user.getUsername();
@@ -41,17 +41,18 @@ public class LoginManager {
         {
             makeToast("Passwords do not match!");
         }
-        else if (f1.getTheHashMap().containsKey(username))
+        else if (f1.readObject().containsKey(username))
         {
             makeToast("User Already Exists!");
         }
         else {
             User newUser = new User(username, password, selQ, ans);
-            setUsersLoggedOut(f1.getTheHashMap());
+            setUsersLoggedOut(f1.readObject());
             newUser.setLoggedIn(true);
-            f1.getTheHashMap().put(username, newUser);
+            HashMap<String, User> hm = f1.readObject();
+            hm.put(username, newUser);
 
-            f1.saveObject(f1.getTheHashMap());
+            f1.saveObject(hm);
             makeToast("Success!");
             return true;
         }
@@ -59,19 +60,19 @@ public class LoginManager {
     }
 
     public boolean authenticate(String username, String password){
-        if (!f1.getTheHashMap().containsKey(username)){
+        if (!f1.readObject().containsKey(username)){
             makeToast("User Does Not Exist!");
         }
-        else if(!f1.getTheHashMap().get(username).getPassword().equals(password)){
+        else if(!f1.readObject().get(username).getPassword().equals(password)){
             makeToast("Password Rejected!");
         }
 
         else{
-            setUsersLoggedOut(f1.getTheHashMap());
-            f1.getTheHashMap().get(username).setLoggedIn(true);
+            setUsersLoggedOut(f1.readObject());
+            f1.readObject().get(username).setLoggedIn(true);
             personLoggedIn = username;
             makeToast("Logging in...");
-            f1.saveObject(f1.getTheHashMap());
+            f1.saveObject(f1.readObject());
             //MovementController.username = username;
             return true;
         }
@@ -79,11 +80,11 @@ public class LoginManager {
     }
 
     public boolean authenticateP2(String username, String password){
-        if (!f1.getTheHashMap().containsKey(username)){
+        if (!f1.readObject().containsKey(username)){
             makeToast("User Does Not Exist!");
             return false;
         }
-        else if(!f1.getTheHashMap().get(username).getPassword().equals(password)){
+        else if(!f1.readObject().get(username).getPassword().equals(password)){
             makeToast("Password Rejected!");
             return false;
         }
