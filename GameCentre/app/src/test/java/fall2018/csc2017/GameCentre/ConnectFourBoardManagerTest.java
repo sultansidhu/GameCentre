@@ -40,7 +40,13 @@ public class ConnectFourBoardManagerTest {
     }
     @Test
     public void checkDiagonals() {
-
+        ConnectFourBoardManager bm = makeRedOneMoveAwayBoard();
+        bm.touchMove(12);
+        assertEquals(false, bm.checkDiagonals(12));
+        bm.touchMove(15);
+        assertEquals(true, bm.checkDiagonals(15));
+        bm = makeRedWinVerticalBoard();
+        assertEquals(true, bm.checkDiagonals(13));
     }
 
     @Test
