@@ -1,9 +1,6 @@
 package fall2018.csc2017.GameCentre;
 
-import android.widget.Toast;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ShogiBoardManager extends BoardManager
@@ -13,13 +10,10 @@ public class ShogiBoardManager extends BoardManager
      */
     private Board board;
 
-    private int size;
-
     /**
      * This constructor takes a board object and sets this class' board attribute object
      * equal to it
      * @param board, a Board object representing the board
-     * @throws null
      */
 
     public ShogiBoardManager(Board board) {
@@ -32,12 +26,10 @@ public class ShogiBoardManager extends BoardManager
     /**
      * This constructor takes an int size and creates the board of size size
      * @param size, an integer representing the size of the board
-     * @throws null
      */
 
     public ShogiBoardManager(int size) {
         super(size);
-        this.size = size;
         List<Tile> tiles = new ArrayList<>();
         Board.NUM_COLS = size;
         Board.NUM_ROWS = size;
@@ -61,7 +53,6 @@ public class ShogiBoardManager extends BoardManager
     /**
      * This method returns the board attribute of this board manager
      * @return Board the board object attribute of this class
-     * @throws null
      */
 
     public Board getBoard() { return this.board; }
@@ -69,7 +60,6 @@ public class ShogiBoardManager extends BoardManager
     /**
      * This method returns whether or not the board has been solved
      * @return boolean, true if the puzzle has been solved, false otherwise
-     * @throws null
      */
 
     public boolean puzzleSolved() {
@@ -79,12 +69,9 @@ public class ShogiBoardManager extends BoardManager
     /**
      * This method returns whether or not the tap made by the user is a valid tap
      * @return boolean, true if the puzzle has been solved, false otherwise
-     * @throws null
      */
 
     public boolean isValidTap(int position) {
-        int row = position / Board.NUM_COLS;
-        int col = position % Board.NUM_COLS;
         return false;
     }
 
@@ -101,21 +88,14 @@ public class ShogiBoardManager extends BoardManager
     /**
      * This method is a stub
      * @param position: an nt representing the position touched
-     * @return null
-     * @throws null
      */
 
-    public void touchMove(int position) {
-        if (isValidTap(position)) {
-            int row1 = position / Board.NUM_COLS;
-            int col = position % Board.NUM_COLS;
-        }
-    }
+    public void touchMove(int position) { }
 
     /**
      * Overloaded touchMove with 2 parameters.
      */
-    public void touchMove(int fromTile, int toTile) {
+    void touchMove(int fromTile, int toTile) {
         if (isValidTap(fromTile, toTile)) {
             board.swapTiles(fromTile/7, fromTile%7, toTile/7, toTile%7);
             int left = checkCapturedLeft(toTile);
@@ -141,13 +121,13 @@ public class ShogiBoardManager extends BoardManager
         }
     }
 
-    protected boolean isBlack(int row, int col) {
+    boolean isBlack(int row, int col) {
         if (row > 6 || row < 0 || col > 6 || col < 0) {
             return false;
         }
         return board.getTile(row, col).getBackground() == R.drawable.black;
     }
-    protected boolean isRed(int row, int col) {
+    boolean isRed(int row, int col) {
         if (row > 6 || row < 0 || col > 6 || col < 0) {
             return false;
         }
@@ -256,15 +236,15 @@ public class ShogiBoardManager extends BoardManager
         return 0;
     }
 
-    public boolean inSameRow(int fromTile, int toTile) {
+    boolean inSameRow(int fromTile, int toTile) {
         return fromTile/7 == toTile/7;
     }
 
-    public boolean inSameCol(int fromTile, int toTile) {
+    boolean inSameCol(int fromTile, int toTile) {
         return fromTile%7 == toTile%7;
     }
 
-    public boolean tileBlockingRow(int fromTile, int toTile)
+    boolean tileBlockingRow(int fromTile, int toTile)
     {
         int row = fromTile/7;
         int start = fromTile%7 < toTile%7 ? fromTile%7 : toTile%7;
@@ -279,7 +259,7 @@ public class ShogiBoardManager extends BoardManager
         return false;
     }
 
-    public boolean tileBlockingCol(int fromTile, int toTile) {
+    boolean tileBlockingCol(int fromTile, int toTile) {
         int col = fromTile%7;
         int start = fromTile/7 < toTile/7 ? fromTile/7 : toTile/7;
         int end = fromTile/7 > toTile/7 ? fromTile/7 : toTile/7;

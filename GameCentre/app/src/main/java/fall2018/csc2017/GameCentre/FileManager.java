@@ -14,19 +14,19 @@ import java.util.HashMap;
 
 public class FileManager implements Serializable {
 
-    private HashMap<String, User> theHashMap = new HashMap<>();
+    //private HashMap<String, User> theHashMap = new HashMap<>();
 
     public FileManager()
     {
-        HashMap<String, User> HMfromfile = readObject();
-        if(HMfromfile != null) {
-            this.theHashMap = HMfromfile;
-        }
+        //HashMap<String, User> HMfromfile = readObject();
+        //if(HMfromfile != null) {
+            //this.theHashMap = HMfromfile;
+        //}
 
     }
-    public HashMap<String, User> getTheHashMap() {
-        return theHashMap;
-    }
+    //public HashMap<String, User> readObject() {
+        //return theHashMap;
+    //}
 
 //    public String returnLoggedInUsername()
 //    {
@@ -86,8 +86,9 @@ public class FileManager implements Serializable {
 
     public void saveUser(User user, String username)
     {
-        this.theHashMap.put(username, user);
-        saveObject(this.theHashMap);
+        HashMap<String, User> HMfromfile = readObject();
+        HMfromfile.put(username, user);
+        saveObject(HMfromfile);
     }
 
     public void saveObject(HashMap<String, User> hashMap)
@@ -101,7 +102,7 @@ public class FileManager implements Serializable {
             objectOut = new ObjectOutputStream(fos);
             objectOut.writeObject(hashMap);
             objectOut.close();
-            this.theHashMap = hashMap;//Updates the local hashmap...do we need this?
+
         }
         catch(FileNotFoundException e1)
         {
