@@ -46,7 +46,7 @@ class MovementController {
      * @param position that the user tapped.
      */
     void processTapMovement(Context context, ConnectFourBoardManager boardManager, int position) {
-        if (boardManager.gameOver == false){
+        if (!boardManager.gameOver){
             if (boardManager.isValidTap(position))
             {
                 boardManager.touchMove(position);
