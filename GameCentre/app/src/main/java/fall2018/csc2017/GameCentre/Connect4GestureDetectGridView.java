@@ -3,7 +3,7 @@ package fall2018.csc2017.GameCentre;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+//import android.support.v7.app.AppCompatActivity;
 import android.telecom.ConnectionRequest;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
@@ -108,6 +108,8 @@ public class Connect4GestureDetectGridView extends GridView
                 System.out.println("CONNECT 4 GRID VIEW CALLED");
                 int position = Connect4GestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
+                System.out.println("position: ");
+                System.out.println(position);
                 Tile currTile = boardManager.getBoard().getTile(position / Board.NUM_COLS, position % Board.NUM_COLS);
                 // TODO: CHANGE THE 7 TO A VARIABLE HOLDING THE SELECTED SIZE; THIS MUST BE PASSED THROUGH INTENTS
 
