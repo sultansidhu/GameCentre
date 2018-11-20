@@ -9,12 +9,16 @@ public class LoginManager {
 
     public LoginManager(){
         this.f1 = new FileManager();
+        Object y = f1.readObject();
         for(User user: f1.readObject().values()){
             if(user.getLoggedIn()){
                 assert personLoggedIn == null; //we should only be setting this once
                 personLoggedIn = user.getUsername();
             }
         }
+    }
+    public LoginManager(FileManager f1){
+
     }
     public String getPersonLoggedIn(){
         return this.personLoggedIn;
