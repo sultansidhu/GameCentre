@@ -132,6 +132,7 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
                     mController.processTapMovement(context, boardManager, tileSelected, position);
                     tileSelected = -1;
                     boardManager.getBoard().setCurrPlayer(3 - boardManager.getBoard().getCurrPlayer());
+                    Toast.makeText(getContext(), "Player " + boardManager.getBoard().getCurrPlayer() + "'s turn", Toast.LENGTH_SHORT).show();
                     HashMap<String, User> users = fm.readObject();
                     assert users != null;
                     users.get(username).addState(boardManager.getBoard(), 1);
@@ -141,6 +142,12 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
                     }
 
                 }
+                else if (tileOwner != boardManager.getBoard().getCurrPlayer() && tileOwner != 0){
+                    Toast.makeText(context, "It is Player " + boardManager.getBoard().getCurrPlayer() + "'s turn!", Toast.LENGTH_SHORT).show();
+                }
+// else if (){
+//
+//                }
                 else {
                     Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
 

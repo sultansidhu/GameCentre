@@ -1,6 +1,8 @@
 package fall2018.csc2017.GameCentre;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -309,7 +311,9 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
         return 0;
     }
 
-    public void setCurrPlayer(int currPlayer) { this.currPlayer = currPlayer; }
+    public void setCurrPlayer(int currPlayer) {
+        this.currPlayer = currPlayer;
+    }
 
     public int getCurrPlayer() { return currPlayer; }
 }
