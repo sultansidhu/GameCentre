@@ -14,6 +14,12 @@
     <string name="launch_scoreboard">Launch Scoreboard</string>
     <string name="p2_username2">P2 Username</string>
     <string name="p2_password2">P2 Password</string>
-    <string name="connect_4">Connect 4</string>
+    <string name="connect4">Connect 4</string>
     <string name="imageview9">imageView9</string>
+    <string name="welcome2">welcome</string>
+    <string name="hesami_shogi">Hesami Shogi</string>
+    <string name="connect_4">Connect 4</string>
+    <string name="imageViw1">TODO</string>
+    <string name="choose_game1">choose_game1</string>
+    <string name="choose_a_game">Choose a Game</string>
 </resources>
