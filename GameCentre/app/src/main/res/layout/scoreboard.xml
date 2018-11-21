@@ -4,50 +4,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/vector">
 
     <ImageView
         android:id="@+id/imageView5"
-        android:layout_width="354dp"
-        android:layout_height="111dp"
+        android:layout_width="319dp"
+        android:layout_height="73dp"
         android:layout_marginStart="14dp"
-        android:layout_marginTop="57dp"
+        android:layout_marginTop="104dp"
         android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_dark_purple"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/scoreboard"
         tools:ignore="ContentDescription" />
 
     <TextView
-        android:id="@+id/txtScoreboard"
-        android:layout_width="330dp"
-        android:layout_height="53dp"
-        android:layout_marginStart="29dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="297dp"
-        android:layout_marginBottom="10dp"
-        android:text="W e l c o m e  T o "
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="30sp"
-        android:textStyle="bold|italic"
-        app:layout_constraintBottom_toTopOf="@+id/imageView5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.055"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:ignore="HardcodedText" />
-
-    <TextView
         android:id="@+id/scoresDisplay"
         android:layout_width="349dp"
-        android:layout_height="292dp"
+        android:layout_height="156dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="35dp"
         android:layout_marginEnd="19dp"
         android:scrollbars="vertical"
-        android:text="TextView"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView5"
@@ -55,15 +38,21 @@
 
     <Button
         android:id="@+id/resetScores"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="73dp"
         android:layout_marginStart="148dp"
         android:layout_marginTop="7dp"
         android:layout_marginEnd="148dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/bg_black"
+        android:textColor="#ffffff"
         android:text="Reset Scores"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scoresDisplay"
+        app:layout_constraintVertical_bias="0.283"
         tools:ignore="HardcodedText" />
 
 </android.support.constraint.ConstraintLayout>
