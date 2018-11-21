@@ -10,6 +10,8 @@ public class ShogiBoardManager extends BoardManager
      */
     private Board board;
 
+    //private int Board.NUM_COLS;
+
     /**
      * This constructor takes a board object and sets this class' board attribute object
      * equal to it
@@ -21,6 +23,7 @@ public class ShogiBoardManager extends BoardManager
         this.board = board;
         Board.NUM_COLS = board.getTiles().length;
         Board.NUM_ROWS = board.getTiles().length;
+        //Board.NUM_COLS = board.getTiles().length;
     }
 
     /**
@@ -79,10 +82,10 @@ public class ShogiBoardManager extends BoardManager
      * Overloaded isValidTap with 2 parameters
      */
     public boolean isValidTap(int fromTile, int toTile) {
-        if (inSameRow(fromTile, toTile) && !tileBlockingRow(fromTile, toTile) && isWhite(toTile/7, toTile%7)) {
+        if (inSameRow(fromTile, toTile) && !tileBlockingRow(fromTile, toTile) && isWhite(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS)) {
             return true;
         }
-        else return inSameCol(fromTile, toTile) && !tileBlockingCol(fromTile, toTile) && isWhite(toTile/7, toTile%7);
+        else return inSameCol(fromTile, toTile) && !tileBlockingCol(fromTile, toTile) && isWhite(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS);
     }
 
     /**
@@ -97,22 +100,22 @@ public class ShogiBoardManager extends BoardManager
      */
     void touchMove(int fromTile, int toTile) {
         if (isValidTap(fromTile, toTile)) {
-            board.swapTiles(fromTile/7, fromTile%7, toTile/7, toTile%7);
+            board.swapTiles(fromTile/Board.NUM_COLS, fromTile%Board.NUM_COLS, toTile/Board.NUM_COLS, toTile%Board.NUM_COLS);
             int left = checkCapturedLeft(toTile);
             for (int i = 1; i<= left; i++) {
-                board.setTileBackground(toTile/7, toTile%7 - i, R.drawable.tile_25);
+                board.setTileBackground(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS - i, R.drawable.tile_25);
             }
             int right = checkCapturedRight(toTile);
             for (int i = 1; i <= right; i++) {
-                board.setTileBackground(toTile/7, toTile%7 + i, R.drawable.tile_25);
+                board.setTileBackground(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS + i, R.drawable.tile_25);
             }
             int up = checkCapturedUp(toTile);
             for (int i = 1; i<= up; i++) {
-                board.setTileBackground(toTile/7 - i, toTile%7, R.drawable.tile_25);
+                board.setTileBackground(toTile/Board.NUM_COLS - i, toTile%Board.NUM_COLS, R.drawable.tile_25);
             }
             int down = checkCapturedDown(toTile);
             for (int i = 1; i<= down; i++) {
-                board.setTileBackground(toTile/7 + i, toTile%7, R.drawable.tile_25);
+                board.setTileBackground(toTile/Board.NUM_COLS + i, toTile%Board.NUM_COLS, R.drawable.tile_25);
             }
 
             //Toast.makeText(GlobalApplication.getAppContext(), "Player "+ (3 - board.getCurrPlayer()) + "'s turn", Toast.LENGTH_SHORT).show();
@@ -140,22 +143,22 @@ public class ShogiBoardManager extends BoardManager
 
     private int checkCapturedDown(int toTile) {
         int numCap = 0;
-        int nextRow = toTile/7 + 1;
-        if (isBlack(toTile/7, toTile%7)) {
-            while (isRed(nextRow, toTile%7)) {
+        int nextRow = toTile/Board.NUM_COLS + 1;
+        if (isBlack(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS)) {
+            while (isRed(nextRow, toTile%Board.NUM_COLS)) {
                 numCap++;
                 nextRow++;
             }
-            if (isBlack(nextRow, toTile%7) && numCap > 0) {
+            if (isBlack(nextRow, toTile%Board.NUM_COLS) && numCap > 0) {
                 return numCap;
             } else { return 0; }
         }
-        else if (isRed(toTile/7, toTile%7)) {
-            while (isBlack(nextRow, toTile%7)) {
+        else if (isRed(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS)) {
+            while (isBlack(nextRow, toTile%Board.NUM_COLS)) {
                 numCap++;
                 nextRow++;
             }
-            if (isRed(nextRow, toTile%7) && numCap > 0) {
+            if (isRed(nextRow, toTile%Board.NUM_COLS) && numCap > 0) {
                 return numCap;
             } else { return 0; }
         }
@@ -164,22 +167,22 @@ public class ShogiBoardManager extends BoardManager
 
     private int checkCapturedUp(int toTile) {
         int numCap = 0;
-        int nextRow = toTile/7 - 1;
-        if (isBlack(toTile/7, toTile%7)) {
-            while (isRed(nextRow, toTile%7)) {
+        int nextRow = toTile/Board.NUM_COLS - 1;
+        if (isBlack(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS)) {
+            while (isRed(nextRow, toTile%Board.NUM_COLS)) {
                 numCap++;
                 nextRow--;
             }
-            if (isBlack(nextRow, toTile%7) && numCap > 0) {
+            if (isBlack(nextRow, toTile%Board.NUM_COLS) && numCap > 0) {
                 return numCap;
             } else { return 0; }
         }
-        else if (isRed(toTile/7, toTile%7)) {
-            while (isBlack(nextRow, toTile%7)) {
+        else if (isRed(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS)) {
+            while (isBlack(nextRow, toTile%Board.NUM_COLS)) {
                 numCap++;
                 nextRow--;
             }
-            if (isRed(nextRow, toTile%7) && numCap > 0) {
+            if (isRed(nextRow, toTile%Board.NUM_COLS) && numCap > 0) {
                 return numCap;
             } else { return 0; }
         }
@@ -188,23 +191,23 @@ public class ShogiBoardManager extends BoardManager
 
     private int checkCapturedRight(int toTile) {
         int numCap = 0;
-        int nextCol = toTile%7 + 1;
-        if (isBlack(toTile/7, toTile%7)) {
-            while (isRed(toTile/7, nextCol)) {
+        int nextCol = toTile%Board.NUM_COLS + 1;
+        if (isBlack(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS)) {
+            while (isRed(toTile/Board.NUM_COLS, nextCol)) {
                 numCap++;
                 nextCol++;
             }
-            if (isBlack(toTile/7, nextCol) && numCap > 0) {
+            if (isBlack(toTile/Board.NUM_COLS, nextCol) && numCap > 0) {
                 System.out.println("CAPTURED: " + numCap);
                 return numCap;
             } else { return 0; }
         }
-        else if (isRed(toTile/7, toTile%7)) {
-            while (isBlack(toTile/7, nextCol)) {
+        else if (isRed(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS)) {
+            while (isBlack(toTile/Board.NUM_COLS, nextCol)) {
                 numCap++;
                 nextCol++;
             }
-            if (isRed(toTile/7, nextCol) && numCap > 0) {
+            if (isRed(toTile/Board.NUM_COLS, nextCol) && numCap > 0) {
                 System.out.println("CAPTURED: " + numCap);
                 return numCap;
             } else { return 0; }
@@ -214,22 +217,22 @@ public class ShogiBoardManager extends BoardManager
 
     private int checkCapturedLeft(int toTile) {
         int numCap = 0;
-        int nextCol = toTile%7 - 1;
-        if (isBlack(toTile/7, toTile%7)) {
-            while (isRed(toTile/7, nextCol)) {
+        int nextCol = toTile%Board.NUM_COLS - 1;
+        if (isBlack(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS)) {
+            while (isRed(toTile/Board.NUM_COLS, nextCol)) {
                 numCap++;
                 nextCol--;
             }
-            if (isBlack(toTile/7, nextCol) && numCap > 0) {
+            if (isBlack(toTile/Board.NUM_COLS, nextCol) && numCap > 0) {
                 return numCap;
             } else { return 0; }
         }
-        else if (isRed(toTile/7, toTile%7)) {
-            while (isBlack(toTile/7, nextCol)) {
+        else if (isRed(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS)) {
+            while (isBlack(toTile/Board.NUM_COLS, nextCol)) {
                 numCap++;
                 nextCol--;
             }
-            if (isRed(toTile/7, nextCol) && numCap > 0) {
+            if (isRed(toTile/Board.NUM_COLS, nextCol) && numCap > 0) {
                 return numCap;
             } else { return 0; }
         }
@@ -237,18 +240,18 @@ public class ShogiBoardManager extends BoardManager
     }
 
     boolean inSameRow(int fromTile, int toTile) {
-        return fromTile/7 == toTile/7;
+        return fromTile/Board.NUM_COLS == toTile/Board.NUM_COLS;
     }
 
     boolean inSameCol(int fromTile, int toTile) {
-        return fromTile%7 == toTile%7;
+        return fromTile%Board.NUM_COLS == toTile%Board.NUM_COLS;
     }
 
     boolean tileBlockingRow(int fromTile, int toTile)
     {
-        int row = fromTile/7;
-        int start = fromTile%7 < toTile%7 ? fromTile%7 : toTile%7;
-        int end = fromTile%7 > toTile%7 ? fromTile%7 : toTile%7;
+        int row = fromTile/Board.NUM_COLS;
+        int start = fromTile%Board.NUM_COLS < toTile%Board.NUM_COLS ? fromTile%Board.NUM_COLS : toTile%Board.NUM_COLS;
+        int end = fromTile%Board.NUM_COLS > toTile%Board.NUM_COLS ? fromTile%Board.NUM_COLS : toTile%Board.NUM_COLS;
         int col = start + 1;
         while (col < end) {
             if (getBoard().getTile(row, col).getBackground() != R.drawable.tile_25) {
@@ -260,9 +263,9 @@ public class ShogiBoardManager extends BoardManager
     }
 
     boolean tileBlockingCol(int fromTile, int toTile) {
-        int col = fromTile%7;
-        int start = fromTile/7 < toTile/7 ? fromTile/7 : toTile/7;
-        int end = fromTile/7 > toTile/7 ? fromTile/7 : toTile/7;
+        int col = fromTile%Board.NUM_COLS;
+        int start = fromTile/Board.NUM_COLS < toTile/Board.NUM_COLS ? fromTile/Board.NUM_COLS : toTile/Board.NUM_COLS;
+        int end = fromTile/Board.NUM_COLS > toTile/Board.NUM_COLS ? fromTile/Board.NUM_COLS : toTile/Board.NUM_COLS;
         int row = start + 1;
         while (row < end)
         {
