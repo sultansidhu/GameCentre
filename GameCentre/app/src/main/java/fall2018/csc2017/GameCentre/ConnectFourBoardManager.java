@@ -6,7 +6,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConnectFourBoardManager extends BoardManager {
+public class ConnectFourBoardManager implements BoardManager {
 
 
     /**
@@ -15,17 +15,16 @@ public class ConnectFourBoardManager extends BoardManager {
     private Board board;
     private int currentPlayer = 1; // currently the game is set to having player 1 as red and player 2 as black
     public boolean gameOver = false;
+    public String opponent;
 
 
     public ConnectFourBoardManager(Board board) {
-        super(board);
         this.board = board;
         Board.NUM_COLS = board.getTiles().length;
         Board.NUM_ROWS = board.getTiles().length;
     }
 
     public ConnectFourBoardManager(int size) {
-        super(size);
         List<Tile> tiles = new ArrayList<>();
         Board.NUM_COLS = size;
         Board.NUM_ROWS = size;
@@ -442,5 +441,7 @@ public class ConnectFourBoardManager extends BoardManager {
             switchPlayer();
         }
 
-    };
+    }
+
+    public void setOpponent(String opponent) {this.opponent = opponent; }
 }

@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
  */
-public class SlidingBoardManager extends BoardManager implements Serializable {
+public class SlidingBoardManager implements BoardManager, Serializable {
 
     /**
      * The board being managed.
@@ -19,9 +19,9 @@ public class SlidingBoardManager extends BoardManager implements Serializable {
      * This constructor takes a Board object and sets it equal to the class' attribute board
      * @param board, a board object representing the board
      */
+    public String opponent;
 
     public SlidingBoardManager(Board board) {
-        super(board);
         this.board = board;
         Board.NUM_COLS = board.getTiles().length;
         Board.NUM_ROWS = board.getTiles().length;
@@ -33,7 +33,6 @@ public class SlidingBoardManager extends BoardManager implements Serializable {
      */
 
     public SlidingBoardManager(int size) {
-        super(size);
         List<Tile> tiles = new ArrayList<>();
         Board.NUM_COLS = size;
         Board.NUM_ROWS = size;
@@ -134,6 +133,8 @@ public class SlidingBoardManager extends BoardManager implements Serializable {
         }
         this.board = dummyBoard;
     }
+
+    public void setOpponent(String opponent) { this.opponent = opponent; }
 
 
 

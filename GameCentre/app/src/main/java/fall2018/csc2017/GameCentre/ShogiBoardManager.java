@@ -3,7 +3,7 @@ package fall2018.csc2017.GameCentre;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShogiBoardManager extends BoardManager
+public class ShogiBoardManager implements BoardManager
 {
     /**
      * The board being managed.
@@ -18,8 +18,9 @@ public class ShogiBoardManager extends BoardManager
      * @param board, a Board object representing the board
      */
 
+    private String opponent;
+
     public ShogiBoardManager(Board board) {
-        super(board);
         this.board = board;
         Board.NUM_COLS = board.getTiles().length;
         Board.NUM_ROWS = board.getTiles().length;
@@ -32,7 +33,6 @@ public class ShogiBoardManager extends BoardManager
      */
 
     public ShogiBoardManager(int size) {
-        super(size);
         List<Tile> tiles = new ArrayList<>();
         Board.NUM_COLS = size;
         Board.NUM_ROWS = size;
@@ -125,13 +125,13 @@ public class ShogiBoardManager extends BoardManager
     }
 
     boolean isBlack(int row, int col) {
-        if (row > 6 || row < 0 || col > 6 || col < 0) {
+        if (row >= Board.NUM_COLS || row < 0 || col >= Board.NUM_COLS || col < 0) {
             return false;
         }
         return board.getTile(row, col).getBackground() == R.drawable.black;
     }
     boolean isRed(int row, int col) {
-        if (row > 6 || row < 0 || col > 6 || col < 0) {
+        if (row >= Board.NUM_COLS || row < 0 || col >= Board.NUM_COLS || col < 0) {
             return false;
         }
         return board.getTile(row, col).getBackground() == R.drawable.red;
@@ -277,4 +277,8 @@ public class ShogiBoardManager extends BoardManager
         }
         return false;
     }
+
+    public void setOpponent(String opp) { this.opponent = opp; }
+
+    public String getOpponent() { return this.opponent; }
 }
