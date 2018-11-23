@@ -30,7 +30,7 @@ public class ConnectFourBoardManager extends BoardManager {
         Board.NUM_COLS = size;
         Board.NUM_ROWS = size;
 
-        final int numTiles = 6*6; // TODO: make this changeable
+        final int numTiles = Board.NUM_COLS*Board.NUM_ROWS; // TODO: make this changeable
         for (int tileNum = 0; tileNum != numTiles; tileNum++)
         {
             Tile tile = new Tile(tileNum);

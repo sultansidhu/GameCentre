@@ -86,7 +86,13 @@ public class StartingShogiActivity extends StartingActivity {
 
                 Spinner undoDropdown = findViewById(R.id.dropdownHS);
                 String selectedUndo = undoDropdown.getSelectedItem().toString();
-                boardManager = (ShogiBoardManager)selectBoardManager(1, 7);
+                Spinner sizeSelected = findViewById(R.id.dropdownHS);
+                String boardSize = sizeSelected.getSelectedItem().toString();
+                char Size = boardSize.charAt(0);
+                int size = Character.getNumericValue(Size);
+                System.out.println("SHOGI BOARD SIZE SELECTED IS ========================= " + size);
+                boardManager = (ShogiBoardManager)selectBoardManager(1, size);
+                // TODO: MAKE THE SIZE VARY OVER HERE
                 HashMap<String, User> users = fm.readObject();
                 assert users != null;
                 users.get(username).setAvailableUndos(gameIndex, undoLimit);
