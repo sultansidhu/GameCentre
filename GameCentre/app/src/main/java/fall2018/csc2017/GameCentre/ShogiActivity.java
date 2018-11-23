@@ -79,7 +79,7 @@ public class ShogiActivity extends GameActivity implements Observer {
         createTileButtons(this);
         setContentView(R.layout.activity_main_shogi);
         // Add View to activity
-        addUndoButtonListener();
+        addUndoButtonListener("btnUndoHS");
         gridView = findViewById(R.id.grid);
         gridView.setNumColumns(Board.NUM_COLS);
         gridView.setBoardManager(boardManager);
@@ -104,7 +104,7 @@ public class ShogiActivity extends GameActivity implements Observer {
     /**
      * Adds the listener for the undo button on the UI
      */
-    private void addUndoButtonListener() {
+    private void addUndoButtonListener(String btnId) {
         Button undoButton = findViewById(R.id.btnUndoHS);
         undoButton.setOnClickListener(new View.OnClickListener() {
             @Override

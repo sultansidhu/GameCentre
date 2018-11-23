@@ -105,7 +105,7 @@ public class StartingActivity extends AppCompatActivity
 
     }
 
-    public void startButtonHelper(Board board, String p2usernameString, String p2passwordString, int gameParameter)
+    public void setUpTwoPlayerProps(Board board, String p2usernameString, String p2passwordString, int gameParameter)
     {
         if(p2usernameString.equals(""))
         {

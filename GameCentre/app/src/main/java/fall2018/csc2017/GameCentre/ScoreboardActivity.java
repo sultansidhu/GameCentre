@@ -64,7 +64,10 @@ public class ScoreboardActivity extends AppCompatActivity
         User user = users.get(username);
         scoresList.append(username);
         for (int i = 0; i <= 2; i++) {
+            System.out.println(user.getHighestScore(i));
             scoresList.append(": ").append(user.getHighestScore(i)).append(" || ");
+            System.out.println(scoresList);
+
         }
         scoresList.append("\n");
     }
@@ -105,20 +108,7 @@ public class ScoreboardActivity extends AppCompatActivity
     @return int
      */
 
-    public int calculateUserScore(String username)
-    {
-        HashMap<String, User> users = fm.readObject();
-        assert users != null;
-            User user = users.get(username);
 
-            double time = user.getTotalTime();
-            int numMoves = user.getNumMoves(0);
-            if (time == 0) {
-                return 0;
-            } else {
-                return (int) Math.round(20000 * ((1 / numMoves) + 100000 / (time)));
-            }
-    }
     /*
     Updates user high score if the user beats their previous highest score in the game.
     @return null
@@ -126,14 +116,38 @@ public class ScoreboardActivity extends AppCompatActivity
 
     public void updateUserHighScore(String username, int gameIndex)
     {
-            int newScore = this.calculateUserScore(username);
-            HashMap<String, User> users = fm.readObject();
-            assert users != null;
-            if (newScore > users.get(username).getHighestScore(gameIndex)) {
-                users.get(username).setHighestScore(gameIndex, newScore);
+        int newScore = -1;
+        HashMap<String, User> users = fm.readObject();
+        assert users != null;
+        User user = users.get(username);
+        switch(gameIndex){
+            case 0:
+                newScore = new SlidingScoreCalc().calculateUserScore(user);
+                break;
+            case 1:
+                ShogiScoreCalc ss = new ShogiScoreCalc();
+                System.out.println("Shogi CalcScore About to be called...");
+                newScore = ss.calculateUserScore(user);
+                break;
+            case 2:
+                ConnectFourScoreCalc cs = new ConnectFourScoreCalc();
+                System.out.println("Connect calculate about to be called...");
+                newScore = cs.calculateUserScore(user);
+                break;
+        }
+            assert newScore >= 0;
+            if (newScore > user.getHighestScore(gameIndex)) {
+                user.setHighestScore(gameIndex, newScore);
                 Context context = GlobalApplication.getAppContext();
-                Toast.makeText(context, "New High score!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "New High score: "+user.getHighestScore(gameIndex) +"!", Toast.LENGTH_SHORT).show();
+                //System.out.println(newScore);//Works perfectly up to here!
             }
             fm.saveObject(users);
+        System.out.println("Session score: "+newScore);
+        HashMap<String, User> users2 = fm.readObject();
+        assert users != null;
+        User user2 = users2.get(username);
+        System.out.println("Checking high score got saved to file....");
+        System.out.println(user2.getHighestScore(gameIndex));
         }
 }

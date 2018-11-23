@@ -159,6 +159,34 @@ public class SlidingActivity extends GameActivity implements Observer {
         });
     }
 
+    private void displayToast(String toast){
+        Toast.makeText(this, toast, Toast.LENGTH_LONG).show();
+        //TODO: Make everything use this function.
+    }
+
+    /**
+     * Makes toast representing the number of undo's remaining.
+     * @param number number of undo's remaining for the user
+     */
+    private void makeToastUndoText(int number) {
+        Toast.makeText(this, "Undo used: "+number+" undo(s) remain.", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Make toast representing the notion that the user has used
+     * all of his/her undo's.
+     */
+    private void makeToastNoUndo() {
+        Toast.makeText(this, "You have used all your undos!", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Make toast notifying the user of an empty Board stack.
+     */
+    private void makeToastEmptyStack(){
+        Toast.makeText(this, "There are no previous boards.", Toast.LENGTH_SHORT).show();
+    }
+
 
     public void setBoardManager(Board board) {
         boardManager = new SlidingBoardManager(board);

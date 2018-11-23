@@ -165,6 +165,10 @@ public class User implements Serializable
 
     }
 
+    public void resetStates(int gameNum){
+        savedStates.put(gameNum, new Stack<Board>());
+    }
+
     /**
      * Sets a HashMap of stack of boards as the savedStates of a user.
      * @param savedStates the HashMap of boards to be set for the savedStates of the user

@@ -1,8 +1,5 @@
 package fall2018.csc2017.GameCentre;
 
-import android.support.v7.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -46,7 +43,7 @@ public class StartingConnectFourActivity extends StartingActivity
     }
 
     private void addbtnScoreboardListener()
-    {
+    {//TODO: To parent class!
         Button btnScoreboard = findViewById(R.id.btnScoreboardC4);
 
         btnScoreboard.setOnClickListener(new View.OnClickListener(){
@@ -69,9 +66,13 @@ public class StartingConnectFourActivity extends StartingActivity
                 String selectedSize = dropdown.getSelectedItem().toString();
                 size = Integer.parseInt(selectedSize.substring(0, 1));
                 boardManager = (ConnectFourBoardManager)selectBoardManager(2, size);
+                ///////////////////////////////////////////////////////////////TODO: To parent class
                 HashMap<String, User> users = fm.readObject();
                 assert users != null;
+                User user = users.get(username);
                 //users.get(username).setSavedStates(new HashMap<Integer, Stack<Board>>());
+                users.get(username).resetStates(2);
+                //User user = users.get(username); already screwed up here
                 users.get(username).addState(boardManager.getBoard(), 2);
                 fm.saveObject(users);
 
@@ -81,7 +82,8 @@ public class StartingConnectFourActivity extends StartingActivity
                 TextView p2password = findViewById(R.id.txtP2PasswordC4);
                 String p2passwordString = p2password.getText().toString().trim();
 
-                startButtonHelper(boardManager.getBoard(), p2usernameString, p2passwordString, 2);
+                setUpTwoPlayerProps(boardManager.getBoard(), p2usernameString, p2passwordString, 2);
+                ////////////////////////////////////////////////////////////////////////////////////
 
             }
         });
@@ -99,7 +101,7 @@ public class StartingConnectFourActivity extends StartingActivity
     }
 
     public void onClickHelper(int gameParameter)
-    {
+    {//TODO: To parent class
         HashMap<String, User> users = fm.readObject();
         assert users != null;
         Stack<Board> userStack = users.get(username).getGameStack(gameParameter);
