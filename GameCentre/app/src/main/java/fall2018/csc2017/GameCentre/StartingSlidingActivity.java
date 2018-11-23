@@ -45,6 +45,7 @@ public class StartingSlidingActivity extends StartingActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_starting_);
+        /////////////////////////////////////////////////////////////////////////////TODO: To parent
         addStartButtonListener();
         addLoadButtonListener();
         setSizeDropdown();
@@ -54,6 +55,7 @@ public class StartingSlidingActivity extends StartingActivity {
         LoginManager lm = new LoginManager();
         username = lm.getPersonLoggedIn();
         assert username != null; //There should be someone logged in once we get to this screen.
+        ////////////////////////////////////////////////////////////////////////////////////////////
     }
 
     /**
@@ -87,6 +89,7 @@ public class StartingSlidingActivity extends StartingActivity {
     Activate the LaunchScoreboard button
     */
     private void addScoreboardButtonListener() {
+        //TODO: To parent class...
         Button scoreboard = findViewById(R.id.btnScoreboard);
 
         scoreboard.setOnClickListener(new View.OnClickListener()

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
 
-public class Connect4GestureDetectGridView extends GridView
+public class Connect4GestureDetectGridView extends GestureDetectGridView
 {
 
     /*
@@ -116,10 +116,23 @@ public class Connect4GestureDetectGridView extends GridView
                 if (boardManager.isValidTap(position))
                 {
                     mController.processTapMovement(context, boardManager, position);
+
                     HashMap<String, User> users = fm.readObject();
                     assert users != null;
                     users.get(username).addState(boardManager.getBoard(), 2);
-                    fm.saveObject(users);
+                    if (boardManager.puzzleSolved(position)){
+                        ScoreboardActivity sc = new ScoreboardActivity();
+                        if (boardManager.getCurrentPlayer(position) == 1) {
+                            sc.updateUserHighScore(username, 2);
+                            switchToScoreboardScreen();
+                        }
+                        else{//red wins
+                            sc.updateUserHighScore(username, 2);//TODO: Fix this - Only the current username can win!
+                            switchToScoreboardScreen();
+                        }
+
+                    }
+                    //fm.saveObject(users);
                     return true;
                 }
                 else

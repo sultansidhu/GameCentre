@@ -1,8 +1,6 @@
 package fall2018.csc2017.GameCentre;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -60,7 +58,7 @@ public class StartingShogiActivity extends StartingActivity {
     /*
     Activate the LaunchScoreboard button
     */
-    private void addScoreboardButtonListener() {
+    private void addScoreboardButtonListener() {//TODO: Call the scoreboard button the same in each class?
         Button scoreboard = findViewById(R.id.btnScoreboardHS);
 
         scoreboard.setOnClickListener(new View.OnClickListener()
@@ -85,27 +83,30 @@ public class StartingShogiActivity extends StartingActivity {
             public void onClick(View v) {
 
                 Spinner undoDropdown = findViewById(R.id.dropdownHS);
-                String selectedUndo = undoDropdown.getSelectedItem().toString();
+                String selectedUndo = undoDropdown.getSelectedItem().toString();//TODO: Implement this
                 Spinner sizeSelected = findViewById(R.id.dropdownHS);
                 String boardSize = sizeSelected.getSelectedItem().toString();
                 char Size = boardSize.charAt(0);
                 int size = Character.getNumericValue(Size);
                 System.out.println("SHOGI BOARD SIZE SELECTED IS ========================= " + size);
-                boardManager = (ShogiBoardManager)selectBoardManager(1, size);
+                boardManager = (ShogiBoardManager)selectBoardManager(1, size);//TODO: Inheritance
                 // TODO: MAKE THE SIZE VARY OVER HERE
+                //setUpUserProps(username, boardManager, gameIndex, undoLimit);
+                //TODO: To parent class
+                ////////////////////////////////////////////////////////////////////////////////////
                 HashMap<String, User> users = fm.readObject();
                 assert users != null;
                 users.get(username).setAvailableUndos(gameIndex, undoLimit);
                 //users.get(username).setSavedStates(new HashMap<Integer, Stack<Board>>());
+                users.get(username).resetStates(1);
                 users.get(username).addState(boardManager.getBoard(), 1);
                 fm.saveObject(users);
-
                 TextView p2username = findViewById(R.id.txtP2UsernameHS);
                 String p2usernameString = p2username.getText().toString().trim();
                 TextView p2password = findViewById(R.id.txtP2PasswordHS);
                 String p2passwordString = p2password.getText().toString().trim();
-
-                startButtonHelper(boardManager.getBoard(), p2usernameString, p2passwordString, 1);
+                setUpTwoPlayerProps(boardManager.getBoard(), p2usernameString, p2passwordString, 1);
+                ////////////////////////////////////////////////////////////////////////////////////
 
             }
         });
@@ -127,17 +128,17 @@ public class StartingShogiActivity extends StartingActivity {
 
     }
 
-    public void onClickHelper(int gameParameter)
-    {
+    public void onClickHelper(int gameIndex)
+    {   //TODO: To parent class!
         HashMap<String, User> users = fm.readObject();
         assert users != null;
-        Stack<Board> userStack = users.get(username).getGameStack(gameParameter);
+        Stack<Board> userStack = users.get(username).getGameStack(gameIndex);
         if (userStack.size() < 1)
         {
             Toast.makeText(getApplicationContext(), "No game to load! Start a new game!", Toast.LENGTH_LONG).show();
         } else {
             makeToastLoadedText();
-            switchToGame(gameParameter);
+            switchToGame(gameIndex);
         }
     }
 

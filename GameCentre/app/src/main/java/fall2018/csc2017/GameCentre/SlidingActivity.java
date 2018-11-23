@@ -159,6 +159,11 @@ public class SlidingActivity extends GameActivity implements Observer {
         });
     }
 
+    private void displayToast(String toast){
+        Toast.makeText(this, toast, Toast.LENGTH_LONG).show();
+        //TODO: Make everything use this function.
+    }
+
     /**
      * Makes toast representing the number of undo's remaining.
      * @param number number of undo's remaining for the user
