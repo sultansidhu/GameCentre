@@ -124,6 +124,12 @@ public class StartingActivity extends AppCompatActivity
             if(lm.authenticateP2(p2usernameString, p2passwordString))
             {
                 Toast.makeText(getApplicationContext(), "Starting Game...", Toast.LENGTH_SHORT).show();
+                HashMap<String, User> users = fm.readObject();
+                users.get(lm.getPersonLoggedIn()).getOpponents().put(gameParameter, p2usernameString);
+                int size = users.get(lm.getPersonLoggedIn()).getOpponents().size();
+                fm.saveObject(users);
+                System.out.println("PLAYER 2 LOGGED IN AS " + p2usernameString + " with a game parametetr of "+gameParameter);
+                System.out.println("SIZE OF OPPONENT HASHMAP FOR THIS GAME IS: "+size);
                 switchToGame(gameParameter);
             }
             else
