@@ -120,6 +120,9 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView
                     HashMap<String, User> users = fm.readObject();
                     assert users != null;
                     users.get(username).addState(boardManager.getBoard(), 2);
+                    int y = users.get(username).getNumMoves(2);
+                    System.out.println("Number of moves until now: " + y);
+                    fm.saveObject(users);
                     if (boardManager.puzzleSolved(position)){
                         ScoreboardActivity sc = new ScoreboardActivity();
                         if (boardManager.getCurrentPlayer(position) == 1) {

@@ -12,7 +12,7 @@ public class ConnectFourScoreCalc {
 
         int numMoves = user.getNumMoves(2);
         System.out.println("Number of moves before game over: "+numMoves);
-        return (int) Math.round(-1*(0.45*Math.pow((numMoves-8), 2)) + 200);
+        return (int) Math.round(-1*(Math.pow(0.45*(numMoves-8), 2)) + 200);
     }
 
 }
