@@ -150,8 +150,8 @@ public class ConnectFourBoardManager extends BoardManager {
      */
     public int checkRightDiagDown(int currentPlayerID, int position){
         int colorCounter = 0;
-        int colNewlyAdded = position % board.NUM_COLS;
-        int rowNewlyAdded = position / board.NUM_COLS;
+        int colNewlyAdded = position % Board.NUM_COLS;
+        int rowNewlyAdded = position / Board.NUM_COLS;
         while (colNewlyAdded >= 0 && rowNewlyAdded < board.NUM_ROWS && rowNewlyAdded >= 0){
             // here check for same color and increment colorCounter
             // TODO: CHECK FOR R.DRAWABLE.BLACK OR R.DRAWABLE.RED DEPENDING ON THE CURRENT PLAYER'S ID.
@@ -160,9 +160,9 @@ public class ConnectFourBoardManager extends BoardManager {
             } else {
                 break; // TODO: GET THESE FUNCTIONS CHECKED BY TEAM MEMBERS
             }
-            position = position + (board.NUM_COLS - 1);
-            colNewlyAdded = position % board.NUM_COLS;
-            rowNewlyAdded = position / board.NUM_COLS;
+            position = position + (Board.NUM_COLS - 1);
+            colNewlyAdded = position % Board.NUM_COLS;
+            rowNewlyAdded = position / Board.NUM_COLS;
         }
         return colorCounter;
     }
@@ -174,18 +174,18 @@ public class ConnectFourBoardManager extends BoardManager {
      */
     public int checkRightDiagUp(int currentPlayerID, int position){
         int colorCounter = 0;
-        int colNewlyAdded = position % board.NUM_COLS;
-        int rowNewlyAdded = position / board.NUM_COLS;
-        while (colNewlyAdded < board.NUM_COLS && rowNewlyAdded >= 0 && colNewlyAdded >= 0){
+        int colNewlyAdded = position % Board.NUM_COLS;
+        int rowNewlyAdded = position / Board.NUM_COLS;
+        while (colNewlyAdded < Board.NUM_COLS && rowNewlyAdded >= 0 && colNewlyAdded >= 0){
             // here check for same color and increment colorCounter
             if ((getTileColor(position) == currentPlayerID)&&(getTileColor(position)!=R.drawable.tile_25)){
                 colorCounter++;
             } else {
                 break; // TODO: GET THESE FUNCTIONS CHECKED BY TEAM MEMBERS
             }
-            position = position - (board.NUM_COLS - 1);
-            colNewlyAdded = position % board.NUM_COLS;
-            rowNewlyAdded = position / board.NUM_COLS;
+            position = position - (Board.NUM_COLS - 1);
+            colNewlyAdded = position % Board.NUM_COLS;
+            rowNewlyAdded = position / Board.NUM_COLS;
         }
         return colorCounter;
     }
@@ -219,18 +219,18 @@ public class ConnectFourBoardManager extends BoardManager {
      */
     public int checkLeftDiagDown(int currentPlayerID, int position){
         int colorCounter = 0;
-        int colNewlyAdded = position % board.NUM_COLS;
-        int rowNewlyAdded = position / board.NUM_COLS;
-        while (colNewlyAdded < board.NUM_COLS && rowNewlyAdded < board.NUM_ROWS && colNewlyAdded >= 0 && rowNewlyAdded >= 0){
+        int colNewlyAdded = position % Board.NUM_COLS;
+        int rowNewlyAdded = position / Board.NUM_COLS;
+        while (colNewlyAdded < Board.NUM_COLS && rowNewlyAdded < Board.NUM_ROWS && colNewlyAdded >= 0 && rowNewlyAdded >= 0){
             // here check for same color and increment colorCounter
             if ((getTileColor(position) == currentPlayerID)&&(getTileColor(position)!=R.drawable.tile_25)){
                 colorCounter++;
             } else {
                 break; // TODO: GET THESE FUNCTIONS CHECKED BY TEAM MEMBERS
             }
-            position = position + (board.NUM_COLS + 1);
-            colNewlyAdded = position % board.NUM_COLS;
-            rowNewlyAdded = position / board.NUM_COLS;
+            position = position + (Board.NUM_COLS + 1);
+            colNewlyAdded = position % Board.NUM_COLS;
+            rowNewlyAdded = position / Board.NUM_COLS;
         }
         return colorCounter;
     }
@@ -243,8 +243,8 @@ public class ConnectFourBoardManager extends BoardManager {
      */
     public int checkLeftDiagUp(int currentPlayerID, int position){
         int colorCounter = 0;
-        int colNewlyAdded = position % board.NUM_COLS;
-        int rowNewlyAdded = position / board.NUM_COLS;
+        int colNewlyAdded = position % Board.NUM_COLS;
+        int rowNewlyAdded = position / Board.NUM_COLS;
         while (colNewlyAdded >= 0 && rowNewlyAdded >= 0){ // TODO: CHECK THESE INEQUALITIES FOR ALL SIMILAR FUNCTIONS
             // here check for same color and increment colorCounter
             if ((getTileColor(position) == currentPlayerID)&&(getTileColor(position)!=R.drawable.tile_25)){
@@ -252,11 +252,11 @@ public class ConnectFourBoardManager extends BoardManager {
             } else {
                 break; // TODO: GET THESE FUNCTIONS CHECKED BY TEAM MEMBERS
             }
-            position = position - (board.NUM_COLS + 1);
+            position = position - (Board.NUM_COLS + 1);
 //            System.out.println("THE POSITION IN checkleftdiag IS %%%%%%%%%%%%%%%%%%%: " + position);
 
-            colNewlyAdded = position % board.NUM_COLS;
-            rowNewlyAdded = position / board.NUM_COLS;
+            colNewlyAdded = position % Board.NUM_COLS;
+            rowNewlyAdded = position / Board.NUM_COLS;
         }
         return colorCounter;
     }
@@ -278,7 +278,7 @@ public class ConnectFourBoardManager extends BoardManager {
      * @return the number of the same colored tiles to the left
      */
     public int numLeft(int currentPlayerID, int position){
-        int colNewlyAdded = position % board.NUM_COLS;
+        int colNewlyAdded = position % Board.NUM_COLS;
         int colorCounter = 0;
         while (colNewlyAdded >= 0){
             // check if there is a same colored tile to the left, and increment colorCounter
@@ -288,7 +288,7 @@ public class ConnectFourBoardManager extends BoardManager {
                 break; // TODO: GET THESE FUNCTIONS CHECKED BY TEAM MEMBERS
             }
             position = position - 1;
-            colNewlyAdded = position % board.NUM_COLS;
+            colNewlyAdded = position % Board.NUM_COLS;
         }
         return colorCounter;
     }
@@ -301,8 +301,8 @@ public class ConnectFourBoardManager extends BoardManager {
      */
     public int numRight(int currentPlayerID, int position){
 
-        int colNewlyAdded = position % board.NUM_COLS;
-        int rowNewlyAdded = position / board.NUM_ROWS;
+        int colNewlyAdded = position % Board.NUM_COLS;
+        int rowNewlyAdded = position / Board.NUM_ROWS;
         int colorCounter = 0;
         while (colNewlyAdded < board.NUM_COLS && rowNewlyAdded < board.NUM_ROWS){
             // check if there is a same colored tile to the right, and increment colorCounter
@@ -328,8 +328,8 @@ public class ConnectFourBoardManager extends BoardManager {
 
         int currentPlayerColor = getCurrentPlayer(position);
         int colorCounter = 0; // to be incremented if same color found.
-        int rowNewTile = position / board.NUM_ROWS;
-        while (rowNewTile < board.NUM_ROWS){
+        int rowNewTile = position / Board.NUM_ROWS;
+        while (rowNewTile < Board.NUM_ROWS){
             if (getTileColor(position) == currentPlayerColor){
                 colorCounter++;
             } else {
@@ -337,8 +337,8 @@ public class ConnectFourBoardManager extends BoardManager {
             }
             // here, check for it being the same colored tile
             // if color different stop iteration
-            position += board.NUM_ROWS;
-            rowNewTile = position / board.NUM_ROWS;
+            position += Board.NUM_ROWS;
+            rowNewTile = position / Board.NUM_ROWS;
         }
         return (colorCounter > 3);
     }
@@ -392,9 +392,9 @@ public class ConnectFourBoardManager extends BoardManager {
      */
     public boolean checkUnderneath(int position){
         //int blankID = 25;
-        int positionBelow = position + board.NUM_ROWS;
-        int numRows = positionBelow / board.NUM_ROWS;
-        if(numRows < board.NUM_ROWS){
+        int positionBelow = position + Board.NUM_ROWS;
+        int numRows = positionBelow / Board.NUM_ROWS;
+        if(numRows < Board.NUM_ROWS){
             Board.BoardIterator iter = (Board.BoardIterator) board.iterator();
             Tile next = null;
             while (positionBelow >= 0){
