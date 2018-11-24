@@ -117,6 +117,9 @@ public class StartingActivity extends AppCompatActivity
         {
             Toast.makeText(getApplicationContext(), "Password Field is Empty!", Toast.LENGTH_SHORT).show();
         }
+        else if(p2usernameString.equals(new LoginManager().getPersonLoggedIn())){
+            Toast.makeText(getApplicationContext(), "The opponent cannot be the same as Player 1! Use a different player!", Toast.LENGTH_SHORT).show();
+        }
         else
         {
 
