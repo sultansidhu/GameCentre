@@ -84,16 +84,16 @@ public class LoginManager {
         }
 
         else{
-            System.out.println("NOW SHOWING BEFORE THE LOGGING OUT BEGINS");
-            printPlayerLoggedInStatus(f1.readObject());
+            //System.out.println("NOW SHOWING BEFORE THE LOGGING OUT BEGINS");
+            //printPlayerLoggedInStatus(f1.readObject());
             // --------------------------------------------------
             //setUsersLoggedOut(f1.readObject());
             f1.saveObject(setUsersLoggedOut(f1.readObject())); // logs all users out and saves
             setLoggedInTrueAndSave(f1.readObject().get(username)); // sets the loggedIn of the current user to true and saves
             //f1.readObject().get(username).setLoggedIn(true);
             // --------------------------------------------------
-            System.out.println("NOW SHOWING AFTER THE LOGGING IN HAS BEEN DONE");
-            printPlayerLoggedInStatus(f1.readObject());
+            //System.out.println("NOW SHOWING AFTER THE LOGGING IN HAS BEEN DONE");
+            //printPlayerLoggedInStatus(f1.readObject());
             // -------------------------------------------------
             personLoggedIn = username;
             makeToast("Logging in...");
