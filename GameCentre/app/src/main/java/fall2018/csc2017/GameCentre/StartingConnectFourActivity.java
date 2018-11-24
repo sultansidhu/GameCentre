@@ -1,18 +1,11 @@
 package fall2018.csc2017.GameCentre;
 
-import android.support.v7.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.HashMap;
-import java.util.Stack;
 
 public class StartingConnectFourActivity extends StartingActivity
 {
@@ -21,6 +14,8 @@ public class StartingConnectFourActivity extends StartingActivity
     private String username = new LoginManager().getPersonLoggedIn();
     private FileManager fm = new FileManager();
     private int size;
+    private int gameIndex = 2;
+    private BoardManagerFactory bmFactory = new BoardManagerFactory();
 
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -68,50 +63,26 @@ public class StartingConnectFourActivity extends StartingActivity
                 Spinner dropdown = findViewById(R.id.dropdownC4);
                 String selectedSize = dropdown.getSelectedItem().toString();
                 size = Integer.parseInt(selectedSize.substring(0, 1));
-                boardManager = (ConnectFourBoardManager)selectBoardManager(2, size);
-                HashMap<String, User> users = fm.readObject();
-                assert users != null;
-                //users.get(username).setSavedStates(new HashMap<Integer, Stack<Board>>());
-                users.get(username).addState(boardManager.getBoard(), 2);
-                fm.saveObject(users);
-
-
+                boardManager = (ConnectFourBoardManager)bmFactory.getBoardManager(gameIndex, size);
+                setUserUndos(username, 0, gameIndex, boardManager);
                 TextView p2username = findViewById(R.id.txtP2UsernameC4);
                 String p2usernameString = p2username.getText().toString().trim();
                 TextView p2password = findViewById(R.id.txtP2PasswordC4);
                 String p2passwordString = p2password.getText().toString().trim();
-
-                startButtonHelper(boardManager.getBoard(), p2usernameString, p2passwordString, 2);
-
+                startButtonHelper(boardManager, p2usernameString, p2passwordString, gameIndex);
             }
         });
     }
 
-    public void addLoadButtonListener()
+    private void addLoadButtonListener()
     {
         Button loadButton = findViewById(R.id.btnLoadGameConnect4);
         loadButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-                onClickHelper(2);
+                onClickHelper(gameIndex, username);
             }
         });
     }
-
-    public void onClickHelper(int gameParameter)
-    {
-        HashMap<String, User> users = fm.readObject();
-        assert users != null;
-        Stack<Board> userStack = users.get(username).getGameStack(gameParameter);
-        if (userStack.size() < 1)
-        {
-            Toast.makeText(getApplicationContext(), "No game to load! Start a new game!", Toast.LENGTH_LONG).show();
-        } else {
-            makeToastLoadedText();
-            switchToGame(gameParameter);
-        }
-    }
-
-
 }
 

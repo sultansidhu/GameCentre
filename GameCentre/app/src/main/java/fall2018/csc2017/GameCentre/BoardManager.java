@@ -4,21 +4,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public interface BoardManager {
+interface BoardManager {
     /**
      * Return the current board.
      *
      * @return a board
      */
-    public abstract Board getBoard();
+    Board getBoard();
 
-    public abstract boolean puzzleSolved();
+    boolean puzzleSolved();
 
-    public abstract boolean isValidTap(int position);
+    boolean isValidTap(int position);
 
-    public abstract void touchMove(int position);
+    void touchMove(int position);
 
-    public abstract void setOpponent(String opponent);
+    void setOpponent(String opponent);
 
 
 }

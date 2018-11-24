@@ -7,19 +7,14 @@ and initializes the screen
 Date: October 30, 2018
 Group #: 0506
 ================================================================== */
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
-
 import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Stack;
-//import static fall2018.csc2017.GameCentre.MovementController.username;
 
 /**
  * The initial activity for the sliding puzzle tile game.
@@ -30,12 +25,12 @@ public class StartingSlidingActivity extends StartingActivity {
      * The board manager.
      */
     private SlidingBoardManager boardManager;
-    public int undoLimit;
-    private int gameIndex;
+    private int undoLimit;
+    private int gameIndex = 0;
     private int size;
     private String username;
     private FileManager fm = new FileManager();
-
+    private BoardManagerFactory bmFactory = new BoardManagerFactory();
 
     /**
      * Creats start screen for sliding tiles with game options.
@@ -82,7 +77,6 @@ public class StartingSlidingActivity extends StartingActivity {
         dropdown.setAdapter(adapter);
     }
 
-
     /**
     Activate the LaunchScoreboard button
     */
@@ -111,24 +105,16 @@ public class StartingSlidingActivity extends StartingActivity {
                 Spinner dropdown = findViewById(R.id.dropdown_size);
                 String selectedSize = dropdown.getSelectedItem().toString();
                 size = Integer.parseInt(selectedSize.substring(0, 1));
-
                 Spinner undoDropdown = findViewById(R.id.dropdown_undo);
                 String selectedUndo = undoDropdown.getSelectedItem().toString();
-
                 try {
                     undoLimit = Integer.parseInt(selectedUndo);
-
                 } catch (NumberFormatException e) {
                     undoLimit = -1;
                 } finally {
-                    boardManager = (SlidingBoardManager)selectBoardManager(0, size);
-                    HashMap<String, User> users = fm.readObject();
-                    assert users != null;
-                    users.get(username).setAvailableUndos(gameIndex, undoLimit);
-                    //users.get(username).setSavedStates(new HashMap<Integer, Stack<Board>>());
-                    users.get(username).addState(boardManager.getBoard(), 0);
-                    fm.saveObject(users);
-                    switchToGame(0);
+                    boardManager = (SlidingBoardManager)bmFactory.getBoardManager(gameIndex, size);
+                    setUserUndos(username, undoLimit, gameIndex, boardManager);
+                    switchToGame(gameIndex);
                 }
 
             }
@@ -145,26 +131,10 @@ public class StartingSlidingActivity extends StartingActivity {
             @Override
             public void onClick(View v)
             {
-                onClickHelper(0);
-
+                onClickHelper(gameIndex, username);
             }
         });
     }
-
-    public void onClickHelper(int gameParameter)
-    {
-        HashMap<String, User> users = fm.readObject();
-        assert users != null;
-        Stack<Board> userStack = users.get(username).getGameStack(gameParameter);
-        if (userStack.size() < 1)
-        {
-            Toast.makeText(getApplicationContext(), "No game to load! Start a new game!", Toast.LENGTH_LONG).show();
-        } else {
-            makeToastLoadedText();
-            switchToGame(gameParameter);
-        }
-    }
-
 
     /**
      * Read the temporary board from disk.
@@ -175,15 +145,13 @@ public class StartingSlidingActivity extends StartingActivity {
         super.onResume();
         HashMap<String, User> users = fm.readObject();
         assert users != null;
-        Stack<Board> userStack = users.get(username).getGameStack(0);
+        Stack<Board> userStack = users.get(username).getGameStack(gameIndex);
         try
         {
-            setBoardManager(userStack.peek(),0);
+            boardManager = (SlidingBoardManager)bmFactory.getBoardManager(gameIndex, userStack.peek());
         } catch (EmptyStackException e)
         {
             System.out.println("Empty stack, nothing to resume!");
         }
     }
-
-
 }

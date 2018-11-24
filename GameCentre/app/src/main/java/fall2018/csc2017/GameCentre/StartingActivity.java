@@ -1,52 +1,42 @@
 package fall2018.csc2017.GameCentre;
 
 import android.support.v7.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.HashMap;
 import java.util.Stack;
 
 public class StartingActivity extends AppCompatActivity
 {
-    private int size;
-    private String username;
     public FileManager fm = new FileManager();
-    //private BoardManager boardManager;
 
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
     }
 
-    public void onClickHelper(int gameParameter)
+    public void onClickHelper(int gameIndex, String username)
     {
         HashMap<String, User> users = fm.readObject();
         assert users != null;
-        Stack<Board> userStack = users.get(username).getGameStack(gameParameter);
+        Stack<Board> userStack = users.get(username).getGameStack(gameIndex);
         if (userStack.size() < 1)
         {
             Toast.makeText(getApplicationContext(), "No game to load! Start a new game!", Toast.LENGTH_LONG).show();
         } else {
             makeToastLoadedText();
-            switchToGame(gameParameter);
+            switchToGame(gameIndex);
         }
     }
 
     /**
-     * Switch to the ConnectFourActivity view to play the game.
+     * Switch to the Activity view of the game specified by the gameIndex.
      */
-    public void switchToGame(int gameToSwitchTo)
+    public void switchToGame(int gameIndex)
     {
         Intent intent = null;
-        switch(gameToSwitchTo)
+        switch(gameIndex)
         {
             case 0:
                 intent = new Intent(getApplicationContext(), SlidingActivity.class);
@@ -62,18 +52,13 @@ public class StartingActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    public BoardManager setBoardManager(Board board, int gameToSwitchTo)
-    {
-        switch(gameToSwitchTo)
-        {
-            case 0:
-                return new SlidingBoardManager(board);
-            case 1:
-                return new ShogiBoardManager(board);
-            case 2:
-                return new ConnectFourBoardManager(board);
-        }
-        return null;
+    public void setUserUndos(String username, int undoLimit, int gameIndex, BoardManager boardManager) {
+        HashMap<String, User> users = fm.readObject();
+        assert users != null;
+        users.get(username).setAvailableUndos(gameIndex, undoLimit);
+        //users.get(username).setSavedStates(new HashMap<Integer, Stack<Board>>());
+        users.get(username).addState(boardManager.getBoard(), gameIndex);
+        fm.saveObject(users);
     }
 
     /**
@@ -90,28 +75,12 @@ public class StartingActivity extends AppCompatActivity
         Toast.makeText(this, "Loaded Game", Toast.LENGTH_SHORT).show();
     }
 
-    public BoardManager selectBoardManager(int gameToSwitchTo, int size)
-    {
-        switch(gameToSwitchTo)
-        {
-            case 0:
-                return new SlidingBoardManager(size);
-            case 1:
-                return new ShogiBoardManager(size);
-            case 2:
-                return new ConnectFourBoardManager(size);
-        }
-        return null;
-
-    }
-
-    public void startButtonHelper(Board board, String p2usernameString, String p2passwordString, int gameParameter)
+    public void startButtonHelper(BoardManager boardManager, String p2usernameString, String p2passwordString, int gameIndex)
     {
         if(p2usernameString.equals(""))
         {
             Toast.makeText(getApplicationContext(), "Signing P2 as Guest", Toast.LENGTH_SHORT).show();
-            board.setOpponentString("Guest");
-            switchToGame(gameParameter);
+            switchToGame(gameIndex);
         }
         else if(p2passwordString.equals(""))
         {
@@ -119,12 +88,11 @@ public class StartingActivity extends AppCompatActivity
         }
         else
         {
-
             LoginManager lm = new LoginManager();
             if(lm.authenticateP2(p2usernameString, p2passwordString))
             {
                 Toast.makeText(getApplicationContext(), "Starting Game...", Toast.LENGTH_SHORT).show();
-                switchToGame(gameParameter);
+                switchToGame(gameIndex);
             }
             else
                 Toast.makeText(getApplicationContext(), "Invalid Credentials...", Toast.LENGTH_SHORT).show();
