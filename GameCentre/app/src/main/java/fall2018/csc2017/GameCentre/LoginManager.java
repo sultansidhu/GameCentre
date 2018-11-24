@@ -15,6 +15,7 @@ public class LoginManager {
                 personLoggedIn = user.getUsername();
             }
         }
+        System.out.println(personLoggedIn);
     }
     public LoginManager(FileManager f1){
 
@@ -103,7 +104,8 @@ public class LoginManager {
             //f1.saveObject();
         }
     }
-    public void makeToast(String textToDisplay){
+    public void makeToast(String textToDisplay)
+    {
         System.out.println(textToDisplay);
         Toast.makeText(GlobalApplication.getAppContext(), textToDisplay, Toast.LENGTH_LONG).show();//TODO: Make GlobalApplication not static
     }

@@ -104,7 +104,8 @@ public class ShogiActivity extends GameActivity implements Observer {
     /**
      * Adds the listener for the undo button on the UI
      */
-    private void addUndoButtonListener(String btnId) {
+    private void addUndoButtonListener(String btnId)
+    {
         Button undoButton = findViewById(R.id.btnUndoHS);
         undoButton.setOnClickListener(new View.OnClickListener() {
             @Override
