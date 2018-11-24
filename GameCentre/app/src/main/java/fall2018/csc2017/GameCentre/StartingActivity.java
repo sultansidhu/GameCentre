@@ -125,6 +125,9 @@ public class StartingActivity extends AppCompatActivity
             {
                 Toast.makeText(getApplicationContext(), "Starting Game...", Toast.LENGTH_SHORT).show();
                 HashMap<String, User> users = fm.readObject();
+                User p1 = users.get(lm.getPersonLoggedIn());
+                p1.setOpponent(p2usernameString);
+                System.out.println("PLAYER 1 ("+lm.getPersonLoggedIn()+")'s OPPONENT NOW IS: " + p1.getOpponent());
                 users.get(lm.getPersonLoggedIn()).getOpponents().put(gameParameter, p2usernameString);
                 int size = users.get(lm.getPersonLoggedIn()).getOpponents().size();
                 fm.saveObject(users);
@@ -137,5 +140,38 @@ public class StartingActivity extends AppCompatActivity
 
         }
     }
+//    public void setUpTwoPlayerProps(Board board, String p2usernameString, String p2passwordString, int gameParameter, LoginManager lm)
+//    {
+//        if(p2usernameString.equals(""))
+//        {
+//            Toast.makeText(getApplicationContext(), "Signing P2 as Guest", Toast.LENGTH_SHORT).show();
+//            board.setOpponentString("Guest");
+//            switchToGame(gameParameter);
+//        }
+//        else if(p2passwordString.equals(""))
+//        {
+//            Toast.makeText(getApplicationContext(), "Password Field is Empty!", Toast.LENGTH_SHORT).show();
+//        }
+//        else
+//        {
+//
+//            //LoginManager lm = new LoginManager();
+//            if(lm.authenticateP2(p2usernameString, p2passwordString))
+//            {
+//                Toast.makeText(getApplicationContext(), "Starting Game...", Toast.LENGTH_SHORT).show();
+//                HashMap<String, User> users = fm.readObject();
+//                users.get(lm.getPersonLoggedIn()).getOpponents().put(gameParameter, p2usernameString);
+//                int size = users.get(lm.getPersonLoggedIn()).getOpponents().size();
+//                lm.setP2LoggedIn(p2usernameString);
+//                fm.saveObject(users);
+//                System.out.println("PLAYER 2 LOGGED IN AS " + p2usernameString + " with a game parametetr of "+gameParameter);
+//                System.out.println("SIZE OF OPPONENT HASHMAP FOR THIS GAME IS: "+size);
+//                switchToGame(gameParameter);
+//            }
+//            else
+//                Toast.makeText(getApplicationContext(), "Invalid Credentials...", Toast.LENGTH_SHORT).show();
+//
+//        }
+//    }
 
 }

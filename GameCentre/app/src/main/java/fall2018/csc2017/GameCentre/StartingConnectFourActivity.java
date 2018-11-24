@@ -15,7 +15,8 @@ public class StartingConnectFourActivity extends StartingActivity
 {
 
     private ConnectFourBoardManager boardManager;
-    private String username = new LoginManager().getPersonLoggedIn();
+    private LoginManager lm = new LoginManager();
+    private String username = lm.getPersonLoggedIn();
     private FileManager fm = new FileManager();
     private int size;
 
@@ -83,6 +84,7 @@ public class StartingConnectFourActivity extends StartingActivity
                 String p2passwordString = p2password.getText().toString().trim();
 
                 setUpTwoPlayerProps(boardManager.getBoard(), p2usernameString, p2passwordString, 2);
+                // in the above call the login manager's p2 gets set.
                 ////////////////////////////////////////////////////////////////////////////////////
 
             }

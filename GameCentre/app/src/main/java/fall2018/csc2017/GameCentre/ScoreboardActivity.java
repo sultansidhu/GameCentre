@@ -122,7 +122,7 @@ public class ScoreboardActivity extends AppCompatActivity
         User user = users.get(username);
         switch(gameIndex){
             case 0:
-                newScore = new SlidingScoreCalc().calculateUserScore(user);
+                newScore = new SlidingScoreCalc(). calculateUserScore(user);
                 break;
             case 1:
                 ShogiScoreCalc ss = new ShogiScoreCalc();

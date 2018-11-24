@@ -6,6 +6,7 @@ import java.util.HashMap;
 public class LoginManager {
     private String personLoggedIn = null;
     private FileManager f1;
+    private String p2LoggedIn = null;
 
     public LoginManager(){
         this.f1 = new FileManager();
@@ -19,6 +20,12 @@ public class LoginManager {
     }
     public LoginManager(FileManager f1){
 
+    }
+    public void setP2LoggedIn(String username){
+        p2LoggedIn = username;
+    }
+    public String getP2LoggedIn(){
+        return p2LoggedIn;
     }
     public String getPersonLoggedIn(){
         return this.personLoggedIn;

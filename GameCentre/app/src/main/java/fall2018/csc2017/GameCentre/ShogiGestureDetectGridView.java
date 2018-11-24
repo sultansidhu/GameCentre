@@ -139,13 +139,15 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
                     fm.saveObject(users);
                     if (boardManager.puzzleSolved()) {
                         ScoreboardActivity sc = new ScoreboardActivity();
-                        if (boardManager.getBoard().getCurrPlayer() == 1) {//Player already swapped therefore p2
+                        if (boardManager.getBoard().getCurrPlayer() == R.drawable.red) {//Player already swapped therefore p2
+                            // TODO: MAYDAY MAYDAY - CHECK THE ABOVE R.DRAWABLE.RED CODE
                             System.out.println("Line 143 S-Gest");
                             sc.updateUserHighScore(username, 1);
                             switchToScoreboardScreen();
                         }
                         else{
-                            sc.updateUserHighScore(username, 1);//TODO: Fix this - Only the current username can win!
+                            String opponent = users.get(username).getOpponent(); // figure out where to set up the opponent
+                            sc.updateUserHighScore(opponent, 1);//TODO: Fix this - Only the current username can win!
                             System.out.println("Line 149 S-Gest");
                             switchToScoreboardScreen();
                         }

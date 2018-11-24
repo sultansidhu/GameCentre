@@ -30,6 +30,8 @@ public class User implements Serializable
     This is answer to this user's security question
     */
     private String answer;
+
+    String opponent = "Guest";
     /**
     This is the current highest score of this user per game
     */
@@ -75,6 +77,12 @@ public class User implements Serializable
         }
         this.playTime = (long)0.0;
 
+    }
+    String getOpponent(){
+        return this.opponent;
+    }
+    void setOpponent(String newOpponent){
+        this.opponent = newOpponent;
     }
     String getUsername(){
         return this.username;
