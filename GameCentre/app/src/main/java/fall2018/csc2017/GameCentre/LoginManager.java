@@ -51,15 +51,27 @@ public class LoginManager {
         }
         else {
             User newUser = new User(username, password, selQ, ans);
-            setUsersLoggedOut(f1.readObject());
-            newUser.setLoggedIn(true);
             HashMap<String, User> hm = f1.readObject();
             hm.put(username, newUser);
 
             f1.saveObject(hm);
+
+            //System.out.println("NOW SHOWING BEFORE THE LOGGING OUT BEGINS");
+            //printPlayerLoggedInStatus(f1.readObject());
+            // ----------------------------------------------
+//            setUsersLoggedOut(f1.readObject());
+//            newUser.setLoggedIn(true);
+            f1.saveObject(setUsersLoggedOut(f1.readObject())); // logs all users out and saves
+            setLoggedInTrueAndSave(newUser); // changes loggedIn of current user to true and saves
+            // ----------------------------------------------
+            //System.out.println("NOW SHOWING AFTER THE LOGGING IN HAS BEEN DONE");
+            //printPlayerLoggedInStatus(f1.readObject());
+            // ----------------------------------------------
+
             makeToast("Success!");
             return true;
         }
+        makeToast("Unknown Error, try again!");
         return false;
     }
 
@@ -72,8 +84,17 @@ public class LoginManager {
         }
 
         else{
-            setUsersLoggedOut(f1.readObject());
-            f1.readObject().get(username).setLoggedIn(true);
+            System.out.println("NOW SHOWING BEFORE THE LOGGING OUT BEGINS");
+            printPlayerLoggedInStatus(f1.readObject());
+            // --------------------------------------------------
+            //setUsersLoggedOut(f1.readObject());
+            f1.saveObject(setUsersLoggedOut(f1.readObject())); // logs all users out and saves
+            setLoggedInTrueAndSave(f1.readObject().get(username)); // sets the loggedIn of the current user to true and saves
+            //f1.readObject().get(username).setLoggedIn(true);
+            // --------------------------------------------------
+            System.out.println("NOW SHOWING AFTER THE LOGGING IN HAS BEEN DONE");
+            printPlayerLoggedInStatus(f1.readObject());
+            // -------------------------------------------------
             personLoggedIn = username;
             makeToast("Logging in...");
             f1.saveObject(f1.readObject());
@@ -92,18 +113,46 @@ public class LoginManager {
             makeToast("Password Rejected!");
             return false;
         }
-        else
+        else {
+            //f1.readObject().get(username).setLoggedIn(true); // this was added to set the logged in status of the
+            // second player to be true
+            setLoggedInTrueAndSave(f1.readObject().get(username));
+            System.out.println("PRINTING AFTER PLAYER TWO HAS LOGGED IN");
+            printPlayerLoggedInStatus(f1.readObject());
             return true;
-    }
-
-    public void setUsersLoggedOut(HashMap<String, User> theHashMap){
-        if(personLoggedIn != null){
-            User u1 = theHashMap.get(personLoggedIn);
-            u1.setLoggedIn(false);
-            personLoggedIn = null;
-            //f1.saveObject();
         }
     }
+
+    // TODO: SULTAN IS PLAYING WITH THIS FUNCTION
+
+    // I MADE THIS FUNCTION TO GO THROUGH THE HASHMAP AND SIGN OUT EVERY USER OTHER
+    // THAN THE USER THAT IS PLAYING RIGHT NOW
+    public HashMap<String, User> setUsersLoggedOut(HashMap<String, User> theHashMap){
+        if(personLoggedIn != null){
+            for (User user: theHashMap.values()){
+                user.setLoggedIn(false);
+            }
+           // User u1 = theHashMap.get(personLoggedIn);
+            //u1.setLoggedIn(false);
+            //personLoggedIn = null;
+            //f1.saveObject();
+        }
+        return theHashMap;
+    }
+
+    public void printPlayerLoggedInStatus(HashMap<String, User> hm){ // ISSA TESTER FUNCTION TING
+        for (User user: hm.values()) {
+            System.out.println("WILL TELL IF THE USER ( " + user.getUsername() + " ) IS LOGGED IN: " + user.getLoggedIn());
+        }
+    }
+
+    public void setLoggedInTrueAndSave(User user){ // Todo: THIS FUNCTION SETS THE LOGGED IN TRUE AND SAVES THE HASH MAP
+        HashMap<String, User> hm = f1.readObject();
+        hm.get(user.getUsername()).setLoggedIn(true);
+        f1.saveObject(hm);
+    }
+
+
     public void makeToast(String textToDisplay)
     {
         System.out.println(textToDisplay);
