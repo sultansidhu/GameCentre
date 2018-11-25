@@ -21,9 +21,9 @@ class ShogiScoreCalc {
 //        }
         System.out.println("TOOK MOVES: "+numMoves);
         if(numMoves < 14){
-            return 200 + (20 * pieceDiff);
+            return 860 + (20 * pieceDiff);
         }
-        int score = Math.round(-1*numMoves + 213 + (20 * pieceDiff));
+        int score = Math.round(-1*numMoves + 774 + (20 * pieceDiff));
         if(score < 0){
             score = 0;
         }
