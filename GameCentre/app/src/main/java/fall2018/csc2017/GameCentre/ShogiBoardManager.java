@@ -3,7 +3,7 @@ package fall2018.csc2017.GameCentre;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShogiBoardManager implements BoardManager
+public class  ShogiBoardManager implements BoardManager
 {
     /**
      * The board being managed.
