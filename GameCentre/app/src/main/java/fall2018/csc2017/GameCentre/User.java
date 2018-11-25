@@ -49,6 +49,8 @@ public class User implements Serializable
 
     private boolean isLoggedIn = false;
 
+    private HashMap<Integer, String> opponents;
+
     /**
      * The user of the application. Object is used to sign in and access various functions.
      * @param username the username of the user
@@ -155,11 +157,13 @@ public class User implements Serializable
      * @param board the board to be added to the stack
      */
     public void addState(Board board, int gameNum) {
-        savedStates.get(gameNum).push(board);
-//        catch(NullPointerException e) {
-//            this.savedStates.put(gameNum, new Stack<Board>());
-//            savedStates.get(gameNum).push(board);
-//        }
+        try {
+            savedStates.get(gameNum).push(board);
+        }
+        catch(NullPointerException e) {
+            this.savedStates.put(gameNum, new Stack<Board>());
+            savedStates.get(gameNum).push(board);
+        }
 
     }
 
@@ -170,6 +174,10 @@ public class User implements Serializable
     public void setSavedStates(HashMap<Integer, Stack<Board>> savedStates)
     {
         this.savedStates = savedStates;
+    }
+
+    public void resetGameStack(int gameIndex) {
+        this.savedStates.put(gameIndex, new Stack<Board>());
     }
 
     /**
@@ -231,6 +239,14 @@ public class User implements Serializable
 
     public boolean getLoggedIn() {
         return isLoggedIn;
+    }
+
+    public void setOpponent(int game, String opponent) {
+        this.opponents.put(game, opponent);
+    }
+
+    public String getOpponent(int game) {
+        return this.opponents.get(game);
     }
 
     /**

@@ -32,7 +32,6 @@ public class StartingShogiActivity extends StartingActivity {
         addLoadButtonListener();
         addScoreboardButtonListener();
         setSizeDropdown();
-        gameIndex = getIntent().getExtras().getInt("gameIndex");
     }
 
     /**
@@ -88,12 +87,11 @@ public class StartingShogiActivity extends StartingActivity {
                 } finally {
                     boardManager = (ShogiBoardManager) bmFactory.getBoardManager(gameIndex, size);
                     setUserUndos(username, undoLimit, gameIndex, boardManager);
-
                     TextView p2username = findViewById(R.id.txtP2UsernameHS);
                     String p2usernameString = p2username.getText().toString().trim();
                     TextView p2password = findViewById(R.id.txtP2PasswordHS);
                     String p2passwordString = p2password.getText().toString().trim();
-                    startButtonHelper(boardManager, p2usernameString, p2passwordString, gameIndex);
+                    startButtonHelper(p2usernameString, p2passwordString, gameIndex);
                 }
             }
         });

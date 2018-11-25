@@ -59,6 +59,8 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
         this.opponent = opponent;
     }
 
+    public String getOpponentString() { return this.opponent; }
+
 
     /**
      * A getter method to return the array of tiles contained within

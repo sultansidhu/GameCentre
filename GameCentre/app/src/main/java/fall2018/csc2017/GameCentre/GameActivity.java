@@ -3,20 +3,10 @@ package fall2018.csc2017.GameCentre;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.Toast;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Stack;
@@ -42,7 +32,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
     private GestureDetectGridView gridView;
     private static int columnWidth, columnHeight;
     private int gameIndex;
-    private String username;
+    private String username = new LoginManager().getPersonLoggedIn();
     private FileManager fm = new FileManager();
 
     /**
@@ -58,103 +48,6 @@ public class GameActivity extends AppCompatActivity implements Observer {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*LoginManager lm = new LoginManager();
-        username = lm.getPersonLoggedIn();
-        gameIndex = getIntent().getExtras().getInt("gameIndex");
-        HashMap<String, User> users = fm.readObject();
-        assert users != null;
-        User user = users.get(username);
-        Stack<Board> userStack = user.getGameStack(0);
-        if (userStack.peek() == null) {
-            System.out.println("STACK IS NULL!!!");
-        }
-        setBoardManager(userStack.peek());
-        if (user.getTotalTime() == 0) {
-            user.startTimer();
-        }
-        System.out.println("the starting time for the playTime is: " + user.playTime);
-        users.put(username, user);
-        fm.saveObject(users);
-
-
-        createTileButtons(this);
-        setContentView(R.layout.activity_main);
-        // Add View to activity
-        addUndoButtonListener();
-        gridView = findViewById(R.id.grid);
-        gridView.setNumColumns(Board.NUM_COLS);
-        gridView.setBoardManager(boardManager);
-        boardManager.getBoard().addObserver(this);
-        // Observer sets up desired dimensions as well as calls our display function
-        gridView.getViewTreeObserver().addOnGlobalLayoutListener(
-                new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        gridView.getViewTreeObserver().removeOnGlobalLayoutListener(
-                                this);
-                        int displayWidth = gridView.getMeasuredWidth();
-                        int displayHeight = gridView.getMeasuredHeight();
-                        columnWidth = displayWidth / Board.NUM_COLS;
-                        columnHeight = displayHeight / Board.NUM_ROWS;
-                        display();
-                    }
-                });*/
-    }
-
-    /**
-     * Adds the listener for the undo button on the UI
-     */
-    private void addUndoButtonListener() {
-        Button undoButton = findViewById(R.id.UndoButton);
-        undoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                HashMap<String, User> users = fm.readObject();
-                assert users != null;
-                User user = users.get(username);
-                Stack<Board> userStack = user.getGameStack(0);
-
-                if(user.getAvailableUndos(gameIndex) == 0) {
-                    makeToastNoUndo();
-                } else if (user.getAvailableUndos(gameIndex) < 0) {
-
-                    if (userStack.size() > 1){
-                        userStack.pop();
-                        setBoardManager(userStack.peek());
-
-                    }
-                    else{
-                        Toast.makeText(getApplicationContext(), "No more undos possible!", Toast.LENGTH_LONG).show();
-                    }
-
-                    boardManager.getBoard().addObserver(GameActivity.this);
-                    gridView.setBoardManager(boardManager);
-                    display();
-                    users.put(username, user);
-                    user.setAvailableUndos(gameIndex, user.getAvailableUndos(gameIndex) -1);
-                    if (user.getGameStack(0).size() > 1){
-                        makeToastUnlimitedUndoText();
-                    }
-                    fm.saveObject(users);
-                }
-
-                else if (userStack.size() > 1 ) {
-                    userStack.pop();
-                    setBoardManager(userStack.peek());
-                    boardManager.getBoard().addObserver(GameActivity.this);
-                    gridView.setBoardManager(boardManager);
-                    display();
-                    users.put(username, user);
-                    user.setAvailableUndos(gameIndex, user.getAvailableUndos(gameIndex) - 1);
-                    makeToastUndoText(user.getAvailableUndos(gameIndex));
-                    fm.saveObject(users);
-
-                }
-
-                else makeToastEmptyStack();
-            }
-        });
     }
 
     /**
@@ -178,11 +71,6 @@ public class GameActivity extends AppCompatActivity implements Observer {
      */
     private void makeToastEmptyStack(){
         Toast.makeText(this, "There are no previous boards.", Toast.LENGTH_SHORT).show();
-    }
-
-
-    public void setBoardManager(Board board) {
-
     }
 
     /**
@@ -232,10 +120,53 @@ public class GameActivity extends AppCompatActivity implements Observer {
     protected void onPause() {
         // TODO: Add pause functionality for the timer
         super.onPause();
-
-
     }
 
+    public void undoHelper(User user, Stack<Board> userStack, int gameIndex) {
+        if(user.getAvailableUndos(gameIndex) == 0) {
+            makeToastNoUndo();
+        } else if (userStack.size() == 1) {
+            makeToastEmptyStack();
+        }
+        else {
+            userStack.pop();
+            user.setAvailableUndos(gameIndex, user.getAvailableUndos(gameIndex) - 1);
+            if (user.getAvailableUndos(gameIndex) < 0) {
+                makeToastUnlimitedUndoText();
+            }
+            else {
+                makeToastUndoText(user.getAvailableUndos(gameIndex));
+            }
+            saveUser(user);
+        }
+    }
+
+    public void saveUser(User user) {
+        HashMap<String, User> users = fm.readObject();
+        users.put(username, user);
+        fm.saveObject(users);
+    }
+
+
+    public User getUser(String username) {
+        HashMap<String, User> users = fm.readObject();
+        assert users != null;
+        return users.get(username);
+    }
+
+
+    public Stack<Board> getStack(String username, int gameIndex) {
+        return getUser(username).getGameStack(gameIndex);
+    }
+
+    public void setTimer(String username) {
+        User user = getUser(username);
+        if (user.getTotalTime() == 0) {
+            user.startTimer();
+        }
+        System.out.println("the starting time for the playTime is: " + user.playTime);
+        saveUser(user);
+    }
 
     /**
      * Updates the display

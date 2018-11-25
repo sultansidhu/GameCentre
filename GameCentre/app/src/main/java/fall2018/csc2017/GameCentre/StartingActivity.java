@@ -56,7 +56,7 @@ public class StartingActivity extends AppCompatActivity
         HashMap<String, User> users = fm.readObject();
         assert users != null;
         users.get(username).setAvailableUndos(gameIndex, undoLimit);
-        //users.get(username).setSavedStates(new HashMap<Integer, Stack<Board>>());
+        users.get(username).resetGameStack(gameIndex);
         users.get(username).addState(boardManager.getBoard(), gameIndex);
         fm.saveObject(users);
     }
@@ -75,7 +75,7 @@ public class StartingActivity extends AppCompatActivity
         Toast.makeText(this, "Loaded Game", Toast.LENGTH_SHORT).show();
     }
 
-    public void startButtonHelper(BoardManager boardManager, String p2usernameString, String p2passwordString, int gameIndex)
+    public void startButtonHelper(String p2usernameString, String p2passwordString, int gameIndex)
     {
         if(p2usernameString.equals(""))
         {

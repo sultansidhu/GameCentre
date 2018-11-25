@@ -28,7 +28,7 @@ public class StartingSlidingActivity extends StartingActivity {
     private int undoLimit;
     private int gameIndex = 0;
     private int size;
-    private String username;
+    private String username = new LoginManager().getPersonLoggedIn();
     private FileManager fm = new FileManager();
     private BoardManagerFactory bmFactory = new BoardManagerFactory();
 
@@ -45,10 +45,6 @@ public class StartingSlidingActivity extends StartingActivity {
         setSizeDropdown();
         setUndoDropdown();
         addScoreboardButtonListener();
-        gameIndex = getIntent().getExtras().getInt("gameIndex");
-        LoginManager lm = new LoginManager();
-        username = lm.getPersonLoggedIn();
-        assert username != null; //There should be someone logged in once we get to this screen.
     }
 
     /**

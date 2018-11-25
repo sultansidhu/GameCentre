@@ -2,25 +2,13 @@ package fall2018.csc2017.GameCentre;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
-import android.widget.Toast;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Stack;
-
 
 /**
  * The Sliding Tiles game activity.
@@ -40,9 +28,10 @@ public class ShogiActivity extends GameActivity implements Observer {
     // Grid View and calculated column height and width based on device size
     private ShogiGestureDetectGridView gridView;
     private static int columnWidth, columnHeight;
-    private int gameIndex;
-    private String username;
+    private int gameIndex = 1;
+    private String username = new LoginManager().getPersonLoggedIn();
     private FileManager fm = new FileManager();
+    private BoardManagerFactory bmFactory = new BoardManagerFactory();
 
     /**
      * Set up the background image for each button based on the master list
@@ -57,48 +46,38 @@ public class ShogiActivity extends GameActivity implements Observer {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LoginManager lm = new LoginManager();
-        username = lm.getPersonLoggedIn();
-        assert username != null;
-        HashMap<String, User> users = fm.readObject();
-        assert users != null;
-        User user = users.get(username);
-        Stack<Board> userStack = user.getGameStack(1);
-        if (userStack.peek() == null) {
-            System.out.println("STACK IS NULL!!!");
-        }
-        setBoardManager(userStack.peek());
-        if (user.getTotalTime() == 0) {
-            user.startTimer();
-        }
-        System.out.println("the starting time for the playTime is: " + user.playTime);
-        users.put(username, user);
-        fm.saveObject(users);
-
-
+        Stack<Board> userStack = getStack(username, gameIndex);
+        boardManager = (ShogiBoardManager)bmFactory.getBoardManager(gameIndex, userStack.peek());
+//        setTimer(username);
         createTileButtons(this);
         setContentView(R.layout.activity_main_shogi);
         // Add View to activity
         addUndoButtonListener();
         gridView = findViewById(R.id.grid);
         gridView.setNumColumns(Board.NUM_COLS);
-        gridView.setBoardManager(boardManager);
-        boardManager.getBoard().addObserver(this);
+        addBoardObserver();
+
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
-                new ViewTreeObserver.OnGlobalLayoutListener() {
+                new ViewTreeObserver.OnGlobalLayoutListener()
+                {
                     @Override
-                    public void onGlobalLayout() {
+                    public void onGlobalLayout()
+                    {
                         gridView.getViewTreeObserver().removeOnGlobalLayoutListener(
                                 this);
                         int displayWidth = gridView.getMeasuredWidth();
                         int displayHeight = gridView.getMeasuredHeight();
-
                         columnWidth = displayWidth / Board.NUM_COLS;
                         columnHeight = displayHeight / Board.NUM_ROWS;
                         display();
                     }
                 });
+    }
+
+    private void addBoardObserver() {
+        gridView.setBoardManager(boardManager);
+        boardManager.getBoard().addObserver(ShogiActivity.this);
     }
 
     /**
@@ -110,88 +89,14 @@ public class ShogiActivity extends GameActivity implements Observer {
             @Override
             public void onClick(View v)
             {
-                HashMap<String, User> users = fm.readObject();
-                assert users != null;
-                User user = users.get(username);
-                Stack<Board> userStack = user.getGameStack(1);
-
-                if(user.getAvailableUndos(gameIndex) == 0) {
-                    makeToastNoUndo();
-                } else if (user.getAvailableUndos(gameIndex) < 0) {
-
-                    if (userStack.size() > 1){
-                        userStack.pop();
-                        setBoardManager(userStack.peek());
-
-                    }
-                    else{
-                        Toast.makeText(getApplicationContext(), "No more undos possible!", Toast.LENGTH_LONG).show();
-                    }
-
-                    boardManager.getBoard().addObserver(ShogiActivity.this);
-                    gridView.setBoardManager(boardManager);
-                    display();
-                    users.put(username, user);
-                    user.setAvailableUndos(gameIndex, user.getAvailableUndos(gameIndex) - 1);
-                    if (user.getGameStack(1).size() > 1){
-                        makeToastUnlimitedUndoText();
-                    }
-                    fm.saveObject(users);
-                }
-
-                else if (userStack.size() > 1 ) {
-                    userStack.pop();
-                    setBoardManager(userStack.peek());
-                    boardManager.getBoard().addObserver(ShogiActivity.this);
-                    gridView.setBoardManager(boardManager);
-                    display();
-                    users.put(username, user);
-                    user.setAvailableUndos(gameIndex, user.getAvailableUndos(gameIndex) - 1);
-                    makeToastUndoText(user.getAvailableUndos(gameIndex));
-                    fm.saveObject(users);
-
-                }
-
-                else makeToastEmptyStack();
+                User user = getUser(username);
+                Stack<Board> userStack = user.getGameStack(gameIndex);
+                undoHelper(user, userStack, gameIndex);
+                boardManager = (ShogiBoardManager)bmFactory.getBoardManager(gameIndex, userStack.peek());
+                addBoardObserver();
+                display();
             }
         });
-    }
-
-    /**
-     * Makes toast representing the number of undo's remaining.
-     * @param number number of undo's remaining for the user
-     */
-    private void makeToastUndoText(int number) {
-        Toast.makeText(this, "Undo used: "+number+" undo(s) remain.", Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * Make toast representing the notion that the user has used
-     * all of his/her undo's.
-     */
-    private void makeToastNoUndo() {
-        Toast.makeText(this, "You have used all your undos!", Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * Make toast notifying the user of an empty Board stack.
-     */
-    private void makeToastEmptyStack(){
-        Toast.makeText(this, "There are no previous boards.", Toast.LENGTH_SHORT).show();
-    }
-
-
-    public void setBoardManager(Board board) {
-        boardManager = new ShogiBoardManager(board);
-    }
-
-    /**
-     * Make toast notifying the user of a successful undo
-     * when the number of maximum possible undo's is set to
-     * unlimited.
-     */
-    private void makeToastUnlimitedUndoText() {
-        Toast.makeText(this, "Undo used", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -232,10 +137,7 @@ public class ShogiActivity extends GameActivity implements Observer {
     protected void onPause() {
         // TODO: Add pause functionality for the timer
         super.onPause();
-
-
     }
-
 
     /**
      * Updates the display

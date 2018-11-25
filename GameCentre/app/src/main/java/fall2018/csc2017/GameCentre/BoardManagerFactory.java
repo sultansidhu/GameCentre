@@ -2,9 +2,9 @@ package fall2018.csc2017.GameCentre;
 
 public class BoardManagerFactory {
 
-    public BoardManager getBoardManager(int gameToSwitchTo, int size)
+    public BoardManager getBoardManager(int gameIndex, int size)
     {
-        switch(gameToSwitchTo)
+        switch(gameIndex)
         {
             case 0:
                 return new SlidingBoardManager(size);
@@ -17,9 +17,9 @@ public class BoardManagerFactory {
 
     }
 
-    public BoardManager getBoardManager(int gameToSwitchTo, Board board)
+    public BoardManager getBoardManager(int gameIndex, Board board)
     {
-        switch(gameToSwitchTo)
+        switch(gameIndex)
         {
             case 0:
                 return new SlidingBoardManager(board);

@@ -21,14 +21,11 @@ public class StartingConnectFourActivity extends StartingActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.starting_connect4);
-
         addLoadButtonListener();
-        addNewGameButtonListener();
+        addStartButtonListener();
         addbtnScoreboardListener();
-        setSizeDropdown();//            }
-
+        setSizeDropdown();
         assert username != null; //There should be someone logged in once we get to this screen.
-
     }
 
     private void setSizeDropdown()
@@ -52,7 +49,7 @@ public class StartingConnectFourActivity extends StartingActivity
         });
     }
 
-    private void addNewGameButtonListener()
+    private void addStartButtonListener()
     {
         Button startGameButton = findViewById(R.id.btnStartGameC4);
         startGameButton.setOnClickListener(new View.OnClickListener()
@@ -69,7 +66,7 @@ public class StartingConnectFourActivity extends StartingActivity
                 String p2usernameString = p2username.getText().toString().trim();
                 TextView p2password = findViewById(R.id.txtP2PasswordC4);
                 String p2passwordString = p2password.getText().toString().trim();
-                startButtonHelper(boardManager, p2usernameString, p2passwordString, gameIndex);
+                startButtonHelper(p2usernameString, p2passwordString, gameIndex);
             }
         });
     }
