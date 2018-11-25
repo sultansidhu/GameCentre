@@ -53,7 +53,8 @@ public class FileManager implements Serializable {
         ObjectInputStream objectIn;
         try
         {
-            fis = GlobalApplication.getAppContext().openFileInput("testFile.ser");
+            //fis = GlobalApplication.getAppContext().openFileInput("testFile.ser");
+            fis = GlobalApplication.getAppContext().openFileInput("testFile2.ser");
             objectIn = new ObjectInputStream(fis);
             @SuppressWarnings("unchecked")
             HashMap<String, User> hashMapFromFile = (HashMap<String, User>)objectIn.readObject();
@@ -103,7 +104,8 @@ public class FileManager implements Serializable {
 
         try
         {
-            fos = GlobalApplication.getAppContext().openFileOutput("testFile.ser", Context.MODE_PRIVATE);
+            //fos = GlobalApplication.getAppContext().openFileOutput("testFile.ser", Context.MODE_PRIVATE);
+            fos = GlobalApplication.getAppContext().openFileOutput("testFile2.ser", Context.MODE_PRIVATE);
             objectOut = new ObjectOutputStream(fos);
             objectOut.writeObject(hashMap);
             objectOut.close();

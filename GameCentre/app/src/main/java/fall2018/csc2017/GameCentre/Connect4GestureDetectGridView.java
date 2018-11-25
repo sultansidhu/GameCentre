@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
 
-public class Connect4GestureDetectGridView extends GridView
+public class Connect4GestureDetectGridView extends GestureDetectGridView
 {
 
     /*
@@ -60,6 +60,7 @@ public class Connect4GestureDetectGridView extends GridView
      * Username of user currently playing.
      */
     private String username;
+   // private String usernameP2;
 
     /**
     The file manager instance
@@ -97,7 +98,7 @@ public class Connect4GestureDetectGridView extends GridView
 
     private void init(final Context context)
     {
-        System.out.println("INIT METHOD CALLED, HAS THE SINGLETAPCONFIRMED FOR THE CONNECT 4 GRID");
+        //System.out.println("INIT METHOD CALLED, HAS THE SINGLETAPCONFIRMED FOR THE CONNECT 4 GRID");
         mController = new MovementController();
         gDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             /*
@@ -105,21 +106,43 @@ public class Connect4GestureDetectGridView extends GridView
             */
             @Override
             public boolean onSingleTapConfirmed(MotionEvent event) {
-                System.out.println("CONNECT 4 GRID VIEW CALLED");
+                //System.out.println("CONNECT 4 GRID VIEW CALLED");
                 int position = Connect4GestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
-                System.out.println("position: ");
-                System.out.println(position);
+                //System.out.println("position: ");
+                //System.out.println(position);
                 Tile currTile = boardManager.getBoard().getTile(position / Board.NUM_COLS, position % Board.NUM_COLS);
-                // TODO: CHANGE THE 7 TO A VARIABLE HOLDING THE SELECTED SIZE; THIS MUST BE PASSED THROUGH INTENTS
 
                 if (boardManager.isValidTap(position))
                 {
                     mController.processTapMovement(context, boardManager, position);
+
                     HashMap<String, User> users = fm.readObject();
                     assert users != null;
                     users.get(username).addState(boardManager.getBoard(), 2);
+                    int y = users.get(username).getNumMoves(2);
+                    System.out.println("Number of moves until now: " + y);
                     fm.saveObject(users);
+                    if (boardManager.puzzleSolved(position)){
+                        ScoreboardActivity sc = new ScoreboardActivity();
+                        System.out.println("THE GET CURRENT PLAYER RETURNS THE FOLLOWING: " + boardManager.getCurrentPlayer(position));
+                        System.out.println("THE R.DRAWABLE.RED IS THE FOLLOWING: " + R.drawable.red);
+                        if (boardManager.getCurrentPlayer(position) == R.drawable.red) { // in this case the red won, so p1 won // this was changed from being 1
+                            sc.updateUserHighScore(username, 2);
+                            switchToScoreboardScreen();
+                        }
+                        else{//black wins 
+
+                            // what this needs is the username of the other player.
+
+                            String opponent = users.get(username).getOpponent();
+
+                            sc.updateUserHighScore(opponent, 2);
+                            switchToScoreboardScreen();
+                        }
+
+                    }
+                    //fm.saveObject(users);
                     return true;
                 }
                 else
@@ -204,5 +227,9 @@ public class Connect4GestureDetectGridView extends GridView
         return gDetector.onTouchEvent(ev);
     }
 
-
+    //@Override Todo: SULTAN IS PLAYING WITH THIS METHOD RN. NEEDS IMPLEMENTATION
+    public boolean peekBoardManagerSolved(Board board, int position) {
+        return new ConnectFourBoardManager(board).puzzleSolved(position);
+        //return super.peekBoardManagerSolved(board);
+    }
 }

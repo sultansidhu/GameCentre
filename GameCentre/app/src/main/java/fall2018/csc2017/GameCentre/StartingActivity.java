@@ -86,13 +86,25 @@ public class StartingActivity extends AppCompatActivity
         {
             Toast.makeText(getApplicationContext(), "Password Field is Empty!", Toast.LENGTH_SHORT).show();
         }
+        else if(p2usernameString.equals(new LoginManager().getPersonLoggedIn())){
+            Toast.makeText(getApplicationContext(), "The opponent cannot be the same as Player 1! Use a different player!", Toast.LENGTH_SHORT).show();
+        }
         else
         {
             LoginManager lm = new LoginManager();
             if(lm.authenticateP2(p2usernameString, p2passwordString))
             {
                 Toast.makeText(getApplicationContext(), "Starting Game...", Toast.LENGTH_SHORT).show();
-                switchToGame(gameIndex);
+                HashMap<String, User> users = fm.readObject();
+                User p1 = users.get(lm.getPersonLoggedIn());
+                p1.setOpponent(p2usernameString);
+                System.out.println("PLAYER 1 ("+lm.getPersonLoggedIn()+")'s OPPONENT NOW IS: " + p1.getOpponent());
+                users.get(lm.getPersonLoggedIn()).getOpponents().put(gameParameter, p2usernameString);
+                int size = users.get(lm.getPersonLoggedIn()).getOpponents().size();
+                fm.saveObject(users);
+                System.out.println("PLAYER 2 LOGGED IN AS " + p2usernameString + " with a game parametetr of "+gameParameter);
+                System.out.println("SIZE OF OPPONENT HASHMAP FOR THIS GAME IS: "+size);
+                switchToGame(gameParameter);
             }
             else
                 Toast.makeText(getApplicationContext(), "Invalid Credentials...", Toast.LENGTH_SHORT).show();

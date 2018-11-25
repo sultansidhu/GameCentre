@@ -30,6 +30,8 @@ public class User implements Serializable
     This is answer to this user's security question
     */
     private String answer;
+
+    String opponent = "Guest";
     /**
     This is the current highest score of this user per game
     */
@@ -50,7 +52,6 @@ public class User implements Serializable
     private boolean isLoggedIn = false;
 
     private HashMap<Integer, String> opponents;
-
     /**
      * The user of the application. Object is used to sign in and access various functions.
      * @param username the username of the user
@@ -64,6 +65,7 @@ public class User implements Serializable
         this.password = password;
         this.securityQuestion = securityQuestion;
         this.answer = answer;
+        this.opponents = new HashMap<Integer, String>();
         this.highestScore = new HashMap<Integer, Integer>();
         this.savedStates = new HashMap<Integer, Stack<Board>>();
         this.availableUndos = new HashMap<Integer, Integer>();
@@ -73,8 +75,13 @@ public class User implements Serializable
             this.availableUndos.put(i, 3); // the default number of undos for every user.
         }
         this.playTime = (long)0.0;
-        for (int i = 0; i <= 2; i++) {
-        }
+
+    }
+    String getOpponent(){
+        return this.opponent;
+    }
+    void setOpponent(String newOpponent){
+        this.opponent = newOpponent;
     }
     String getUsername(){
         return this.username;
@@ -221,6 +228,25 @@ public class User implements Serializable
         this.highestScore.put(gameIndex, highestScore);
     }
 
+    /**
+     * Returm the HashMap mapping a game index integer to the String representing the opponent
+     * of the game
+     * @return HashMap<Integer, String>
+     */
+    public HashMap<Integer, String> getOpponents()
+    {
+        return this.opponents;
+    }
+
+    /**
+     * Set the opponents attribute of this class to newOpponents
+     * @param newOpponents, a HashMap representing the new opponents
+     */
+    public void setOpponents(HashMap<Integer, String> newOpponents)
+    {
+        this.opponents = newOpponents;
+    }
+
 //
     String getSecurityQuestion()
     {
@@ -239,14 +265,6 @@ public class User implements Serializable
 
     public boolean getLoggedIn() {
         return isLoggedIn;
-    }
-
-    public void setOpponent(int game, String opponent) {
-        this.opponents.put(game, opponent);
-    }
-
-    public String getOpponent(int game) {
-        return this.opponents.get(game);
     }
 
     /**
