@@ -123,7 +123,7 @@ public class LoginManager {
         else {
             //f1.readObject().get(username).setLoggedIn(true); // this was added to set the logged in status of the
             // second player to be true
-            setLoggedInTrueAndSave(f1.readObject().get(username));
+            //setLoggedInTrueAndSave(f1.readObject().get(username));
             System.out.println("PRINTING AFTER PLAYER TWO HAS LOGGED IN");
             printPlayerLoggedInStatus(f1.readObject());
             return true;

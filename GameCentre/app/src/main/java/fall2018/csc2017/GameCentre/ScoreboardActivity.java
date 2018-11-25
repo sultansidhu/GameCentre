@@ -139,8 +139,13 @@ public class ScoreboardActivity extends AppCompatActivity
             if (newScore > user.getHighestScore(gameIndex)) {
                 user.setHighestScore(gameIndex, newScore);
                 Context context = GlobalApplication.getAppContext();
-                Toast.makeText(context, "New High score: "+user.getHighestScore(gameIndex) +"!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, user.getUsername() + " won and got a new high score: "+user.getHighestScore(gameIndex) +"!", Toast.LENGTH_SHORT).show();
                 //System.out.println(newScore);//Works perfectly up to here!
+            }
+            else{
+                Toast.makeText(GlobalApplication.getAppContext(), user.getUsername() +"'s score for this game: "+ newScore +"!", Toast.LENGTH_SHORT).show();
+                System.out.println("Reached sc line 147");
+                //Toast.makeText(GlobalApplication.getAppContext(), "TESTING123", Toast.LENGTH_SHORT).show();
             }
             fm.saveObject(users);
         System.out.println("Session score: "+newScore);
