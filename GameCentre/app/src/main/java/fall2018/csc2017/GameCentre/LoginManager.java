@@ -78,7 +78,7 @@ public class LoginManager {
             makeToast("Success!");
             return true;
         }
-        makeToast("Unknown Error, try again!");
+        //makeToast("Unknown Error, try again!");
         return false;
     }
 

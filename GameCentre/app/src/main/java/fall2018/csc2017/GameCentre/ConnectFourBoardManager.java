@@ -179,11 +179,16 @@ public class ConnectFourBoardManager implements BoardManager {
         int colorCounter = 0;
         int colNewlyAdded = position % Board.NUM_COLS;
         int rowNewlyAdded = position / Board.NUM_COLS;
+        System.out.println("ROW NEWLY  ADDED ISSSSSS");
+        System.out.println(rowNewlyAdded);
         while (colNewlyAdded < Board.NUM_COLS && rowNewlyAdded >= 0 && colNewlyAdded >= 0){
             // here check for same color and increment colorCounter
             if ((getTileColor(position) == currentPlayerID)&&(getTileColor(position)!=R.drawable.tile_25)){
                 colorCounter++;
             } else {
+                break;
+            }
+            if(position == Board.NUM_COLS*(rowNewlyAdded + 1) - 1){
                 break;
             }
             position = position - (Board.NUM_COLS - 1);
