@@ -46,7 +46,7 @@ public class ConnectFourBoardManager implements BoardManager {
     public Board getBoard() { return this.board; }
 
     public void makeToast(String textToDisplay) {
-        System.out.println(textToDisplay);
+        //System.out.println(textToDisplay);
         Toast.makeText(GlobalApplication.getAppContext(), textToDisplay, Toast.LENGTH_LONG).show();
     }
 
@@ -236,6 +236,9 @@ public class ConnectFourBoardManager implements BoardManager {
             } else {
                 break;
             }
+            if(position == Board.NUM_COLS*(rowNewlyAdded + 1) - 1){
+                break;
+            }
             position = position + (Board.NUM_COLS + 1);
             colNewlyAdded = position % Board.NUM_COLS;
             rowNewlyAdded = position / Board.NUM_COLS;
@@ -366,6 +369,7 @@ public class ConnectFourBoardManager implements BoardManager {
             }
         }
         System.out.println("CHECK FULL RETURNED TRUE MAYDAY MAYDAY");
+        makeToast("The game is drawn!");
         return true;
     }
     // TODO: ADD GAME OVER WHEN THERE ARE NO PLACES LEFT TO PLACE CHIPS
@@ -449,6 +453,7 @@ public class ConnectFourBoardManager implements BoardManager {
                 return false;
             }
         }
+        makeToast("The game is drawn!");
         return true;
     }
 
