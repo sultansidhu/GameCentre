@@ -20,7 +20,8 @@ public class  ShogiBoardManager implements BoardManager
 
     private String opponent;
 
-    public ShogiBoardManager(Board board) {
+    public ShogiBoardManager(Board board)
+    {
         this.board = board;
         Board.NUM_COLS = board.getTiles().length;
         Board.NUM_ROWS = board.getTiles().length;
