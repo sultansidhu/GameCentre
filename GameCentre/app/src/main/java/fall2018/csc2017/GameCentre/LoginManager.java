@@ -130,7 +130,6 @@ public class LoginManager {
         }
     }
 
-    // TODO: SULTAN IS PLAYING WITH THIS FUNCTION
 
     // I MADE THIS FUNCTION TO GO THROUGH THE HASHMAP AND SIGN OUT EVERY USER OTHER
     // THAN THE USER THAT IS PLAYING RIGHT NOW
@@ -153,7 +152,7 @@ public class LoginManager {
         }
     }
 
-    public void setLoggedInTrueAndSave(User user){ // Todo: THIS FUNCTION SETS THE LOGGED IN TRUE AND SAVES THE HASH MAP
+    public void setLoggedInTrueAndSave(User user){
         HashMap<String, User> hm = f1.readObject();
         hm.get(user.getUsername()).setLoggedIn(true);
         f1.saveObject(hm);

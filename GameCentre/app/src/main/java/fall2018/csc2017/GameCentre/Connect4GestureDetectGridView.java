@@ -234,7 +234,7 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView
         return gDetector.onTouchEvent(ev);
     }
 
-    //@Override Todo: SULTAN IS PLAYING WITH THIS METHOD RN. NEEDS IMPLEMENTATION
+    //@Override
     public boolean peekBoardManagerSolved(Board board, int position) {
         return new ConnectFourBoardManager(board).puzzleSolved(position);
         //return super.peekBoardManagerSolved(board);

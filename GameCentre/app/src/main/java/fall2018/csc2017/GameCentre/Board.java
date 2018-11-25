@@ -284,7 +284,6 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
      */
     int[] getEmptyTilePosition(){
         int position = getPos();
-        System.out.println(position); // todo: remove this printy boi
         int row = position / NUM_ROWS;
         int column = position % NUM_COLS;
         int[] list = new int[2];

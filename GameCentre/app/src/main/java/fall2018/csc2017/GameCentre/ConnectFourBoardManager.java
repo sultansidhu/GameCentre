@@ -90,7 +90,6 @@ public class ConnectFourBoardManager implements BoardManager {
      */
     //@Override
     public boolean puzzleSolved(int position) {
-        // TODO: IN EACH OF THESE FUNCTIONS, YOU ARE GONNA HAVE TO GET THE COLOR OF THE DUDE THAT JUST PLAYED.
         return (checkDiagonals(position) ||
                 checkSides(position) ||
                 checkUnder(position));
@@ -139,7 +138,11 @@ public class ConnectFourBoardManager implements BoardManager {
         int leftDiagDown = checkLeftDiagDown(currentPlayerID, position);
         int rightDiagUp = checkRightDiagUp(currentPlayerID, position);
         int rightDiagDown = checkRightDiagDown(currentPlayerID, position);
-        return ((leftDiagDown + leftDiagUp - 1) > 3) || ((rightDiagDown + rightDiagUp - 1) > 3);
+        System.out.println("right diagonal down: ---------------- " + rightDiagDown );
+        System.out.println("right diagonal up: ---------------- " + rightDiagUp);
+        System.out.println("left diagonal down: ---------------- " + leftDiagDown);
+        System.out.println("left diagonal up: ---------------- " + leftDiagUp);
+        return ((leftDiagDown + leftDiagUp - 1) > 3) || ((rightDiagDown + rightDiagUp - 1) > 3); // changed to 2 from 1
     }
 
     /**
@@ -153,11 +156,10 @@ public class ConnectFourBoardManager implements BoardManager {
         int rowNewlyAdded = position / Board.NUM_COLS;
         while (colNewlyAdded >= 0 && rowNewlyAdded < board.NUM_ROWS && rowNewlyAdded >= 0){
             // here check for same color and increment colorCounter
-            // TODO: CHECK FOR R.DRAWABLE.BLACK OR R.DRAWABLE.RED DEPENDING ON THE CURRENT PLAYER'S ID.
             if ((getTileColor(position) == currentPlayerID)&&(getTileColor(position)!=R.drawable.tile_25)){
                 colorCounter++;
             } else {
-                break; // TODO: GET THESE FUNCTIONS CHECKED BY TEAM MEMBERS
+                break;
             }
             position = position + (Board.NUM_COLS - 1);
             colNewlyAdded = position % Board.NUM_COLS;
@@ -180,7 +182,7 @@ public class ConnectFourBoardManager implements BoardManager {
             if ((getTileColor(position) == currentPlayerID)&&(getTileColor(position)!=R.drawable.tile_25)){
                 colorCounter++;
             } else {
-                break; // TODO: GET THESE FUNCTIONS CHECKED BY TEAM MEMBERS
+                break;
             }
             position = position - (Board.NUM_COLS - 1);
             colNewlyAdded = position % Board.NUM_COLS;
@@ -225,7 +227,7 @@ public class ConnectFourBoardManager implements BoardManager {
             if ((getTileColor(position) == currentPlayerID)&&(getTileColor(position)!=R.drawable.tile_25)){
                 colorCounter++;
             } else {
-                break; // TODO: GET THESE FUNCTIONS CHECKED BY TEAM MEMBERS
+                break;
             }
             position = position + (Board.NUM_COLS + 1);
             colNewlyAdded = position % Board.NUM_COLS;
@@ -244,12 +246,12 @@ public class ConnectFourBoardManager implements BoardManager {
         int colorCounter = 0;
         int colNewlyAdded = position % Board.NUM_COLS;
         int rowNewlyAdded = position / Board.NUM_COLS;
-        while (colNewlyAdded >= 0 && rowNewlyAdded >= 0){ // TODO: CHECK THESE INEQUALITIES FOR ALL SIMILAR FUNCTIONS
+        while (colNewlyAdded >= 0 && rowNewlyAdded >= 0){
             // here check for same color and increment colorCounter
             if ((getTileColor(position) == currentPlayerID)&&(getTileColor(position)!=R.drawable.tile_25)){
                 colorCounter++;
             } else {
-                break; // TODO: GET THESE FUNCTIONS CHECKED BY TEAM MEMBERS
+                break;
             }
             position = position - (Board.NUM_COLS + 1);
 //            System.out.println("THE POSITION IN checkleftdiag IS %%%%%%%%%%%%%%%%%%%: " + position);
@@ -284,7 +286,7 @@ public class ConnectFourBoardManager implements BoardManager {
             if ((getTileColor(position) == currentPlayerID)&&(getTileColor(position)!=R.drawable.tile_25)){
                 colorCounter++;
             } else {
-                break; // TODO: GET THESE FUNCTIONS CHECKED BY TEAM MEMBERS
+                break;
             }
             position = position - 1;
             colNewlyAdded = position % Board.NUM_COLS;
@@ -308,7 +310,7 @@ public class ConnectFourBoardManager implements BoardManager {
             if ((getTileColor(position) == currentPlayerID)&&(getTileColor(position)!=R.drawable.tile_25)){
                 colorCounter++;
             } else {
-                break; // TODO: GET THESE FUNCTIONS CHECKED BY TEAM MEMBERS
+                break;
             }
             position = position + 1;
             colNewlyAdded = position % board.NUM_COLS;
@@ -332,7 +334,7 @@ public class ConnectFourBoardManager implements BoardManager {
             if (getTileColor(position) == currentPlayerColor){
                 colorCounter++;
             } else {
-                break; // TODO: GET THESE FUNCTIONS CHECKED BY TEAM MEMBERS
+                break;
             }
             // here, check for it being the same colored tile
             // if color different stop iteration
@@ -360,7 +362,7 @@ public class ConnectFourBoardManager implements BoardManager {
         // if there is a tile present then the tap is valid.
         if (result){ // if empty tile
             return checkUnderneath(position);
-        } else { // TODO: DETERMINING THE COLOR OF THE GUY THAT JUST PLAYED IS IMPERATIVE YOU DUMBASS
+        } else {
             return false;
         }
     };
