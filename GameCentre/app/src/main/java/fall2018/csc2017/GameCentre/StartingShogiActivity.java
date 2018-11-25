@@ -13,7 +13,7 @@ public class StartingShogiActivity extends StartingActivity {
      * The board manager.
      */
     private ShogiBoardManager boardManager;
-    private int undoLimit = 3;
+    private int undoLimit =3;
     private int gameIndex = 1;
     private int size = 7;
     private String username = new LoginManager().getPersonLoggedIn();
@@ -32,6 +32,7 @@ public class StartingShogiActivity extends StartingActivity {
         addLoadButtonListener();
         addScoreboardButtonListener();
         setSizeDropdown();
+        setUndoDropdown();
     }
 
     /**
@@ -48,6 +49,14 @@ public class StartingShogiActivity extends StartingActivity {
         dropdown.setAdapter(adapter);
     }
 
+    public void setUndoDropdown() {
+        Spinner dropdown = findViewById(R.id.dropdown_undo_hs);
+        System.out.println("IS DROPDOWN NHLL?" + dropdown==null);
+        String[] itemsForDropdown = new String[]{"3", "5", "10", "20", "30", "Unlimited"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, itemsForDropdown);
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        dropdown.setAdapter(adapter);
+    }
     /*
     Activate the LaunchScoreboard button
     */
@@ -74,7 +83,7 @@ public class StartingShogiActivity extends StartingActivity {
         {
             @Override
             public void onClick(View v) {
-                Spinner undoDropdown = findViewById(R.id.dropdownHS);
+                Spinner undoDropdown = findViewById(R.id.dropdown_undo_hs);
                 String selectedUndo = undoDropdown.getSelectedItem().toString();
                 Spinner sizeSelected = findViewById(R.id.dropdownHS);
                 String boardSize = sizeSelected.getSelectedItem().toString();

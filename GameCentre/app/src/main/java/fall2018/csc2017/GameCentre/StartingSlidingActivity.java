@@ -74,7 +74,7 @@ public class StartingSlidingActivity extends StartingActivity {
     }
 
     /**
-    Activate the LaunchScoreboard button
+    Actixvate the LaunchScoreboard button
     */
     private void addScoreboardButtonListener() {
         Button scoreboard = findViewById(R.id.btnScoreboard);
