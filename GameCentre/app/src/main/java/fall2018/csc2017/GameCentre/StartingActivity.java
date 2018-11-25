@@ -99,12 +99,12 @@ public class StartingActivity extends AppCompatActivity
                 User p1 = users.get(lm.getPersonLoggedIn());
                 p1.setOpponent(p2usernameString);
                 System.out.println("PLAYER 1 ("+lm.getPersonLoggedIn()+")'s OPPONENT NOW IS: " + p1.getOpponent());
-                users.get(lm.getPersonLoggedIn()).getOpponents().put(gameParameter, p2usernameString);
+                users.get(lm.getPersonLoggedIn()).getOpponents().put(gameIndex, p2usernameString);
                 int size = users.get(lm.getPersonLoggedIn()).getOpponents().size();
                 fm.saveObject(users);
-                System.out.println("PLAYER 2 LOGGED IN AS " + p2usernameString + " with a game parametetr of "+gameParameter);
+                System.out.println("PLAYER 2 LOGGED IN AS " + p2usernameString + " with a game parametetr of "+gameIndex);
                 System.out.println("SIZE OF OPPONENT HASHMAP FOR THIS GAME IS: "+size);
-                switchToGame(gameParameter);
+                switchToGame(gameIndex);
             }
             else
                 Toast.makeText(getApplicationContext(), "Invalid Credentials...", Toast.LENGTH_SHORT).show();
