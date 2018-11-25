@@ -24,8 +24,7 @@ class ShogiScoreCalc {
             return 200 + (20 * pieceDiff);
         }
         int score = Math.round(-1*numMoves + 213 + (20 * pieceDiff));
-        if(score < 0)
-        {
+        if(score < 0){
             score = 0;
         }
         return score;
