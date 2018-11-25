@@ -137,6 +137,7 @@ public class ScoreboardActivity extends AppCompatActivity
         }
             assert newScore >= 0;
             if (newScore > user.getHighestScore(gameIndex)) {
+                System.out.println("new score is "+newScore + " AND THE HIGHEST SCORE IS "+user.getHighestScore(1));
                 user.setHighestScore(gameIndex, newScore);
                 Context context = GlobalApplication.getAppContext();
                 Toast.makeText(context, user.getUsername() + " won and got a new high score: "+user.getHighestScore(gameIndex) +"!", Toast.LENGTH_SHORT).show();
@@ -144,6 +145,7 @@ public class ScoreboardActivity extends AppCompatActivity
             }
             else
                 {
+                    System.out.println("new score is "+newScore + " AND THE HIGHEST SCORE IS "+user.getHighestScore(1));
                     Context context = GlobalApplication.getAppContext();
                     Toast.makeText(context, username+" won with a score of " + newScore, Toast.LENGTH_SHORT).show();
                 }
