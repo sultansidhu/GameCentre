@@ -2,7 +2,8 @@ package fall2018.csc2017.GameCentre;
 
 import java.util.HashMap;
 
-class SlidingScoreCalc {
+class SlidingScoreCalc
+{
     private FileManager fm;
 
     public SlidingScoreCalc(){
