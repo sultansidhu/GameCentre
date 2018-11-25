@@ -20,7 +20,10 @@ class ShogiScoreCalc {
 //            pieceDiff *= -1; //If the user is not the one logged in, he is player 2
 //        }
         System.out.println("TOOK MOVES: "+numMoves);
-        int score = Math.round(-1*numMoves +200 + 20 * pieceDiff);
+        if(numMoves < 14){
+            return 200 + (20 * pieceDiff);
+        }
+        int score = Math.round(-1*numMoves + 213 + (20 * pieceDiff));
         if(score < 0)
         {
             score = 0;
