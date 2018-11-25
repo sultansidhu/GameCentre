@@ -93,8 +93,7 @@ public class ConnectFourBoardManager implements BoardManager {
     public boolean puzzleSolved(int position) {
         return (checkDiagonals(position) ||
                 checkSides(position) ||
-                checkUnder(position) ||
-                checkFull());
+                checkUnder(position));
     }
 
     /**
@@ -369,7 +368,8 @@ public class ConnectFourBoardManager implements BoardManager {
             }
         }
         System.out.println("CHECK FULL RETURNED TRUE MAYDAY MAYDAY");
-        makeToast("The game is drawn!");
+        //Toast.makeText(GlobalApplication.getAppContext(), "The game is drawn", Toast.LENGTH_LONG).show();
+        //makeToast("The game is drawn!");
         return true;
     }
     // TODO: ADD GAME OVER WHEN THERE ARE NO PLACES LEFT TO PLACE CHIPS
