@@ -91,6 +91,7 @@ public class StartingActivity extends AppCompatActivity
         }
         else
         {
+            // Todo for Sultan: Shogi crashes; and game crashes when guest is the other player and guest wins
             LoginManager lm = new LoginManager();
             if(lm.authenticateP2(p2usernameString, p2passwordString))
             {
