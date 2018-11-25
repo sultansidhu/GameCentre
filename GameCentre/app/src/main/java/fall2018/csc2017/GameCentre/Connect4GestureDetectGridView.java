@@ -123,7 +123,7 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView
                     int y = users.get(username).getNumMoves(2);
                     System.out.println("Number of moves until now: " + y);
                     fm.saveObject(users);
-                    if (boardManager.checkFull()){
+                    if (boardManager.checkFull() || boardManager.gameDrawn()){
                         switchToScoreboardScreen();
                     }
                     else if (boardManager.puzzleSolved(position)){
