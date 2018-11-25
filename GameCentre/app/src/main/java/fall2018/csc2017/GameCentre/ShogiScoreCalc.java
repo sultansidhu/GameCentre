@@ -13,11 +13,16 @@ class ShogiScoreCalc {
         System.out.println("Number of moves until game ended: "+numMoves);
         Board board = user.getGameStack(1).peek();
         int pieceDiff = board.numBlacks() - board.numReds();
-        if (!(lm.getPersonLoggedIn() == user.getUsername())){
-            pieceDiff *= -1; //If the user is not the one logged in, he is player 2
+        if (pieceDiff < 0){
+            pieceDiff *= -1;
         }
-        int score = (int)Math.round(-1*((1/15)*Math.pow((numMoves-30), 2)) + 100) + 20 * pieceDiff;
-        if(score < 0){
+//        if (!(lm.getPersonLoggedIn() == user.getUsername())){
+//            pieceDiff *= -1; //If the user is not the one logged in, he is player 2
+//        }
+        System.out.println("TOOK MOVES: "+numMoves);
+        int score = Math.round(-1*numMoves +200 + 20 * pieceDiff);
+        if(score < 0)
+        {
             score = 0;
         }
         return score;
