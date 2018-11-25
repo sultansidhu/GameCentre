@@ -4,6 +4,7 @@ import android.provider.Settings;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class ConnectFourBoardManager implements BoardManager {
@@ -92,7 +93,8 @@ public class ConnectFourBoardManager implements BoardManager {
     public boolean puzzleSolved(int position) {
         return (checkDiagonals(position) ||
                 checkSides(position) ||
-                checkUnder(position));
+                checkUnder(position) ||
+                checkFull());
     }
 
     /**
@@ -342,6 +344,24 @@ public class ConnectFourBoardManager implements BoardManager {
             rowNewTile = position / Board.NUM_ROWS;
         }
         return (colorCounter > 3);
+    }
+
+    /**
+     * Returns whether the board is full of chips so there is no space
+     * to place more chips.
+     * @return whether the board is full of chips, thus ending the game
+     */
+    public boolean checkFull(){
+        Board.BoardIterator iter = (Board.BoardIterator) board.iterator();
+        Tile nextTile = null;
+        while (iter.hasNext()){
+            nextTile = iter.next();
+            if (nextTile.getBackground() == R.drawable.tile_25){
+                return false;
+            }
+        }
+        System.out.println("CHECK FULL RETURNED TRUE MAYDAY MAYDAY");
+        return true;
     }
     // TODO: ADD GAME OVER WHEN THERE ARE NO PLACES LEFT TO PLACE CHIPS
 
