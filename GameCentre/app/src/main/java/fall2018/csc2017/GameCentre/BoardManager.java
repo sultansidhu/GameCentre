@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-interface BoardManager {
+interface BoardManager
+{
     /**
      * Return the current board.
      *

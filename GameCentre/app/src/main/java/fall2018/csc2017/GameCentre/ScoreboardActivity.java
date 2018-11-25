@@ -142,6 +142,11 @@ public class ScoreboardActivity extends AppCompatActivity
                 Toast.makeText(context, "New High score: "+user.getHighestScore(gameIndex) +"!", Toast.LENGTH_SHORT).show();
                 //System.out.println(newScore);//Works perfectly up to here!
             }
+            else
+                {
+                    Context context = GlobalApplication.getAppContext();
+                    Toast.makeText(context, username+" won with a score of " + newScore, Toast.LENGTH_SHORT).show();
+                }
             fm.saveObject(users);
         System.out.println("Session score: "+newScore);
         HashMap<String, User> users2 = fm.readObject();

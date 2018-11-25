@@ -162,6 +162,12 @@ public class ConnectFourBoardManager implements BoardManager {
             } else {
                 break;
             }
+
+            if(position == Board.NUM_COLS*(rowNewlyAdded))
+            {
+                System.out.println("INSIDE BREAK");
+                break;
+            }
             position = position + (Board.NUM_COLS - 1);
             colNewlyAdded = position % Board.NUM_COLS;
             rowNewlyAdded = position / Board.NUM_COLS;
@@ -187,9 +193,12 @@ public class ConnectFourBoardManager implements BoardManager {
             } else {
                 break;
             }
-            if(position == Board.NUM_COLS*(rowNewlyAdded + 1) - 1){
+            if(position == Board.NUM_COLS*(rowNewlyAdded))
+            {
+                System.out.println("INSIDE BREAK");
                 break;
             }
+
             position = position - (Board.NUM_COLS - 1);
             colNewlyAdded = position % Board.NUM_COLS;
             rowNewlyAdded = position / Board.NUM_COLS;
@@ -262,8 +271,14 @@ public class ConnectFourBoardManager implements BoardManager {
             } else {
                 break;
             }
+
+            if(position == Board.NUM_COLS*(rowNewlyAdded))
+            {
+                System.out.println("INSIDE BREAK");
+                break;
+            }
+
             position = position - (Board.NUM_COLS + 1);
-//            System.out.println("THE POSITION IN checkleftdiag IS %%%%%%%%%%%%%%%%%%%: " + position);
 
             colNewlyAdded = position % Board.NUM_COLS;
             rowNewlyAdded = position / Board.NUM_COLS;
