@@ -98,42 +98,6 @@ public class ScoreboardActivity extends AppCompatActivity
             }
         });
     }
-    /*
-    Resets all the users' high scores.
-     */
-    public void resetAllScores() {
-        scoresList = new StringBuilder();
-        HashMap<String, User> users = fm.readObject();
-        assert users != null;
-        for (HashMap.Entry<String, User> entry : users.entrySet()) {
-            String username = entry.getKey();
-            for (int i = 0; i <= 2; i++) {
-                users.get(username).setHighestScore(i, 0);
-            }
-            generateScoreRow(username);
-        }
-        fm.saveObject(users);
-        scoresDisplay.setText(scoresList);
-    }
-//    public void resetAllScores() {
-//        scoresList = new StringBuilder();
-//        HashMap<String, User> users = fm.readObject();
-//        assert users != null;
-//        for (HashMap.Entry<String, User> entry : users.entrySet()) {
-//            String username = entry.getKey();
-//            for (int i = 0; i <= 2; i++) {
-//                users.get(username).setHighestScore(i, 0);
-//            }
-//            generateScoreRow(username);
-//        }
-//        fm.saveObject(users);
-//        scoresDisplay.setText(scoresList);
-//    }
-    /*
-    Calculates the user's high score.
-    @return int
-     */
-
 
 
     public void updateUserHighScore(String username, int gameIndex)
