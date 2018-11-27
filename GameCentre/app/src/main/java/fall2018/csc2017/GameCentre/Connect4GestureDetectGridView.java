@@ -128,7 +128,7 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView
 
             // what this needs is the username of the other player.
 
-            String opponent = fm.getUser(username).getOpponent();
+            String opponent = fm.getUser(username).getOpponents().get(gameIndex);
             if (!opponent.equals("Guest")){
                 sc.updateUserHighScore(opponent, gameIndex);
             } else {
