@@ -55,6 +55,8 @@ public class SlidingGestureDetectGridView extends GestureDetectGridView {
 
     private FileManager fm = new FileManager();
 
+    private int gameIndex = 0;
+
     /*
     Overloaded Constructor that takes a Context
     */
@@ -159,25 +161,20 @@ public class SlidingGestureDetectGridView extends GestureDetectGridView {
     public boolean manageTap(int position){
         if (boardManager.isValidTap(position)) {
             mController.processTapMovement(GlobalApplication.getAppContext(), position);
-            HashMap<String, User> users = fm.readObject();
-            assert users != null;
-            users.get(username).addState(boardManager.getBoard(), 0);
-            fm.saveObject(users);
-            users = fm.readObject();
-            assert users != null;
-            if (peekBoardManagerSolved(users.get(username).getGameStack(0).peek())) {
-                users.get(username).stopTimer();
-                fm.saveObject(users);
+            User user = fm.getUser(username);
+            user.addState(boardManager.getBoard(), 0);
+            fm.saveUser(user, username);
+            user = fm.getUser(username);
+            if (peekBoardManagerSolved(user.getGameStack(0).peek())) {
+                fm.saveUser(user, username);
                 ScoreboardActivity sc = new ScoreboardActivity();
-                System.out.println("Total Time: " + users.get(username).getTotalTime());
                 sc.updateUserHighScore(username, 0);
                 switchToScoreboardScreen();
             }
-            return true;
         }
-        Toast.makeText(GlobalApplication.getAppContext(), "Invalid Tap", Toast.LENGTH_SHORT).show();
-        return false;
-
+        else {
+            Toast.makeText(GlobalApplication.getAppContext(), "Invalid Tap", Toast.LENGTH_SHORT).show();
+        } return true;
     }
 
 }
