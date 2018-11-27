@@ -67,14 +67,16 @@ public class ScoreboardActivity extends AppCompatActivity
         HashMap<String, User> users = fm.readObject();
         assert users != null;
         User user = users.get(username);
-        scoresList.append(username);
-        for (int i = 0; i <= 2; i++) {
-            System.out.println(user.getHighestScore(i));
-            scoresList.append(": ").append(user.getHighestScore(i)).append(" || ");
-            System.out.println(scoresList);
-
-        }
-        scoresList.append("\n");
+        System.out.println("THE ARRAY OF THE SESSION SCORES IS DISPLAYED HERE: ");
+        user.printAllSessionScores();
+//        scoresList.append(username);
+//        for (int i = 0; i <= 2; i++) {
+//            System.out.println(user.getHighestScore(i));
+//            scoresList.append(": ").append(user.getHighestScore(i)).append(" || ");
+//            System.out.println(scoresList);
+//
+//        }
+//        scoresList.append("\n");
     }
     /*
     Adds a reset scores button listener which calls a method to set all user high scores to 0.
@@ -86,8 +88,13 @@ public class ScoreboardActivity extends AppCompatActivity
         resetScores.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resetAllScores();
-                Toast.makeText(GlobalApplication.getAppContext(), "Scores are reset!", Toast.LENGTH_SHORT).show();
+                LoginManager lm = new LoginManager();
+                String username = lm.getPersonLoggedIn();
+                FileManager fm = new FileManager();
+                User user = fm.readObject().get(username);
+                user.resetScoreHashmapForAllGames();
+                //resetAllScores();
+                Toast.makeText(GlobalApplication.getAppContext(), "Scores for "+user.getUsername()+" are reset!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -108,6 +115,24 @@ public class ScoreboardActivity extends AppCompatActivity
         fm.saveObject(users);
         scoresDisplay.setText(scoresList);
     }
+//    public void resetAllScores() {
+//        scoresList = new StringBuilder();
+//        HashMap<String, User> users = fm.readObject();
+//        assert users != null;
+//        for (HashMap.Entry<String, User> entry : users.entrySet()) {
+//            String username = entry.getKey();
+//            for (int i = 0; i <= 2; i++) {
+//                users.get(username).setHighestScore(i, 0);
+//            }
+//            generateScoreRow(username);
+//        }
+//        fm.saveObject(users);
+//        scoresDisplay.setText(scoresList);
+//    }
+    /*
+    Calculates the user's high score.
+    @return int
+     */
 
 
 
@@ -122,19 +147,20 @@ public class ScoreboardActivity extends AppCompatActivity
         newScore = calcFactory.getScoreCalc(gameIndex).calculateUserScore(user);
 
             assert newScore >= 0;
-            if (newScore > user.getHighestScore(gameIndex)) {
-                System.out.println("new score is "+newScore + " AND THE HIGHEST SCORE IS "+user.getHighestScore(1));
-                user.setHighestScore(gameIndex, newScore);
-                Context context = GlobalApplication.getAppContext();
-                Toast.makeText(context, user.getUsername() + " won and got a new high score: "+user.getHighestScore(gameIndex) +"!", Toast.LENGTH_SHORT).show();
-                //System.out.println(newScore);//Works perfectly up to here!
-            }
-            else
-                {
-                    System.out.println("new score is "+newScore + " AND THE HIGHEST SCORE IS "+user.getHighestScore(1));
-                    Context context = GlobalApplication.getAppContext();
-                    Toast.makeText(context, username+" won with a score of " + newScore, Toast.LENGTH_SHORT).show();
-                }
+
+//            if (newScore > user.getHighestScore(gameIndex)) {
+//                System.out.println("new score is "+newScore + " AND THE HIGHEST SCORE IS "+user.getHighestScore(1));
+//                user.setHighestScore(gameIndex, newScore);
+//                Context context = GlobalApplication.getAppContext();
+//                Toast.makeText(context, user.getUsername() + " won and got a new high score: "+user.getHighestScore(gameIndex) +"!", Toast.LENGTH_SHORT).show();
+//                //System.out.println(newScore);//Works perfectly up to here!
+//            }
+//            else
+//                {
+//                    System.out.println("new score is "+newScore + " AND THE HIGHEST SCORE IS "+user.getHighestScore(1));
+//                    Context context = GlobalApplication.getAppContext();
+//                    Toast.makeText(context, username+" won with a score of " + newScore, Toast.LENGTH_SHORT).show();
+//                }
             fm.saveObject(users);
         System.out.println("Session score: "+newScore);
         HashMap<String, User> users2 = fm.readObject();

@@ -44,7 +44,7 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
     private ShogiBoardManager boardManager;
 
     /**
-     *  Tile position selected by the user.
+     *  Tile position selected by the user. -1 means no tile has been selected to move.
      */
     private int tileSelected = -1;
 
@@ -95,85 +95,7 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
             public boolean onSingleTapConfirmed(MotionEvent event) {
                 int position = ShogiGestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
-                System.out.println(Math.round(event.getX()));
-                System.out.println("Y is");
-                System.out.println(Math.round(event.getY()));
-                System.out.println("position");
-                System.out.println(position);
-                System.out.println("Row is");
-                System.out.println(position/Board.NUM_ROWS);
-                System.out.println("Column is");
-                System.out.println(position%Board.NUM_ROWS);
-                return checkTap(position);
-            }
-            public boolean checkTap(int position){
-
-                Tile currTile = boardManager.getBoard().getTile(position/Board.NUM_ROWS, position%Board.NUM_ROWS);
-
-                int tileOwner;
-                if (currTile.getBackground() == R.drawable.black) { tileOwner = 1; }
-                else if (currTile.getBackground() == R.drawable.red) {tileOwner = 2; }
-                else {tileOwner = 0; }
-
-                // CHECK IF THE TAP IS VALID
-                if (tileOwner == boardManager.getBoard().getCurrPlayer()) {
-                    if (tileSelected == -1
-                            || boardManager.getBoard().getTile(
-                            tileSelected/Board.NUM_ROWS, tileSelected%Board.NUM_ROWS).getBackground()
-                            == currTile.getBackground()) {
-                        tileSelected = position;
-                        return true;
-                    }
-                    else {
-                        Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                else if (tileOwner == 0 && tileSelected != -1 && boardManager.isValidTap(tileSelected, position)) {
-                    mController.processTapMovement(context, boardManager, tileSelected, position);
-                    tileSelected = -1;
-                    boardManager.getBoard().setCurrPlayer(3 - boardManager.getBoard().getCurrPlayer());
-                    Toast.makeText(getContext(), "Player " + boardManager.getBoard().getCurrPlayer() + "'s turn", Toast.LENGTH_SHORT).show();
-                    HashMap<String, User> users = fm.readObject();
-                    assert users != null;
-                    users.get(username).addState(boardManager.getBoard(), 1);
-                    fm.saveObject(users);
-                    if (boardManager.puzzleSolved())
-                    {
-                        ScoreboardActivity sc = new ScoreboardActivity();
-                        if (boardManager.getBoard().getCurrPlayer() == 2) {//Player already swapped therefore p2
-                            System.out.println("Line 143 S-Gest");
-                            sc.updateUserHighScore(username, 1);
-                            switchToScoreboardScreen();
-                        }
-                        else {
-                            String opponent = users.get(username).getOpponent();
-                            System.out.println("THE OPPONENT WE OBTAINED  WAS "+opponent);// figure out where to set up the opponent
-                            if (!opponent.equals("Guest")){
-                                sc.updateUserHighScore(opponent, 1);
-                                System.out.println("Line 149 S-Gest");
-                                System.out.println("THE CURRENT PLAYER IS "+boardManager.getBoard().getCurrPlayer());
-                                switchToScoreboardScreen();
-                            } else {
-                                Toast.makeText(context, "Guest won!", Toast.LENGTH_SHORT).show();
-                                switchToScoreboardScreen();
-                            }
-
-                        }
-                        //switchToScoreboardScreen();
-                    }
-
-                }
-                else if (tileOwner != boardManager.getBoard().getCurrPlayer() && tileOwner != 0){
-                    Toast.makeText(context, "It is Player " + boardManager.getBoard().getCurrPlayer() + "'s turn!", Toast.LENGTH_SHORT).show();
-                }
-// else if (){
-//
-//                }
-                else {
-                    Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
-
-                }
-                return true;
+                return checkTap(context, position);
             }
 
             @Override
@@ -181,6 +103,86 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
                 return true;
             }
         });
+    }
+
+    public boolean checkTap(Context context, int position) {
+        Tile currTile = boardManager.getBoard().getTile(position/Board.NUM_ROWS, position%Board.NUM_ROWS);
+        int tileOwner = getTileOwner(currTile);
+        if (isTurn(tileOwner)) {
+            setTileToMove(context, position, currTile);
+        }
+        else if (tileOwner == 0 && tileSelected != -1 && boardManager.isValidTap(tileSelected, position)) {
+            mController.processTapMovement(context, boardManager, tileSelected, position);
+            resetTileSelected();
+            switchPlayer();
+            if (boardManager.puzzleSolved()) {
+                updateScoreboard(context);
+                switchToScoreboardScreen();
+            }
+        }
+        else {
+            makeInvalidToast(context, tileOwner);
+        }
+        return true;
+    }
+
+    public int getTileOwner(Tile currTile) {
+        if (currTile.getBackground() == R.drawable.black) { return 1; }
+        else if (currTile.getBackground() == R.drawable.red) {return 2; }
+        else { return 0; }
+    }
+
+    public boolean isTurn(int tileOwner) {
+        return tileOwner == boardManager.getBoard().getCurrPlayer();
+    }
+
+    public void setTileToMove(Context context, int position, Tile currTile) {
+        if (tileSelected == -1
+                || boardManager.getBoard().getTile(
+                tileSelected/Board.NUM_ROWS, tileSelected%Board.NUM_ROWS).getBackground()
+                == currTile.getBackground()) {
+            tileSelected = position;
+        }
+        else {
+            Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void updateScoreboard(Context context) {
+        ScoreboardActivity sc = new ScoreboardActivity();
+        if (boardManager.getBoard().getCurrPlayer() == 2) {//Player already swapped therefore p2
+            sc.updateUserHighScore(username, 1);
+        }
+        else {
+            String opponent = fm.getUser(username).getOpponent();
+            if (!opponent.equals("Guest")){
+                sc.updateUserHighScore(opponent, 1);
+            } else {
+                Toast.makeText(context, "Guest won!", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+    }
+
+    public void makeInvalidToast(Context context, int tileOwner) {
+        if (tileOwner != boardManager.getBoard().getCurrPlayer() && tileOwner != 0){
+            Toast.makeText(context, "It is Player " + boardManager.getBoard().getCurrPlayer() + "'s turn!", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void resetTileSelected() {
+        tileSelected = -1;
+    }
+
+    public void switchPlayer() {
+        boardManager.getBoard().setCurrPlayer(3 - boardManager.getBoard().getCurrPlayer());
+        Toast.makeText(getContext(), "Player " + boardManager.getBoard().getCurrPlayer() + "'s turn", Toast.LENGTH_SHORT).show();
+        User user = fm.getUser(username);
+        user.addState(boardManager.getBoard(), 1);
+        fm.saveUser(user, username);
     }
 
     public boolean onInterceptTouchEvent(MotionEvent ev) {
