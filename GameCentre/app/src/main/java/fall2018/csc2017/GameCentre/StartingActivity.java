@@ -18,9 +18,7 @@ public class StartingActivity extends AppCompatActivity
 
     public void onClickHelper(int gameIndex, String username)
     {
-        HashMap<String, User> users = fm.readObject();
-        assert users != null;
-        Stack<Board> userStack = users.get(username).getGameStack(gameIndex);
+        Stack<Board> userStack = fm.getStack(username, gameIndex);
         if (userStack.size() < 1)
         {
             Toast.makeText(getApplicationContext(), "No game to load! Start a new game!", Toast.LENGTH_LONG).show();
@@ -53,12 +51,11 @@ public class StartingActivity extends AppCompatActivity
     }
 
     public void setUserUndos(String username, int undoLimit, int gameIndex, BoardManager boardManager) {
-        HashMap<String, User> users = fm.readObject();
-        assert users != null;
-        users.get(username).setAvailableUndos(gameIndex, undoLimit);
-        users.get(username).resetGameStack(gameIndex);
-        users.get(username).addState(boardManager.getBoard(), gameIndex);
-        fm.saveObject(users);
+        User user = fm.getUser(username);
+        user.setAvailableUndos(gameIndex, undoLimit);
+        user.resetGameStack(gameIndex);
+        user.addState(boardManager.getBoard(), gameIndex);
+        fm.saveUser(user, username);
     }
 
     /**
@@ -95,20 +92,23 @@ public class StartingActivity extends AppCompatActivity
             if(lm.authenticateP2(p2usernameString, p2passwordString))
             {
                 Toast.makeText(getApplicationContext(), "Starting Game...", Toast.LENGTH_SHORT).show();
-                HashMap<String, User> users = fm.readObject();
-                User p1 = users.get(lm.getPersonLoggedIn());
+                User p1 = fm.getUser(lm.getPersonLoggedIn());
                 p1.setOpponent(p2usernameString);
-                System.out.println("PLAYER 1 ("+lm.getPersonLoggedIn()+")'s OPPONENT NOW IS: " + p1.getOpponent());
-                users.get(lm.getPersonLoggedIn()).getOpponents().put(gameIndex, p2usernameString);
-                int size = users.get(lm.getPersonLoggedIn()).getOpponents().size();
-                fm.saveObject(users);
-                System.out.println("PLAYER 2 LOGGED IN AS " + p2usernameString + " with a game parametetr of "+gameIndex);
-                System.out.println("SIZE OF OPPONENT HASHMAP FOR THIS GAME IS: "+size);
+                p1.getOpponents().put(gameIndex, p2usernameString);
+                fm.saveUser(p1, lm.getPersonLoggedIn());
                 switchToGame(gameIndex);
             }
-            else
-                Toast.makeText(getApplicationContext(), "Invalid Credentials...", Toast.LENGTH_SHORT).show();
+            else{}
+                //Toast.makeText(getApplicationContext(), "Invalid Credentials...", Toast.LENGTH_SHORT).show();
 
+        }
+    }
+    public void loadButton(String p2usernameString, String p2passwordString, int gameIndex){
+        if(p2usernameString.equals("")){
+            Toast.makeText(getApplicationContext(), "Please enter in the username and password of the player you were playing with!", Toast.LENGTH_SHORT).show();
+        }
+        else if (p2passwordString.equals("")){
+            Toast.makeText(getApplicationContext(), "You must enter in the password of the person you were playing with!", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -47,9 +47,8 @@ public class SlidingActivity extends GameActivity implements Observer {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        Stack<Board> userStack = getStack(username, gameIndex);
+        Stack<Board> userStack = fm.getStack(username, gameIndex);
         boardManager = (SlidingBoardManager)bmFactory.getBoardManager(gameIndex, userStack.peek());
-        setTimer(username);
         createTileButtons(this);
         setContentView(R.layout.activity_main);
         // Add View to activity
@@ -84,9 +83,9 @@ public class SlidingActivity extends GameActivity implements Observer {
             @Override
             public void onClick(View v)
             {
-                User user = getUser(username);
+                User user = fm.getUser(username);
                 Stack<Board> userStack = user.getGameStack(gameIndex);
-                undoHelper(user, userStack, gameIndex);
+                undoHelper(user, username, userStack, gameIndex);
                 boardManager = (SlidingBoardManager)bmFactory.getBoardManager(gameIndex, userStack.peek());
                 addBoardObserver();
                 display();

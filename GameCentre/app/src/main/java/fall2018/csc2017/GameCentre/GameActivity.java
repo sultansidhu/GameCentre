@@ -122,7 +122,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
         super.onPause();
     }
 
-    public void undoHelper(User user, Stack<Board> userStack, int gameIndex) {
+    public void undoHelper(User user, String username, Stack<Board> userStack, int gameIndex) {
         if(user.getAvailableUndos(gameIndex) == 0) {
             makeToastNoUndo();
         } else if (userStack.size() == 1) {
@@ -137,35 +137,8 @@ public class GameActivity extends AppCompatActivity implements Observer {
             else {
                 makeToastUndoText(user.getAvailableUndos(gameIndex));
             }
-            saveUser(user);
+            fm.saveUser(user, username);
         }
-    }
-
-    public void saveUser(User user) {
-        HashMap<String, User> users = fm.readObject();
-        users.put(username, user);
-        fm.saveObject(users);
-    }
-
-
-    public User getUser(String username) {
-        HashMap<String, User> users = fm.readObject();
-        assert users != null;
-        return users.get(username);
-    }
-
-
-    public Stack<Board> getStack(String username, int gameIndex) {
-        return getUser(username).getGameStack(gameIndex);
-    }
-
-    public void setTimer(String username) {
-        User user = getUser(username);
-        if (user.getTotalTime() == 0) {
-            user.startTimer();
-        }
-        System.out.println("the starting time for the playTime is: " + user.playTime);
-        saveUser(user);
     }
 
     /**
