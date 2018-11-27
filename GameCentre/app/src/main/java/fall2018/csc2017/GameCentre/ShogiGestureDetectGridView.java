@@ -154,7 +154,7 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
             sc.updateUserHighScore(username, 1);
         }
         else {
-            String opponent = fm.getUser(username).getOpponent();
+            String opponent = fm.getUser(username).getOpponents().get(1);
             if (!opponent.equals("Guest")){
                 sc.updateUserHighScore(opponent, 1);
             } else {

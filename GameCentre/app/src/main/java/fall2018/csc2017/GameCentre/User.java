@@ -77,12 +77,12 @@ public class User implements Serializable
         this.playTime = (long)0.0;
 
     }
-    String getOpponent(){
-        return this.opponent;
-    }
-    void setOpponent(String newOpponent){
-        this.opponent = newOpponent;
-    }
+//    String getOpponent(){
+//        return this.opponent;
+//    }
+//    void setOpponent(String newOpponent){
+//        this.opponent = newOpponent;
+//    }
     String getUsername(){
         return this.username;
     }
@@ -246,6 +246,9 @@ public class User implements Serializable
     {
         this.opponents = newOpponents;
     }
+    public void setOpponent(int gameIndex, String username){
+        this.opponents.put(gameIndex, username);
+    }
 
 //
     String getSecurityQuestion()
@@ -279,6 +282,7 @@ public class User implements Serializable
     }
 
 
-
-
+    public String getOpponent(int i) {
+        return this.opponents.get(i);
+    }
 }
