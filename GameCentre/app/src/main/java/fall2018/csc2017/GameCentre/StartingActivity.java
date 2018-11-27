@@ -77,6 +77,10 @@ public class StartingActivity extends AppCompatActivity
         if(p2usernameString.equals(""))
         {
             Toast.makeText(getApplicationContext(), "Signing P2 as Guest", Toast.LENGTH_SHORT).show();
+            LoginManager lm = new LoginManager();
+            String username = lm.getPersonLoggedIn();
+            User user = fm.getUser(username);
+            user.getOpponents().put(gameIndex, "Guest");
             switchToGame(gameIndex);
         }
         else if(p2passwordString.equals(""))
@@ -93,7 +97,7 @@ public class StartingActivity extends AppCompatActivity
             {
                 Toast.makeText(getApplicationContext(), "Starting Game...", Toast.LENGTH_SHORT).show();
                 User p1 = fm.getUser(lm.getPersonLoggedIn());
-                p1.setOpponent(p2usernameString);
+                //p1.setOpponent(p2usernameString);
                 p1.getOpponents().put(gameIndex, p2usernameString);
                 fm.saveUser(p1, lm.getPersonLoggedIn());
                 switchToGame(gameIndex);
@@ -104,11 +108,11 @@ public class StartingActivity extends AppCompatActivity
         }
     }
     public void loadButton(String p2usernameString, String p2passwordString, int gameIndex){
-        if(p2usernameString.equals("")){
+        if(p2usernameString.equals("")||p2passwordString.equals("")){
             Toast.makeText(getApplicationContext(), "Please enter in the username and password of the player you were playing with!", Toast.LENGTH_SHORT).show();
         }
-        else if (p2passwordString.equals("")){
-            Toast.makeText(getApplicationContext(), "You must enter in the password of the person you were playing with!", Toast.LENGTH_SHORT).show();
+        else if (true){
+
         }
     }
 
