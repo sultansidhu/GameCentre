@@ -46,7 +46,7 @@ public class ShogiActivity extends GameActivity implements Observer {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Stack<Board> userStack = getStack(username, gameIndex);
+        Stack<Board> userStack = fm.getStack(username, gameIndex);
         boardManager = (ShogiBoardManager)bmFactory.getBoardManager(gameIndex, userStack.peek());
 //        setTimer(username);
         createTileButtons(this);
@@ -89,9 +89,9 @@ public class ShogiActivity extends GameActivity implements Observer {
             @Override
             public void onClick(View v)
             {
-                User user = getUser(username);
+                User user = fm.getUser(username);
                 Stack<Board> userStack = user.getGameStack(gameIndex);
-                undoHelper(user, userStack, gameIndex);
+                undoHelper(user, username, userStack, gameIndex);
                 boardManager = (ShogiBoardManager)bmFactory.getBoardManager(gameIndex, userStack.peek());
                 addBoardObserver();
                 display();

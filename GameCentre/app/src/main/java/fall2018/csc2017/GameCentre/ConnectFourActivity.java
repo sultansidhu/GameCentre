@@ -45,7 +45,7 @@ public class ConnectFourActivity extends GameActivity implements Observer {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Stack<Board> userStack = getStack(username, gameIndex);
+        Stack<Board> userStack = fm.getStack(username, gameIndex);
         boardManager = (ConnectFourBoardManager)bmFactory.getBoardManager(gameIndex, userStack.peek());
 //        setTimer(username);
         createTileButtons(this);

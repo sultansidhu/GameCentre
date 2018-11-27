@@ -11,6 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Stack;
 
 public class FileManager implements Serializable {
 
@@ -96,6 +97,18 @@ public class FileManager implements Serializable {
         HMfromfile.put(username, user);
         saveObject(HMfromfile);
     }
+
+    public User getUser(String username) {
+        HashMap<String, User> users = readObject();
+        assert users != null;
+        return users.get(username);
+    }
+
+
+    public Stack<Board> getStack(String username, int gameIndex) {
+        return getUser(username).getGameStack(gameIndex);
+    }
+
 
     public void saveObject(HashMap<String, User> hashMap)
     {
