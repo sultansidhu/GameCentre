@@ -2,7 +2,8 @@ package fall2018.csc2017.GameCentre;
 
 import java.util.HashMap;
 
-public class ConnectFourScoreCalc {
+public class ConnectFourScoreCalc implements Calculate
+{
     private FileManager fm = new FileManager();
 
     public ConnectFourScoreCalc(){

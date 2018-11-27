@@ -1,9 +1,10 @@
 package fall2018.csc2017.GameCentre;
 
+import java.sql.SQLOutput;
 import java.util.HashMap;
 
 
-class SlidingScoreCalc
+class SlidingScoreCalc implements Calculate
 {
     /**
      * The FileManager object used to access the HashMap and serialized file on disk
@@ -26,13 +27,10 @@ class SlidingScoreCalc
 
     public int calculateUserScore(User user)
     {
-        double time = user.getTotalTime();
         int numMoves = user.getNumMoves(0);
-        if (time == 0)
-            return 0;
-        else {
-            double score = 2000 * ((1 / numMoves));
-            return (int)score;
-        }
+        System.out.println("TOOK MOVES::::"+numMoves);
+        System.out.println(2000/numMoves);
+        double score = 2000/numMoves;
+        return (int)score;
     }
 }

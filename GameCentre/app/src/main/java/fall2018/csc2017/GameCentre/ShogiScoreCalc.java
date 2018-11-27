@@ -2,7 +2,7 @@ package fall2018.csc2017.GameCentre;
 
 import java.util.HashMap;
 
-class ShogiScoreCalc
+class ShogiScoreCalc implements Calculate
 {
     /**
     A FileManager object used for accessing the HashMap from the serialized file

@@ -23,18 +23,23 @@ import java.util.HashMap;
 
 public class ScoreboardActivity extends AppCompatActivity
 {
-    /*
+    /**
     List of all the users' highscores.
      */
     private StringBuilder scoresList;
 
     TextView scoresDisplay;
-    /*
+    /**
     Called when the scoreboard button is pressed, or when the user completes a game.
     Displays high scores in a list format.
      */
 
     FileManager fm = new FileManager();
+
+    /**
+     * The calcFactory object used to instantiate different ScoreCalc objects
+     */
+    private CalcFactory calcFactory = new CalcFactory();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -103,16 +108,8 @@ public class ScoreboardActivity extends AppCompatActivity
         fm.saveObject(users);
         scoresDisplay.setText(scoresList);
     }
-    /*
-    Calculates the user's high score.
-    @return int
-     */
 
 
-    /*
-    Updates user high score if the user beats their previous highest score in the game.
-    @return null
-     */
 
     public void updateUserHighScore(String username, int gameIndex)
     {
@@ -120,21 +117,10 @@ public class ScoreboardActivity extends AppCompatActivity
         HashMap<String, User> users = fm.readObject();
         assert users != null;
         User user = users.get(username);
-        switch(gameIndex){
-            case 0:
-                newScore = new SlidingScoreCalc(). calculateUserScore(user);
-                break;
-            case 1:
-                ShogiScoreCalc ss = new ShogiScoreCalc();
-                System.out.println("Shogi CalcScore About to be called...");
-                newScore = ss.calculateUserScore(user);
-                break;
-            case 2:
-                ConnectFourScoreCalc cs = new ConnectFourScoreCalc();
-                System.out.println("Connect calculate about to be called...");
-                newScore = cs.calculateUserScore(user);
-                break;
-        }
+        System.out.println("USERNAME IS "+username);
+
+        newScore = calcFactory.getScoreCalc(gameIndex).calculateUserScore(user);
+
             assert newScore >= 0;
             if (newScore > user.getHighestScore(gameIndex)) {
                 System.out.println("new score is "+newScore + " AND THE HIGHEST SCORE IS "+user.getHighestScore(1));
