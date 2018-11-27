@@ -44,7 +44,7 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
     private ShogiBoardManager boardManager;
 
     /**
-     *  Tile position selected by the user.
+     *  Tile position selected by the user. -1 means no tile has been selected to move.
      */
     private int tileSelected = -1;
 
