@@ -9,6 +9,7 @@ Author: CSC207 Group 0506
 package fall2018.csc2017.GameCentre;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
 
@@ -35,7 +36,7 @@ public class User implements Serializable
     /**
     This is the current highest score of this user per game
     */
-    private HashMap<Integer, Integer> highestScore;
+    private HashMap<Integer, ArrayList<Integer>> highestScore;
     /**
     This is the security question of this user
     */
@@ -66,12 +67,12 @@ public class User implements Serializable
         this.securityQuestion = securityQuestion;
         this.answer = answer;
         this.opponents = new HashMap<Integer, String>();
-        this.highestScore = new HashMap<Integer, Integer>();
+        this.highestScore = new HashMap<Integer, ArrayList<Integer>>();
         this.savedStates = new HashMap<Integer, Stack<Board>>();
         this.availableUndos = new HashMap<Integer, Integer>();
         for(int i = 0; i <= 2; i++) {//Initializes the stack
             this.savedStates.put(i, new Stack<Board>());
-            this.highestScore.put(i, 0);
+            this.highestScore.put(i, new ArrayList<Integer>());
             this.availableUndos.put(i, 3); // the default number of undos for every user.
         }
         this.playTime = (long)0.0;
@@ -213,20 +214,20 @@ public class User implements Serializable
      *
      * @return the highest score of the user
      */
-    int getHighestScore(int gameIndex)
+    ArrayList<Integer> getHighestScore(int gameIndex)
     {
         return highestScore.get(gameIndex);
     }
 
-    /**
-     * Sets the highest score of the user to the given highestScore.
-     *
-     * @param highestScore the new highestScore of the user
-     */
-    void setHighestScore(int gameIndex, int highestScore)
-    {
-        this.highestScore.put(gameIndex, highestScore);
-    }
+//    /**
+//     * Sets the highest score of the user to the given highestScore.
+//     *
+//     * @param highestScore the new highestScore of the user
+//     */
+//    void setHighestScore(int gameIndex, int highestScore)
+//    {
+//        this.highestScore.put(gameIndex, highestScore);
+//    }
 
     /**
      * Returm the HashMap mapping a game index integer to the String representing the opponent
@@ -278,7 +279,49 @@ public class User implements Serializable
         return "User: " + username + " || Highest score for SlidingTiles: " + highestScore.get(0) + " Highest score for Shogi: " +highestScore.get(1) + " Highest score for Connect 4: " + highestScore.get(2);
     }
 
+    /**
+     * Adds the session score to the hashmap of scores for the user.
+     * @param score the session score from the game that just finished
+     * @param gameIndex the ID of the game played by the player
+     */
+    public void addSessionScore(int score, int gameIndex){
+        highestScore.get(gameIndex).add(score);
+    }
 
+    /**
+     * Resets the scores for a user for a specific game
+     * @param gameIndex the index of the game to be reset
+     */
+    public void resetScoreHashmapForGame(int gameIndex){
+        System.out.println("THE OLD ARRAYLIST FOR GAME INDEX " + gameIndex);
+        System.out.println(highestScore.get(gameIndex));
+        highestScore.put(gameIndex, new ArrayList<Integer>());
+        System.out.println("THE NEW ARRAYLIST FOR GAME INDEX " + gameIndex);
+        System.out.println(highestScore.get(gameIndex));
+    }
+
+    /**
+     * Resets the score for a user, for all the games in the hashmap
+     */
+    public void resetScoreHashmapForAllGames(){
+        for (int i = 0; i <= highestScore.size()-1; i++){
+            resetScoreHashmapForGame(i);
+        }
+    }
+
+    /**
+     * THIS BOI BEEN IMPLEMENTED FOR TESTING PURPOSES
+     * @param gameIndex INDEX OF THE GAME BOIIIIIIIIS
+     */
+    public void printSessionScoresForGame(Integer gameIndex){
+        System.out.println(highestScore.get(gameIndex));
+    }
+
+    public void printAllSessionScores(){
+        for (int i = 0; i <= highestScore.size()-1; i++){
+            printSessionScoresForGame(i);
+        }
+    }
 
 
 }
