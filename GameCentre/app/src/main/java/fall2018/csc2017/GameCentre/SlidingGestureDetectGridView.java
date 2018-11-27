@@ -158,17 +158,15 @@ public class SlidingGestureDetectGridView extends GestureDetectGridView {
         this.boardManager = boardManager;
         mController.setBoardManager(boardManager);
     }
-    public boolean manageTap(int position){
+    public boolean manageTap(int position) {
         if (boardManager.isValidTap(position)) {
             mController.processTapMovement(GlobalApplication.getAppContext(), position);
             User user = fm.getUser(username);
-            user.addState(boardManager.getBoard(), 0);
+            user.addState(boardManager.getBoard(), gameIndex);
             fm.saveUser(user, username);
-            user = fm.getUser(username);
-            if (peekBoardManagerSolved(user.getGameStack(0).peek())) {
-                fm.saveUser(user, username);
+            if (peekBoardManagerSolved(user.getGameStack(gameIndex).peek())) {
                 ScoreboardActivity sc = new ScoreboardActivity();
-                sc.updateUserHighScore(username, 0);
+                sc.updateUserHighScore(username, gameIndex);
                 switchToScoreboardScreen();
             }
         }
