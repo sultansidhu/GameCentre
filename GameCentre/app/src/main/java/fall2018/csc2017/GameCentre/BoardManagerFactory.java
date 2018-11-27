@@ -1,7 +1,23 @@
+/** ======================================================================
+ * This class is a Factory that instantiates different BoardManagers
+ * based on the input
+ * File Name: BoardManagerFactory.java
+ * Authors: Group 0647
+ * Date: November 25, 2018
+ ======================================================================== */
 package fall2018.csc2017.GameCentre;
 
-public class BoardManagerFactory {
+public class BoardManagerFactory
+{
 
+    /***
+     * Returns a new BoardManager for different games, based on size and gameIndex
+     * @param gameIndex, an integer representing which game to initialize a BoardManager for
+     *                   (0 --> SlidingTiles    1 --> HasamiShogi   2 --> Connect4)
+     * @param size, an integer representing the ize of the Board
+     * @return an object of a class implementing BoardManager, depending on gameIndex
+     * @throws null
+     */
     public BoardManager getBoardManager(int gameIndex, int size)
     {
         switch(gameIndex)
@@ -16,6 +32,14 @@ public class BoardManagerFactory {
         return null;
 
     }
+
+    /**
+     * Returns a new BoardManager for different games, based on gameIndex and the board given
+     * @param gameIndex, an integer representing which game to initialize a BoardManager for
+     *                   (0 --> SlidingTiles    1 --> HasamiShogi   2 --> Connect4)
+     * @param board, a Board object representing the board which BoardManager uses
+     * @return an object of a class implementing BoardManager, depending on gameIndex
+     */
 
     public BoardManager getBoardManager(int gameIndex, Board board)
     {
