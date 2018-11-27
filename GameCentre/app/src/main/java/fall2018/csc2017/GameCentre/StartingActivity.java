@@ -80,7 +80,7 @@ public class StartingActivity extends AppCompatActivity
             LoginManager lm = new LoginManager();
             String username = lm.getPersonLoggedIn();
             User user = fm.getUser(username);
-            user.setOpponent(gameIndex, "Guest");
+            user.getOpponents().put(gameIndex, "Guest");
             switchToGame(gameIndex);
         }
         else if(p2passwordString.equals(""))
