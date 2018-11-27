@@ -98,8 +98,17 @@ public class StartingActivity extends AppCompatActivity
                 fm.saveUser(p1, lm.getPersonLoggedIn());
                 switchToGame(gameIndex);
             }
-            else
-                Toast.makeText(getApplicationContext(), "Invalid Credentials...", Toast.LENGTH_SHORT).show();
+            else{}
+                //Toast.makeText(getApplicationContext(), "Invalid Credentials...", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+    public void loadButton(String p2usernameString, String p2passwordString, int gameIndex){
+        if(p2usernameString.equals("")){
+            Toast.makeText(getApplicationContext(), "Please enter in the username and password of the player you were playing with!", Toast.LENGTH_SHORT).show();
+        }
+        else if (p2passwordString.equals("")){
+            Toast.makeText(getApplicationContext(), "You must enter in the password of the person you were playing with!", Toast.LENGTH_SHORT).show();
         }
     }
 
