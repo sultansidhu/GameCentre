@@ -45,6 +45,7 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView
      * Username of user currently playing.
      */
     private String username;
+   // private String usernameP2;
 
     /**
     The file manager instance
