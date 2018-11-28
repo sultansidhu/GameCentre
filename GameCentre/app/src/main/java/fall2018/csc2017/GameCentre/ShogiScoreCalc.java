@@ -33,11 +33,18 @@ class ShogiScoreCalc implements Calculate
     {
         Object[] arrayMoveCountandBoard = getMovesCountAndBoard(user);
         int numMoves = (int)arrayMoveCountandBoard[0];
-        Board board = (Board)arrayMoveCountandBoard[1];
-
+        int pieceDiff = (int)arrayMoveCountandBoard[1];
+        return generateScore(numMoves, pieceDiff);
+    }
+    public int getPieceDiff(Board board){
         int pieceDiff = board.numBlacks() - board.numReds();
-        if (pieceDiff < 0)
+        if (pieceDiff < 0) {
             pieceDiff *= -1;
+        }
+        return pieceDiff;
+    }
+
+    public int generateScore(int numMoves, int pieceDiff){
 
         if(numMoves < 14)
             return 860 + (20 * pieceDiff);
@@ -49,7 +56,6 @@ class ShogiScoreCalc implements Calculate
 
         return score;
     }
-
     /**
      * A helper method that obtains and returns the number of moves taken by User user and the
      * last board
@@ -71,7 +77,7 @@ class ShogiScoreCalc implements Calculate
         }
         else {
             array[0] = user.getNumMoves(1);
-            array[1] = user.getGameStack(1).peek();
+            array[1] = getPieceDiff(user.getGameStack(1).peek());
         }
         return array;
     }
