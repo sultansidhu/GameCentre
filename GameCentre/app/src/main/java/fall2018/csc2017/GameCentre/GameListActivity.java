@@ -70,12 +70,12 @@ public class GameListActivity extends AppCompatActivity
 
     /**
      * Launches the sliding tiles game based on index.
-     * @param game_index index of the game selected.
+     * @param gameIndex index of the game selected.
      */
-    public void launchGame(int game_index)
+    public void launchGame(int gameIndex)
     {
         Intent intent = null;
-        switch(game_index) {
+        switch(gameIndex) {
             case 0:
                 intent = new Intent(this, StartingSlidingActivity.class); break;
             case 1:
@@ -84,7 +84,7 @@ public class GameListActivity extends AppCompatActivity
                 intent = new Intent(this, StartingConnectFourActivity.class);
         }
 
-        intent.putExtra("gameIndex", game_index);
+        intent.putExtra("gameIndex", gameIndex);
         startActivity(intent);
 
 

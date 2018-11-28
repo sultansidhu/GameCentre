@@ -122,6 +122,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
         super.onPause();
     }
 
+    // TODO: Move undoHelper to a "UserManager"
     public void undoHelper(User user, String username, Stack<Board> userStack, int gameIndex) {
         if(user.getAvailableUndos(gameIndex) == 0) {
             makeToastNoUndo();

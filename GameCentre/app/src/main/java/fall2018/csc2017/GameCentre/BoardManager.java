@@ -21,5 +21,7 @@ interface BoardManager
 
     void setOpponent(String opponent);
 
+    boolean getChanged();
+
 
 }

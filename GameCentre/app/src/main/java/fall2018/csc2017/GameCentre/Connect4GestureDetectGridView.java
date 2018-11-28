@@ -93,23 +93,25 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView
             public boolean onSingleTapConfirmed(MotionEvent event) {
                 int position = Connect4GestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
-                if (boardManager.isValidTap(position)) {
-                    mController.processTapMovement(context, boardManager, position);
-                    User user = fm.getUser(username);
-                    user.addState(boardManager.getBoard(), gameIndex);
-                    fm.saveUser(user, username);
-                    if (boardManager.checkFull() || boardManager.gameDrawn()) {
-                        switchToScoreboardScreen();
-                    }
-                    else if (boardManager.puzzleSolved(position)) {
-                        updateScoreboard(context, position);
-                        switchToScoreboardScreen();
-                    }
-                    return true;
-                }
-                else
-                    Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
-                return false;
+                mController.processTapMovement(context, position, gameIndex);
+                return true;
+//                if (boardManager.isValidTap(position)) {
+//                    mController.processTapMovement(context, boardManager, position);
+//                    User user = fm.getUser(username);
+//                    user.addState(boardManager.getBoard(), gameIndex);
+//                    fm.saveUser(user, username);
+//                    if (boardManager.checkFull() || boardManager.gameDrawn()) {
+//                        switchToScoreboardScreen();
+//                    }
+//                    else if (boardManager.puzzleSolved(position)) {
+//                        updateScoreboard(context, position);
+//                        switchToScoreboardScreen();
+//                    }
+//                    return true;
+//                }
+//                else
+//                    Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
+//                return false;
             }
             @Override
             public boolean onDown(MotionEvent event) {

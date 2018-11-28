@@ -137,5 +137,6 @@ public class SlidingBoardManager implements BoardManager, Serializable {
     public void setOpponent(String opponent) { this.opponent = opponent; }
 
 
+    public boolean getChanged() { return true; }
 
 }

@@ -1,5 +1,8 @@
 package fall2018.csc2017.GameCentre;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +22,12 @@ public class  ShogiBoardManager implements BoardManager
      */
 
     private String opponent;
+
+    private int tileSelected = -1;
+
+    private int tileOwner = -1;
+
+    private boolean changed = false;
 
     public ShogiBoardManager(Board board)
     {
@@ -76,31 +85,78 @@ public class  ShogiBoardManager implements BoardManager
      */
 
     public boolean isValidTap(int position) {
+        Tile currTile = getBoard().getTile(position/Board.NUM_ROWS, position%Board.NUM_ROWS);
+        tileOwner = getTileOwner(currTile);
+        if (isTurn()) {
+            return setTileToMove(position, currTile);
+        }
+        else if (tileOwner == 0 && tileSelected != -1) {
+            int fromTile = tileSelected;
+            int toTile = position;
+            if ((inSameRow(fromTile, toTile) && !tileBlockingRow(fromTile, toTile) && isWhite(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS))
+                    || inSameCol(fromTile, toTile) && !tileBlockingCol(fromTile, toTile) && isWhite(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS)) {
+                return true;
+            }
+            else {
+                resetTileSelected();
+                return false;
+            }
+        }
         return false;
     }
 
-    /**
-     * Overloaded isValidTap with 2 parameters
-     */
-    public boolean isValidTap(int fromTile, int toTile) {
-        if (inSameRow(fromTile, toTile) && !tileBlockingRow(fromTile, toTile) && isWhite(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS)) {
+
+    public void resetTileSelected() {
+        tileSelected = -1;
+    }
+
+    public void switchPlayer() {
+        getBoard().setCurrPlayer(3 - getBoard().getCurrPlayer());
+        Toast.makeText(GlobalApplication.getAppContext(), "Player " + getBoard().getCurrPlayer() + "'s turn", Toast.LENGTH_SHORT).show();
+    }
+
+    public int getTileOwner(Tile currTile) {
+        if (currTile.getBackground() == R.drawable.black) { return 1; }
+        else if (currTile.getBackground() == R.drawable.red) {return 2; }
+        else { return 0; }
+    }
+
+    public boolean isTurn() {
+        return tileOwner == getBoard().getCurrPlayer();
+    }
+
+    public boolean setTileToMove(int position, Tile currTile) {
+        if (tileSelected == -1
+                || getBoard().getTile(
+                tileSelected/Board.NUM_ROWS, tileSelected%Board.NUM_ROWS).getBackground()
+                == currTile.getBackground()) {
+            tileSelected = position;
             return true;
         }
-        else return inSameCol(fromTile, toTile) && !tileBlockingCol(fromTile, toTile) && isWhite(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS);
+        else {
+            return false;
+        }
     }
+
+//    /**
+//     * Overloaded isValidTap with 2 parameters
+//     */
+//    public boolean isValidTap(int fromTile, int toTile) {
+//        if (inSameRow(fromTile, toTile) && !tileBlockingRow(fromTile, toTile) && isWhite(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS)) {
+//            return true;
+//        }
+//        else return inSameCol(fromTile, toTile) && !tileBlockingCol(fromTile, toTile) && isWhite(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS);
+//    }
 
     /**
      * This method is a stub
      * @param position: an nt representing the position touched
      */
 
-    public void touchMove(int position) { }
-
-    /**
-     * Overloaded touchMove with 2 parameters.
-     */
-    void touchMove(int fromTile, int toTile) {
-        if (isValidTap(fromTile, toTile)) {
+    public void touchMove(int position) {
+        int fromTile = tileSelected;
+        int toTile = position;
+        if (isValidTap(toTile) && fromTile != -1 && tileOwner == 0) {
             board.swapTiles(fromTile/Board.NUM_COLS, fromTile%Board.NUM_COLS, toTile/Board.NUM_COLS, toTile%Board.NUM_COLS);
             int left = checkCapturedLeft(toTile);
             for (int i = 1; i<= left; i++) {
@@ -118,12 +174,41 @@ public class  ShogiBoardManager implements BoardManager
             for (int i = 1; i<= down; i++) {
                 board.setTileBackground(toTile/Board.NUM_COLS + i, toTile%Board.NUM_COLS, R.drawable.tile_25);
             }
-
-            //Toast.makeText(GlobalApplication.getAppContext(), "Player "+ (3 - board.getCurrPlayer()) + "'s turn", Toast.LENGTH_SHORT).show();
-            //TODO: I JUST PUT 3- TO MAKE IT SWAP PROPERLY....PROBABLY SHOULD FIND A  BETTER SOLUTION TO THIS!
-
+            setChanged(true);
+            resetTileSelected();
+            switchPlayer();
         }
+        else { setChanged(false); }
     }
+
+//    /**
+//     * Overloaded touchMove with 2 parameters.
+//     */
+//    void touchMove(int fromTile, int toTile) {
+//        if (isValidTap(fromTile, toTile)) {
+//            board.swapTiles(fromTile/Board.NUM_COLS, fromTile%Board.NUM_COLS, toTile/Board.NUM_COLS, toTile%Board.NUM_COLS);
+//            int left = checkCapturedLeft(toTile);
+//            for (int i = 1; i<= left; i++) {
+//                board.setTileBackground(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS - i, R.drawable.tile_25);
+//            }
+//            int right = checkCapturedRight(toTile);
+//            for (int i = 1; i <= right; i++) {
+//                board.setTileBackground(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS + i, R.drawable.tile_25);
+//            }
+//            int up = checkCapturedUp(toTile);
+//            for (int i = 1; i<= up; i++) {
+//                board.setTileBackground(toTile/Board.NUM_COLS - i, toTile%Board.NUM_COLS, R.drawable.tile_25);
+//            }
+//            int down = checkCapturedDown(toTile);
+//            for (int i = 1; i<= down; i++) {
+//                board.setTileBackground(toTile/Board.NUM_COLS + i, toTile%Board.NUM_COLS, R.drawable.tile_25);
+//            }
+//
+//            //Toast.makeText(GlobalApplication.getAppContext(), "Player "+ (3 - board.getCurrPlayer()) + "'s turn", Toast.LENGTH_SHORT).show();
+//            //TODO: I JUST PUT 3- TO MAKE IT SWAP PROPERLY....PROBABLY SHOULD FIND A  BETTER SOLUTION TO THIS!
+//
+//        }
+//    }
 
     boolean isBlack(int row, int col) {
         if (row >= Board.NUM_COLS || row < 0 || col >= Board.NUM_COLS || col < 0) {
@@ -281,5 +366,13 @@ public class  ShogiBoardManager implements BoardManager
 
     public void setOpponent(String opp) { this.opponent = opp; }
 
-    public String getOpponent() { return this.opponent; }
+    public int getTileSelected() { return this.tileSelected; }
+
+    public void setTileSelected(int tile) { this.tileSelected = tile; }
+
+    public void setChanged(boolean changed) { this.changed = changed; }
+
+    public boolean getChanged() { return changed; }
+
+
 }

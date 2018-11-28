@@ -7,7 +7,7 @@
  ======================================================================== */
 package fall2018.csc2017.GameCentre;
 
-public class CalcFactory
+public class ScoreFactory
 {
 
     /***
@@ -17,16 +17,16 @@ public class CalcFactory
      * @return an object of a class implementing Calculate, depending on gameIndex
      * @throws null
      */
-    public Calculate getScoreCalc(int gameIndex)
+    public Score getScore(int gameIndex)
     {
         switch(gameIndex)
         {
             case 0:
-                return new SlidingScoreCalc();
+                return new SlidingScore();
             case 1:
-                return new ShogiScoreCalc();
+                return new ShogiScore();
             case 2:
-                return new ConnectFourScoreCalc();
+                return new ConnectFourScore();
         }
         return null;
 

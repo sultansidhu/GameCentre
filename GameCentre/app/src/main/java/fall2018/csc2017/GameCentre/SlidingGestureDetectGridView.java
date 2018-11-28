@@ -57,6 +57,8 @@ public class SlidingGestureDetectGridView extends GestureDetectGridView {
 
     private int gameIndex = 0;
 
+    private Score score = new SlidingScore();
+
     /*
     Overloaded Constructor that takes a Context
     */
@@ -93,7 +95,6 @@ public class SlidingGestureDetectGridView extends GestureDetectGridView {
     private void init(final Context context) {
         mController = new MovementController();
         gDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-
             /*
             This function is invoked on every tap of the user
             */
@@ -102,19 +103,14 @@ public class SlidingGestureDetectGridView extends GestureDetectGridView {
 
                 int position = SlidingGestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
-                return manageTap(position);
+                mController.processTapMovement(context, position, gameIndex);
+                return true;
             }
             @Override
             public boolean onDown(MotionEvent event) {
                 return true;
             }
-
         });
-    }
-
-    @Override
-    public boolean peekBoardManagerSolved(Board board) {
-        return new SlidingBoardManager(board).puzzleSolved();
     }
 
     public boolean onInterceptTouchEvent(MotionEvent ev) {
@@ -158,21 +154,13 @@ public class SlidingGestureDetectGridView extends GestureDetectGridView {
         this.boardManager = boardManager;
         mController.setBoardManager(boardManager);
     }
-    public boolean manageTap(int position) {
-        if (boardManager.isValidTap(position)) {
-            mController.processTapMovement(GlobalApplication.getAppContext(), position);
-            User user = fm.getUser(username);
-            user.addState(boardManager.getBoard(), gameIndex);
-            fm.saveUser(user, username);
-            if (peekBoardManagerSolved(user.getGameStack(gameIndex).peek())) {
-                ScoreboardActivity sc = new ScoreboardActivity();
-                sc.updateUserHighScore(username, gameIndex);
-                switchToScoreboardScreen();
-            }
-        }
-        else {
-            Toast.makeText(GlobalApplication.getAppContext(), "Invalid Tap", Toast.LENGTH_SHORT).show();
-        } return true;
-    }
+//    public boolean manageTap(int position) {
+//        if (boardManager.isValidTap(position)) {
+//            mController.processTapMovement(GlobalApplication.getAppContext(), position);
+//        }
+//        else {
+//            Toast.makeText(GlobalApplication.getAppContext(), "Invalid Tap", Toast.LENGTH_SHORT).show();
+//        } return true;
+//    }
 
 }
