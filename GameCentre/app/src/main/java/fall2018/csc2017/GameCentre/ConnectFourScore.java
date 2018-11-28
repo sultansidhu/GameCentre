@@ -2,11 +2,11 @@ package fall2018.csc2017.GameCentre;
 
 import java.util.HashMap;
 
-public class ConnectFourScoreCalc implements Calculate
+public class ConnectFourScore implements Score
 {
     private FileManager fm = new FileManager();
 
-    public ConnectFourScoreCalc(){
+    public ConnectFourScore(){
 
     }
     public int calculateUserScore(User user){
@@ -26,4 +26,7 @@ public class ConnectFourScoreCalc implements Calculate
         return Math.round(-4*(numMoves-7) + 1000);
     }
 
+    public void updateUserScore(User user, int newHighScore) {
+
+    }
 }

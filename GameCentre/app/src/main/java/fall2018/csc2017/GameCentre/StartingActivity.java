@@ -19,6 +19,7 @@ public class StartingActivity extends AppCompatActivity
     public void onClickHelper(int gameIndex, String username)
     {
         Stack<Board> userStack = fm.getStack(username, gameIndex);
+        // TODO: Move this to the fm.getStack method
         if (userStack.size() < 1)
         {
             Toast.makeText(getApplicationContext(), "No game to load! Start a new game!", Toast.LENGTH_LONG).show();
@@ -31,6 +32,7 @@ public class StartingActivity extends AppCompatActivity
     /**
      * Switch to the Activity view of the game specified by the gameIndex.
      */
+    // TODO: GameFactory?
     public void switchToGame(int gameIndex)
     {
         Intent intent = null;
@@ -50,6 +52,7 @@ public class StartingActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    // TODO: Move setUserUndos to "UserManager"
     public void setUserUndos(String username, int undoLimit, int gameIndex, BoardManager boardManager) {
         User user = fm.getUser(username);
         user.setAvailableUndos(gameIndex, undoLimit);
@@ -71,7 +74,7 @@ public class StartingActivity extends AppCompatActivity
     {
         Toast.makeText(this, "Loaded Game", Toast.LENGTH_SHORT).show();
     }
-
+    // TODO: Move startButtonHelper to "UserManager"
     public void startButtonHelper(String p2usernameString, String p2passwordString, int gameIndex)
     {
         if(p2usernameString.equals(""))
@@ -81,6 +84,7 @@ public class StartingActivity extends AppCompatActivity
             String username = lm.getPersonLoggedIn();
             User user = fm.getUser(username);
             user.getOpponents().put(gameIndex, "Guest");
+            fm.saveUser(user, username);
             switchToGame(gameIndex);
         }
         else if(p2passwordString.equals(""))

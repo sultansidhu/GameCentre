@@ -4,7 +4,7 @@ import java.sql.SQLOutput;
 import java.util.HashMap;
 
 
-class SlidingScoreCalc implements Calculate
+class SlidingScore implements Score
 {
     /**
      * The FileManager object used to access the HashMap and serialized file on disk
@@ -14,7 +14,7 @@ class SlidingScoreCalc implements Calculate
     /**
      * The constructor for this class, which intiailizes the fm object
      */
-    public SlidingScoreCalc()
+    public SlidingScore()
     {
         fm = new FileManager();
     }
@@ -32,5 +32,9 @@ class SlidingScoreCalc implements Calculate
         System.out.println(2000/numMoves);
         double score = 2000/numMoves;
         return (int)score;
+    }
+
+    public void updateUserScore(User user, int newHighScore) {
+
     }
 }

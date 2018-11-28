@@ -2,7 +2,7 @@ package fall2018.csc2017.GameCentre;
 
 import java.util.HashMap;
 
-class ShogiScoreCalc implements Calculate
+class ShogiScore implements Score
 {
     /**
     A FileManager object used for accessing the HashMap from the serialized file
@@ -16,7 +16,7 @@ class ShogiScoreCalc implements Calculate
     /**
      * The constructor of this class, which initializes the FileManager and LoginManager attributes
      */
-    public ShogiScoreCalc()
+    public ShogiScore()
     {
         fm = new FileManager();
         lm = new LoginManager();
@@ -56,6 +56,11 @@ class ShogiScoreCalc implements Calculate
 
         return score;
     }
+
+    public void updateUserScore(User user, int newHighScore) {
+
+    }
+
     /**
      * A helper method that obtains and returns the number of moves taken by User user and the
      * last board

@@ -17,6 +17,7 @@ public class ConnectFourBoardManager implements BoardManager {
     private int currentPlayer = 1; // currently the game is set to having player 1 as red and player 2 as black
     public boolean gameOver = false;
     public String opponent;
+    private int currentPos = -1;
 
 
     public ConnectFourBoardManager(Board board) {
@@ -79,21 +80,13 @@ public class ConnectFourBoardManager implements BoardManager {
      * @return whether a puzzle has been solved.
      */
     public boolean puzzleSolved() {
-        return true;
-        //return (checkDiagonals() || checkSides() || checkUnder());
-    }
-
-    /**
-     * Returns if a puzzle has been solved after a series of 4 of
-     * same colored chips have been connected.
-     * @param position the position of the most recent addition.
-     * @return whether a puzzle has been solved.
-     */
-    //@Override
-    public boolean puzzleSolved(int position) {
-        return (checkDiagonals(position) ||
-                checkSides(position) ||
-                checkUnder(position));
+        if ((checkDiagonals(currentPos) ||
+                checkSides(currentPos) ||
+                checkUnder(currentPos))) {
+            setGameOver();
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -468,6 +461,7 @@ public class ConnectFourBoardManager implements BoardManager {
             }
         }
         makeToast("The game is drawn!");
+        setGameOver();
         return true;
     }
 
@@ -476,18 +470,27 @@ public class ConnectFourBoardManager implements BoardManager {
      * @param position the position at which the move is to be made
      */
     public void touchMove(int position) {
-        int row = position / Board.NUM_ROWS;
-        int col = position % Board.NUM_COLS;
-        board.setTileBackground(row, col, getBackgroundForPlayer());
-        //Toast.makeText(GlobalApplication.getAppContext(), "Player "+(3-this.currentPlayer)+"'s turn", Toast.LENGTH_SHORT).show();
-        // TODO: the 3-this.currentplayer is probably a code smell, there should be a better solutions to this!
-        if (gameDrawn()){
-            makeToast("Game drawn! Start a new game");
-        } else {
-            switchPlayer();
+        if (!gameOver) {
+            int row = position / Board.NUM_ROWS;
+            int col = position % Board.NUM_COLS;
+            currentPos = position;
+            board.setTileBackground(row, col, getBackgroundForPlayer());
+            //Toast.makeText(GlobalApplication.getAppContext(), "Player "+(3-this.currentPlayer)+"'s turn", Toast.LENGTH_SHORT).show();
+            // TODO: the 3-this.currentplayer is probably a code smell, there should be a better solutions to this!
+            if (gameDrawn()){
+                makeToast("Game drawn! Start a new game");
+            } else {
+                switchPlayer();
+            }
+        }
+        else {
+            makeToast("Game over! Start a new game!");
         }
 
     }
 
     public void setOpponent(String opponent) {this.opponent = opponent; }
+
+    public boolean getChanged() { return true; }
+
 }

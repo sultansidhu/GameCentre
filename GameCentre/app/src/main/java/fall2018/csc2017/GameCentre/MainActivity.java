@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
      to be fetched. answer: represents the answer to the user's security question.
      return none
      */
-
+    // TODO: Probably can move to the LoginManager
     public void forgotPassword(String username, String answer)
     {
         Spinner sec = findViewById(R.id.securityquestions);

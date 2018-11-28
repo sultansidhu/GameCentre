@@ -37,9 +37,9 @@ public class ScoreboardActivity extends AppCompatActivity
     FileManager fm = new FileManager();
 
     /**
-     * The calcFactory object used to instantiate different ScoreCalc objects
+     * The scoreFactory object used to instantiate different ScoreCalc objects
      */
-    private CalcFactory calcFactory = new CalcFactory();
+    private ScoreFactory scoreFactory = new ScoreFactory();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -108,7 +108,7 @@ public class ScoreboardActivity extends AppCompatActivity
         User user = users.get(username);
         System.out.println("USERNAME IS "+username);
 
-        newScore = calcFactory.getScoreCalc(gameIndex).calculateUserScore(user);
+        newScore = scoreFactory.getScore(gameIndex).calculateUserScore(user);
 
             assert newScore >= 0;
 
