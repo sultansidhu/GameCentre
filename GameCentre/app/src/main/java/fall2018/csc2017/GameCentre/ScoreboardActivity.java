@@ -133,4 +133,7 @@ public class ScoreboardActivity extends AppCompatActivity
         System.out.println("Checking high score got saved to file....");
         System.out.println(user2.getHighestScore(gameIndex));
         }
+
+        // TODO: DISPLAY STUFF ON THE SCOREBOARD CUZ OTHERWISE WE FCKED UP BOY
+
 }

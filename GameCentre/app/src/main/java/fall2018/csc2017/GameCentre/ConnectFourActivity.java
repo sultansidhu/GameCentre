@@ -113,7 +113,6 @@ public class ConnectFourActivity extends GameActivity implements Observer {
      */
     @Override
     protected void onPause() {
-        // TODO: Add pause functionality for the timer
         super.onPause();
     }
 

@@ -135,7 +135,6 @@ public class ShogiActivity extends GameActivity implements Observer {
      */
     @Override
     protected void onPause() {
-        // TODO: Add pause functionality for the timer
         super.onPause();
     }
 
