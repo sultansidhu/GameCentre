@@ -10,6 +10,7 @@ Group #: 0506
 */
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
@@ -62,6 +63,7 @@ public class ScoreboardActivity extends AppCompatActivity
         fm.saveObject(users);
 
         addResetScoresButtonListener();
+        addGoToGameListListener();
     }
     public void generateScoreRow(String username){
         HashMap<String, User> users = fm.readObject();
@@ -101,7 +103,6 @@ public class ScoreboardActivity extends AppCompatActivity
 
     private void addGoToGameListListener(){
         Button gameListButton = findViewById(R.id.goToGameList);
-        //gameListButton.setOnClickListener();
         gameListButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -112,7 +113,8 @@ public class ScoreboardActivity extends AppCompatActivity
     }
 
     public void goToGameList(){
-      // TODO: COMPLETE THIS
+        Intent intent = new Intent(this, GameListActivity.class);
+        startActivity(intent);
     }
 
 
