@@ -99,6 +99,22 @@ public class ScoreboardActivity extends AppCompatActivity
         });
     }
 
+    private void addGoToGameListListener(){
+        Button gameListButton = findViewById(R.id.goToGameList);
+        //gameListButton.setOnClickListener();
+        gameListButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                goToGameList();
+            }
+        });
+
+    }
+
+    public void goToGameList(){
+      // TODO: COMPLETE THIS
+    }
+
 
     public void updateUserHighScore(String username, int gameIndex)
     {
