@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 
 public class LoginManagerTest {
 
-    @Test
+    //@Test
     /*public void create() {
         LoginManager lm = new LoginManager();
 *//*
