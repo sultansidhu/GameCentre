@@ -63,6 +63,9 @@ public class FileManager implements Serializable {
             objectIn.close();
             return hashMapFromFile;
         }
+        catch(NullPointerException e){
+            return new HashMap<String, User>();
+        }
         catch(ClassCastException ca)
         {
             System.out.println("unable to Cast");
