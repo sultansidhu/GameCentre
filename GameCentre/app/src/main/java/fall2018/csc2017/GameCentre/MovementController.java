@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.Map;
 
 class MovementController {
     /**
@@ -12,6 +13,7 @@ class MovementController {
      */
     private BoardManager boardManager;
     private String username;
+    private String winnerUsername;
 
     /**
      * Username of current player.
@@ -47,25 +49,6 @@ class MovementController {
         }
         else { Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show(); }
     }
-
-    private void checkSolved(Context context, int gameIndex) {
-        if (boardManager.puzzleSolved()) {
-            Toast.makeText(context, "YOU WIN!", Toast.LENGTH_SHORT).show();
-            ScoreboardActivity sc = new ScoreboardActivity();
-            sc.updateUserHighScore(username, gameIndex);
-            switchToScoreboardScreen(context);
-        }
-    }
-
-    /*
-    Switches to the scoreboard screen if a game is won
-     */
-    public void switchToScoreboardScreen(Context context)
-    {
-        Intent tmp = new Intent(context, ScoreboardActivity.class);
-        context.startActivity(tmp);
-    }
-
 
 //    /**
 //     * Processes a tap for the user.
@@ -107,4 +90,52 @@ class MovementController {
 //            }
 //        }
 //    }
+
+    private void checkSolved(Context context, int gameIndex) {
+        if (boardManager.puzzleSolved()) {
+            String winner = getWinnerUsername(gameIndex); // TODO: CALL TO THE getWinnerUsername() METHOD
+            Toast.makeText(context, "YOU WIN!", Toast.LENGTH_SHORT).show();
+            ScoreboardActivity sc = new ScoreboardActivity();
+            int[] result = sc.updateUserHighScore(winner, gameIndex);
+            switchToScoreboardScreen(context, result, winner);
+            System.out.println("LE RESULT ISCH ------------- : " + result);
+        }
+    }
+
+    private String getWinnerUsername(int gameIndex){
+        // get the winning player (current player in the bm)
+        int playerNumber = 3 - boardManager.getBoard().getCurrPlayer();
+        System.out.println(" THE PLAYER NUMBER IS  ----------&&&&&&&&-------- " + playerNumber);
+        if (gameIndex != 0){
+            if (playerNumber == 1){
+                System.out.println("THE CURRENT WINNER OF THE GAME IS PLAYER 1 ---------- "+ username);
+                winnerUsername = username;
+                return username;
+            } else {
+                //return boardManager.getBoard().getOpponentString();
+                FileManager fm = new FileManager(GlobalApplication.getAppContext());
+                Map<String, User> users = fm.readObject();
+                User user = users.get(username);
+                Map<Integer, String> opponents = user.getOpponents();
+                assert opponents != null;
+                System.out.println("THE OPPONENT (who is the winner) IS : ------------ " + opponents.get(gameIndex));
+                winnerUsername = opponents.get(gameIndex);
+                return opponents.get(gameIndex);
+
+            }
+        }
+        return username;
+    }
+
+
+    /*
+    Switches to the scoreboard screen if a game is won
+     */
+    public void switchToScoreboardScreen(Context context, int[] results, String username)
+    {
+        Intent tmp = new Intent(context, ScoreboardActivity.class);
+        tmp.putExtra("results", results);
+        tmp.putExtra("username", username);
+        context.startActivity(tmp);
+    }
 }

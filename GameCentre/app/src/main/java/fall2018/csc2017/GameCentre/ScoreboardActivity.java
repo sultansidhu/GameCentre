@@ -10,6 +10,7 @@ Group #: 0506
 */
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
@@ -17,7 +18,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import static java.util.Collections.max;
 
 //import static fall2018.csc2017.GameCentre.MovementController.username;
 
@@ -28,7 +41,13 @@ public class ScoreboardActivity extends AppCompatActivity
      */
     private StringBuilder scoresList;
 
-    TextView scoresDisplay;
+    //TextView scoresDisplay;
+    TextView slidingScore;
+    TextView hasamiScore;
+    TextView connect4Score;
+    TextView sessionScore;
+
+    String winner;
     /**
     Called when the scoreboard button is pressed, or when the user completes a game.
     Displays high scores in a list format.
@@ -45,10 +64,30 @@ public class ScoreboardActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        String winnerUsername = getIntent().getStringExtra("username");//new LoginManager().getPersonLoggedIn();
+        System.out.println("THE WINNERS USERNAME IS --------------%%%%%%%%%%%% -------------" + winnerUsername);
+        if(winnerUsername == null){//If there is no winner since we came from starting activity
+            winnerUsername = new LoginManager(getApplicationContext()).getPersonLoggedIn();
+        }
+        winner = winnerUsername;
+        int[] results = getIntent().getIntArrayExtra("results");
+        if (results == null) {//Coming from starting Activity
+            results = new int[3];
+            results[0] = getSlidingScoreLocal(winnerUsername);
+            results[1] = getHasamiScoreLocal(winnerUsername);
+            results[2] = getConnect4ScoreLocal(winnerUsername);
+        }
+        System.out.println("Results is: ");
+        System.out.println(results);
+        //String currentUsername = getIntent().getStringExtra("username");
+        //System.out.println("USERNAME NOW IS : " + currentUsername);
+        System.out.println("THE RESULTS NOW ARE: ----------------------------" + results);
         setContentView(R.layout.scoreboard);
-        scoresDisplay = findViewById(R.id.scoresDisplay);
-        scoresDisplay.setMovementMethod(new ScrollingMovementMethod());
         scoresList = new StringBuilder();
+        slidingScore = findViewById(R.id.slidingTilesScoreViewer);
+        hasamiScore = findViewById(R.id.hasamiShogiScoreViewer);
+        connect4Score = findViewById(R.id.connect4ScoreViewer);
+        sessionScore = findViewById(R.id.currentScoreViewer);
         HashMap<String, User> users = fm.readObject();
         assert users != null;
         String username;
@@ -58,17 +97,29 @@ public class ScoreboardActivity extends AppCompatActivity
             generateScoreRow(username);
 
         }
-        scoresDisplay.setText(scoresList);
+        //scoresDisplay.setText(scoresList);
         fm.saveObject(users);
+        slidingScore.setText("Sliding Tiles: "+ String.valueOf(results[0]));
+        hasamiScore.setText("Hasami Shogi: "+ String.valueOf(results[1]));
+        connect4Score.setText("Connect 4: "+ String.valueOf(results[2]));
+        try {
+            sessionScore.setText("Your Score: " + String.valueOf(results[3]));
+        }
+        catch(IndexOutOfBoundsException e){
+            System.out.println("You came from the StartingActivity screen, so no recent score.");
+            sessionScore.setText("Your Score: " + "<N/A>");
+        }
 
         addResetScoresButtonListener();
+        addGoToGameListListener();
+        addGoToGlobalScoresListener();
     }
     public void generateScoreRow(String username){
         HashMap<String, User> users = fm.readObject();
         assert users != null;
         User user = users.get(username);
-        System.out.println("THE ARRAY OF THE SESSION SCORES IS DISPLAYED HERE: ");
-        user.printAllSessionScores();
+//        System.out.println("THE ARRAY OF THE SESSION SCORES IS DISPLAYED HERE: ");
+//        user.printAllSessionScores();
 //        scoresList.append(username);
 //        for (int i = 0; i <= 2; i++) {
 //            System.out.println(user.getHighestScore(i));
@@ -78,6 +129,24 @@ public class ScoreboardActivity extends AppCompatActivity
 //        }
 //        scoresList.append("\n");
     }
+
+private void addGoToGlobalScoresListener(){
+        Button globalScores = findViewById(R.id.goToGlobalScores);
+        globalScores.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToGlobalScores();
+            }
+        });
+}
+
+    private void goToGlobalScores() {
+        Intent intent = new Intent(this, LeaderBoardActivity.class);
+        startActivity(intent);
+    }
+
+    public void appendHighScore(int gameIndex){}
+
     /*
     Adds a reset scores button listener which calls a method to set all user high scores to 0.
     @return null
@@ -89,13 +158,19 @@ public class ScoreboardActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 LoginManager lm = new LoginManager(getApplicationContext());
-                String username = lm.getPersonLoggedIn();
-                User user = fm.readObject().get(username);
+                User user = fm.getUser(winner);
                 user.resetScoreHashmapForAllGames();
-                //resetAllScores();
+                fm.saveUser(user, winner);
+                updateResetScores();
                 Toast.makeText(GlobalApplication.getAppContext(), "Scores for "+user.getUsername()+" are reset!", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void updateResetScores(){
+        slidingScore.setText("Sliding Tiles: 0");
+        hasamiScore.setText("Hasami Shogi: 0");
+        connect4Score.setText("Connect 4: 0");
     }
 
     private void addGoToGameListListener(){
@@ -111,21 +186,89 @@ public class ScoreboardActivity extends AppCompatActivity
     }
 
     public void goToGameList(){
-      // TODO: COMPLETE THIS
+        Intent intent = new Intent(this, GameListActivity.class);
+        startActivity(intent);
+    }
+
+    //Todo: check if the class is able to pass username is able to pass the winner's username
+//    public void setScores(String username){
+//        getSlidingScoreLocal(username);
+//        getHasamiScoreLocal(username);
+//        getConnect4ScoreLocal(username);
+//    }
+
+    public int getSlidingScoreLocal(String username){
+        //TextView slidingScores = findViewById(R.id.slidingTilesScoreViewer);
+        Integer maxScore;
+        User user = fm.readObject().get(username);
+        assert user != null;
+        List scoreList = user.getHighestScore(0);
+        if (scoreList.size() == 0){
+            maxScore = 0;
+        } else {
+            maxScore = (int) Collections.max(scoreList);
+        }
+        if (maxScore > 0 && scoreList.size() != 0){
+            return maxScore;
+        } else {
+            return 0;
+        }
+
+
+    }
+
+    public int getHasamiScoreLocal(String username){
+        //TextView hasamiScore = findViewById(R.id.hasamiShogiScoreViewer);
+        Integer maxScore;
+        User user = fm.readObject().get(username);
+        assert user != null;
+        List scoreList = user.getHighestScore(1);
+        if (scoreList.size() == 0) {
+            maxScore = 0;
+        } else {
+            maxScore = (int) Collections.max(scoreList);
+        }
+        if (maxScore > 0 && scoreList.size() != 0){
+            return maxScore;
+        } else {
+            return 0;
+        }
+
+    }
+
+    public int getConnect4ScoreLocal(String username){
+        //TextView connect4Score = findViewById(R.id.connect4ScoreViewer);
+        Integer maxScore;
+        User user = fm.readObject().get(username);
+        assert user != null;
+        List scoreList = user.getHighestScore(2);
+        if (scoreList.size() == 0){
+            maxScore = 0;
+        } else {
+            maxScore = (int) Collections.max(scoreList);
+        }
+        if (maxScore > 0 && scoreList.size() != 0){
+            return maxScore;
+        } else {
+            return 0;
+        }
+
     }
 
 
-    public void updateUserHighScore(String username, int gameIndex)
+    public int[] updateUserHighScore(String username, int gameIndex)
     {
+        int[] result = new int[4];
         int newScore = -1;
         HashMap<String, User> users = fm.readObject();
         assert users != null;
         User user = users.get(username);
-        System.out.println("USERNAME IS "+username);
+        //setScores(username); // todo: instead of calling this make three calls
 
         newScore = scoreFactory.getScore(gameIndex).calculateUserScore(user);
+        user.addSessionScore(newScore, gameIndex);
 
-            assert newScore >= 0;
+        assert newScore >= 0;
 
 //            if (newScore > user.getHighestScore(gameIndex)) {
 //                System.out.println("new score is "+newScore + " AND THE HIGHEST SCORE IS "+user.getHighestScore(1));
@@ -140,13 +283,24 @@ public class ScoreboardActivity extends AppCompatActivity
 //                    Context context = GlobalApplication.getAppContext();
 //                    Toast.makeText(context, username+" won with a score of " + newScore, Toast.LENGTH_SHORT).show();
 //                }
-            fm.saveObject(users);
-        System.out.println("Session score: "+newScore);
-        HashMap<String, User> users2 = fm.readObject();
-        assert users != null;
-        User user2 = users2.get(username);
-        System.out.println("Checking high score got saved to file....");
-        System.out.println(user2.getHighestScore(gameIndex));
+        fm.saveObject(users);
+//        //System.out.println("Session score: "+newScore);
+//        HashMap<String, User> users2 = fm.readObject();
+//        assert users != null;
+//        // todo: user setScores() over here
+//        User user2 = users2.get(username);
+//        //System.out.println("Checking high score got saved to file....");
+//        //System.out.println(user2.getHighestScore(gameIndex));
+//        user2.addSessionScore(newScore, gameIndex);
+        System.out.println("THE ARRAY OF THE SESSION SCORES IS DISPLAYED HERE: ");
+        user.printAllSessionScores();
+
+        result[0] = getSlidingScoreLocal(username);
+        result[1] = getHasamiScoreLocal(username);
+        result[2] = getConnect4ScoreLocal(username);
+        result[3] = newScore;
+        //System.out.println("USERNAME IS "+username);
+        return result;
         }
 
         // TODO: DISPLAY STUFF ON THE SCOREBOARD CUZ OTHERWISE WE FCKED UP BOY
