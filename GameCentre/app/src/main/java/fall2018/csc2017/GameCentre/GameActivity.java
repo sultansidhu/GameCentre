@@ -28,13 +28,6 @@ public class GameActivity extends AppCompatActivity implements Observer {
      */
     private ArrayList<Button> tileButtons;
 
-    // Grid View and calculated column height and width based on device size
-    private GestureDetectGridView gridView;
-    private static int columnWidth, columnHeight;
-    private int gameIndex;
-    private String username = new LoginManager().getPersonLoggedIn();
-    private FileManager fm = new FileManager();
-
     /**
      * Set up the background image for each button based on the master list
      * of positions, and then call the adapter to set the view.
@@ -42,7 +35,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
     // Display
     public void display() {
         updateTileButtons();
-        gridView.setAdapter(new CustomAdapter(tileButtons, columnWidth, columnHeight));
+//        gridView.setAdapter(new CustomAdapter(tileButtons, columnWidth, columnHeight));
     }
 
     @Override
@@ -54,7 +47,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
      * Makes toast representing the number of undo's remaining.
      * @param number number of undo's remaining for the user
      */
-    private void makeToastUndoText(int number) {
+    public void makeToastUndoText(int number) {
         Toast.makeText(this, "Undo used: "+number+" undo(s) remain.", Toast.LENGTH_SHORT).show();
     }
 
@@ -62,14 +55,14 @@ public class GameActivity extends AppCompatActivity implements Observer {
      * Make toast representing the notion that the user has used
      * all of his/her undo's.
      */
-    private void makeToastNoUndo() {
+    public void makeToastNoUndo() {
         Toast.makeText(this, "You have used all your undos!", Toast.LENGTH_SHORT).show();
     }
 
     /**
      * Make toast notifying the user of an empty Board stack.
      */
-    private void makeToastEmptyStack(){
+    public void makeToastEmptyStack(){
         Toast.makeText(this, "There are no previous boards.", Toast.LENGTH_SHORT).show();
     }
 
@@ -78,7 +71,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
      * when the number of maximum possible undo's is set to
      * unlimited.
      */
-    private void makeToastUnlimitedUndoText() {
+    public void makeToastUnlimitedUndoText() {
         Toast.makeText(this, "Undo used", Toast.LENGTH_SHORT).show();
     }
 
@@ -121,24 +114,14 @@ public class GameActivity extends AppCompatActivity implements Observer {
         super.onPause();
     }
 
-    // TODO: Move undoHelper to a "UserManager"
-    public void undoHelper(User user, String username, Stack<Board> userStack, int gameIndex) {
-        if(user.getAvailableUndos(gameIndex) == 0) {
-            makeToastNoUndo();
-        } else if (userStack.size() == 1) {
-            makeToastEmptyStack();
-        }
-        else {
-            userStack.pop();
-            user.setAvailableUndos(gameIndex, user.getAvailableUndos(gameIndex) - 1);
-            if (user.getAvailableUndos(gameIndex) < 0) {
+    // TODO: Test that Undo works
+    public void makeToastUndo(User user, int gameIndex) {
+        if (user.getAvailableUndos(gameIndex) < 0) {
                 makeToastUnlimitedUndoText();
             }
             else {
                 makeToastUndoText(user.getAvailableUndos(gameIndex));
             }
-            fm.saveUser(user, username);
-        }
     }
 
     /**

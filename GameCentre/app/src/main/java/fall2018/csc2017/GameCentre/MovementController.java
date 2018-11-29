@@ -12,21 +12,15 @@ class MovementController {
      * The board manager.
      */
     private BoardManager boardManager;
-
-    private String username = new LoginManager().getPersonLoggedIn();
-
+    private String username;
     private String winnerUsername;
-
-    private FileManager fm = new FileManager();
-
-    private int gameIndex = 0;
-
 
     /**
      * Username of current player.
      */
     //static String username = null;
-    MovementController() {
+    MovementController(Context context) {
+        username = new LoginManager(context).getPersonLoggedIn();
     }
 
     /**
@@ -43,6 +37,7 @@ class MovementController {
      * @param position that the user tapped.
      */
     void processTapMovement(Context context, int position, int gameIndex) {
+        FileManager fm = new FileManager(context);
         if (boardManager.isValidTap(position)) {
             boardManager.touchMove(position);
             if (boardManager.getChanged()) {
@@ -118,7 +113,7 @@ class MovementController {
                 return username;
             } else {
                 //return boardManager.getBoard().getOpponentString();
-                FileManager fm = new FileManager();
+                FileManager fm = new FileManager(GlobalApplication.getAppContext());
                 Map<String, User> users = fm.readObject();
                 User user = users.get(username);
                 Map<Integer, String> opponents = user.getOpponents();

@@ -2,26 +2,28 @@ package fall2018.csc2017.GameCentre;
 
 import java.util.HashMap;
 
-public class ConnectFourScore implements Score
-{
-    private FileManager fm = new FileManager();
+public class ConnectFourScore implements Score {
+//    private FileManager fm = new FileManager();
+    private int gameIndex = 2;
 
     public ConnectFourScore(){
 
     }
+    // TODO: remove static here
     public int calculateUserScore(User user){
-        LoginManager lm = new LoginManager();
+        LoginManager lm = new LoginManager(GlobalApplication.getAppContext());
         int numMoves;
-        if(!(lm.getPersonLoggedIn().equals(user.getUsername()))){
-            HashMap<String, User> hm = fm.readObject();
-            assert hm != null;
-            User user1 = hm.get(lm.getPersonLoggedIn());//Gets the person logged in
-            System.out.println("The username seen by c4scorecalc is: "+user1.getUsername());
-            numMoves = user1.getNumMoves(2) - 2;//p2 requires 1 more move to win
-        }
-        else {
-            numMoves = user.getNumMoves(2) - 1;
-        }
+//        if(!(lm.getPersonLoggedIn().equals(user.getUsername()))){
+//            HashMap<String, User> hm = fm.readObject();
+//            assert hm != null;
+//            User user1 = hm.get(lm.getPersonLoggedIn());//Gets the person logged in
+//            System.out.println("The username seen by c4scorecalc is: "+user1.getUsername());
+//            numMoves = user1.getNumMoves(2) - 2;//p2 requires 1 more move to win
+//        }
+//        else {
+//            numMoves = user.getNumMoves(2) - 1;
+//        }
+        numMoves = user.getNumMoves(gameIndex);
         System.out.println("Number of moves before game over: "+numMoves);
         return Math.round(-4*(numMoves-7) + 1000);
     }

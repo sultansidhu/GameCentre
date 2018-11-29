@@ -53,8 +53,10 @@ public class BoardTest {
     {
         ShogiBoardManager bm = new ShogiBoardManager(6);
 
-        for(int i = 0;i<fromMoves.length;i++)
-            bm.touchMove(fromMoves[i], toMoves[i]);
+        for(int i = 0;i<fromMoves.length;i++) {
+            bm.setTileSelected(fromMoves[i]);
+            bm.touchMove(toMoves[i]);
+        }
         return bm;
     }
 

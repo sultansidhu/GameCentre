@@ -16,19 +16,18 @@ import java.util.Stack;
 public class FileManager implements Serializable {
 
     private HashMap<String, User> theHashMap = new HashMap<>();
+    private Context context;
 
-    public FileManager()
+    public FileManager(Context context)
     {
+        this.context = context;
         HashMap<String, User> HMfromfile = readObject();
-        if(HMfromfile != null)
-        {
+        if(HMfromfile != null) {
             this.theHashMap = HMfromfile;
         }
-        else
-        {
+        else {
             saveObject(new HashMap<String, User>());
         }
-
     }
     //public HashMap<String, User> readObject() {
         //return theHashMap;
@@ -54,8 +53,8 @@ public class FileManager implements Serializable {
         ObjectInputStream objectIn;
         try
         {
-            //fis = GlobalApplication.getAppContext().openFileInput("testFile.ser");
-            fis = GlobalApplication.getAppContext().openFileInput("testFile2.ser");
+            //fis = context.openFileInput("testFile.ser");
+            fis = context.openFileInput("testFile2.ser");
             objectIn = new ObjectInputStream(fis);
             @SuppressWarnings("unchecked")
             HashMap<String, User> hashMapFromFile = (HashMap<String, User>)objectIn.readObject();
@@ -120,8 +119,8 @@ public class FileManager implements Serializable {
 
         try
         {
-            //fos = GlobalApplication.getAppContext().openFileOutput("testFile.ser", Context.MODE_PRIVATE);
-            fos = GlobalApplication.getAppContext().openFileOutput("testFile2.ser", Context.MODE_PRIVATE);
+            //fos = context.openFileOutput("testFile.ser", Context.MODE_PRIVATE);
+            fos = context.openFileOutput("testFile2.ser", Context.MODE_PRIVATE);
             objectOut = new ObjectOutputStream(fos);
             objectOut.writeObject(hashMap);
             objectOut.close();

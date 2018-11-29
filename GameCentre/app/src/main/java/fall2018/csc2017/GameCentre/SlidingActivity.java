@@ -29,8 +29,8 @@ public class SlidingActivity extends GameActivity implements Observer {
     private SlidingGestureDetectGridView gridView;
     private static int columnWidth, columnHeight;
     private int gameIndex = 0;
-    private String username = new LoginManager().getPersonLoggedIn();
-    private FileManager fm = new FileManager();
+    private String username = new LoginManager(getApplicationContext()).getPersonLoggedIn();
+    private FileManager fm = new FileManager(getApplicationContext());
     private BoardManagerFactory bmFactory = new BoardManagerFactory();
 
     /**
@@ -85,7 +85,7 @@ public class SlidingActivity extends GameActivity implements Observer {
             {
                 User user = fm.getUser(username);
                 Stack<Board> userStack = user.getGameStack(gameIndex);
-                undoHelper(user, username, userStack, gameIndex);
+//                undoHelper(user, username, userStack, gameIndex);
                 boardManager = (SlidingBoardManager)bmFactory.getBoardManager(gameIndex, userStack.peek());
                 addBoardObserver();
                 display();
@@ -127,14 +127,6 @@ public class SlidingActivity extends GameActivity implements Observer {
             b.setBackgroundResource(board.getTile(row, col).getBackground());
             nextPos++;
         }
-    }
-
-    /**
-     * Dispatch onPause() to fragments.
-     */
-    @Override
-    protected void onPause() {
-        super.onPause();
     }
 
     /**

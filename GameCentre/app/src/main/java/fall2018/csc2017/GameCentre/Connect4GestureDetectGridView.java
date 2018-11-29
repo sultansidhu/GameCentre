@@ -50,7 +50,7 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView
     /**
     The file manager instance
      */
-    private FileManager fm = new FileManager();
+    private FileManager fm;
 
     private int gameIndex = 2;
 
@@ -60,7 +60,7 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView
     public Connect4GestureDetectGridView(Context context) {
         super(context);
         init(context);
-        LoginManager lm = new LoginManager();
+        LoginManager lm = new LoginManager(context);
         username = lm.getPersonLoggedIn();
     }
     /*
@@ -69,7 +69,7 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView
     public Connect4GestureDetectGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
-        LoginManager lm = new LoginManager();
+        LoginManager lm = new LoginManager(context);
         username = lm.getPersonLoggedIn();
     }
     /*
@@ -79,12 +79,13 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView
     public Connect4GestureDetectGridView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
-        LoginManager lm = new LoginManager();
+        LoginManager lm = new LoginManager(context);
         username = lm.getPersonLoggedIn();
     }
 
     private void init(final Context context) {
-        mController = new MovementController();
+        fm = new FileManager(context);
+        mController = new MovementController(context);
         gDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             /*
             This function is invoked on every tap of the user

@@ -308,6 +308,9 @@ public class ConnectFourBoardManager implements BoardManager {
                 break;
             }
             position = position - 1;
+            if (position % Board.NUM_COLS == Board.NUM_COLS - 1){
+                break;
+            }
             colNewlyAdded = position % Board.NUM_COLS;
         }
         return colorCounter;
@@ -332,6 +335,9 @@ public class ConnectFourBoardManager implements BoardManager {
                 break;
             }
             position = position + 1;
+            if (position % Board.NUM_COLS == 0){
+                break;
+            }
             colNewlyAdded = position % board.NUM_COLS;
             rowNewlyAdded = position / board.NUM_ROWS;
         }

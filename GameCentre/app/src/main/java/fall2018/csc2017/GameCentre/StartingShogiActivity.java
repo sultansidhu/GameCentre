@@ -13,12 +13,13 @@ public class StartingShogiActivity extends StartingActivity {
      * The board manager.
      */
     private ShogiBoardManager boardManager;
-    private int undoLimit =3;
+    private int undoLimit = 3;
     private int gameIndex = 1;
     private int size = 7;
-    private String username = new LoginManager().getPersonLoggedIn();
-    private FileManager fm = new FileManager();
+    private String username;
+    private FileManager fm;
     private BoardManagerFactory bmFactory = new BoardManagerFactory();
+    private UserManager userManager;
 
     /**
      * Creats start screen for sliding tiles with game options.
@@ -27,6 +28,10 @@ public class StartingShogiActivity extends StartingActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fm = new FileManager(this);
+        username = new LoginManager(this).getPersonLoggedIn();
+        userManager = new UserManager(this);
+        System.out.println("USERNAME: " + username);
         setContentView(R.layout.starting_hs);
         addStartButtonListener();
         addLoadButtonListener();
@@ -95,7 +100,7 @@ public class StartingShogiActivity extends StartingActivity {
                     undoLimit = -1;
                 } finally {
                     boardManager = (ShogiBoardManager) bmFactory.getBoardManager(gameIndex, size);
-                    setUserUndos(username, undoLimit, gameIndex, boardManager);
+                    userManager.setUserUndos(username, undoLimit, gameIndex, boardManager);
                     TextView p2username = findViewById(R.id.txtP2UsernameHS);
                     String p2usernameString = p2username.getText().toString().trim();
                     TextView p2password = findViewById(R.id.txtP2PasswordHS);
@@ -108,14 +113,11 @@ public class StartingShogiActivity extends StartingActivity {
     /**
      * Activate the load button.
      */
-    private void addLoadButtonListener()
-    {
+    private void addLoadButtonListener() {
         Button loadButton = findViewById(R.id.btnLoadGameHS);
-        loadButton.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View view)
-            {
-                onClickHelper(gameIndex, username);
+        loadButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                loadGame(gameIndex, username);
             }
         });
     }

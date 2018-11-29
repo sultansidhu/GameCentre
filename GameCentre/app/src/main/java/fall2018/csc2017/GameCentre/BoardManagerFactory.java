@@ -7,8 +7,7 @@
  ======================================================================== */
 package fall2018.csc2017.GameCentre;
 
-public class BoardManagerFactory
-{
+public class BoardManagerFactory {
 
     /***
      * Returns a new BoardManager for different games, based on size and gameIndex
@@ -18,10 +17,8 @@ public class BoardManagerFactory
      * @return an object of a class implementing BoardManager, depending on gameIndex
      * @throws null
      */
-    public BoardManager getBoardManager(int gameIndex, int size)
-    {
-        switch(gameIndex)
-        {
+    public BoardManager getBoardManager(int gameIndex, int size) {
+        switch(gameIndex) {
             case 0:
                 return new SlidingBoardManager(size);
             case 1:
@@ -41,10 +38,8 @@ public class BoardManagerFactory
      * @return an object of a class implementing BoardManager, depending on gameIndex
      */
 
-    public BoardManager getBoardManager(int gameIndex, Board board)
-    {
-        switch(gameIndex)
-        {
+    public BoardManager getBoardManager(int gameIndex, Board board) {
+        switch(gameIndex) {
             case 0:
                 return new SlidingBoardManager(board);
             case 1:

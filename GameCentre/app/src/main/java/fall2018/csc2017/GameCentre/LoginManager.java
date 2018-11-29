@@ -1,17 +1,19 @@
 package fall2018.csc2017.GameCentre;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import java.util.HashMap;
 public class LoginManager {
     private String personLoggedIn = null;
-    private FileManager f1;
+    private FileManager fm;
     private String p2LoggedIn = null;
+    private Context context;
 
-    public LoginManager()
-    {
-        this.f1 = new FileManager();
-        for(User user: f1.readObject().values())
+    public LoginManager(Context context) {
+        this.context = context;
+        this.fm = new FileManager(context);
+        for(User user: fm.readObject().values())
         {
             if(user.getLoggedIn())
             {
@@ -49,16 +51,16 @@ public class LoginManager {
             makeToast("You must enter username, password, and security answer!");
         else if (!password.equals(password2))
             makeToast("Passwords do not match!");
-        else if (f1.readObject().containsKey(username))
+        else if (fm.readObject().containsKey(username))
             makeToast("User Already Exists!");
         else {
             User newUser = new User(username, password, selQ, ans);
-            HashMap<String, User> hm = f1.readObject();
+            HashMap<String, User> hm = fm.readObject();
             hm.put(username, newUser);
 
-            f1.saveObject(hm);
+            fm.saveObject(hm);
 
-            f1.saveObject(setUsersLoggedOut(f1.readObject())); // logs all users out and saves
+            fm.saveObject(setUsersLoggedOut(fm.readObject())); // logs all users out and saves
             setLoggedInTrueAndSave(newUser); // changes loggedIn of current user to true and saves
 
             makeToast("Success!");
@@ -78,17 +80,17 @@ public class LoginManager {
 
     public boolean authenticate(String username, String password)
     {
-        if (!f1.readObject().containsKey(username))
+        if (!fm.readObject().containsKey(username))
             makeToast("User Does Not Exist!");
-        else if(!f1.readObject().get(username).getPassword().equals(password))
+        else if(!fm.readObject().get(username).getPassword().equals(password))
             makeToast("Password Rejected!");
         else{
-            f1.saveObject(setUsersLoggedOut(f1.readObject())); // logs all users out and saves
-            setLoggedInTrueAndSave(f1.readObject().get(username)); // sets the loggedIn of the current user to true and saves
+            fm.saveObject(setUsersLoggedOut(fm.readObject())); // logs all users out and saves
+            setLoggedInTrueAndSave(fm.readObject().get(username)); // sets the loggedIn of the current user to true and saves
 
             personLoggedIn = username;
             makeToast("Logging in...");
-            f1.saveObject(f1.readObject());
+            fm.saveObject(fm.readObject());
             return true;
         }
         return false;
@@ -105,19 +107,19 @@ public class LoginManager {
 
     public boolean authenticateP2(String username, String password)
     {
-        if (!f1.readObject().containsKey(username))
+        if (!fm.readObject().containsKey(username))
         {
             makeToast("User Does Not Exist!");
             return false;
         }
-        else if(!f1.readObject().get(username).getPassword().equals(password))
+        else if(!fm.readObject().get(username).getPassword().equals(password))
         {
             makeToast("Password Rejected!");
             return false;
         }
         else {
             System.out.println("PRINTING AFTER PLAYER TWO HAS LOGGED IN");
-            printPlayerLoggedInStatus(f1.readObject());
+            printPlayerLoggedInStatus(fm.readObject());
             return true;
         }
     }
@@ -160,9 +162,9 @@ public class LoginManager {
 
     public void setLoggedInTrueAndSave(User user)
     {
-        HashMap<String, User> hm = f1.readObject();
+        HashMap<String, User> hm = fm.readObject();
         hm.get(user.getUsername()).setLoggedIn(true);
-        f1.saveObject(hm);
+        fm.saveObject(hm);
     }
 
     /**
@@ -172,7 +174,7 @@ public class LoginManager {
 
     public void makeToast(String textToDisplay)
     {
-        Toast.makeText(GlobalApplication.getAppContext(), textToDisplay, Toast.LENGTH_LONG).show();//TODO: Make GlobalApplication not static
+        Toast.makeText(context, textToDisplay, Toast.LENGTH_LONG).show();//TODO: Make GlobalApplication not static
     }
 
 }

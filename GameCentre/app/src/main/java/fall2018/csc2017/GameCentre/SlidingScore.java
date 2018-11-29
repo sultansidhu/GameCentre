@@ -14,9 +14,10 @@ class SlidingScore implements Score
     /**
      * The constructor for this class, which intiailizes the fm object
      */
+    // TODO: remove static here
     public SlidingScore()
     {
-        fm = new FileManager();
+        fm = new FileManager(GlobalApplication.getAppContext());
     }
 
     /**
