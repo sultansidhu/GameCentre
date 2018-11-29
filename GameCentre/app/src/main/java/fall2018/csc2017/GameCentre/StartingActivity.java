@@ -55,7 +55,7 @@ public class StartingActivity extends AppCompatActivity
      */
     public void switchToScoreboardScreen() {
         Intent intent = new Intent(this, ScoreboardActivity.class);
-        LoginManager lm = new LoginManager();
+        LoginManager lm = new LoginManager(this);
         String username = lm.getPersonLoggedIn();
         intent.putExtra("username", username);
         startActivity(intent);

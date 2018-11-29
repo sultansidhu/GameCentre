@@ -17,7 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class LeaderBoardActivity extends AppCompatActivity {
-    private FileManager fm = new FileManager(getApplicationContext());
+    private FileManager fm = new FileManager(GlobalApplication.getAppContext()); // getApplicationContext()
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

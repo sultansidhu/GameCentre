@@ -99,8 +99,15 @@ class MovementController {
             int[] result = sc.updateUserHighScore(winner, gameIndex);
             switchToScoreboardScreen(context, result, winner);
             System.out.println("LE RESULT ISCH ------------- : " + result);
+
+
         }
     }
+
+//    public void switchToGlobalScores(){
+//        Intent intent = new Intent(GlobalApplication.getAppContext(), LeaderBoardActivity.class);
+//        startActivity(intent);
+//    }
 
     private String getWinnerUsername(int gameIndex){
         // get the winning player (current player in the bm)
