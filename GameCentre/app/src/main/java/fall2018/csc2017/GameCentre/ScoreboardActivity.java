@@ -28,6 +28,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.Collections.max;
 
@@ -45,6 +46,8 @@ public class ScoreboardActivity extends AppCompatActivity
     TextView hasamiScore;
     TextView connect4Score;
     TextView sessionScore;
+
+    String winner;
     /**
     Called when the scoreboard button is pressed, or when the user completes a game.
     Displays high scores in a list format.
@@ -61,14 +64,16 @@ public class ScoreboardActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        String currentUsername = new LoginManager().getPersonLoggedIn();
-        assert currentUsername != null;
+        String winnerUsername = getIntent().getStringExtra("username");//new LoginManager().getPersonLoggedIn();
+        System.out.println("THE WINNERS USERNAME IS --------------%%%%%%%%%%%% -------------" + winnerUsername);
+        assert winnerUsername != null;
+        winner = winnerUsername;
         int[] results = getIntent().getIntArrayExtra("results");
         if (results == null) {//Coming from starting Activity
             results = new int[3];
-            results[0] = getSlidingScoreLocal(currentUsername);
-            results[1] = getHasamiScoreLocal(currentUsername);
-            results[2] = getConnect4ScoreLocal(currentUsername);
+            results[0] = getSlidingScoreLocal(winnerUsername);
+            results[1] = getHasamiScoreLocal(winnerUsername);
+            results[2] = getConnect4ScoreLocal(winnerUsername);
         }
         System.out.println("Results is: ");
         System.out.println(results);
@@ -105,7 +110,6 @@ public class ScoreboardActivity extends AppCompatActivity
 
         addResetScoresButtonListener();
         addGoToGameListListener();
-        addGoToGlobalScoresListener();
     }
     public void generateScoreRow(String username){
         HashMap<String, User> users = fm.readObject();
@@ -150,15 +154,24 @@ private void addGoToGlobalScoresListener(){
         resetScores.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoginManager lm = new LoginManager();
-                String username = lm.getPersonLoggedIn();
                 FileManager fm = new FileManager();
-                User user = fm.readObject().get(username);
+                HashMap <String, User> users = fm.readObject();
+                User user = users.get(winner);
+
                 user.resetScoreHashmapForAllGames();
-                //resetAllScores();
+                users.put(winner, user);
+
+                fm.saveObject(users);
+                updateResetScores();
                 Toast.makeText(GlobalApplication.getAppContext(), "Scores for "+user.getUsername()+" are reset!", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void updateResetScores(){
+        slidingScore.setText("Sliding Tiles: 0");
+        hasamiScore.setText("Hasami Shogi: 0");
+        connect4Score.setText("Connect 4: 0");
     }
 
     private void addGoToGameListListener(){
@@ -193,7 +206,7 @@ private void addGoToGlobalScoresListener(){
         if (scoreList.size() == 0){
             maxScore = 0;
         } else {
-            maxScore = (int) max(scoreList);
+            maxScore = (int) Collections.max(scoreList);
         }
         if (maxScore > 0 && scoreList.size() != 0){
             return maxScore;
@@ -213,7 +226,7 @@ private void addGoToGlobalScoresListener(){
         if (scoreList.size() == 0) {
             maxScore = 0;
         } else {
-            maxScore = (int) max(scoreList);
+            maxScore = (int) Collections.max(scoreList);
         }
         if (maxScore > 0 && scoreList.size() != 0){
             return maxScore;
@@ -232,7 +245,7 @@ private void addGoToGlobalScoresListener(){
         if (scoreList.size() == 0){
             maxScore = 0;
         } else {
-            maxScore = (int) max(scoreList);
+            maxScore = (int) Collections.max(scoreList);
         }
         if (maxScore > 0 && scoreList.size() != 0){
             return maxScore;
@@ -289,7 +302,6 @@ private void addGoToGlobalScoresListener(){
         //System.out.println("USERNAME IS "+username);
         return result;
         }
-        //TODO: This method does two things; we need tw0 separate methods here.
 
         // TODO: DISPLAY STUFF ON THE SCOREBOARD CUZ OTHERWISE WE FCKED UP BOY
 

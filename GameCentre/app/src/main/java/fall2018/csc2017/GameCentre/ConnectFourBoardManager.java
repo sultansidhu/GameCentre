@@ -57,8 +57,10 @@ public class ConnectFourBoardManager implements BoardManager {
     public void switchPlayer(){
         if (this.currentPlayer == 1){
             this.currentPlayer = 2;
+            this.board.setCurrPlayer(2);
         } else {
             this.currentPlayer = 1;
+            this.board.setCurrPlayer(1);
         }
     }
 
@@ -132,10 +134,10 @@ public class ConnectFourBoardManager implements BoardManager {
         int leftDiagDown = checkLeftDiagDown(currentPlayerID, position);
         int rightDiagUp = checkRightDiagUp(currentPlayerID, position);
         int rightDiagDown = checkRightDiagDown(currentPlayerID, position);
-        System.out.println("right diagonal down: ---------------- " + rightDiagDown );
-        System.out.println("right diagonal up: ---------------- " + rightDiagUp);
-        System.out.println("left diagonal down: ---------------- " + leftDiagDown);
-        System.out.println("left diagonal up: ---------------- " + leftDiagUp);
+//        System.out.println("right diagonal down: ---------------- " + rightDiagDown );
+//        System.out.println("right diagonal up: ---------------- " + rightDiagUp);
+//        System.out.println("left diagonal down: ---------------- " + leftDiagDown);
+//        System.out.println("left diagonal up: ---------------- " + leftDiagUp);
         return ((leftDiagDown + leftDiagUp - 1) > 3) || ((rightDiagDown + rightDiagUp - 1) > 3); // changed to 2 from 1
     }
 
