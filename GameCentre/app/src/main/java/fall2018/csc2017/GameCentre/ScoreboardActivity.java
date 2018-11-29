@@ -265,7 +265,11 @@ private void addGoToGlobalScoresListener(){
         User user = users.get(username);
         //setScores(username); // todo: instead of calling this make three calls
 
-        newScore = scoreFactory.getScore(gameIndex).calculateUserScore(user);
+        //newScore = scoreFactory.getScore(gameIndex).calculateUserScore(, user.getGameStack(gameIndex).peek());
+        Score s1 = scoreFactory.getScore(gameIndex);
+        s1.setBoard(user.getGameStack(gameIndex).peek());
+        newScore = s1.calculateUserScore(user.getNumMoves(gameIndex), user.getGameStack(gameIndex).peek().NUM_COLS);
+
         user.addSessionScore(newScore, gameIndex);
 
         assert newScore >= 0;
