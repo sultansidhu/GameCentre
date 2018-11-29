@@ -98,6 +98,22 @@ public class ScoreboardActivity extends AppCompatActivity
         });
     }
 
+    private void addGoToGameListListener(){
+        Button gameListButton = findViewById(R.id.goToGameList);
+        //gameListButton.setOnClickListener();
+        gameListButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                goToGameList();
+            }
+        });
+
+    }
+
+    public void goToGameList(){
+      // TODO: COMPLETE THIS
+    }
+
 
     public void updateUserHighScore(String username, int gameIndex)
     {
@@ -132,4 +148,7 @@ public class ScoreboardActivity extends AppCompatActivity
         System.out.println("Checking high score got saved to file....");
         System.out.println(user2.getHighestScore(gameIndex));
         }
+
+        // TODO: DISPLAY STUFF ON THE SCOREBOARD CUZ OTHERWISE WE FCKED UP BOY
+
 }

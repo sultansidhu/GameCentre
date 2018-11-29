@@ -122,7 +122,12 @@ public class MainActivity extends AppCompatActivity {
                     final String userToGetPassword = fieldUsername.getText().toString().trim();
                     TextView answerGiven = findViewById(R.id.field_answer);
                     final String answer = answerGiven.getText().toString().trim();
-                    forgotPassword(userToGetPassword, answer);
+                    if (answer.equals("")){
+                        Toast.makeText(GlobalApplication.getAppContext(), "Please fill in your username in the login section and fill in the answer to the appropriate question, then press this button to obtain password!", Toast.LENGTH_LONG).show();
+                    } else {
+                        forgotPassword(userToGetPassword, answer);
+                    }
+
                 }
                 catch(NullPointerException e){//This exception catches if the username entered does not exist
                     makeToast("You must enter in a valid username!");
