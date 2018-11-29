@@ -78,7 +78,7 @@ public class ScoreboardActivity extends AppCompatActivity
         System.out.println("Results is: ");
         System.out.println(results);
         //String currentUsername = getIntent().getStringExtra("username");
-        System.out.println("USERNAME NOW IS : " + currentUsername);
+        //System.out.println("USERNAME NOW IS : " + currentUsername);
         System.out.println("THE RESULTS NOW ARE: ----------------------------" + results);
         setContentView(R.layout.scoreboard);
         scoresList = new StringBuilder();
