@@ -56,10 +56,20 @@ public class ScoreboardActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        String currentUsername = new LoginManager().getPersonLoggedIn();
+        assert currentUsername != null;
         int[] results = getIntent().getIntArrayExtra("results");
-        String currentUsername = getIntent().getStringExtra("username");
-        //System.out.println("USERNAME NOW IS : " + currentUsername);
-        //System.out.println("THE RESULTS NOW ARE: ----------------------------" + results);
+        if (results == null) {
+            results = new int[3];
+            results[0] = getSlidingScoreLocal(currentUsername);
+            results[1] = getHasamiScoreLocal(currentUsername);
+            results[2] = getConnect4ScoreLocal(currentUsername);
+        }
+        System.out.println("Results is: ");
+        System.out.println(results);
+        //String currentUsername = getIntent().getStringExtra("username");
+        System.out.println("USERNAME NOW IS : " + currentUsername);
+        System.out.println("THE RESULTS NOW ARE: ----------------------------" + results);
         setContentView(R.layout.scoreboard);
         scoresList = new StringBuilder();
         slidingScore = findViewById(R.id.slidingTilesScoreViewer);
@@ -80,7 +90,13 @@ public class ScoreboardActivity extends AppCompatActivity
         slidingScore.setText("Sliding Tiles: "+ String.valueOf(results[0]));
         hasamiScore.setText("Hasami Shogi: "+ String.valueOf(results[1]));
         connect4Score.setText("Connect 4: "+ String.valueOf(results[2]));
-        sessionScore.setText("Your Score: " + String.valueOf(results[3]));
+        try {
+            sessionScore.setText("Your Score: " + String.valueOf(results[3]));
+        }
+        catch(IndexOutOfBoundsException e){
+            System.out.println("You came from the StartingActivity screen, so no recent score.");
+            sessionScore.setText("Your Score: " + "<N/A>");
+        }
 
         addResetScoresButtonListener();
         addGoToGameListListener();
