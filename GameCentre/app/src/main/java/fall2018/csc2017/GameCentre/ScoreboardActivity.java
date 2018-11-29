@@ -24,6 +24,7 @@ import org.w3c.dom.Text;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -104,10 +105,7 @@ public class ScoreboardActivity extends AppCompatActivity
 
         addResetScoresButtonListener();
         addGoToGameListListener();
-        ////////////////////////////TESTING PURPOSES////////////////////////////////////////////////
-        getGlobalScores(2);
-        getGlobalScores(1);
-        ////////////////////////////TESTING PURPOSES////////////////////////////////////////////////
+        addGoToGlobalScoresListener();
     }
     public void generateScoreRow(String username){
         HashMap<String, User> users = fm.readObject();
@@ -124,35 +122,23 @@ public class ScoreboardActivity extends AppCompatActivity
 //        }
 //        scoresList.append("\n");
     }
-    public void getGlobalScores(int gameIndex){
-        HashMap<String, User> users = fm.readObject();
-        Iterator it = users.entrySet().iterator();
-        ArrayList threeHighScores = new ArrayList();
-        Object[] currHS = new Object[2];
-        currHS[0] = "blank";
-        currHS[1] = -1;
-        while(it.hasNext()){
-            HashMap.Entry pair = (HashMap.Entry)it.next();
-            System.out.println(pair.getKey() + " = " + pair.getValue());
-            User u = (User)pair.getValue();
-            ArrayList<Integer> highScores = u.getHighestScore(gameIndex);
-            int score;
-            if (highScores.size() == 0){
-                score = 0;
-            }
-            else {
-                score = Collections.max(highScores);
-            }
-            if(score > (int)currHS[1]){
-                currHS[0] = pair.getKey();
-                currHS[1] = score;
-            }
-        }
-        threeHighScores.add(currHS);
-        System.out.println("The current game "+ gameIndex+ " high score is "+ currHS[1] + " achieved by "+currHS[0]);
-        System.out.println(currHS);
 
+private void addGoToGlobalScoresListener(){
+        Button globalScores = findViewById(R.id.goToGlobalScores);
+        globalScores.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToGlobalScores();
+            }
+        });
+}
+
+    private void goToGlobalScores() {
+        Intent intent = new Intent(this, LeaderBoardActivity.class);
+        startActivity(intent);
     }
+
+    public void appendHighScore(int gameIndex){}
 
     /*
     Adds a reset scores button listener which calls a method to set all user high scores to 0.
