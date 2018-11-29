@@ -97,8 +97,9 @@ class MovementController {
         if (boardManager.puzzleSolved()) {
             Toast.makeText(context, "YOU WIN!", Toast.LENGTH_SHORT).show();
             ScoreboardActivity sc = new ScoreboardActivity();
-            sc.updateUserHighScore(username, gameIndex);
-            switchToScoreboardScreen(context);
+            int[] result = sc.updateUserHighScore(username, gameIndex);
+            switchToScoreboardScreen(context, result, username);
+            System.out.println("LE RESULT ISCH ------------- : " + result);
         }
     }
 
@@ -106,9 +107,11 @@ class MovementController {
     /*
     Switches to the scoreboard screen if a game is won
      */
-    public void switchToScoreboardScreen(Context context)
+    public void switchToScoreboardScreen(Context context, int[] results, String username)
     {
         Intent tmp = new Intent(context, ScoreboardActivity.class);
+        tmp.putExtra("results", results);
+        tmp.putExtra("username", username);
         context.startActivity(tmp);
     }
 }

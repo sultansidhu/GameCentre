@@ -37,7 +37,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.41"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/connect4View"
+        app:layout_constraintTop_toBottomOf="@+id/connect4ScoreViewer"
         tools:ignore="HardcodedText" />
 
     <Button
@@ -70,16 +70,16 @@
 
     <TextView
         android:id="@+id/currentScoreViewer"
-        android:layout_width="124dp"
+        android:layout_width="336dp"
         android:layout_height="36dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="41dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="11dp"
         android:text="Your Score: "
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/topScoreHeader"
-        app:layout_constraintEnd_toStartOf="@+id/sessionScoreView"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView5" />
@@ -88,16 +88,12 @@
         android:id="@+id/sessionScoreView"
         android:layout_width="35dp"
         android:layout_height="40dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="41dp"
-        android:layout_marginEnd="185dp"
         android:layout_marginBottom="7dp"
-        android:text="0"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/topScoreHeader"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/currentScoreViewer"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView5"
+        tools:layout_editor_absoluteX="317dp" />
 
     <TextView
         android:id="@+id/topScoreHeader"
@@ -109,95 +105,53 @@
         android:layout_marginBottom="20dp"
         android:text="Your Top Scores:"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/slidingTilesScore"
+        app:layout_constraintBottom_toTopOf="@+id/slidingTilesScoreViewer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sessionScoreView" />
 
     <TextView
-        android:id="@+id/slidingTilesScore"
-        android:layout_width="159dp"
-        android:layout_height="36dp"
+        android:id="@+id/slidingTilesScoreViewer"
+        android:layout_width="335dp"
+        android:layout_height="35dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="193dp"
+        android:layout_marginEnd="25dp"
         android:layout_marginBottom="8dp"
         android:text="Sliding Tiles :"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/hasamiShogiView"
+        app:layout_constraintBottom_toTopOf="@+id/hasamiShogiScoreViewer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topScoreHeader" />
-
-    <TextView
-        android:id="@+id/hasamiShogiView"
-        android:layout_width="164dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="27dp"
-        android:layout_marginEnd="193dp"
-        android:layout_marginBottom="3dp"
-        android:text="Hasami Shogi :"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/connect4View"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/slidingTilesScore" />
-
-    <TextView
-        android:id="@+id/connect4View"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="31dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="233dp"
-        android:layout_marginBottom="7dp"
-        android:text="Connect 4 :"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/resetScores"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hasamiShogiView" />
-
-    <TextView
-        android:id="@+id/slidingTilesScoreViewer"
-        android:layout_width="31dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="34dp"
-        android:layout_marginEnd="173dp"
-        android:text="0"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/slidingTilesScore"
         app:layout_constraintTop_toBottomOf="@+id/topScoreHeader" />
 
     <TextView
         android:id="@+id/hasamiShogiScoreViewer"
-        android:layout_width="30dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="147dp"
-        android:text="0"
+        android:layout_width="334dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginEnd="23dp"
+        android:layout_marginBottom="3dp"
+        android:text="Hasami Shogi :"
         android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/connect4ScoreViewer"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/hasamiShogiView"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/slidingTilesScoreViewer" />
 
     <TextView
         android:id="@+id/connect4ScoreViewer"
-        android:layout_width="40dp"
+        android:layout_width="336dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="181dp"
-        android:layout_marginBottom="12dp"
-        android:text="0"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="7dp"
+        android:text="Connect 4: "
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/resetScores"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/connect4View"
-        app:layout_constraintTop_toBottomOf="@+id/hasamiShogiView" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hasamiShogiScoreViewer" />
 
 </android.support.constraint.ConstraintLayout>
