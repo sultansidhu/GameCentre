@@ -14,12 +14,12 @@ public class SlidingBoardManager implements BoardManager, Serializable {
      * The board being managed.
      */
     private Board board;
+    public String opponent;
 
     /**
      * This constructor takes a Board object and sets it equal to the class' attribute board
      * @param board, a board object representing the board
      */
-    public String opponent;
 
     public SlidingBoardManager(Board board) {
         this.board = board;

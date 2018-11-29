@@ -25,6 +25,7 @@ import java.lang.reflect.Array;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 //import static fall2018.csc2017.GameCentre.MovementController.username;
 
@@ -132,9 +133,16 @@ public class ScoreboardActivity extends AppCompatActivity
                 User user = fm.readObject().get(username);
                 user.resetScoreHashmapForAllGames();
                 //resetAllScores();
+                updateResetScores(username);
                 Toast.makeText(GlobalApplication.getAppContext(), "Scores for "+user.getUsername()+" are reset!", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void updateResetScores(String username){
+        slidingScore.setText("Sliding Tiles: 0");
+        hasamiScore.setText("Hasami Shogi: 0");
+        connect4Score.setText("Connect 4: 0");
     }
 
     private void addGoToGameListListener(){
