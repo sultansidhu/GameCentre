@@ -142,7 +142,7 @@ private void addGoToGlobalScoresListener(){
 }
 
     private void goToGlobalScores() {
-        Intent intent = new Intent(GlobalApplication.getAppContext(), LeaderBoardActivity.class);
+        Intent intent = new Intent(this, LeaderBoardActivity.class);
         startActivity(intent);
     }
 
@@ -259,21 +259,17 @@ private void addGoToGlobalScoresListener(){
 
     public int[] updateUserHighScore(String username, int gameIndex)
     {
-        if (username.equals("Guest")){
-            goToGlobalScores();
-        }
+        int[] result = new int[4];
+        int newScore = -1;
+        HashMap<String, User> users = fm.readObject();
+        assert users != null;
+        User user = users.get(username);
+        //setScores(username); // todo: instead of calling this make three calls
 
-            int[] result = new int[4];
-            int newScore = -1;
-            HashMap<String, User> users = fm.readObject();
-            assert users != null;
-            User user = users.get(username);
-            //setScores(username); // todo: instead of calling this make three calls
+        newScore = scoreFactory.getScore(gameIndex).calculateUserScore(user);
+        user.addSessionScore(newScore, gameIndex);
 
-            newScore = scoreFactory.getScore(gameIndex).calculateUserScore(user);
-            user.addSessionScore(newScore, gameIndex);
-
-            assert newScore >= 0;
+        assert newScore >= 0;
 
 //            if (newScore > user.getHighestScore(gameIndex)) {
 //                System.out.println("new score is "+newScore + " AND THE HIGHEST SCORE IS "+user.getHighestScore(1));
@@ -288,7 +284,7 @@ private void addGoToGlobalScoresListener(){
 //                    Context context = GlobalApplication.getAppContext();
 //                    Toast.makeText(context, username+" won with a score of " + newScore, Toast.LENGTH_SHORT).show();
 //                }
-            fm.saveObject(users);
+        fm.saveObject(users);
 //        //System.out.println("Session score: "+newScore);
 //        HashMap<String, User> users2 = fm.readObject();
 //        assert users != null;
@@ -297,22 +293,16 @@ private void addGoToGlobalScoresListener(){
 //        //System.out.println("Checking high score got saved to file....");
 //        //System.out.println(user2.getHighestScore(gameIndex));
 //        user2.addSessionScore(newScore, gameIndex);
-            System.out.println("THE ARRAY OF THE SESSION SCORES IS DISPLAYED HERE: ");
-            user.printAllSessionScores();
+        System.out.println("THE ARRAY OF THE SESSION SCORES IS DISPLAYED HERE: ");
+        user.printAllSessionScores();
 
-            result[0] = getSlidingScoreLocal(username);
-            result[1] = getHasamiScoreLocal(username);
-            result[2] = getConnect4ScoreLocal(username);
-            result[3] = newScore;
-            //System.out.println("USERNAME IS "+username);
-            return result;
-
-    }
-
-    public void switchToGlobalScores(){
-        Intent intent = new Intent(GlobalApplication.getAppContext(), LeaderBoardActivity.class);
-        startActivity(intent);
-    }
+        result[0] = getSlidingScoreLocal(username);
+        result[1] = getHasamiScoreLocal(username);
+        result[2] = getConnect4ScoreLocal(username);
+        result[3] = newScore;
+        //System.out.println("USERNAME IS "+username);
+        return result;
+        }
 
         // TODO: DISPLAY STUFF ON THE SCOREBOARD CUZ OTHERWISE WE FCKED UP BOY
 
