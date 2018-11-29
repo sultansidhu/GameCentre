@@ -4,13 +4,14 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
 public class ShogiBoardManagerTest {
 
-    private ArrayList<Integer> tilesSelected;
-    private ArrayList<Integer> targetTiles;
+    private int[] tilesSelected;
+    private int[] targetTiles;
 
     @Test
     public void getBoard() {
@@ -48,14 +49,6 @@ public class ShogiBoardManagerTest {
         bm = makeMidGameBoard();
         bm.setTileSelected(43);
         assertTrue(bm.isValidTap(36));
-    }
-
-    @Test
-    public void isValidTap1() {
-    }
-
-    @Test
-    public void touchMove1() {
     }
 
     @Test
@@ -117,8 +110,19 @@ public class ShogiBoardManagerTest {
         bm.touchMove(30);
         assertFalse(bm.getChanged());
         bm.setTileSelected(43);
-        bm.touchMove(36);
+        bm.touchMove(35);
+        assertFalse(bm.getChanged());
+        bm = makeOneMoveBoard();
+        setTilesSelected(new int[]{44,3,48,24,42,6,43,1,44,5,14});
+        setTargetTiles(new int[]{23,24,20,27,14,13,44,8,23,12,21});
+        makeMoves(bm);
         assertTrue(bm.getChanged());
+        bm = makeOneMoveBoard();
+        setTilesSelected(new int[]{48,22,47,0,33});
+        setTargetTiles(new int[]{20,27,33,7,34});
+        makeMoves(bm);
+        assertTrue(bm.getChanged());
+
     }
 
     @Test
@@ -133,7 +137,7 @@ public class ShogiBoardManagerTest {
 //        ShogiBoardManager bm = new ShogiBoardManager(7);
 //        bm.setTileSelected(5);
 //        bm.touchMove(12);
-//        assertEquals(0, bm.checkCapturedUp(12));
+//        assertEquals(0, bm.checkCapturedUp(12});
 //    }
 
 
@@ -145,15 +149,15 @@ public class ShogiBoardManagerTest {
     }
     public ShogiBoardManager makeMidGameBoard(){
         ShogiBoardManager bm = new ShogiBoardManager(7);
-        tilesSelected = new ArrayList<>(Arrays.asList(1,46,2,42,3,48,4));
-        targetTiles = new ArrayList<>(Arrays.asList(22,32,23,21,24,41,25));
-        return makeMoves(bm, tilesSelected, targetTiles);
+        setTilesSelected(new int[]{1,46,2,42,3,48,4});
+        setTargetTiles(new int[]{22,32,23,21,24,41,25});
+        return makeMoves(bm);
     }
     public ShogiBoardManager makeOneMoveAwayforRed(){
         ShogiBoardManager bm = new ShogiBoardManager(7);
-        tilesSelected = new ArrayList<>(Arrays.asList(1,46,2,42,3,48,4,43,5,41,6,44,1));
-        targetTiles = new ArrayList<>(Arrays.asList(22,32,23,21,24,41,25,36,26,27,1,43,29));
-        return makeMoves(bm, tilesSelected, targetTiles);
+        setTilesSelected(new int[]{1,46,2,42,3,48,4,43,5,41,6,44,1});
+        setTargetTiles(new int[]{22,32,23,21,24,41,25,36,26,27,1,43,29});
+        return makeMoves(bm);
         //bm.touchMove(21, 22); <-- Winning move for red
     }
     public ShogiBoardManager makeRedIsWinner(){
@@ -165,9 +169,9 @@ public class ShogiBoardManagerTest {
 
     public ShogiBoardManager makeOneMoveAwayforBlack() {
         ShogiBoardManager bm = new ShogiBoardManager(6);
-        tilesSelected = new ArrayList<>(Arrays.asList(4,33,0,31,3,32,6,34,9,30,1,24));
-        targetTiles = new ArrayList<>(Arrays.asList(16,15,6,13,9,14,12,22,33,24,19,28));
-        return makeMoves(bm, tilesSelected, targetTiles);
+        setTilesSelected(new int[]{4,33,0,31,3,32,6,34,9,30,1,24});
+        setTargetTiles(new int[]{16,15,6,13,9,14,12,22,33,24,19,28});
+        return makeMoves(bm);
     }
 
     public ShogiBoardManager makeBlackisWinner() {
@@ -177,11 +181,20 @@ public class ShogiBoardManagerTest {
         return bm;
     }
 
-    public ShogiBoardManager makeMoves(ShogiBoardManager bm, ArrayList<Integer> tilesSelected, ArrayList<Integer> targetTiles) {
-        for (int i=0; i < tilesSelected.size(); i++) {
-            bm.setTileSelected(tilesSelected.get(i));
-            bm.touchMove(targetTiles.get(i));
+    public ShogiBoardManager makeMoves(ShogiBoardManager bm) {
+        for (int i=0; i < tilesSelected.length; i++) {
+            bm.setTileSelected(tilesSelected[i]);
+            bm.touchMove(targetTiles[i]);
         }
         return bm;
+    }
+
+
+    public void setTilesSelected(int[] tilesSelected) {
+        this.tilesSelected = tilesSelected;
+    }
+
+    public void setTargetTiles(int[] targetTiles) {
+        this.targetTiles = targetTiles;
     }
 }
