@@ -41,6 +41,8 @@ public class ScoreboardActivity extends AppCompatActivity
     TextView hasamiScore;
     TextView connect4Score;
     TextView sessionScore;
+
+    String winner;
     /**
     Called when the scoreboard button is pressed, or when the user completes a game.
     Displays high scores in a list format.
@@ -57,19 +59,21 @@ public class ScoreboardActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        String currentUsername = new LoginManager().getPersonLoggedIn();
-        assert currentUsername != null;
+        String winnerUsername = getIntent().getStringExtra("username");//new LoginManager().getPersonLoggedIn();
+        System.out.println("THE WINNERS USERNAME IS --------------%%%%%%%%%%%% -------------" + winnerUsername);
+        assert winnerUsername != null;
+        winner = winnerUsername;
         int[] results = getIntent().getIntArrayExtra("results");
         if (results == null) {
             results = new int[3];
-            results[0] = getSlidingScoreLocal(currentUsername);
-            results[1] = getHasamiScoreLocal(currentUsername);
-            results[2] = getConnect4ScoreLocal(currentUsername);
+            results[0] = getSlidingScoreLocal(winnerUsername);
+            results[1] = getHasamiScoreLocal(winnerUsername);
+            results[2] = getConnect4ScoreLocal(winnerUsername);
         }
         System.out.println("Results is: ");
         System.out.println(results);
-        //String currentUsername = getIntent().getStringExtra("username");
-        System.out.println("USERNAME NOW IS : " + currentUsername);
+//        String winner = getIntent().getStringExtra("username");
+//        System.out.println("USERNAME NOW IS : " + currentUsername);
         System.out.println("THE RESULTS NOW ARE: ----------------------------" + results);
         setContentView(R.layout.scoreboard);
         scoresList = new StringBuilder();
@@ -79,13 +83,13 @@ public class ScoreboardActivity extends AppCompatActivity
         sessionScore = findViewById(R.id.currentScoreViewer);
         HashMap<String, User> users = fm.readObject();
         assert users != null;
-        String username;
-
-        for (HashMap.Entry<String, User> entry : users.entrySet()) {
-            username = entry.getKey();
-            generateScoreRow(username);
-
-        }
+//        String username;
+//
+//        for (HashMap.Entry<String, User> entry : users.entrySet()) {
+//            username = entry.getKey();
+//            generateScoreRow(username);
+//
+//        }
         //scoresDisplay.setText(scoresList);
         fm.saveObject(users);
         slidingScore.setText("Sliding Tiles: "+ String.valueOf(results[0]));
@@ -127,19 +131,26 @@ public class ScoreboardActivity extends AppCompatActivity
         resetScores.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoginManager lm = new LoginManager();
-                String username = lm.getPersonLoggedIn();
+//                LoginManager lm = new LoginManager();
+//                String username = lm.getPersonLoggedIn();
                 FileManager fm = new FileManager();
-                User user = fm.readObject().get(username);
+                HashMap <String, User> users = fm.readObject();
+                User user = users.get(winner);
+
+
+                // access the correct user here, you only need the winning listener in this place
                 user.resetScoreHashmapForAllGames();
+                users.put(winner, user);
+
+                fm.saveObject(users);
                 //resetAllScores();
-                updateResetScores(username);
+                updateResetScores();
                 Toast.makeText(GlobalApplication.getAppContext(), "Scores for "+user.getUsername()+" are reset!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    public void updateResetScores(String username){
+    public void updateResetScores(){
         slidingScore.setText("Sliding Tiles: 0");
         hasamiScore.setText("Hasami Shogi: 0");
         connect4Score.setText("Connect 4: 0");
