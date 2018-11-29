@@ -37,7 +37,6 @@ public class GestureDetectGridView extends GridView {
 
     private String username;
 
-    private FileManager fm = new FileManager();
 
     /*
     Overloaded Constructor that takes a Context
@@ -45,7 +44,7 @@ public class GestureDetectGridView extends GridView {
     public GestureDetectGridView(Context context) {
         super(context);
         init(context);
-        LoginManager lm = new LoginManager();
+        LoginManager lm = new LoginManager(context);
         username = lm.getPersonLoggedIn();
     }
 
@@ -55,7 +54,7 @@ public class GestureDetectGridView extends GridView {
     public GestureDetectGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
-        LoginManager lm = new LoginManager();
+        LoginManager lm = new LoginManager(context);
         username = lm.getPersonLoggedIn();
     }
     /*
@@ -65,7 +64,7 @@ public class GestureDetectGridView extends GridView {
     public GestureDetectGridView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
-        LoginManager lm = new LoginManager();
+        LoginManager lm = new LoginManager(context);
         username = lm.getPersonLoggedIn();
     }
     /*
@@ -73,7 +72,7 @@ public class GestureDetectGridView extends GridView {
     */
 
     private void init(final Context context) {
-        mController = new MovementController();
+        mController = new MovementController(context);
         gDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             /*
             This function is invoked on every tap of the user

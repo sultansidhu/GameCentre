@@ -28,9 +28,10 @@ public class StartingSlidingActivity extends StartingActivity {
     private int undoLimit;
     private int gameIndex = 0;
     private int size;
-    private String username = new LoginManager().getPersonLoggedIn();
-    private FileManager fm = new FileManager();
+    private String username = new LoginManager(getApplicationContext()).getPersonLoggedIn();
+    private FileManager fm = new FileManager(getApplicationContext());
     private BoardManagerFactory bmFactory = new BoardManagerFactory();
+    private UserManager userManager = new UserManager(getApplicationContext());
 
     /**
      * Creats start screen for sliding tiles with game options.
@@ -109,10 +110,9 @@ public class StartingSlidingActivity extends StartingActivity {
                     undoLimit = -1;
                 } finally {
                     boardManager = (SlidingBoardManager)bmFactory.getBoardManager(gameIndex, size);
-                    setUserUndos(username, undoLimit, gameIndex, boardManager);
+                    userManager.setUserUndos(username, undoLimit, gameIndex, boardManager);
                     switchToGame(gameIndex);
                 }
-
             }
         });
     }
@@ -127,7 +127,7 @@ public class StartingSlidingActivity extends StartingActivity {
             @Override
             public void onClick(View v)
             {
-                onClickHelper(gameIndex, username);
+                loadGame(gameIndex, username);
             }
         });
     }
@@ -136,8 +136,7 @@ public class StartingSlidingActivity extends StartingActivity {
      * Read the temporary board from disk.
      */
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
         HashMap<String, User> users = fm.readObject();
         assert users != null;

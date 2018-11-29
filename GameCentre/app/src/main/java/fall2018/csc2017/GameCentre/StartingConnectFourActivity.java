@@ -11,15 +11,20 @@ public class StartingConnectFourActivity extends StartingActivity
 {
 
     private ConnectFourBoardManager boardManager;
-    private String username = new LoginManager().getPersonLoggedIn();
-    private FileManager fm = new FileManager();
+    private String username;
+    private FileManager fm;
     private int size;
     private int gameIndex = 2;
     private BoardManagerFactory bmFactory = new BoardManagerFactory();
+    private UserManager userManager;
+
 
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        fm = new FileManager(this);
+        username = new LoginManager(this).getPersonLoggedIn();
+        userManager = new UserManager(this);
         setContentView(R.layout.starting_connect4);
         addLoadButtonListener();
         addStartButtonListener();
@@ -61,7 +66,7 @@ public class StartingConnectFourActivity extends StartingActivity
                 String selectedSize = dropdown.getSelectedItem().toString();
                 size = Integer.parseInt(selectedSize.substring(0, 1));
                 boardManager = (ConnectFourBoardManager)bmFactory.getBoardManager(gameIndex, size);
-                setUserUndos(username, 0, gameIndex, boardManager);
+                userManager.setUserUndos(username, 0, gameIndex, boardManager);
                 TextView p2username = findViewById(R.id.txtP2UsernameC4);
                 String p2usernameString = p2username.getText().toString().trim();
                 TextView p2password = findViewById(R.id.txtP2PasswordC4);
@@ -77,7 +82,7 @@ public class StartingConnectFourActivity extends StartingActivity
         loadButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-                onClickHelper(gameIndex, username);
+                loadGame(gameIndex, username);
             }
         });
     }

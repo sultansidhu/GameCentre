@@ -28,8 +28,8 @@ public class ConnectFourActivity extends GameActivity implements Observer {
     private Connect4GestureDetectGridView gridView;
     private static int columnWidth, columnHeight;
     private int gameIndex = 2;
-    private String username = new LoginManager().getPersonLoggedIn();
-    private FileManager fm = new FileManager();
+    private String username = new LoginManager(GlobalApplication.getAppContext()).getPersonLoggedIn();
+    private FileManager fm = new FileManager(GlobalApplication.getAppContext());
     private BoardManagerFactory bmFactory = new BoardManagerFactory();
 
     /**
@@ -106,15 +106,6 @@ public class ConnectFourActivity extends GameActivity implements Observer {
             b.setBackgroundResource(board.getTile(row, col).getBackground());
             nextPos++;
         }
-    }
-
-    /**
-     * Dispatch onPause() to fragments.
-     */
-    @Override
-    protected void onPause() {
-        // TODO: Add pause functionality for the timer
-        super.onPause();
     }
 
     /**

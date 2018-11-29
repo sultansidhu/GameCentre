@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
      Invoked as soon as the app is run. This will load the login screen, read the HashMap
      from a serialized file, and initialize all the buttons on the screen
      */
-    private FileManager fm = new FileManager();
+    private FileManager fm = new FileManager(GlobalApplication.getAppContext());
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 TextView fieldPassword = findViewById(R.id.field_password);
                 final String passwordToAuthenticate = fieldPassword.getText().toString().trim();
                 //authenticate(usernameToAuthenticate, passwordToAuthenticate);
-                LoginManager lm = new LoginManager();
+                LoginManager lm = new LoginManager(getApplicationContext());
                 if (lm.authenticate(usernameToAuthenticate, passwordToAuthenticate)) {
                     gotoGameList();
                 }
@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
                 Spinner securityQuestions = findViewById(R.id.securityquestions);
                 String selectedQuestion = securityQuestions.getSelectedItem().toString();
 
-                LoginManager lm = new LoginManager();
+                LoginManager lm = new LoginManager(getApplicationContext());
                 if(lm.create(usernameToAdd, passwordToAdd, confirmPassword, selectedQuestion, securityAnswer))
                 {
                     gotoGameList();

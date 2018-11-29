@@ -34,7 +34,7 @@ public class ScoreboardActivity extends AppCompatActivity
     Displays high scores in a list format.
      */
 
-    FileManager fm = new FileManager();
+    FileManager fm = new FileManager(GlobalApplication.getAppContext());;
 
     /**
      * The scoreFactory object used to instantiate different ScoreCalc objects
@@ -88,9 +88,8 @@ public class ScoreboardActivity extends AppCompatActivity
         resetScores.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoginManager lm = new LoginManager();
+                LoginManager lm = new LoginManager(getApplicationContext());
                 String username = lm.getPersonLoggedIn();
-                FileManager fm = new FileManager();
                 User user = fm.readObject().get(username);
                 user.resetScoreHashmapForAllGames();
                 //resetAllScores();

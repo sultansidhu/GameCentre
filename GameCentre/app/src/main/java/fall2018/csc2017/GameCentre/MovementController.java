@@ -11,19 +11,14 @@ class MovementController {
      * The board manager.
      */
     private BoardManager boardManager;
-
-    private String username = new LoginManager().getPersonLoggedIn();
-
-    private FileManager fm = new FileManager();
-
-    private int gameIndex = 0;
-
+    private String username;
 
     /**
      * Username of current player.
      */
     //static String username = null;
-    MovementController() {
+    MovementController(Context context) {
+        username = new LoginManager(context).getPersonLoggedIn();
     }
 
     /**
@@ -40,6 +35,7 @@ class MovementController {
      * @param position that the user tapped.
      */
     void processTapMovement(Context context, int position, int gameIndex) {
+        FileManager fm = new FileManager(context);
         if (boardManager.isValidTap(position)) {
             boardManager.touchMove(position);
             if (boardManager.getChanged()) {
@@ -51,6 +47,25 @@ class MovementController {
         }
         else { Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show(); }
     }
+
+    private void checkSolved(Context context, int gameIndex) {
+        if (boardManager.puzzleSolved()) {
+            Toast.makeText(context, "YOU WIN!", Toast.LENGTH_SHORT).show();
+            ScoreboardActivity sc = new ScoreboardActivity();
+            sc.updateUserHighScore(username, gameIndex);
+            switchToScoreboardScreen(context);
+        }
+    }
+
+    /*
+    Switches to the scoreboard screen if a game is won
+     */
+    public void switchToScoreboardScreen(Context context)
+    {
+        Intent tmp = new Intent(context, ScoreboardActivity.class);
+        context.startActivity(tmp);
+    }
+
 
 //    /**
 //     * Processes a tap for the user.
@@ -92,23 +107,4 @@ class MovementController {
 //            }
 //        }
 //    }
-
-    private void checkSolved(Context context, int gameIndex) {
-        if (boardManager.puzzleSolved()) {
-            Toast.makeText(context, "YOU WIN!", Toast.LENGTH_SHORT).show();
-            ScoreboardActivity sc = new ScoreboardActivity();
-            sc.updateUserHighScore(username, gameIndex);
-            switchToScoreboardScreen(context);
-        }
-    }
-
-
-    /*
-    Switches to the scoreboard screen if a game is won
-     */
-    public void switchToScoreboardScreen(Context context)
-    {
-        Intent tmp = new Intent(context, ScoreboardActivity.class);
-        context.startActivity(tmp);
-    }
 }

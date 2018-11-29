@@ -29,9 +29,10 @@ public class ShogiActivity extends GameActivity implements Observer {
     private ShogiGestureDetectGridView gridView;
     private static int columnWidth, columnHeight;
     private int gameIndex = 1;
-    private String username = new LoginManager().getPersonLoggedIn();
-    private FileManager fm = new FileManager();
+    private String username = new LoginManager(GlobalApplication.getAppContext()).getPersonLoggedIn();
+    private FileManager fm = new FileManager(GlobalApplication.getAppContext());
     private BoardManagerFactory bmFactory = new BoardManagerFactory();
+    private UserManager userManager = new UserManager(GlobalApplication.getAppContext());
 
     /**
      * Set up the background image for each button based on the master list
@@ -48,7 +49,6 @@ public class ShogiActivity extends GameActivity implements Observer {
         super.onCreate(savedInstanceState);
         Stack<Board> userStack = fm.getStack(username, gameIndex);
         boardManager = (ShogiBoardManager)bmFactory.getBoardManager(gameIndex, userStack.peek());
-//        setTimer(username);
         createTileButtons(this);
         setContentView(R.layout.activity_main_shogi);
         // Add View to activity
@@ -89,12 +89,17 @@ public class ShogiActivity extends GameActivity implements Observer {
             @Override
             public void onClick(View v)
             {
-                User user = fm.getUser(username);
-                Stack<Board> userStack = user.getGameStack(gameIndex);
-                undoHelper(user, username, userStack, gameIndex);
-                boardManager = (ShogiBoardManager)bmFactory.getBoardManager(gameIndex, userStack.peek());
-                addBoardObserver();
-                display();
+                if (!userManager.processUndo(username, gameIndex)) {
+                    makeToastNoUndo();
+                }
+                else {
+                    User user = fm.getUser(username);
+                    makeToastUndo(user, gameIndex);
+//                undoHelper(user, username, userStack, gameIndex);
+                    boardManager = (ShogiBoardManager) bmFactory.getBoardManager(gameIndex, user.getGameStack(gameIndex).peek());
+                    addBoardObserver();
+                    display();
+                }
             }
         });
     }
@@ -128,15 +133,6 @@ public class ShogiActivity extends GameActivity implements Observer {
             b.setBackgroundResource(board.getTile(row, col).getBackground());
             nextPos++;
         }
-    }
-
-    /**
-     * Dispatch onPause() to fragments.
-     */
-    @Override
-    protected void onPause() {
-        // TODO: Add pause functionality for the timer
-        super.onPause();
     }
 
     /**

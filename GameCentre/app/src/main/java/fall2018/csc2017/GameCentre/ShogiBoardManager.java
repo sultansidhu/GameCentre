@@ -29,6 +29,7 @@ public class  ShogiBoardManager implements BoardManager
 
     private boolean changed = false;
 
+
     public ShogiBoardManager(Board board)
     {
         this.board = board;

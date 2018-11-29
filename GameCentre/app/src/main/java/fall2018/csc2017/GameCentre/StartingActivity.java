@@ -9,20 +9,20 @@ import java.util.Stack;
 
 public class StartingActivity extends AppCompatActivity
 {
-    public FileManager fm = new FileManager();
+    public FileManager fm;
+    private UserManager userManager;
 
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        fm = new FileManager(this);
+        userManager = new UserManager(this);
     }
 
-    public void onClickHelper(int gameIndex, String username)
+    public void loadGame(int gameIndex, String username)
     {
-        Stack<Board> userStack = fm.getStack(username, gameIndex);
-        // TODO: Move this to the fm.getStack method
-        if (userStack.size() < 1)
-        {
-            Toast.makeText(getApplicationContext(), "No game to load! Start a new game!", Toast.LENGTH_LONG).show();
+        if (fm.getStack(username, gameIndex).size() < 1) {
+            Toast.makeText(this, "No game to load! Start a new game!", Toast.LENGTH_LONG).show();
         } else {
             makeToastLoadedText();
             switchToGame(gameIndex);
@@ -33,91 +33,65 @@ public class StartingActivity extends AppCompatActivity
      * Switch to the Activity view of the game specified by the gameIndex.
      */
     // TODO: GameFactory?
-    public void switchToGame(int gameIndex)
-    {
+    public void switchToGame(int gameIndex) {
         Intent intent = null;
-        switch(gameIndex)
-        {
+        switch(gameIndex) {
             case 0:
-                intent = new Intent(getApplicationContext(), SlidingActivity.class);
+                intent = new Intent(this, SlidingActivity.class);
                 break;
             case 1:
-                intent = new Intent(getApplicationContext(), ShogiActivity.class);
+                intent = new Intent(this, ShogiActivity.class);
                 break;
             case 2:
-                intent = new Intent(getApplicationContext(), ConnectFourActivity.class);
+                intent = new Intent(this, ConnectFourActivity.class);
                 break;
         }
 
         startActivity(intent);
-    }
-
-    // TODO: Move setUserUndos to "UserManager"
-    public void setUserUndos(String username, int undoLimit, int gameIndex, BoardManager boardManager) {
-        User user = fm.getUser(username);
-        user.setAvailableUndos(gameIndex, undoLimit);
-        user.resetGameStack(gameIndex);
-        user.addState(boardManager.getBoard(), gameIndex);
-        fm.saveUser(user, username);
     }
 
     /**
      * Switches to the scoreboard screen when the scoreboard button is clicked
      */
-    public void switchToScoreboardScreen()
-    {
+    public void switchToScoreboardScreen() {
         Intent intent = new Intent(this, ScoreboardActivity.class);
         startActivity(intent);
     }
 
-    public void makeToastLoadedText()
-    {
+    public void makeToastLoadedText() {
         Toast.makeText(this, "Loaded Game", Toast.LENGTH_SHORT).show();
     }
-    // TODO: Move startButtonHelper to "UserManager"
-    public void startButtonHelper(String p2usernameString, String p2passwordString, int gameIndex)
-    {
-        if(p2usernameString.equals(""))
-        {
-            Toast.makeText(getApplicationContext(), "Signing P2 as Guest", Toast.LENGTH_SHORT).show();
-            LoginManager lm = new LoginManager();
-            String username = lm.getPersonLoggedIn();
-            User user = fm.getUser(username);
-            user.getOpponents().put(gameIndex, "Guest");
-            fm.saveUser(user, username);
+
+    public void startButtonHelper(String p2usernameString, String p2passwordString, int gameIndex) {
+        if(p2usernameString.equals("")) {
+            Toast.makeText(this, "Signing P2 as Guest", Toast.LENGTH_SHORT).show();
+            userManager.addOpponent(gameIndex, "Guest");
             switchToGame(gameIndex);
         }
-        else if(p2passwordString.equals(""))
-        {
-            Toast.makeText(getApplicationContext(), "Password Field is Empty!", Toast.LENGTH_SHORT).show();
+        else if(p2passwordString.equals("")) {
+            Toast.makeText(this, "Password Field is Empty!", Toast.LENGTH_SHORT).show();
         }
-        else if(p2usernameString.equals(new LoginManager().getPersonLoggedIn())){
-            Toast.makeText(getApplicationContext(), "The opponent cannot be the same as Player 1! Use a different player!", Toast.LENGTH_SHORT).show();
+        else if(p2usernameString.equals(new LoginManager(this).getPersonLoggedIn())){
+            Toast.makeText(this, "The opponent cannot be the same as Player 1! Use a different player!", Toast.LENGTH_SHORT).show();
         }
-        else
-        {
-            LoginManager lm = new LoginManager();
-            if(lm.authenticateP2(p2usernameString, p2passwordString))
-            {
-                Toast.makeText(getApplicationContext(), "Starting Game...", Toast.LENGTH_SHORT).show();
-                User p1 = fm.getUser(lm.getPersonLoggedIn());
-                //p1.setOpponent(p2usernameString);
-                p1.getOpponents().put(gameIndex, p2usernameString);
-                fm.saveUser(p1, lm.getPersonLoggedIn());
+        else {
+            LoginManager lm = new LoginManager(this);
+            if(lm.authenticateP2(p2usernameString, p2passwordString)) {
+                Toast.makeText(this, "Starting Game...", Toast.LENGTH_SHORT).show();
+                userManager.addOpponent(gameIndex, p2usernameString);
                 switchToGame(gameIndex);
             }
             else{}
-                //Toast.makeText(getApplicationContext(), "Invalid Credentials...", Toast.LENGTH_SHORT).show();
-
+                //Toast.makeText(this, "Invalid Credentials...", Toast.LENGTH_SHORT).show();
         }
     }
-    public void loadButton(String p2usernameString, String p2passwordString, int gameIndex){
-        if(p2usernameString.equals("")||p2passwordString.equals("")){
-            Toast.makeText(getApplicationContext(), "Please enter in the username and password of the player you were playing with!", Toast.LENGTH_SHORT).show();
-        }
-        else if (true){
-
-        }
-    }
+//    public void loadButton(String p2usernameString, String p2passwordString, int gameIndex) {
+//        if(p2usernameString.equals("")||p2passwordString.equals("")) {
+//            Toast.makeText(this, "Please enter in the username and password of the player you were playing with!", Toast.LENGTH_SHORT).show();
+//        }
+//        else if (true){
+//
+//        }
+//    }
 
 }

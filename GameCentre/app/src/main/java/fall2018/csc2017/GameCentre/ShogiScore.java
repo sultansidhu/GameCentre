@@ -16,10 +16,10 @@ class ShogiScore implements Score
     /**
      * The constructor of this class, which initializes the FileManager and LoginManager attributes
      */
-    public ShogiScore()
-    {
-        fm = new FileManager();
-        lm = new LoginManager();
+    // TODO: remove static here
+    public ShogiScore() {
+        fm = new FileManager(GlobalApplication.getAppContext());
+        lm = new LoginManager(GlobalApplication.getAppContext());
     }
 
     /**
