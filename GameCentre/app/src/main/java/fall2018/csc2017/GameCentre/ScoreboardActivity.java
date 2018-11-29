@@ -66,7 +66,9 @@ public class ScoreboardActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         String winnerUsername = getIntent().getStringExtra("username");//new LoginManager().getPersonLoggedIn();
         System.out.println("THE WINNERS USERNAME IS --------------%%%%%%%%%%%% -------------" + winnerUsername);
-        assert winnerUsername != null;
+        if(winnerUsername == null){//If there is no winner since we came from starting activity
+            winnerUsername = new LoginManager().getPersonLoggedIn();
+        }
         winner = winnerUsername;
         int[] results = getIntent().getIntArrayExtra("results");
         if (results == null) {//Coming from starting Activity
@@ -110,6 +112,7 @@ public class ScoreboardActivity extends AppCompatActivity
 
         addResetScoresButtonListener();
         addGoToGameListListener();
+        addGoToGlobalScoresListener();
     }
     public void generateScoreRow(String username){
         HashMap<String, User> users = fm.readObject();
