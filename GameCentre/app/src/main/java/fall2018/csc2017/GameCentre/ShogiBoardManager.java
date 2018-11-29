@@ -113,7 +113,8 @@ public class  ShogiBoardManager implements BoardManager
 
     public void switchPlayer() {
         getBoard().setCurrPlayer(3 - getBoard().getCurrPlayer());
-        Toast.makeText(GlobalApplication.getAppContext(), "Player " + getBoard().getCurrPlayer() + "'s turn", Toast.LENGTH_SHORT).show();
+        //TODO: move this to view
+//        Toast.makeText(GlobalApplication.getAppContext(), "Player " + getBoard().getCurrPlayer() + "'s turn", Toast.LENGTH_SHORT).show();
     }
 
     public int getTileOwner(Tile currTile) {
@@ -238,7 +239,7 @@ public class  ShogiBoardManager implements BoardManager
             }
             if (isBlack(nextRow, toTile%Board.NUM_COLS) && numCap > 0) {
                 return numCap;
-            } else { return 0; }
+            }
         }
         else if (isRed(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS)) {
             while (isBlack(nextRow, toTile%Board.NUM_COLS)) {
@@ -247,12 +248,12 @@ public class  ShogiBoardManager implements BoardManager
             }
             if (isRed(nextRow, toTile%Board.NUM_COLS) && numCap > 0) {
                 return numCap;
-            } else { return 0; }
+            }
         }
         return 0;
     }
 
-    private int checkCapturedUp(int toTile) {
+    public int checkCapturedUp(int toTile) {
         int numCap = 0;
         int nextRow = toTile/Board.NUM_COLS - 1;
         if (isBlack(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS)) {
@@ -262,7 +263,7 @@ public class  ShogiBoardManager implements BoardManager
             }
             if (isBlack(nextRow, toTile%Board.NUM_COLS) && numCap > 0) {
                 return numCap;
-            } else { return 0; }
+            }
         }
         else if (isRed(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS)) {
             while (isBlack(nextRow, toTile%Board.NUM_COLS)) {
@@ -271,7 +272,7 @@ public class  ShogiBoardManager implements BoardManager
             }
             if (isRed(nextRow, toTile%Board.NUM_COLS) && numCap > 0) {
                 return numCap;
-            } else { return 0; }
+            }
         }
         return 0;
     }
@@ -285,9 +286,8 @@ public class  ShogiBoardManager implements BoardManager
                 nextCol++;
             }
             if (isBlack(toTile/Board.NUM_COLS, nextCol) && numCap > 0) {
-                System.out.println("CAPTURED: " + numCap);
                 return numCap;
-            } else { return 0; }
+            }
         }
         else if (isRed(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS)) {
             while (isBlack(toTile/Board.NUM_COLS, nextCol)) {
@@ -295,9 +295,8 @@ public class  ShogiBoardManager implements BoardManager
                 nextCol++;
             }
             if (isRed(toTile/Board.NUM_COLS, nextCol) && numCap > 0) {
-                System.out.println("CAPTURED: " + numCap);
                 return numCap;
-            } else { return 0; }
+            }
         }
         return 0;
     }
@@ -312,7 +311,7 @@ public class  ShogiBoardManager implements BoardManager
             }
             if (isBlack(toTile/Board.NUM_COLS, nextCol) && numCap > 0) {
                 return numCap;
-            } else { return 0; }
+            }
         }
         else if (isRed(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS)) {
             while (isBlack(toTile/Board.NUM_COLS, nextCol)) {
@@ -321,7 +320,7 @@ public class  ShogiBoardManager implements BoardManager
             }
             if (isRed(toTile/Board.NUM_COLS, nextCol) && numCap > 0) {
                 return numCap;
-            } else { return 0; }
+            }
         }
         return 0;
     }
@@ -364,10 +363,6 @@ public class  ShogiBoardManager implements BoardManager
         }
         return false;
     }
-
-    public void setOpponent(String opp) { this.opponent = opp; }
-
-    public int getTileSelected() { return this.tileSelected; }
 
     public void setTileSelected(int tile) { this.tileSelected = tile; }
 

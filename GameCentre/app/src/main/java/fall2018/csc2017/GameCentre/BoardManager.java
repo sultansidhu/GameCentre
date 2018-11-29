@@ -19,8 +19,6 @@ interface BoardManager
 
     void touchMove(int position);
 
-    void setOpponent(String opponent);
-
     boolean getChanged();
 
 
