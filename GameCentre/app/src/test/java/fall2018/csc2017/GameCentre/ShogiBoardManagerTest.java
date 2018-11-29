@@ -10,11 +10,6 @@ public class ShogiBoardManagerTest {
     private int[] targetTiles;
 
     @Test
-    public void getBoard() {
-    }
-
-
-    @Test
     public void puzzleSolved() {
         ShogiBoardManager bm = makeOneMoveBoard();
         assertFalse(bm.puzzleSolved());
