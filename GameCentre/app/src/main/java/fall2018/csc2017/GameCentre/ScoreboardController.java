@@ -18,17 +18,25 @@ class ScoreboardController {
     /**
      * Generates the user score for a user, given the username and the
      * game index of the game
-     * @param username  the username of the user
+     * @param userLoggedIn  the username of the user
      * @param gameIndex the game index identity of the game
      * @return the score of the user
      */
-    int generateUserScore(String username, int gameIndex) {
-        User user = fm.getUser(username);
+    int generateUserScore(String winner, String userLoggedIn, int gameIndex) {
+        int newScore;
+        User user = fm.getUser(winner);
         Score s1 = scoreFactory.getScore(gameIndex);
-        s1.setBoard(user.getGameStack(gameIndex).peek());
-        int newScore = s1.calculateUserScore(user.getNumMoves(gameIndex), Board.NUM_COLS);
+        if (!winner.equals(userLoggedIn)) {
+            User user2 = fm.getUser(userLoggedIn);
+            s1.setBoard(user2.getGameStack(gameIndex).peek());
+            newScore = s1.calculateUserScore(user2.getNumMoves(gameIndex), Board.NUM_COLS);
+        }
+        else {
+            s1.setBoard(user.getGameStack(gameIndex).peek());
+            newScore = s1.calculateUserScore(user.getNumMoves(gameIndex), Board.NUM_COLS);
+        }
         user.addSessionScore(newScore, gameIndex);
-        fm.saveUser(user, username);
+        fm.saveUser(user, winner);
         return newScore;
     }
 
