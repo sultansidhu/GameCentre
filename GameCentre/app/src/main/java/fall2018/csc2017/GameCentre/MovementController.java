@@ -12,15 +12,14 @@ class MovementController {
      * The board manager.
      */
     private BoardManager boardManager;
-    private String username;
-    private String winnerUsername;
+    private String username = new LoginManager().getPersonLoggedIn();
+    private FileManager fm = new FileManager();
 
     /**
      * Username of current player.
      */
     //static String username = null;
     MovementController(Context context) {
-        username = new LoginManager().getPersonLoggedIn();
     }
 
     /**
@@ -37,7 +36,6 @@ class MovementController {
      * @param position that the user tapped.
      */
     void processTapMovement(Context context, int position, int gameIndex) {
-        FileManager fm = new FileManager();
         if (boardManager.isValidTap(position)) {
             boardManager.touchMove(position);
             if (boardManager.getChanged()) {
@@ -52,48 +50,24 @@ class MovementController {
 
     private void checkSolved(Context context, int gameIndex) {
         if (boardManager.puzzleSolved()) {
-            String winner = getWinnerUsername(gameIndex); // TODO: CALL TO THE getWinnerUsername() METHOD
-
+            String winner = getWinnerUsername(gameIndex);
+            Toast.makeText(context, username + " wins!", Toast.LENGTH_SHORT).show();
             if (winner.equals("Guest")) {
                 switchToLeaderBoardScreen(context);
-                Toast.makeText(context, "GUEST WINS!", Toast.LENGTH_SHORT).show();
             }
             else {
-                Toast.makeText(context, "YOU WIN!", Toast.LENGTH_SHORT).show();
                 ScoreboardActivity sc = new ScoreboardActivity();
                 int[] result = sc.updateUserHighScore(winner, gameIndex);
                 switchToScoreboardScreen(context, result, winner);
-                System.out.println("LE RESULT ISCH ------------- : " + result);
             }
         }
     }
 
-//    public void switchToGlobalScores(){
-//        Intent intent = new Intent(GlobalApplication.getAppContext(), LeaderBoardActivity.class);
-//        startActivity(intent);
-//    }
-
     private String getWinnerUsername(int gameIndex){
         // get the winning player (current player in the bm)
         int playerNumber = 3 - boardManager.getBoard().getCurrPlayer();
-        System.out.println(" THE PLAYER NUMBER IS  ----------&&&&&&&&-------- " + playerNumber);
-        if (gameIndex != 0){
-            if (playerNumber == 1){
-                System.out.println("THE CURRENT WINNER OF THE GAME IS PLAYER 1 ---------- "+ username);
-                winnerUsername = username;
-                return username;
-            } else {
-                //return boardManager.getBoard().getOpponentString();
-                FileManager fm = new FileManager();
-                Map<String, User> users = fm.readObject();
-                User user = users.get(username);
-                Map<Integer, String> opponents = user.getOpponents();
-                assert opponents != null;
-                System.out.println("THE OPPONENT (who is the winner) IS : ------------ " + opponents.get(gameIndex));
-                winnerUsername = opponents.get(gameIndex);
-                return opponents.get(gameIndex);
-
-            }
+        if (gameIndex != 0 && playerNumber == 2){
+            return fm.getUser(username).getOpponents().get(gameIndex);
         }
         return username;
     }
@@ -101,12 +75,11 @@ class MovementController {
     /*
     Switches to the scoreboard screen if a game is won
      */
-    public void switchToScoreboardScreen(Context context, int[] results, String username)
-    {
-        Intent tmp = new Intent(context, ScoreboardActivity.class);
-        tmp.putExtra("results", results);
-        tmp.putExtra("username", username);
-        context.startActivity(tmp);
+    public void switchToScoreboardScreen(Context context, int[] results, String username) {
+        Intent intent = new Intent(context, ScoreboardActivity.class);
+        intent.putExtra("results", results);
+        intent.putExtra("username", username);
+        context.startActivity(intent);
     }
 
     public void switchToLeaderBoardScreen(Context context) {
