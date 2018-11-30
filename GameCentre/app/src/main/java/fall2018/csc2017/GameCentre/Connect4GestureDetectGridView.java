@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.widget.Toast;
 
 public class Connect4GestureDetectGridView extends GestureDetectGridView {
 
@@ -42,17 +43,14 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView {
     /**
      * Username of user currently playing.
      */
-    private String username;
-
-    /**
-     * The file manager instance
-     */
-    private FileManager fm;
+    private String username = new LoginManager().getPersonLoggedIn();
 
     /**
      * In index of the game being played
      */
     private int gameIndex = 2;
+
+    private UserManager userManager = new UserManager();
 
     /**
      * An overloaded constructor for the Connect4 Gesture detector,
@@ -63,8 +61,6 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView {
     public Connect4GestureDetectGridView(Context context) {
         super(context);
         init(context);
-        LoginManager lm = new LoginManager();
-        username = lm.getPersonLoggedIn();
     }
 
     /**
@@ -77,8 +73,6 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView {
     public Connect4GestureDetectGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
-        LoginManager lm = new LoginManager();
-        username = lm.getPersonLoggedIn();
     }
 
     /**
@@ -92,8 +86,6 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView {
     public Connect4GestureDetectGridView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
-        LoginManager lm = new LoginManager();
-        username = lm.getPersonLoggedIn();
     }
 
     /**
@@ -103,7 +95,6 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView {
      * @param context the given context
      */
     private void init(final Context context) {
-        fm = new FileManager();
         mController = new MovementController(context);
         gDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             /*
@@ -113,16 +104,41 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView {
             public boolean onSingleTapConfirmed(MotionEvent event) {
                 int position = Connect4GestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
-//                mController.processTapMovement(context, position, gameIndex);
+                if(mController.processTapMovement(position, boardManager)) {
+                    if (boardManager.getChanged()) {
+                        userManager.saveState(username, boardManager, gameIndex);
+                        checkSolved(context, gameIndex);
+                    }
+                }
+                else {
+                    Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             }
-
             @Override
             public boolean onDown(MotionEvent event) {
                 return true;
             }
-
         });
+    }
+
+    /**
+     * Checks if the board is solved, and thus whether the game is over
+     * @param context   the current context
+     * @param gameIndex the identity index of the game
+     */
+    private void checkSolved(Context context, int gameIndex) {
+        if (boardManager.puzzleSolved()) {
+            String winner = mController.getWinnerUsername(gameIndex);
+            Toast.makeText(context, winner + " wins!", Toast.LENGTH_SHORT).show();
+            if (winner.equals("Guest")) {
+                switchToLeaderBoardScreen(context, winner);
+            } else {
+                ScoreboardController scon = new ScoreboardController();
+                int result = scon.generateUserScore(winner, gameIndex);
+                switchToScoreboardScreen(context, result, winner);
+            }
+        }
     }
 
     /**
@@ -144,7 +160,6 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView {
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         int action = ev.getActionMasked();
         gDetector.onTouchEvent(ev);
-
         if (action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_UP) {
             mFlingConfirmed = false;
         } else if (action == MotionEvent.ACTION_DOWN) {
@@ -154,7 +169,6 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView {
             if (mFlingConfirmed) {
                 return true;
             }
-
             float dX = (Math.abs(ev.getX() - mTouchX));
             float dY = (Math.abs(ev.getY() - mTouchY));
             if ((dX > SWIPE_MIN_DISTANCE) || (dY > SWIPE_MIN_DISTANCE)) {

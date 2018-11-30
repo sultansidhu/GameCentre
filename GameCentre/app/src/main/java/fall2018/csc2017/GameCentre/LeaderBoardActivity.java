@@ -6,15 +6,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.List;
+import java.util.Objects;
 
 public class LeaderBoardActivity extends AppCompatActivity {
     //private FileManager fm = new FileManager();
     private ScoreboardController scon = new ScoreboardController();
+    String winner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        winner = getIntent().getStringExtra("winner");
         setContentView(R.layout.scoreboard_global);
         List c4Scores = scon.getGlobalScores(2);
         List shScores = scon.getGlobalScores(1);
@@ -38,13 +43,20 @@ public class LeaderBoardActivity extends AppCompatActivity {
         LocalScoreboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToLocalScoreboard();
+                if (winner == null || !winner.equals("Guest")) {
+                    goToLocalScoreboard();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Sign up to save and see your scores!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
     private void goToLocalScoreboard() {
         Intent intent = new Intent(this, ScoreboardActivity.class);
+        String username = new LoginManager().getPersonLoggedIn();
+        intent.putExtra("username", username);
         startActivity(intent);
     }
 

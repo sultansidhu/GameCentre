@@ -39,7 +39,6 @@ class MovementController {
     /**
      * Processes a tap for the user.
      *
-     * @param context  of the application.
      * @param position that the user tapped.
      */
     boolean processTapMovement(int position, BoardManager boardManager) {
@@ -50,27 +49,6 @@ class MovementController {
             return false;
         }
     }
-
-//    /**
-//     * Checks if the board is solved, and thus whether the game is over
-//     * @param context   the current context
-//     * @param gameIndex the identity index of the game
-//     */
-//    private void checkSolved(Context context, int gameIndex) {
-//        if (boardManager.puzzleSolved()) {
-//            String winner = mController.getWinnerUsername(gameIndex);
-//            if (winner.equals("Guest")) {
-//                Toast.makeText(context, "Guest wins!", Toast.LENGTH_SHORT).show();
-//                switchToLeaderBoardScreen(context);
-//            } else {
-//                Toast.makeText(context, username + " wins!", Toast.LENGTH_SHORT).show();
-//                ScoreboardActivity sc = new ScoreboardActivity();
-//                ScoreboardController scon = new ScoreboardController();
-//                int result = scon.generateUserScore(winner, gameIndex);
-//                switchToScoreboardScreen(context, result, winner);
-//            }
-//        }
-//    }
 
     /**
      * Returns the username of the winning player of the specified game

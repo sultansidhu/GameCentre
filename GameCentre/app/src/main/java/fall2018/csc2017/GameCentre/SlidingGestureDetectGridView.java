@@ -51,13 +51,11 @@ public class SlidingGestureDetectGridView extends GestureDetectGridView {
     */
     private SlidingBoardManager boardManager;
 
-    private String username;
-
-    private FileManager fm;
+    private String username = new LoginManager().getPersonLoggedIn();
 
     private int gameIndex = 0;
 
-    private Score score = new SlidingScore();
+    private UserManager userManager = new UserManager();
 
     /*
     Overloaded Constructor that takes a Context
@@ -65,9 +63,6 @@ public class SlidingGestureDetectGridView extends GestureDetectGridView {
     public SlidingGestureDetectGridView(Context context) {
         super(context);
         init(context);
-        LoginManager lm = new LoginManager();
-
-        username = lm.getPersonLoggedIn();
     }
 
     /*
@@ -76,27 +71,23 @@ public class SlidingGestureDetectGridView extends GestureDetectGridView {
     public SlidingGestureDetectGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
-        LoginManager lm = new LoginManager();
-
-        username = lm.getPersonLoggedIn();
     }
+
     /*
     Overloaded Constructor that takes a Context, an AttributeSet, and a defaultStyleAttribute integer
     */
-
     public SlidingGestureDetectGridView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
-        LoginManager lm = new LoginManager();
-
-        username = lm.getPersonLoggedIn();
     }
-    /*
-    An initializer method
-    */
 
+    /**
+     * Initialization function for the gridview, contains instructions for every tap
+     * of the user
+     *
+     * @param context the given context
+     */
     private void init(final Context context) {
-        fm = new FileManager();
         mController = new MovementController(context);
         gDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             /*
@@ -106,7 +97,15 @@ public class SlidingGestureDetectGridView extends GestureDetectGridView {
             public boolean onSingleTapConfirmed(MotionEvent event) {
                 int position = SlidingGestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
-//                mController.processTapMovement(context, position, gameIndex);
+                if(mController.processTapMovement(position, boardManager)) {
+                    if (boardManager.getChanged()) {
+                        userManager.saveState(username, boardManager, gameIndex);
+                        checkSolved(context, gameIndex);
+                    }
+                }
+                else {
+                    Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             }
             @Override
@@ -116,21 +115,37 @@ public class SlidingGestureDetectGridView extends GestureDetectGridView {
         });
     }
 
+    /**
+     * Checks if the board is solved, and thus whether the game is over
+     * @param context   the current context
+     * @param gameIndex the identity index of the game
+     */
+    private void checkSolved(Context context, int gameIndex) {
+        if (boardManager.puzzleSolved()) {
+            String winner = mController.getWinnerUsername(gameIndex);
+            Toast.makeText(context, winner + " wins!", Toast.LENGTH_SHORT).show();
+            if (winner.equals("Guest")) {
+                switchToLeaderBoardScreen(context, winner);
+            } else {
+                ScoreboardController scon = new ScoreboardController();
+                int result = scon.generateUserScore(winner, gameIndex);
+                switchToScoreboardScreen(context, result, winner);
+            }
+        }
+    }
+
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         int action = ev.getActionMasked();
         gDetector.onTouchEvent(ev);
-
         if (action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_UP) {
             mFlingConfirmed = false;
         } else if (action == MotionEvent.ACTION_DOWN) {
             mTouchX = ev.getX();
             mTouchY = ev.getY();
         } else {
-
             if (mFlingConfirmed) {
                 return true;
             }
-
             float dX = (Math.abs(ev.getX() - mTouchX));
             float dY = (Math.abs(ev.getY() - mTouchY));
             if ((dX > SWIPE_MIN_DISTANCE) || (dY > SWIPE_MIN_DISTANCE)) {
@@ -138,7 +153,6 @@ public class SlidingGestureDetectGridView extends GestureDetectGridView {
                 return true;
             }
         }
-
         return super.onInterceptTouchEvent(ev);
     }
 
@@ -157,13 +171,4 @@ public class SlidingGestureDetectGridView extends GestureDetectGridView {
         this.boardManager = boardManager;
         mController.setBoardManager(boardManager);
     }
-//    public boolean manageTap(int position) {
-//        if (boardManager.isValidTap(position)) {
-//            mController.processTapMovement(GlobalApplication.getAppContext(), position);
-//        }
-//        else {
-//            Toast.makeText(GlobalApplication.getAppContext(), "Invalid Tap", Toast.LENGTH_SHORT).show();
-//        } return true;
-//    }
-
 }

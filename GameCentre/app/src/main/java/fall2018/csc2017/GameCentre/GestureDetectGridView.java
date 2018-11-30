@@ -88,11 +88,24 @@ public class GestureDetectGridView extends GridView {
     }
 
     /**
+     * Switches to the leader-board screen after the game is won by
+     * the guest
+     * @param context the current context
+     */
+    public void switchToLeaderBoardScreen(Context context, String winner) {
+        Intent intent = new Intent(context, LeaderBoardActivity.class);
+        intent.putExtra("winner", winner);
+        context.startActivity(intent);
+    }
+
+    /**
      * Switches to the scoreboard screen if a game is won
      */
-    public void switchToScoreboardScreen() {
-        Intent tmp = new Intent(GlobalApplication.getAppContext(), ScoreboardActivity.class);
-        GlobalApplication.getAppContext().startActivity(tmp);
+    public void switchToScoreboardScreen(Context context, int result, String username) {
+        Intent intent = new Intent(context, ScoreboardActivity.class);
+        intent.putExtra("result", result);
+        intent.putExtra("username", username);
+        context.startActivity(intent);
     }
 
     /**

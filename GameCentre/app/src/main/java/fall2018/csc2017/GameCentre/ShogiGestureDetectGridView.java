@@ -45,17 +45,9 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
     private ShogiBoardManager boardManager;
 
     /**
-     *  Tile position selected by the user. -1 means no tile has been selected to move.
-     */
-    private int tileSelected = -1;
-
-    /**
      * Username of user currently playing.
      */
-    private String username;
-
-
-    private FileManager fm;
+    private String username = new LoginManager().getPersonLoggedIn();
 
     private int gameIndex = 1;
 
@@ -67,8 +59,6 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
     public ShogiGestureDetectGridView(Context context) {
         super(context);
         init(context);
-        LoginManager lm = new LoginManager();
-        username = lm.getPersonLoggedIn();
     }
     /*
     Overloaded Constructor that takes a Context and AttributeSet
@@ -76,8 +66,6 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
     public ShogiGestureDetectGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
-        LoginManager lm = new LoginManager();
-        username = lm.getPersonLoggedIn();
     }
     /*
     Overloaded Constructor that takes a Context, an AttributeSet, and a defaultStyleAttribute integer
@@ -86,12 +74,15 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
     public ShogiGestureDetectGridView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
-        LoginManager lm = new LoginManager();
-        username = lm.getPersonLoggedIn();
     }
 
+    /**
+     * Initialization function for the gridview, contains instructions for every tap
+     * of the user
+     *
+     * @param context the given context
+     */
     private void init(final Context context) {
-        fm = new FileManager();
         mController = new MovementController(context);
         gDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             /*
@@ -101,24 +92,24 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
             public boolean onSingleTapConfirmed(MotionEvent event) {
                 int position = ShogiGestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
-                if(!mController.processTapMovement(position, boardManager)) {
-                    Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                if(mController.processTapMovement(position, boardManager)) {
                     if (boardManager.getChanged()) {
                         userManager.saveState(username, boardManager, gameIndex);
                         checkSolved(context, gameIndex);
                     }
                 }
+                else {
+                    Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             }
-
             @Override
             public boolean onDown(MotionEvent event) {
                 return true;
             }
         });
     }
+
     /**
      * Checks if the board is solved, and thus whether the game is over
      * @param context   the current context
@@ -129,9 +120,8 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
             String winner = mController.getWinnerUsername(gameIndex);
             Toast.makeText(context, winner + " wins!", Toast.LENGTH_SHORT).show();
             if (winner.equals("Guest")) {
-                switchToLeaderBoardScreen(context);
+                switchToLeaderBoardScreen(context, winner);
             } else {
-                ScoreboardActivity sc = new ScoreboardActivity();
                 ScoreboardController scon = new ScoreboardController();
                 int result = scon.generateUserScore(winner, gameIndex);
                 switchToScoreboardScreen(context, result, winner);
@@ -139,40 +129,18 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
         }
     }
 
-    /**
-     * Switches to the leader-board screen after the game is won by
-     * the guest
-     * @param context the current context
-     */
-    private void switchToLeaderBoardScreen(Context context) {
-        context.startActivity(new Intent(context, LeaderBoardActivity.class));
-    }
-
-    /**
-     * Switches to the scoreboard screen if a game is won
-     */
-    private void switchToScoreboardScreen(Context context, int result, String username) {
-        Intent intent = new Intent(context, ScoreboardActivity.class);
-        intent.putExtra("result", result);
-        intent.putExtra("username", username);
-        context.startActivity(intent);
-    }
-
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         int action = ev.getActionMasked();
         gDetector.onTouchEvent(ev);
-
         if (action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_UP) {
             mFlingConfirmed = false;
         } else if (action == MotionEvent.ACTION_DOWN) {
             mTouchX = ev.getX();
             mTouchY = ev.getY();
         } else {
-
             if (mFlingConfirmed) {
                 return true;
             }
-
             float dX = (Math.abs(ev.getX() - mTouchX));
             float dY = (Math.abs(ev.getY() - mTouchY));
             if ((dX > SWIPE_MIN_DISTANCE) || (dY > SWIPE_MIN_DISTANCE)) {
@@ -180,7 +148,6 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
                 return true;
             }
         }
-
         return super.onInterceptTouchEvent(ev);
     }
 
