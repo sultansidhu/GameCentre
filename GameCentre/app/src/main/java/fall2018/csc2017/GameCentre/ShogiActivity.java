@@ -104,7 +104,7 @@ public class ShogiActivity extends GameActivity implements Observer {
                     display();
                 }
                 else {
-                    makeToastNoUndo();
+                    showToast("You have used all your undos!");
                 }
             }
         });
