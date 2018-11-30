@@ -14,14 +14,14 @@ public class SlidingBoardManager implements BoardManager, Serializable {
      * The board being managed.
      */
     private Board board;
-    public String opponent;
 
     /**
      * This constructor takes a Board object and sets it equal to the class' attribute board
+     *
      * @param board, a board object representing the board
      */
 
-    public SlidingBoardManager(Board board) {
+    SlidingBoardManager(Board board) {
         this.board = board;
         Board.NUM_COLS = board.getTiles().length;
         Board.NUM_ROWS = board.getTiles().length;
@@ -29,15 +29,16 @@ public class SlidingBoardManager implements BoardManager, Serializable {
 
     /**
      * This constructor takes an integer size and creates a board of size size
+     *
      * @param size, an integer representing the size of this board
      */
 
-    public SlidingBoardManager(int size) {
+    SlidingBoardManager(int size) {
         List<Tile> tiles = new ArrayList<>();
         Board.NUM_COLS = size;
         Board.NUM_ROWS = size;
         final int numTiles = Board.NUM_ROWS * Board.NUM_COLS;
-        for (int tileNum = 0; tileNum != numTiles-1; tileNum++) {
+        for (int tileNum = 0; tileNum != numTiles - 1; tileNum++) {
             tiles.add(new Tile(tileNum));
         }
         makeSolvable(tiles, size);
@@ -46,10 +47,13 @@ public class SlidingBoardManager implements BoardManager, Serializable {
 
     /**
      * This method returns the board attribute of this class
+     *
      * @return Board, a board object
      */
 
-    public Board getBoard() { return this.board; }
+    public Board getBoard() {
+        return this.board;
+    }
 
     /**
      * Return whether the tiles are in row-major order.
@@ -89,17 +93,15 @@ public class SlidingBoardManager implements BoardManager, Serializable {
 
     /**
      * Process a touch at position in the board, swapping tiles as appropriate.
+     *
      * @param position the position
      */
     public void touchMove(int position) {
-        // System.out.println("TouchMove is working!!!!!!");
-
         int row = position / Board.NUM_ROWS;
         int col = position % Board.NUM_COLS;
         int blankId = board.numTiles();
 
-        if (isValidTap(position))
-        {
+        if (isValidTap(position)) {
             Tile above = row == 0 ? null : board.getTile(row - 1, col);
             Tile left = col == 0 ? null : board.getTile(row, col - 1);
             Tile right = col == Board.NUM_COLS - 1 ? null : board.getTile(row, col + 1);
@@ -116,17 +118,18 @@ public class SlidingBoardManager implements BoardManager, Serializable {
 
     /**
      * This method creates a sovlable board
+     *
      * @param tiles, an Arraylist holding tile objects. size, an integer representing the size
-     * of this board
+     *               of this board
      */
 
     private void makeSolvable(List<Tile> tiles, int size) {
         Tile testTile = new Tile(24);
-        testTile.setId(size*size);
+        testTile.setId(size * size);
         tiles.add(testTile);
         Collections.shuffle(tiles);
         Board dummyBoard = new Board(tiles);
-        while (!dummyBoard.isSolveable()){
+        while (!dummyBoard.isSolveable()) {
             System.out.println("TELLS WHETHER THE BOARD IS SOLVABLE OR NOT: " + dummyBoard.isSolveable());
             Collections.shuffle(tiles);
             dummyBoard = new Board(tiles);
@@ -134,9 +137,13 @@ public class SlidingBoardManager implements BoardManager, Serializable {
         this.board = dummyBoard;
     }
 
-    public void setOpponent(String opponent) { this.opponent = opponent; }
-
-
-    public boolean getChanged() { return true; }
+    /**
+     * Gets whether the state has changed.
+     *
+     * @return true
+     */
+    public boolean getChanged() {
+        return true;
+    }
 
 }
