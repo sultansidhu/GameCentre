@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 public class ScoreboardController {
     private FileManager fm;
@@ -34,16 +35,13 @@ public class ScoreboardController {
 
     private int generateUserScore(String username, int gameIndex) {
         int newScore;
-        HashMap<String, User> users = fm.readObject();
-        assert users != null;
-        User user = users.get(username);
+        User user = fm.getUser(username);
         Score s1 = scoreFactory.getScore(gameIndex);
         Board userBoard = user.getGameStack(gameIndex).peek();
         s1.setBoard(userBoard);
         newScore = s1.calculateUserScore(user.getNumMoves(gameIndex), userBoard.NUM_COLS);
         user.addSessionScore(newScore, gameIndex);
-        assert newScore >= 0;
-        fm.saveObject(users);
+        fm.saveUser(user, username);
         System.out.println("THE ARRAY OF THE SESSION SCORES IS DISPLAYED HERE: ");
         user.printAllSessionScores();
         return newScore;
@@ -63,7 +61,7 @@ public class ScoreboardController {
 
     public ArrayList getGlobalScores(int gameIndex) {
 
-        HashMap<String, User> users = fm.readObject();
+        Map<String, User> users = fm.readObject();
         ArrayList highScoresTup = new ArrayList();
         Iterator it = users.entrySet().iterator();
         while (it.hasNext()) {

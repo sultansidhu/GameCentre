@@ -3,6 +3,7 @@ package fall2018.csc2017.GameCentre;
 import android.widget.Toast;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class LoginManager {
@@ -61,7 +62,7 @@ public class LoginManager {
             makeToast("User Already Exists!");
         else {
             User newUser = new User(username, password, selQ, ans);
-            HashMap<String, User> hm = fm.readObject();
+            Map<String, User> hm = fm.readObject();
             hm.put(username, newUser);
 
             fm.saveObject(hm);
@@ -132,7 +133,7 @@ public class LoginManager {
      * @param theHashMap, the HashMap mapping username to User object
      * @return theHashMap, a HashMap where all the Users have been logged out
      */
-    private HashMap<String, User> setUsersLoggedOut(HashMap<String, User> theHashMap) {
+    private Map<String, User> setUsersLoggedOut(Map<String, User> theHashMap) {
         if (personLoggedIn != null) {
             for (User user : theHashMap.values()) {
                 user.setLoggedIn(false);
@@ -149,7 +150,7 @@ public class LoginManager {
      */
 
     private void setLoggedInTrueAndSave(User user) {
-        HashMap<String, User> hm = fm.readObject();
+        Map<String, User> hm = fm.readObject();
         Objects.requireNonNull(hm.get(user.getUsername())).setLoggedIn(true);
         // todo : change happened here too
         fm.saveObject(hm);

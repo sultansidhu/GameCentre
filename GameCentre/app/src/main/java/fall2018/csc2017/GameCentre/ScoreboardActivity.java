@@ -92,7 +92,7 @@ public class ScoreboardActivity extends AppCompatActivity
         hasamiScore = findViewById(R.id.hasamiShogiScoreViewer);
         connect4Score = findViewById(R.id.connect4ScoreViewer);
         sessionScore = findViewById(R.id.currentScoreViewer);
-        HashMap<String, User> users = fm.readObject();
+        Map<String, User> users = fm.readObject();
         assert users != null;
 //        String username;
 //

@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     the value is an object of type User, which holds the user's password, security question,
     and last GameState
     */
-    private HashMap<String, User> logins = new HashMap<>();
+    private Map<String, User> logins = new HashMap<>();
 
     /**
      Invoked as soon as the app is run. This will load the login screen, read the HashMap

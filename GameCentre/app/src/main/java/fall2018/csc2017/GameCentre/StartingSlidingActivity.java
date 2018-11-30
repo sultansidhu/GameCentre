@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import java.util.EmptyStackException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 /**
@@ -138,7 +139,7 @@ public class StartingSlidingActivity extends StartingActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        HashMap<String, User> users = fm.readObject();
+        Map<String, User> users = fm.readObject();
         assert users != null;
         Stack<Board> userStack = users.get(username).getGameStack(gameIndex);
         try
