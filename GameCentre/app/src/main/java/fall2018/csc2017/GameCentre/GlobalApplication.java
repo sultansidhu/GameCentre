@@ -2,6 +2,7 @@ package fall2018.csc2017.GameCentre;
 
 import android.app.Application;
 import android.content.Context;
+import android.provider.Settings;
 
 /**
  * Created by Jerry on 3/21/2018.
@@ -17,7 +18,7 @@ public class GlobalApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        appContext = getApplicationContext();
+        appContext = GlobalApplication.getAppContext();
 
 
     }
