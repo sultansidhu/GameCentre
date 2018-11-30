@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -37,18 +38,21 @@ public class SlidingActivity extends GameActivity implements Observer {
      * Set up the background image for each button based on the master list
      * of positions, and then call the adapter to set the view.
      */
-    // Display
     public void display() {
         updateTileButtons();
         gridView.setAdapter(new CustomAdapter(tileButtons, columnWidth, columnHeight));
     }
 
+    /**
+     * Creates the view and adds button listeners.
+     *
+     * @param savedInstanceState the savedInstanceState
+     */
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Stack<Board> userStack = fm.getStack(username, gameIndex);
-        boardManager = (SlidingBoardManager)bmFactory.getBoardManager(gameIndex, userStack.peek());
+        boardManager = (SlidingBoardManager) bmFactory.getBoardManager(gameIndex, userStack.peek());
         createTileButtons(this);
         setContentView(R.layout.activity_main);
         // Add View to activity
@@ -59,11 +63,9 @@ public class SlidingActivity extends GameActivity implements Observer {
 
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
-                new ViewTreeObserver.OnGlobalLayoutListener()
-                {
+                new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
-                    public void onGlobalLayout()
-                    {
+                    public void onGlobalLayout() {
                         gridView.getViewTreeObserver().removeOnGlobalLayoutListener(
                                 this);
                         int displayWidth = gridView.getMeasuredWidth();
@@ -74,6 +76,7 @@ public class SlidingActivity extends GameActivity implements Observer {
                     }
                 });
     }
+
     /**
      * Adds the listener for the undo button on the UI
      */
@@ -81,18 +84,19 @@ public class SlidingActivity extends GameActivity implements Observer {
         Button undoButton = findViewById(R.id.UndoButton);
         undoButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 User user = fm.getUser(username);
                 Stack<Board> userStack = user.getGameStack(gameIndex);
-//                undoHelper(user, username, userStack, gameIndex);
-                boardManager = (SlidingBoardManager)bmFactory.getBoardManager(gameIndex, userStack.peek());
+                boardManager = (SlidingBoardManager) bmFactory.getBoardManager(gameIndex, userStack.peek());
                 addBoardObserver();
                 display();
             }
         });
     }
 
+    /**
+     * Adds a board observer
+     */
     private void addBoardObserver() {
         gridView.setBoardManager(boardManager);
         boardManager.getBoard().addObserver(SlidingActivity.this);
@@ -131,7 +135,8 @@ public class SlidingActivity extends GameActivity implements Observer {
 
     /**
      * Updates the display
-     * @param o the observable
+     *
+     * @param o   the observable
      * @param arg the object
      */
     @Override
