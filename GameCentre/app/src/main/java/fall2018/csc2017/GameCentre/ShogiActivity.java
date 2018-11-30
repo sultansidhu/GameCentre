@@ -29,10 +29,10 @@ public class ShogiActivity extends GameActivity implements Observer {
     private ShogiGestureDetectGridView gridView;
     private static int columnWidth, columnHeight;
     private int gameIndex = 1;
-    private String username = new LoginManager(GlobalApplication.getAppContext()).getPersonLoggedIn();
-    private FileManager fm = new FileManager(GlobalApplication.getAppContext());
+    private String username = new LoginManager().getPersonLoggedIn();
+    private FileManager fm = new FileManager();
     private BoardManagerFactory bmFactory = new BoardManagerFactory();
-    private UserManager userManager = new UserManager(GlobalApplication.getAppContext());
+    private UserManager userManager = new UserManager();
 
     /**
      * Set up the background image for each button based on the master list

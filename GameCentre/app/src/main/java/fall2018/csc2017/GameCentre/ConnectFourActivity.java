@@ -28,8 +28,8 @@ public class ConnectFourActivity extends GameActivity implements Observer {
     private Connect4GestureDetectGridView gridView;
     private static int columnWidth, columnHeight;
     private int gameIndex = 2;
-    private String username = new LoginManager(GlobalApplication.getAppContext()).getPersonLoggedIn();
-    private FileManager fm = new FileManager(GlobalApplication.getAppContext());
+    private String username = new LoginManager().getPersonLoggedIn();
+    private FileManager fm = new FileManager();
     private BoardManagerFactory bmFactory = new BoardManagerFactory();
 
     /**

@@ -11,13 +11,13 @@ public class StartingActivity extends AppCompatActivity
 {
     public FileManager fm;
     private UserManager userManager;
-    private LoginManager lm = new LoginManager(GlobalApplication.getAppContext());
+    private LoginManager lm = new LoginManager();
 
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        fm = new FileManager(this);
-        userManager = new UserManager(this);
+        fm = new FileManager();
+        userManager = new UserManager();
     }
 
     public void loadGame(int gameIndex, String username)
@@ -56,7 +56,7 @@ public class StartingActivity extends AppCompatActivity
      */
     public void switchToScoreboardScreen() {
         Intent intent = new Intent(this, ScoreboardActivity.class);
-//        LoginManager lm = new LoginManager(this)this;
+//        LoginManager lm = new LoginManager();
         //LoginManager lm = new LoginManager(getApplicationContext());
         String username = lm.getPersonLoggedIn();
         intent.putExtra("username", username);
@@ -76,11 +76,11 @@ public class StartingActivity extends AppCompatActivity
         else if(p2passwordString.equals("")) {
             Toast.makeText(this, "Password Field is Empty!", Toast.LENGTH_SHORT).show();
         }
-        else if(p2usernameString.equals(new LoginManager(this).getPersonLoggedIn())){
+        else if(p2usernameString.equals(new LoginManager().getPersonLoggedIn())){
             Toast.makeText(this, "The opponent cannot be the same as Player 1! Use a different player!", Toast.LENGTH_SHORT).show();
         }
         else {
-            LoginManager lm = new LoginManager(this);
+            LoginManager lm = new LoginManager();
             if(lm.authenticateP2(p2usernameString, p2passwordString)) {
                 Toast.makeText(this, "Starting Game...", Toast.LENGTH_SHORT).show();
                 userManager.addOpponent(gameIndex, p2usernameString);

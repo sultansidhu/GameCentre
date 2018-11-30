@@ -15,11 +15,8 @@ import java.util.Stack;
 
 public class FileManager implements Serializable {
 
-    private Context context;
-
-    public FileManager(Context context)
+    public FileManager()
     {
-        this.context = context;
         HashMap<String, User> HMfromfile = readObject();
         if(HMfromfile == null) {
             saveObject(new HashMap<String, User>());
@@ -33,7 +30,7 @@ public class FileManager implements Serializable {
         try
         {
             //fis = context.openFileInput("testFile.ser");
-            fis = context.openFileInput("SAVED_USERS.ser");
+            fis = GlobalApplication.getAppContext().openFileInput("SAVED_USERS.ser");
             objectIn = new ObjectInputStream(fis);
             @SuppressWarnings("unchecked")
             HashMap<String, User> hashMapFromFile = (HashMap<String, User>)objectIn.readObject();
@@ -99,7 +96,7 @@ public class FileManager implements Serializable {
         try
         {
             //fos = context.openFileOutput("testFile.ser", Context.MODE_PRIVATE);
-            fos = context.openFileOutput("SAVED_USERS.ser", Context.MODE_PRIVATE);
+            fos = GlobalApplication.getAppContext().openFileOutput("SAVED_USERS.ser", Context.MODE_PRIVATE);
             objectOut = new ObjectOutputStream(fos);
             objectOut.writeObject(hashMap);
             objectOut.close();

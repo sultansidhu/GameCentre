@@ -23,8 +23,8 @@ class ShogiScore implements Score
      */
     // TODO: remove static here
     public ShogiScore() {
-        fm = new FileManager(GlobalApplication.getAppContext());
-        lm = new LoginManager(GlobalApplication.getAppContext());
+        fm = new FileManager();
+        lm = new LoginManager();
     }
 
     /**

@@ -29,8 +29,8 @@ public class SlidingActivity extends GameActivity implements Observer {
     private SlidingGestureDetectGridView gridView;
     private static int columnWidth, columnHeight;
     private int gameIndex = 0;
-    private String username = new LoginManager(getApplicationContext()).getPersonLoggedIn();
-    private FileManager fm = new FileManager(getApplicationContext());
+    private String username = new LoginManager().getPersonLoggedIn();
+    private FileManager fm = new FileManager();
     private BoardManagerFactory bmFactory = new BoardManagerFactory();
 
     /**

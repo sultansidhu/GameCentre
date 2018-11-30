@@ -28,9 +28,9 @@ public class StartingShogiActivity extends StartingActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fm = new FileManager(this);
-        username = new LoginManager(this).getPersonLoggedIn();
-        userManager = new UserManager(this);
+        fm = new FileManager();
+        username = new LoginManager().getPersonLoggedIn();
+        userManager = new UserManager();
         System.out.println("USERNAME: " + username);
         setContentView(R.layout.starting_hs);
         addStartButtonListener();

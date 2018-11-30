@@ -22,9 +22,9 @@ public class StartingConnectFourActivity extends StartingActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        fm = new FileManager(this);
-        username = new LoginManager(this).getPersonLoggedIn();
-        userManager = new UserManager(this);
+        fm = new FileManager();
+        username = new LoginManager().getPersonLoggedIn();
+        userManager = new UserManager();
         setContentView(R.layout.starting_connect4);
         addLoadButtonListener();
         addStartButtonListener();
