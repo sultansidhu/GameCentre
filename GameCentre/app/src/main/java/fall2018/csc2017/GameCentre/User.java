@@ -78,7 +78,7 @@ public class User implements Serializable {
         for (int i = 0; i <= 2; i++) {//Initializes the stack
             this.savedStates.put(i, new Stack<Board>());
             this.highestScore.put(i, new ArrayList<Integer>());
-            this.availableUndos.put(i, 3); // the default number of undos for every user.
+            this.availableUndos.put(i, 3);
         }
     }
 
