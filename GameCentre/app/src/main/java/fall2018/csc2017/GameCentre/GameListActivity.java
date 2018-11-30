@@ -6,9 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * The gamelist activity with all the games.
@@ -30,7 +27,6 @@ public class GameListActivity extends AppCompatActivity
     }
     /**
      * This will launch the sliding tiles GameActivity on click.
-     * return null.
      */
     public void addSlidingTilesButtonListener()
     {
@@ -44,6 +40,9 @@ public class GameListActivity extends AppCompatActivity
         });
     }
 
+    /**
+     * Launches the hasami shogi game upon pressing
+     */
     public void addHasamiShogiButtonListener() {
         Button launchHasamiShogi = findViewById(R.id.btnLaunchShogi);
         launchHasamiShogi.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +55,9 @@ public class GameListActivity extends AppCompatActivity
 
     }
 
+    /**
+     * Launches the connect 4 game upon pressing
+     */
     public void addConnectFourButtonListener() {
         Button launchHasamiShogi = findViewById(R.id.btnLaunchConnectFour);
         launchHasamiShogi.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +86,7 @@ public class GameListActivity extends AppCompatActivity
                 intent = new Intent(this, StartingConnectFourActivity.class);
         }
 
+        assert intent != null;
         intent.putExtra("gameIndex", gameIndex);
         startActivity(intent);
 

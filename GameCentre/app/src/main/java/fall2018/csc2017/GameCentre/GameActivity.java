@@ -6,12 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.Toast;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Stack;
-
-//import static fall2018.csc2017.GameCentre.MovementController.username;
 
 /**
  * The game activity.
@@ -32,10 +28,8 @@ public class GameActivity extends AppCompatActivity implements Observer {
      * Set up the background image for each button based on the master list
      * of positions, and then call the adapter to set the view.
      */
-    // Display
     public void display() {
         updateTileButtons();
-//        gridView.setAdapter(new CustomAdapter(tileButtons, columnWidth, columnHeight));
     }
 
     @Override
@@ -57,13 +51,6 @@ public class GameActivity extends AppCompatActivity implements Observer {
      */
     public void makeToastNoUndo() {
         Toast.makeText(this, "You have used all your undos!", Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * Make toast notifying the user of an empty Board stack.
-     */
-    public void makeToastEmptyStack(){
-        Toast.makeText(this, "There are no previous boards.", Toast.LENGTH_SHORT).show();
     }
 
     /**

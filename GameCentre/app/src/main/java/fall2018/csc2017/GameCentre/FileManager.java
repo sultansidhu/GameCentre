@@ -2,7 +2,6 @@ package fall2018.csc2017.GameCentre;
 
 import android.content.Context;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -15,6 +14,11 @@ import java.util.Stack;
 
 public class FileManager implements Serializable {
 
+    /**
+     * The file manager constructor, constructs
+     * a file manager, enabling reading of the
+     * serialized hash map
+     */
     public FileManager()
     {
         HashMap<String, User> HMfromfile = readObject();
@@ -23,13 +27,17 @@ public class FileManager implements Serializable {
         }
     }
 
-    public HashMap<String, User> readObject()
+    /**
+     * Reads the serialized file and returns the read
+     * hash map
+     * @return the read hash map from the .ser file
+     */
+    HashMap<String, User> readObject()
     {
         FileInputStream fis;
         ObjectInputStream objectIn;
         try
         {
-            //fis = context.openFileInput("testFile.ser");
             fis = GlobalApplication.getAppContext().openFileInput("testFile2.ser");
             objectIn = new ObjectInputStream(fis);
             @SuppressWarnings("unchecked")
@@ -39,7 +47,7 @@ public class FileManager implements Serializable {
             return hashMapFromFile;
         }
         catch(NullPointerException e){
-            return new HashMap<String, User>();
+            return new HashMap<>();
         }
         catch(ClassCastException ca)
         {
@@ -65,37 +73,50 @@ public class FileManager implements Serializable {
      This method saves a user to the HashMap and writes the HashMap to the file
      @param user, the User object to add
      @param username, a String representing the username of the user to add
-     @return null
-     @throws null
      */
 
-    public void saveUser(User user, String username)
+    void saveUser(User user, String username)
     {
         HashMap<String, User> HMfromfile = readObject();
         HMfromfile.put(username, user);
         saveObject(HMfromfile);
     }
 
-    public User getUser(String username) {
+    /**
+     * Returns the user object corresponding to the username passed in
+     * @param username the username of the desired user object
+     * @return the User corresponding to the username String
+     */
+    User getUser(String username) {
         HashMap<String, User> users = readObject();
         assert users != null;
         return users.get(username);
     }
 
-
-    public Stack<Board> getStack(String username, int gameIndex) {
+    /**
+     * Returns the stack of the user for the specified game
+     * @param username the username of the user
+     * @param gameIndex the identity of the game, for which the
+     *                  stack is desired
+     * @return the stack corresponding to the user and the
+     * specified game
+     */
+    Stack<Board> getStack(String username, int gameIndex) {
         return getUser(username).getGameStack(gameIndex);
     }
 
-
-    public void saveObject(HashMap<String, User> hashMap)
+    /**
+     * Saves the given hashmap to the serialized file, thus saving
+     * the users and their games
+     * @param hashMap the hashmap to be saved onto the .ser file
+     */
+    void saveObject(HashMap<String, User> hashMap)
     {
         FileOutputStream fos;
         ObjectOutputStream objectOut;
 
         try
         {
-            //fos = context.openFileOutput("testFile.ser", Context.MODE_PRIVATE);
             if(GlobalApplication.getAppContext() == null) {
                 System.out.println("CONTEXT NULL");
             } else {
@@ -112,10 +133,12 @@ public class FileManager implements Serializable {
         }
         catch(FileNotFoundException e1)
         {
+            e1.printStackTrace();
             System.out.println("FILE NOT FOUND WHILE SAVING TO SERIALIZED FILE");
         }
         catch(IOException e)
         {
+            e.printStackTrace();
             System.out.println("IO EXCEPTION WHILE SAVING TO SERIALIZED FILE");
         }
 
