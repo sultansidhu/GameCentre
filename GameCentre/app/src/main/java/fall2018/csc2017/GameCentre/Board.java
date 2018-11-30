@@ -1,9 +1,6 @@
 package fall2018.csc2017.GameCentre;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
-import android.widget.Toast;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,8 +24,10 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
      * The tiles on the board in row-major order.
      */
     private Tile[][] tiles = new Tile[NUM_ROWS][NUM_COLS];
-    private String opponent;
 
+    /**
+     * The current player of the board.
+     */
     private int currPlayer = 1;
 
     /**
@@ -47,20 +46,6 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
         }
     }
 
-    /**
-    *This method sets the opponent attribute of this class to the string opponent
-     @param opponent, a String representing the opponent
-     @return null
-     @throws null
-    */
-
-    public void setOpponentString(String opponent)
-    {
-        this.opponent = opponent;
-    }
-
-    public String getOpponentString() { return this.opponent; }
-
 
     /**
      * A getter method to return the array of tiles contained within
@@ -77,11 +62,15 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
      *
      * @return the number of tiles on the board
      */
-    public int numTiles() {
+    int numTiles() {
         return Board.NUM_ROWS * Board.NUM_COLS;
     }
 
-    public int numBlacks() {
+    /**
+     * Returns the number of black tiles in the current board.
+     * @return number of black tiles in the current board.
+     */
+    int numBlacks() {
         Iterator<Tile> iter = iterator();
         int numBlacks = 0;
         while (iter.hasNext()) {
@@ -92,7 +81,11 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
         return numBlacks;
     }
 
-    public int numReds() {
+    /**
+     * Returns the number of red tiles in the current board.
+     * @return number of red tiles in the current board.
+     */
+    int numReds() {
         Iterator<Tile> iter = iterator();
         int numReds = 0;
         while (iter.hasNext()) {
@@ -122,7 +115,7 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
      * @param row2 the second tile row
      * @param col2 the second tile col
      */
-    public void swapTiles(int row1, int col1, int row2, int col2) {
+    void swapTiles(int row1, int col1, int row2, int col2) {
         Tile tile1 = getTile(row1, col1);
         Tile tile2 = getTile(row2, col2);
         Tile[][] newTiles = tiles.clone();
@@ -133,7 +126,13 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
         notifyObservers();
     }
 
-    public void setTileBackground(int row, int col, int background) {
+    /**
+     * Sets the tile background of a tile at the specified row and column
+     * @param row the row of the specified tile
+     * @param col the column of the specified tile
+     * @param background the background the tile needs to be set to
+     */
+    void setTileBackground(int row, int col, int background) {
         getTile(row, col).setBackground(background);
         setChanged();
         notifyObservers();
@@ -144,6 +143,7 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
      *
      * @return the string representation of the board.
      */
+    @NonNull
     @Override
     public String toString() {
         return "Board{" +
@@ -193,8 +193,6 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
          */
         @Override
         public Tile next() {
-            //System.out.println("THE CURRENNT ROW IS: " + row);
-            //System.out.println("THE CURRENT COLUMN IS: " + col);
             Tile nextTile = getTile(row, col);
             if (col == Board.NUM_COLS - 1) {
                 col = 0;
@@ -214,14 +212,14 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
      *
      * @return the number of inversions present within the board.
      */
-    int checkInversions(){
+    private int checkInversions(){
         int inversions = 0;
         ArrayList<Integer> arrayList = new ArrayList<>();
         BoardIterator iterator = new BoardIterator();
         while (iterator.hasNext()){
             Tile nextTile = iterator.next();
             if (nextTile.getId()!=numTiles()){
-                arrayList.add(new Integer(nextTile.getId()));
+                arrayList.add(nextTile.getId());
             }
 
 
@@ -250,30 +248,16 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
         int numTiles = this.numTiles();
         if (numTiles % 2 == 1){
             int numInversions = this.checkInversions();
-            if (numInversions % 2 == 0){
-                return true;
-            } else {
-                return false;
-            }
+            return numInversions % 2 == 0;
         } else {
             int numInversions = this.checkInversions();
-            System.out.println("THE NUMBER OF INVERSIONS IS " + numInversions);
             int[] position = this.getEmptyTilePosition();
-            System.out.println("THE POSITION OF THE EMPTY TILE IS: " + position);
             int row = position[0];
             if (row % 2 == 1){ // covers row being even from below case
-                if (numInversions%2 == 1){
-                    return false;
-                } else {
-                    return true;
-                }
+                return numInversions % 2 != 1;
 
             } else { // covers row being odd from below case
-                if (numInversions%2 == 0){
-                    return false;
-                } else {
-                    return true;
-                }
+                return numInversions % 2 != 0;
             }
         }
     }
@@ -282,7 +266,7 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
      * Returns the position of the empty tile within the board in the format [row, column]
      * @return the position of the empty tile within the board in the format [row, column]
      */
-    int[] getEmptyTilePosition(){
+    private int[] getEmptyTilePosition(){
         int position = getPos();
         int row = position / NUM_ROWS;
         int column = position % NUM_COLS;
@@ -297,7 +281,7 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
      * Returns the index of the empty tile within the board
      * @return the index of the empty tile within the board
      */
-    int getPos(){
+    private int getPos(){
         int counter = 0;
         BoardIterator iterator = new BoardIterator();
         while (iterator.hasNext()){
@@ -312,9 +296,17 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
         return 0;
     }
 
-    public void setCurrPlayer(int currPlayer) {
+    /**
+     * Sets the current player of the game
+     * @param currPlayer the current player
+     */
+    void setCurrPlayer(int currPlayer) {
         this.currPlayer = currPlayer;
     }
 
-    public int getCurrPlayer() { return currPlayer; }
+    /**
+     * Returns the current player of the game
+     * @return the current player of the game
+     */
+    int getCurrPlayer() { return currPlayer; }
 }
