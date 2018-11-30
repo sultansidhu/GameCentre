@@ -7,11 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class ScoreboardController {
+class ScoreboardManager {
     private FileManager fm;
     private ScoreFactory scoreFactory = new ScoreFactory();
 
-    ScoreboardController() {
+    ScoreboardManager() {
         this.fm = new FileManager();
     }
 
@@ -64,7 +64,6 @@ class ScoreboardController {
      * @param gameIndex the identity of the game
      * @return the ArrayList of global scores
      */
-    // TODO: Add comments in this method, it's kind of confusing
     List getGlobalScores(int gameIndex) {
         Map<String, User> users = fm.readObject();
         List<Object> highScoresTup = new ArrayList<>();

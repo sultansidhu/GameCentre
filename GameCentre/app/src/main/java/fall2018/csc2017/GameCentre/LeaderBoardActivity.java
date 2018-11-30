@@ -11,7 +11,7 @@ import java.util.List;
 
 public class LeaderBoardActivity extends AppCompatActivity {
 
-    private ScoreboardController scon = new ScoreboardController();
+    private ScoreboardManager scon = new ScoreboardManager();
     String winner;
 
     @Override

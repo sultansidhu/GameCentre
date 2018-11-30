@@ -121,7 +121,7 @@ public class SlidingGestureDetectGridView extends GestureDetectGridView {
             if (winner.equals("Guest")) {
                 switchToLeaderBoardScreen(context, winner);
             } else {
-                ScoreboardController scon = new ScoreboardController();
+                ScoreboardManager scon = new ScoreboardManager();
                 String userLoggedIn = new LoginManager().getPersonLoggedIn();
                 int result = scon.generateUserScore(winner, userLoggedIn, gameIndex);
                 switchToScoreboardScreen(context, result, winner);
