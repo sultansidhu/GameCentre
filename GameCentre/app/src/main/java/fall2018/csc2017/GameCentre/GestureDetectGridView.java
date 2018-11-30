@@ -92,11 +92,6 @@ public class GestureDetectGridView extends GridView {
         });
     }
 
-
-    public boolean peekBoardManagerSolved(Board board) {
-        return false;
-    }
-
     /*
     Switches to the scoreboard screen if a game is won
      */
