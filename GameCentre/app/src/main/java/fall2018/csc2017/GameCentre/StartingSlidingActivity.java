@@ -5,7 +5,7 @@ File Name: StartingSlidingActivity.java
 Purpose: This Activity connects to the main menu of SlidingTiles
 and initializes the screen
 Date: October 30, 2018
-Group #: 0506
+Group #: 0647
 ================================================================== */
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import java.util.EmptyStackException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
@@ -26,12 +25,33 @@ public class StartingSlidingActivity extends StartingActivity {
      * The board manager.
      */
     private SlidingBoardManager boardManager;
+    /**
+     * The undo limit.
+     */
     private int undoLimit;
+    /**
+     * The game index for this game
+     */
     private int gameIndex = 0;
+    /**
+     * The size of this board
+     */
     private int size;
+    /**
+     * The username of the person about to play
+     */
     private String username = new LoginManager().getPersonLoggedIn();
+    /**
+     * The FileManager for this class
+     */
     private FileManager fm = new FileManager();
+    /**
+     * The boardManagerFactory for this class
+     */
     private BoardManagerFactory bmFactory = new BoardManagerFactory();
+    /**
+     * The usermanager for this class
+     */
     private UserManager userManager = new UserManager();
 
     /**
@@ -76,7 +96,7 @@ public class StartingSlidingActivity extends StartingActivity {
     }
 
     /**
-    Actixvate the LaunchScoreboard button
+    Activate the LaunchScoreboard button
     */
     private void addScoreboardButtonListener() {
         Button scoreboard = findViewById(R.id.btnScoreboard);
@@ -137,6 +157,7 @@ public class StartingSlidingActivity extends StartingActivity {
      * Read the temporary board from disk.
      */
     @Override
+    @SuppressWarnings("ConstantConditions")
     protected void onResume() {
         super.onResume();
         Map<String, User> users = fm.readObject();
