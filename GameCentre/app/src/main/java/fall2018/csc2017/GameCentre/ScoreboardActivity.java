@@ -12,6 +12,7 @@ Group #: 0506
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
@@ -265,7 +266,11 @@ private void addGoToGlobalScoresListener(){
         User user = users.get(username);
         //setScores(username); // todo: instead of calling this make three calls
 
-        newScore = scoreFactory.getScore(gameIndex).calculateUserScore(user);
+//        newScore = scoreFactory.getScore(gameIndex).calculateUserScore(user);
+        Score s1 = scoreFactory.getScore(gameIndex);
+        Board userBoard = user.getGameStack(gameIndex).peek();
+        s1.setBoard(userBoard);
+        newScore = s1.calculateUserScore(user.getNumMoves(gameIndex), userBoard.NUM_COLS);
         user.addSessionScore(newScore, gameIndex);
 
         assert newScore >= 0;

@@ -12,6 +12,11 @@ class SlidingScore implements Score
     private FileManager fm;
 
     /**
+     * A board object
+     */
+    private Board board;
+
+    /**
      * The constructor for this class, which intiailizes the fm object
      */
     // TODO: remove static here
@@ -22,18 +27,21 @@ class SlidingScore implements Score
 
     /**
      * Calculate and return the score of User user
-     * @param user, a User object representign the current player
+     * @param numMoves, an integer representing the number of moves made by this user
+     * @param size, an integer representing the size of the board
      * @return score, an integer representing the score of this user
      */
 
-    public int calculateUserScore(User user)
+    public int calculateUserScore(int numMoves, int size)
     {
-        int numMoves = user.getNumMoves(0);
-        System.out.println("TOOK MOVES::::"+numMoves);
-        System.out.println(2000/numMoves);
         double score = 2000/numMoves;
-        return (int)score;
+        return (int)score + (50 * size);
     }
+
+    public void setBoard(Board board){
+        this.board = board;
+    }
+
 
     public void updateUserScore(User user, int newHighScore) {
 
