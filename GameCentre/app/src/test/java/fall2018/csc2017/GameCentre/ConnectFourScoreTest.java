@@ -6,10 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
+
 public class ConnectFourScoreTest {
 
     @Test
-    public void calculateUserScoreTest() {
+    public void testCalculateUserScore() {
         ConnectFourScore cs = new ConnectFourScore();
         cs.setBoard(new Board(makeTiles()));
         assertEquals(1288, cs.calculateUserScore(10, 6));

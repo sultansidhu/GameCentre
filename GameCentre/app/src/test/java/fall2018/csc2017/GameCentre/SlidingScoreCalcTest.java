@@ -4,14 +4,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import android.content.Context;
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class SlidingScoreCalcTest
-{
+public class SlidingScoreCalcTest {
 
     @Test
     public void testCalculateUserScore() {

@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class UserTest {
-//ctrl + shift + t
+
     @Test
     public void addState() {
         User u = new User("John", "Tavares", "What is your city of birth?", "Mississauga");
