@@ -15,37 +15,16 @@ import java.util.Stack;
 
 public class FileManager implements Serializable {
 
-    private HashMap<String, User> theHashMap = new HashMap<>();
     private Context context;
 
     public FileManager(Context context)
     {
         this.context = context;
         HashMap<String, User> HMfromfile = readObject();
-        if(HMfromfile != null) {
-            this.theHashMap = HMfromfile;
-        }
-        else {
+        if(HMfromfile == null) {
             saveObject(new HashMap<String, User>());
         }
     }
-    //public HashMap<String, User> readObject() {
-        //return theHashMap;
-    //}
-
-//    public String returnLoggedInUsername()
-//    {
-//        // ITERATE THROUGH THE HASHMAP AND RETURN THE USERNAME
-//        // OF THE USER THAT IS LOGGED IN
-//        return "You still have to do this return loggedInUsername function, silly!";
-//    }
-
-    /**
-     This method establishes a connection
-     with the serialized file and reads the HashMap of user info from the file.
-     The read HashMap is then assigned to the "logins" attribute of this class.
-     return null
-     */
 
     public HashMap<String, User> readObject()
     {
@@ -54,7 +33,7 @@ public class FileManager implements Serializable {
         try
         {
             //fis = context.openFileInput("testFile.ser");
-            fis = context.openFileInput("testFile2.ser");
+            fis = context.openFileInput("SAVED_USERS.ser");
             objectIn = new ObjectInputStream(fis);
             @SuppressWarnings("unchecked")
             HashMap<String, User> hashMapFromFile = (HashMap<String, User>)objectIn.readObject();
@@ -120,7 +99,7 @@ public class FileManager implements Serializable {
         try
         {
             //fos = context.openFileOutput("testFile.ser", Context.MODE_PRIVATE);
-            fos = context.openFileOutput("testFile2.ser", Context.MODE_PRIVATE);
+            fos = context.openFileOutput("SAVED_USERS.ser", Context.MODE_PRIVATE);
             objectOut = new ObjectOutputStream(fos);
             objectOut.writeObject(hashMap);
             objectOut.close();

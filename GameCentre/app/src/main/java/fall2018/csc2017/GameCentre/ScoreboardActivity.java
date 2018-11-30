@@ -12,6 +12,7 @@ Group #: 0506
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
@@ -67,7 +68,7 @@ public class ScoreboardActivity extends AppCompatActivity
         String winnerUsername = getIntent().getStringExtra("username");//new LoginManager().getPersonLoggedIn();
         System.out.println("THE WINNERS USERNAME IS --------------%%%%%%%%%%%% -------------" + winnerUsername);
         if(winnerUsername == null){//If there is no winner since we came from starting activity
-            winnerUsername = new LoginManager(getApplicationContext()).getPersonLoggedIn();
+            winnerUsername = new LoginManager(GlobalApplication.getAppContext()).getPersonLoggedIn();
         }
         winner = winnerUsername;
         int[] results = getIntent().getIntArrayExtra("results");
@@ -157,7 +158,7 @@ private void addGoToGlobalScoresListener(){
         resetScores.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoginManager lm = new LoginManager(getApplicationContext());
+                LoginManager lm = new LoginManager(GlobalApplication.getAppContext());
                 User user = fm.getUser(winner);
                 user.resetScoreHashmapForAllGames();
                 fm.saveUser(user, winner);
@@ -265,7 +266,11 @@ private void addGoToGlobalScoresListener(){
         User user = users.get(username);
         //setScores(username); // todo: instead of calling this make three calls
 
-        newScore = scoreFactory.getScore(gameIndex).calculateUserScore(user);
+//        newScore = scoreFactory.getScore(gameIndex).calculateUserScore(user);
+        Score s1 = scoreFactory.getScore(gameIndex);
+        Board userBoard = user.getGameStack(gameIndex).peek();
+        s1.setBoard(userBoard);
+        newScore = s1.calculateUserScore(user.getNumMoves(gameIndex), userBoard.NUM_COLS);
         user.addSessionScore(newScore, gameIndex);
 
         assert newScore >= 0;

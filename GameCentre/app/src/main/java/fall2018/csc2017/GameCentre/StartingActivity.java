@@ -11,6 +11,7 @@ public class StartingActivity extends AppCompatActivity
 {
     public FileManager fm;
     private UserManager userManager;
+    private LoginManager lm = new LoginManager(GlobalApplication.getAppContext());
 
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -55,7 +56,6 @@ public class StartingActivity extends AppCompatActivity
      */
     public void switchToScoreboardScreen() {
         Intent intent = new Intent(this, ScoreboardActivity.class);
-        LoginManager lm = new LoginManager(getApplicationContext());
         String username = lm.getPersonLoggedIn();
         intent.putExtra("username", username);
         startActivity(intent);
