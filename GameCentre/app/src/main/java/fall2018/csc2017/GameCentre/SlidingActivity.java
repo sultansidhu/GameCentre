@@ -32,6 +32,7 @@ public class SlidingActivity extends GameActivity implements Observer {
     private String username = new LoginManager().getPersonLoggedIn();
     private FileManager fm = new FileManager();
     private BoardManagerFactory bmFactory = new BoardManagerFactory();
+    private UserManager userManager = new UserManager();
 
     /**
      * Set up the background image for each button based on the master list
@@ -83,12 +84,16 @@ public class SlidingActivity extends GameActivity implements Observer {
             @Override
             public void onClick(View v)
             {
-                User user = fm.getUser(username);
-                Stack<Board> userStack = user.getGameStack(gameIndex);
-//                undoHelper(user, username, userStack, gameIndex);
-                boardManager = (SlidingBoardManager)bmFactory.getBoardManager(gameIndex, userStack.peek());
-                addBoardObserver();
-                display();
+                if (userManager.processUndo(username, gameIndex)) {
+                    User user = fm.getUser(username);
+                    makeToastUndo(user, gameIndex);
+                    boardManager = (SlidingBoardManager) bmFactory.getBoardManager(gameIndex, user.getGameStack(gameIndex).peek());
+                    addBoardObserver();
+                    display();
+                }
+                else {
+                    makeToastNoUndo();
+                }
             }
         });
     }

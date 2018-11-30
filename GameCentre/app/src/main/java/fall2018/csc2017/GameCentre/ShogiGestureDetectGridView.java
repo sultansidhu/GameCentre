@@ -2,14 +2,10 @@ package fall2018.csc2017.GameCentre;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.widget.GridView;
 import android.widget.Toast;
-
-import java.util.HashMap;
 
 public class ShogiGestureDetectGridView extends GestureDetectGridView {
 

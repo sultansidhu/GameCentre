@@ -89,16 +89,15 @@ public class ShogiActivity extends GameActivity implements Observer {
             @Override
             public void onClick(View v)
             {
-                if (!userManager.processUndo(username, gameIndex)) {
-                    makeToastNoUndo();
-                }
-                else {
+                if (userManager.processUndo(username, gameIndex)) {
                     User user = fm.getUser(username);
                     makeToastUndo(user, gameIndex);
-//                undoHelper(user, username, userStack, gameIndex);
                     boardManager = (ShogiBoardManager) bmFactory.getBoardManager(gameIndex, user.getGameStack(gameIndex).peek());
                     addBoardObserver();
                     display();
+                }
+                else {
+                    makeToastNoUndo();
                 }
             }
         });
