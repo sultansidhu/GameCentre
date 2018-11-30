@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -24,30 +25,52 @@ public class ConnectFourActivity extends GameActivity implements Observer {
      */
     private ArrayList<Button> tileButtons;
 
-    // Grid View and calculated column height and width based on device size
+    /**
+     * The gesture detector grid view for the Connect 4 board, calculated
+     * based on the device size
+     */
     private Connect4GestureDetectGridView gridView;
+
+    /**
+     * The column width and the column height, calculated based on the
+     * device size
+     */
     private static int columnWidth, columnHeight;
-    private int gameIndex = 2;
+    /**
+     * The username of the person logged in
+     */
     private String username = new LoginManager().getPersonLoggedIn();
+
+    /**
+     * The filemanager for reading and writing to the HashMap
+     */
     private FileManager fm = new FileManager();
+
+    /**
+     * The board manager factor
+     */
     private BoardManagerFactory bmFactory = new BoardManagerFactory();
 
     /**
      * Set up the background image for each button based on the master list
      * of positions, and then call the adapter to set the view.
      */
-    // Display
     public void display() {
         updateTileButtons();
         gridView.setAdapter(new CustomAdapter(tileButtons, columnWidth, columnHeight));
     }
 
+    /**
+     * On the creation of the screen, the function is executed
+     *
+     * @param savedInstanceState the Bundle that is executed for creating the screen
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        int gameIndex = 2; // identity of the connect4 game
         Stack<Board> userStack = fm.getStack(username, gameIndex);
-        boardManager = (ConnectFourBoardManager)bmFactory.getBoardManager(gameIndex, userStack.peek());
-//        setTimer(username);
+        boardManager = (ConnectFourBoardManager) bmFactory.getBoardManager(gameIndex, userStack.peek());
         createTileButtons(this);
         setContentView(R.layout.activity_main_connect4);
         // Add View to activity
@@ -56,11 +79,9 @@ public class ConnectFourActivity extends GameActivity implements Observer {
         addBoardObserver();
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
-                new ViewTreeObserver.OnGlobalLayoutListener()
-                {
+                new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
-                    public void onGlobalLayout()
-                    {
+                    public void onGlobalLayout() {
                         gridView.getViewTreeObserver().removeOnGlobalLayoutListener(
                                 this);
                         int displayWidth = gridView.getMeasuredWidth();
@@ -72,6 +93,10 @@ public class ConnectFourActivity extends GameActivity implements Observer {
                 });
     }
 
+    /**
+     * Adds the observer to the board, alerting the system of any changes
+     * that take place in the Connect 4 board
+     */
     private void addBoardObserver() {
         gridView.setBoardManager(boardManager);
         boardManager.getBoard().addObserver(ConnectFourActivity.this);
@@ -110,7 +135,8 @@ public class ConnectFourActivity extends GameActivity implements Observer {
 
     /**
      * Updates the display
-     * @param o the observable
+     *
+     * @param o   the observable
      * @param arg the object
      */
     @Override

@@ -5,39 +5,37 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.widget.Toast;
 
-public class Connect4GestureDetectGridView extends GestureDetectGridView
-{
+public class Connect4GestureDetectGridView extends GestureDetectGridView {
 
-    /*
-     An int representing the minimum distance to swipe
+    /**
+     * An int representing the minimum distance to swipe
      */
     public static final int SWIPE_MIN_DISTANCE = 100;
-    /*
-    The GestureDetector object that will be used here
-    */
+    /**
+     * The GestureDetector object that will be used here
+     */
     private GestureDetector gDetector;
-    /*
-    The MovementController object that will be used here
-    */
+    /**
+     * The MovementController object that will be used here
+     */
     private MovementController mController;
-    /*
-    A boolean value representing if mFlingConfirmed
-    */
+    /**
+     * A boolean value representing if mFlingConfirmed
+     */
     private boolean mFlingConfirmed = false;
-    /*
-    The X coordinate of the mTouch
-    */
+    /**
+     * The X coordinate of the mTouch
+     */
     private float mTouchX;
-    /*
-    The Y coordinate of the mTouch
-    */
+    /**
+     * The Y coordinate of the mTouch
+     */
     private float mTouchY;
 
-    /*
-    An instance of BoardManager that will be used in this class
-    */
+    /**
+     * An instance of BoardManager that will be used in this class
+     */
 
     private ConnectFourBoardManager boardManager;
 
@@ -45,37 +43,52 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView
      * Username of user currently playing.
      */
     private String username;
-   // private String usernameP2;
 
     /**
-    The file manager instance
+     * The file manager instance
      */
     private FileManager fm;
 
+    /**
+     * In index of the game being played
+     */
     private int gameIndex = 2;
 
-    /*
-    Overloaded Constructor that takes a Context
-    */
+    /**
+     * An overloaded constructor for the Connect4 Gesture detector,
+     * taking a context parameter
+     *
+     * @param context the given context
+     */
     public Connect4GestureDetectGridView(Context context) {
         super(context);
         init(context);
         LoginManager lm = new LoginManager();
         username = lm.getPersonLoggedIn();
     }
-    /*
-    Overloaded Constructor that takes a Context and AttributeSet
-    */
+
+    /**
+     * Overloaded constructor for the Connect4 gesture detector taking an intent
+     * and an attribute set
+     *
+     * @param context the given context
+     * @param attrs   the attribute set for gesture detection
+     */
     public Connect4GestureDetectGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
         LoginManager lm = new LoginManager();
         username = lm.getPersonLoggedIn();
     }
-    /*
-    Overloaded Constructor that takes a Context, an AttributeSet, and a defaultStyleAttribute integer
-    */
 
+    /**
+     * An overloaded constructor for the Connect4 gesture detector, taking a context,
+     * an attribute set, and a style resource reference
+     *
+     * @param context      the given context
+     * @param attrs        the attribute set
+     * @param defStyleAttr the style resource reference
+     */
     public Connect4GestureDetectGridView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
@@ -83,6 +96,12 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView
         username = lm.getPersonLoggedIn();
     }
 
+    /**
+     * Initialization function for the gridview, contains instructions for every tap
+     * of the user
+     *
+     * @param context the given context
+     */
     private void init(final Context context) {
         fm = new FileManager();
         mController = new MovementController(context);
@@ -97,6 +116,7 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView
                 mController.processTapMovement(context, position, gameIndex);
                 return true;
             }
+
             @Override
             public boolean onDown(MotionEvent event) {
                 return true;
@@ -105,34 +125,22 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView
         });
     }
 
-    public void updateScoreboard(Context context, int position) {
-        ScoreboardActivity sc = new ScoreboardActivity();
-        if (boardManager.getCurrentPlayer(position) == R.drawable.red) { // in this case the red won, so p1 won // this was changed from being 1
-            sc.updateUserHighScore(username, gameIndex);
-        }
-        else{//black wins
-
-            // what this needs is the username of the other player.
-
-            String opponent = fm.getUser(username).getOpponents().get(gameIndex);
-            if (!opponent.equals("Guest")){
-                sc.updateUserHighScore(opponent, gameIndex);
-            } else {
-                Toast.makeText(context, "Guest won!", Toast.LENGTH_SHORT).show();
-                // TODO: BOYS WE NEED A WAY TO DISPLAY THE SCORE THE USER MADE DURING THE GAME <- SULTAN SAID THAT
-            }
-        }
-    }
-
-    /*
-    This function sets the BoardManager attribute of this class
-    @param boardManager
-    @return null
-    */
+    /**
+     * This function sets the BoardManager attribute of this class
+     *
+     * @param boardManager the board manager for the current game of Connect 4
+     */
     public void setBoardManager(ConnectFourBoardManager boardManager) {
         this.boardManager = boardManager;
         mController.setBoardManager(boardManager);
     }
+
+    /**
+     * Captures the user's touch
+     *
+     * @param ev the MotionEvent
+     * @return whether the touch is intercepted
+     */
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         int action = ev.getActionMasked();
         gDetector.onTouchEvent(ev);
@@ -157,6 +165,11 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView
         return super.onInterceptTouchEvent(ev);
     }
 
+    /***
+     * Assists the onInterceptTouchEvent in registering user
+     * @param ev the MotionEvent
+     * @return whether the touch is captured
+     */
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
