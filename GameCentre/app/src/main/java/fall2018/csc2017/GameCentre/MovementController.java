@@ -61,7 +61,8 @@ class MovementController {
             else {
                 Toast.makeText(context, winner + " Wins!", Toast.LENGTH_SHORT).show();
                 ScoreboardActivity sc = new ScoreboardActivity();
-                int[] result = sc.updateUserHighScore(winner, gameIndex);
+                ScoreboardController scon = new ScoreboardController();
+                int[] result = scon.updateUserHighScore(winner, gameIndex);
                 switchToScoreboardScreen(context, result, winner);
                 System.out.println("LE RESULT ISCH ------------- : " + result);
             }

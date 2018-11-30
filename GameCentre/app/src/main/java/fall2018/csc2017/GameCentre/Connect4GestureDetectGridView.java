@@ -107,8 +107,9 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView
 
     public void updateScoreboard(Context context, int position) {
         ScoreboardActivity sc = new ScoreboardActivity();
+        ScoreboardController scon = new ScoreboardController();
         if (boardManager.getCurrentPlayer(position) == R.drawable.red) { // in this case the red won, so p1 won // this was changed from being 1
-            sc.updateUserHighScore(username, gameIndex);
+            scon.updateUserHighScore(username, gameIndex);
         }
         else{//black wins
 
@@ -116,7 +117,7 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView
 
             String opponent = fm.getUser(username).getOpponents().get(gameIndex);
             if (!opponent.equals("Guest")){
-                sc.updateUserHighScore(opponent, gameIndex);
+                scon.updateUserHighScore(opponent, gameIndex);
             } else {
                 Toast.makeText(context, "Guest won!", Toast.LENGTH_SHORT).show();
                 // TODO: BOYS WE NEED A WAY TO DISPLAY THE SCORE THE USER MADE DURING THE GAME <- SULTAN SAID THAT
