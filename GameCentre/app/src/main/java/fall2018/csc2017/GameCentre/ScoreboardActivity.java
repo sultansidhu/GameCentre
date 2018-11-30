@@ -68,7 +68,7 @@ public class ScoreboardActivity extends AppCompatActivity
         String winnerUsername = getIntent().getStringExtra("username");//new LoginManager().getPersonLoggedIn();
         System.out.println("THE WINNERS USERNAME IS --------------%%%%%%%%%%%% -------------" + winnerUsername);
         if(winnerUsername == null){//If there is no winner since we came from starting activity
-            winnerUsername = new LoginManager(getApplicationContext()).getPersonLoggedIn();
+            winnerUsername = new LoginManager(GlobalApplication.getAppContext()).getPersonLoggedIn();
         }
         winner = winnerUsername;
         int[] results = getIntent().getIntArrayExtra("results");
@@ -158,7 +158,7 @@ private void addGoToGlobalScoresListener(){
         resetScores.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoginManager lm = new LoginManager(getApplicationContext());
+                LoginManager lm = new LoginManager(GlobalApplication.getAppContext());
                 User user = fm.getUser(winner);
                 user.resetScoreHashmapForAllGames();
                 fm.saveUser(user, winner);

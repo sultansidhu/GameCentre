@@ -11,6 +11,7 @@ Group #: 0506
 
 import android.content.Context;
 import android.content.Intent;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 TextView fieldPassword = findViewById(R.id.field_password);
                 final String passwordToAuthenticate = fieldPassword.getText().toString().trim();
                 //authenticate(usernameToAuthenticate, passwordToAuthenticate);
-                LoginManager lm = new LoginManager(getApplicationContext());
+                LoginManager lm = new LoginManager(GlobalApplication.getAppContext());
                 if (lm.authenticate(usernameToAuthenticate, passwordToAuthenticate)) {
                     gotoGameList();
                 }
@@ -163,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
                 Spinner securityQuestions = findViewById(R.id.securityquestions);
                 String selectedQuestion = securityQuestions.getSelectedItem().toString();
 
-                LoginManager lm = new LoginManager(getApplicationContext());
+                LoginManager lm = new LoginManager(GlobalApplication.getAppContext());
                 if(lm.create(usernameToAdd, passwordToAdd, confirmPassword, selectedQuestion, securityAnswer))
                 {
                     gotoGameList();
@@ -370,7 +371,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void makeToast(String textToDisplay)
     {
-        Toast.makeText(getApplicationContext(), textToDisplay, Toast.LENGTH_LONG).show();
+        Toast.makeText(GlobalApplication.getAppContext(), textToDisplay, Toast.LENGTH_LONG).show();
     }
 
     /**
