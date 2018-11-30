@@ -3,6 +3,13 @@
 
 Cloning the URL: Use the following link to clone the repository: https://markus.teach.cs.toronto.edu/git/csc207-2018-09-reg/group_0647
 
+##### Citations and Credits 
+The following website was used for help in devising an algorithm to make sure the Board is always solvable (for SlidingTiles): 
+https://www.cs.bham.ac.uk/~mdr/teaching/modules04/java2/TilesSolvability.html
+
+The following StackOverflow post was used for help when attempting to create a GlobalApplication class to resolve some major issues involving Context: 
+https://stackoverflow.com/questions/7144177/getting-the-application-context
+
 ##### Setting up the repository
 Follow these steps to set up the repository:
 * Open Android Studio. Close any open projects by clicking on File -> Close Project, if applicable.
