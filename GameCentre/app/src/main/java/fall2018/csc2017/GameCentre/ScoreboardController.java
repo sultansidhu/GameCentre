@@ -16,27 +16,12 @@ public class ScoreboardController {
         //this.lm = new LoginManager();
 
     }
-    /**
-     * Calculates and updates the user's score, and returns a //TODO: This method does too much stuff
-     */
-    public int updateUserHighScore(String username, int gameIndex)
-    {
-        int[] result = new int[4];
-        //////////////////////////
-        int newScore = generateUserScore(username, gameIndex);
-        ////////////////////////
-        for(int i = 0; i < 3; i++){
-            //result[i] = user.getMaxScore(i);
-        }
-        result[3] = newScore;
-        return newScore;
-    }
-
-    private int generateUserScore(String username, int gameIndex) {
+    public int generateUserScore(String username, int gameIndex) {
         int newScore;
         HashMap<String, User> users = fm.readObject();
         assert users != null;
         User user = users.get(username);
+        //User user = fm.getUser(username);
         Score s1 = scoreFactory.getScore(gameIndex);
         Board userBoard = user.getGameStack(gameIndex).peek();
         s1.setBoard(userBoard);
