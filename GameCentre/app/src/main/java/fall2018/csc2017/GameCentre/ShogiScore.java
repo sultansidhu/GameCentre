@@ -1,7 +1,5 @@
 package fall2018.csc2017.GameCentre;
 
-import java.util.HashMap;
-
 class ShogiScore implements Score
 {
     /**
@@ -21,7 +19,7 @@ class ShogiScore implements Score
     /**
      * The constructor of this class, which initializes the FileManager and LoginManager attributes
      */
-    public ShogiScore() {
+    ShogiScore() {
         fm = new FileManager();
         lm = new LoginManager();
     }
@@ -31,22 +29,37 @@ class ShogiScore implements Score
      * @param numMoves, an int representing the number of moves made by this user
      * @param size, an integer representing the size of the played board
      * @return score, an integer representing the score of this user
-     * @throws null
      */
 
     public int calculateUserScore(int numMoves, int size) {
         return generateScore(numMoves, getPieceDiff(board)) + (50*size);
     }
 
+    /**
+     * Sets the board of the score view to the boad in the parameter
+     * @param board the board to be set
+     */
     public void setBoard(Board board){
         this.board = board;
     }
 
-    public int getPieceDiff(Board board){
+    /**
+     * Returns the difference in numbers of pieces
+     * @param board the board used to playing the game
+     * @return the integer representing the difference
+     */
+    int getPieceDiff(Board board){
         return Math.abs(board.numBlacks() - board.numReds());
     }
 
-    public int generateScore(int numMoves, int pieceDiff){
+    /**
+     * Generates the score based on the score difference and the number
+     * of moves executed by the person
+     * @param numMoves number of moves executed
+     * @param pieceDiff difference in number of pieces
+     * @return score of hte user
+     */
+    int generateScore(int numMoves, int pieceDiff){
         if(numMoves < 14)
             return 860 + (20 * pieceDiff);
 

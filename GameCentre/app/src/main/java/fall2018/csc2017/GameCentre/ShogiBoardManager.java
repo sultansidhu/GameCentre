@@ -1,8 +1,5 @@
 package fall2018.csc2017.GameCentre;
 
-import android.content.Context;
-import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,29 +10,31 @@ public class  ShogiBoardManager implements BoardManager
      */
     private Board board;
 
-    //private int Board.NUM_COLS;
+    /**
+     * Represents the tile selected by the player
+     */
+    private int tileSelected = -1;
+
+    /**
+     * Represents the tile owner
+     */
+    private int tileOwner = -1;
+
+    /**
+     * Boolean showing whether the board manager is changed or not
+     */
+    private boolean changed = false;
 
     /**
      * This constructor takes a board object and sets this class' board attribute object
      * equal to it
      * @param board, a Board object representing the board
      */
-
-    private String opponent;
-
-    private int tileSelected = -1;
-
-    private int tileOwner = -1;
-
-    private boolean changed = false;
-
-
-    public ShogiBoardManager(Board board)
+    ShogiBoardManager(Board board)
     {
         this.board = board;
         Board.NUM_COLS = board.getTiles().length;
         Board.NUM_ROWS = board.getTiles().length;
-        //Board.NUM_COLS = board.getTiles().length;
     }
 
     /**
@@ -43,7 +42,7 @@ public class  ShogiBoardManager implements BoardManager
      * @param size, an integer representing the size of the board
      */
 
-    public ShogiBoardManager(int size) {
+    ShogiBoardManager(int size) {
         List<Tile> tiles = new ArrayList<>();
         Board.NUM_COLS = size;
         Board.NUM_ROWS = size;
@@ -93,9 +92,8 @@ public class  ShogiBoardManager implements BoardManager
         }
         else if (tileOwner == 0 && tileSelected != -1) {
             int fromTile = tileSelected;
-            int toTile = position;
-            if ((inSameRow(fromTile, toTile) && !tileBlockingRow(fromTile, toTile) && isWhite(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS))
-                    || inSameCol(fromTile, toTile) && !tileBlockingCol(fromTile, toTile) && isWhite(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS)) {
+            if ((inSameRow(fromTile, position) && !tileBlockingRow(fromTile, position) && isWhite(position /Board.NUM_COLS, position %Board.NUM_COLS))
+                    || inSameCol(fromTile, position) && !tileBlockingCol(fromTile, position) && isWhite(position /Board.NUM_COLS, position %Board.NUM_COLS)) {
                 return true;
             }
             else {
@@ -107,27 +105,40 @@ public class  ShogiBoardManager implements BoardManager
     }
 
 
-    public void resetTileSelected() {
+    /**
+     * Resets the selected tile
+     */
+    private void resetTileSelected() {
         tileSelected = -1;
     }
 
-    public void switchPlayer() {
+    /**
+     * Switches the player after every valid move
+     */
+    private void switchPlayer() {
         getBoard().setCurrPlayer(3 - getBoard().getCurrPlayer());
-        //TODO: move this to view
-//        Toast.makeText(GlobalApplication.getAppContext(), "Player " + getBoard().getCurrPlayer() + "'s turn", Toast.LENGTH_SHORT).show();
     }
 
-    public int getTileOwner(Tile currTile) {
+    /**
+     * Gets the tile's owner at a specified tile
+     * @param currTile the tile for which the owner is to be found
+     * @return the owner of the tile
+     */
+    private int getTileOwner(Tile currTile) {
         if (currTile.getBackground() == R.drawable.black) { return 1; }
         else if (currTile.getBackground() == R.drawable.red) {return 2; }
         else { return 0; }
     }
 
-    public boolean isTurn() {
+    /**
+     * Returns boolean representing the player with the current turn
+     * @return boolean representing player with the current turn
+     */
+    private boolean isTurn() {
         return tileOwner == getBoard().getCurrPlayer();
     }
 
-    public boolean setTileToMove(int position, Tile currTile) {
+    boolean setTileToMove(int position, Tile currTile) {
         if (tileSelected == -1
                 || getBoard().getTile(
                 tileSelected/Board.NUM_ROWS, tileSelected%Board.NUM_ROWS).getBackground()
@@ -140,16 +151,6 @@ public class  ShogiBoardManager implements BoardManager
         }
     }
 
-//    /**
-//     * Overloaded isValidTap with 2 parameters
-//     */
-//    public boolean isValidTap(int fromTile, int toTile) {
-//        if (inSameRow(fromTile, toTile) && !tileBlockingRow(fromTile, toTile) && isWhite(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS)) {
-//            return true;
-//        }
-//        else return inSameCol(fromTile, toTile) && !tileBlockingCol(fromTile, toTile) && isWhite(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS);
-//    }
-
     /**
      * This method is a stub
      * @param position: an nt representing the position touched
@@ -157,24 +158,23 @@ public class  ShogiBoardManager implements BoardManager
 
     public void touchMove(int position) {
         int fromTile = tileSelected;
-        int toTile = position;
-        if (isValidTap(toTile) && fromTile != -1 && tileOwner == 0) {
-            board.swapTiles(fromTile/Board.NUM_COLS, fromTile%Board.NUM_COLS, toTile/Board.NUM_COLS, toTile%Board.NUM_COLS);
-            int left = checkCapturedLeft(toTile);
+        if (isValidTap(position) && fromTile != -1 && tileOwner == 0) {
+            board.swapTiles(fromTile/Board.NUM_COLS, fromTile%Board.NUM_COLS, position /Board.NUM_COLS, position %Board.NUM_COLS);
+            int left = checkCapturedLeft(position);
             for (int i = 1; i<= left; i++) {
-                board.setTileBackground(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS - i, R.drawable.tile_25);
+                board.setTileBackground(position /Board.NUM_COLS, position %Board.NUM_COLS - i, R.drawable.tile_25);
             }
-            int right = checkCapturedRight(toTile);
+            int right = checkCapturedRight(position);
             for (int i = 1; i <= right; i++) {
-                board.setTileBackground(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS + i, R.drawable.tile_25);
+                board.setTileBackground(position /Board.NUM_COLS, position %Board.NUM_COLS + i, R.drawable.tile_25);
             }
-            int up = checkCapturedUp(toTile);
+            int up = checkCapturedUp(position);
             for (int i = 1; i<= up; i++) {
-                board.setTileBackground(toTile/Board.NUM_COLS - i, toTile%Board.NUM_COLS, R.drawable.tile_25);
+                board.setTileBackground(position /Board.NUM_COLS - i, position %Board.NUM_COLS, R.drawable.tile_25);
             }
-            int down = checkCapturedDown(toTile);
+            int down = checkCapturedDown(position);
             for (int i = 1; i<= down; i++) {
-                board.setTileBackground(toTile/Board.NUM_COLS + i, toTile%Board.NUM_COLS, R.drawable.tile_25);
+                board.setTileBackground(position /Board.NUM_COLS + i, position %Board.NUM_COLS, R.drawable.tile_25);
             }
             setChanged(true);
             resetTileSelected();
@@ -183,41 +183,24 @@ public class  ShogiBoardManager implements BoardManager
         else { setChanged(false); }
     }
 
-//    /**
-//     * Overloaded touchMove with 2 parameters.
-//     */
-//    void touchMove(int fromTile, int toTile) {
-//        if (isValidTap(fromTile, toTile)) {
-//            board.swapTiles(fromTile/Board.NUM_COLS, fromTile%Board.NUM_COLS, toTile/Board.NUM_COLS, toTile%Board.NUM_COLS);
-//            int left = checkCapturedLeft(toTile);
-//            for (int i = 1; i<= left; i++) {
-//                board.setTileBackground(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS - i, R.drawable.tile_25);
-//            }
-//            int right = checkCapturedRight(toTile);
-//            for (int i = 1; i <= right; i++) {
-//                board.setTileBackground(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS + i, R.drawable.tile_25);
-//            }
-//            int up = checkCapturedUp(toTile);
-//            for (int i = 1; i<= up; i++) {
-//                board.setTileBackground(toTile/Board.NUM_COLS - i, toTile%Board.NUM_COLS, R.drawable.tile_25);
-//            }
-//            int down = checkCapturedDown(toTile);
-//            for (int i = 1; i<= down; i++) {
-//                board.setTileBackground(toTile/Board.NUM_COLS + i, toTile%Board.NUM_COLS, R.drawable.tile_25);
-//            }
-//
-//            //Toast.makeText(GlobalApplication.getAppContext(), "Player "+ (3 - board.getCurrPlayer()) + "'s turn", Toast.LENGTH_SHORT).show();
-//            //TODO: I JUST PUT 3- TO MAKE IT SWAP PROPERLY....PROBABLY SHOULD FIND A  BETTER SOLUTION TO THIS!
-//
-//        }
-//    }
-
+    /**
+     * Returns whether a given tile is black, at the given row and column
+     * @param row the row of the supplied tile
+     * @param col the column of the supplied tile
+     * @return whether the supplied parameter tile is black
+     */
     boolean isBlack(int row, int col) {
         if (row >= Board.NUM_COLS || row < 0 || col >= Board.NUM_COLS || col < 0) {
             return false;
         }
         return board.getTile(row, col).getBackground() == R.drawable.black;
     }
+    /**
+     * Returns whether a given tile is red, at the given row and column
+     * @param row the row of the supplied tile
+     * @param col the column of the supplied tile
+     * @return whether the supplied parameter tile is red
+     */
     boolean isRed(int row, int col) {
         if (row >= Board.NUM_COLS || row < 0 || col >= Board.NUM_COLS || col < 0) {
             return false;
@@ -225,10 +208,21 @@ public class  ShogiBoardManager implements BoardManager
         return board.getTile(row, col).getBackground() == R.drawable.red;
     }
 
+    /**
+     * Returns whether a given tile is white, at the given row and column
+     * @param row the row of the supplied tile
+     * @param col the column of the supplied tile
+     * @return whether the supplied parameter tile is white
+     */
     private boolean isWhite(int row, int col) {
         return !isBlack(row, col) && !isRed(row, col);
     }
 
+    /**
+     * Check capturing downwards for sandwiched tiles
+     * @param toTile tile to check the capturing till
+     * @return number of captured enemy pieces
+     */
     private int checkCapturedDown(int toTile) {
         int numCap = 0;
         int nextRow = toTile/Board.NUM_COLS + 1;
@@ -253,7 +247,12 @@ public class  ShogiBoardManager implements BoardManager
         return 0;
     }
 
-    public int checkCapturedUp(int toTile) {
+    /**
+     * Checks capture upwards, till the specified tile
+     * @param toTile tile to check the capturing till
+     * @return number of captured enemy pieces
+     */
+    private int checkCapturedUp(int toTile) {
         int numCap = 0;
         int nextRow = toTile/Board.NUM_COLS - 1;
         if (isBlack(toTile/Board.NUM_COLS, toTile%Board.NUM_COLS)) {
@@ -277,6 +276,11 @@ public class  ShogiBoardManager implements BoardManager
         return 0;
     }
 
+    /**
+     * Checks capture to the right, till the specified tile
+     * @param toTile tile to check the capturing till
+     * @return number of captured enemy pieces
+     */
     private int checkCapturedRight(int toTile) {
         int numCap = 0;
         int nextCol = toTile%Board.NUM_COLS + 1;
@@ -301,6 +305,11 @@ public class  ShogiBoardManager implements BoardManager
         return 0;
     }
 
+    /**
+     * Checks capture towards the left, till the specified tile
+     * @param toTile tile to check the capturing till
+     * @return number of captured enemy pieces
+     */
     private int checkCapturedLeft(int toTile) {
         int numCap = 0;
         int nextCol = toTile%Board.NUM_COLS - 1;
@@ -325,14 +334,33 @@ public class  ShogiBoardManager implements BoardManager
         return 0;
     }
 
+    /**
+     * returns whether two tiles are in the same row
+     * @param fromTile the first tile to consider
+     * @param toTile the second tile to consider
+     * @return whether the two tiles are in the same row
+     */
     boolean inSameRow(int fromTile, int toTile) {
         return fromTile/Board.NUM_COLS == toTile/Board.NUM_COLS;
     }
 
+    /**
+     * Returns whether two tiles are in the same column
+     * @param fromTile the first tile to consider
+     * @param toTile the second tile to consider
+     * @return whether the two tiles are in the same column
+     */
     boolean inSameCol(int fromTile, int toTile) {
         return fromTile%Board.NUM_COLS == toTile%Board.NUM_COLS;
     }
 
+    /**
+     * Returns whether there are tiles present between the two
+     * considered tiles
+     * @param fromTile the first tile to consider
+     * @param toTile the second tile to consider
+     * @return whether there are tiles between the fromTile and the toTile
+     */
     boolean tileBlockingRow(int fromTile, int toTile)
     {
         int row = fromTile/Board.NUM_COLS;
@@ -348,6 +376,12 @@ public class  ShogiBoardManager implements BoardManager
         return false;
     }
 
+    /**
+     * Returns whether there are tiles present between the two considered tiles
+     * @param fromTile first tile to consider
+     * @param toTile second tile to consider
+     * @return whether there are tiles between the fromTile and the toTile
+     */
     boolean tileBlockingCol(int fromTile, int toTile) {
         int col = fromTile%Board.NUM_COLS;
         int start = fromTile/Board.NUM_COLS < toTile/Board.NUM_COLS ? fromTile/Board.NUM_COLS : toTile/Board.NUM_COLS;
@@ -364,10 +398,22 @@ public class  ShogiBoardManager implements BoardManager
         return false;
     }
 
-    public void setTileSelected(int tile) { this.tileSelected = tile; }
+    /**
+     * Sets the selected tile to the parameter tile
+     * @param tile the tile to be set, the parameter tile
+     */
+    void setTileSelected(int tile) { this.tileSelected = tile; }
 
-    public void setChanged(boolean changed) { this.changed = changed; }
+    /**
+     * Sets the changed status of the board manager
+     * @param changed sets the boolean status of the shogi bm
+     */
+    private void setChanged(boolean changed) { this.changed = changed; }
 
+    /**
+     * Returns the changed status of the board manager
+     * @return the changed status of the board manager
+     */
     public boolean getChanged() { return changed; }
 
 
