@@ -15,60 +15,66 @@ import android.view.MotionEvent;
 import android.widget.Toast;
 
 public class SlidingGestureDetectGridView extends GestureDetectGridView {
-    /*
-    An int representing the minimum distance to swipe
-    */
+    /**
+     * An int representing the minimum distance to swipe
+     */
     public static final int SWIPE_MIN_DISTANCE = 100;
-    /*
-    The GestureDetector object that will be used here
-    */
+    /**
+     * The GestureDetector object that will be used here
+     */
     private GestureDetector gDetector;
-    /*
-    The MovementController object that will be used here
-    */
+    /**
+     * The MovementController object that will be used here
+     */
     private MovementController mController;
-    /*
-    A boolean value representing if mFlingConfirmed
-    */
+    /**
+     * A boolean value representing if mFlingConfirmed
+     */
     private boolean mFlingConfirmed = false;
-    /*
-    The X coordinate of the mTouch
-    */
+    /**
+     * The X coordinate of the mTouch
+     */
     private float mTouchX;
-    /*
-    The Y coordinate of the mTouch
-    */
+    /**
+     * The Y coordinate of the mTouch
+     */
     private float mTouchY;
-    /*
-    An instance of BoardManager that will be used in this class
-    */
+    /**
+     * An instance of BoardManager that will be used in this class
+     */
     private SlidingBoardManager boardManager;
-
+    /**
+     * The username of the person logged in
+     */
     private String username = new LoginManager().getPersonLoggedIn();
-
+    /**
+     * The index (identity) of the game being played
+     */
     private int gameIndex = 0;
-
+    /**
+     * The user manager to manage the users
+     */
     private UserManager userManager = new UserManager();
 
-    /*
-    Overloaded Constructor that takes a Context
-    */
+    /**
+     * Overloaded Constructor that takes a Context
+     */
     public SlidingGestureDetectGridView(Context context) {
         super(context);
         init(context);
     }
 
-    /*
-    Overloaded Constructor that takes a Context and AttributeSet
-    */
+    /**
+     * Overloaded Constructor that takes a Context and AttributeSet
+     */
     public SlidingGestureDetectGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    /*
-    Overloaded Constructor that takes a Context, an AttributeSet, and a defaultStyleAttribute integer
-    */
+    /**
+     * Overloaded Constructor that takes a Context, an AttributeSet, and a defaultStyleAttribute integer
+     */
     public SlidingGestureDetectGridView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
@@ -165,11 +171,11 @@ public class SlidingGestureDetectGridView extends GestureDetectGridView {
         return gDetector.onTouchEvent(ev);
     }
 
-    /*
-    This function sets the BoardManager attribute of this class
-    @param boardManager
-    @return null
-    */
+    /**
+     * This function sets the BoardManager attribute of this class
+     *
+     * @param boardManager the board manager
+     */
     public void setBoardManager(SlidingBoardManager boardManager) {
         this.boardManager = boardManager;
         mController.setBoardManager(boardManager);

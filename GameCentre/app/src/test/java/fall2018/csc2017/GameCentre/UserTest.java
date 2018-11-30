@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 public class UserTest {
 
     @Test
-    public void addState() {
+    public void addStateToNewlyCreatedUserGameStack() {
         User u = new User("John", "Tavares", "What is your city of birth?", "Mississauga");
         int stateSize = u.getGameStack(1).size();
         ConnectFourBoardManager bm = new ConnectFourBoardManager(6);
