@@ -54,7 +54,7 @@ public class ScoreboardActivity extends AppCompatActivity
     Displays high scores in a list format.
      */
 
-    FileManager fm = new FileManager(GlobalApplication.getAppContext());;
+    FileManager fm = new FileManager();;
 
     /**
      * The scoreFactory object used to instantiate different ScoreCalc objects
@@ -68,7 +68,7 @@ public class ScoreboardActivity extends AppCompatActivity
         String winnerUsername = getIntent().getStringExtra("username");//new LoginManager().getPersonLoggedIn();
         System.out.println("THE WINNERS USERNAME IS --------------%%%%%%%%%%%% -------------" + winnerUsername);
         if(winnerUsername == null){//If there is no winner since we came from starting activity
-            winnerUsername = new LoginManager(GlobalApplication.getAppContext()).getPersonLoggedIn();
+            winnerUsername = new LoginManager().getPersonLoggedIn();
         }
         winner = winnerUsername;
         int[] results = getIntent().getIntArrayExtra("results");
@@ -158,7 +158,7 @@ private void addGoToGlobalScoresListener(){
         resetScores.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoginManager lm = new LoginManager(GlobalApplication.getAppContext());
+                LoginManager lm = new LoginManager();
                 User user = fm.getUser(winner);
                 user.resetScoreHashmapForAllGames();
                 fm.saveUser(user, winner);

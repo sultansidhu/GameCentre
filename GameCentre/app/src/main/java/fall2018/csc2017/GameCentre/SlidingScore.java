@@ -22,7 +22,7 @@ class SlidingScore implements Score
     // TODO: remove static here
     public SlidingScore()
     {
-        fm = new FileManager(GlobalApplication.getAppContext());
+        fm = new FileManager();
     }
 
     /**

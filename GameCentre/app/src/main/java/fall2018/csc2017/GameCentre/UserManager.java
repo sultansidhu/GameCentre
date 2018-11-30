@@ -6,12 +6,10 @@ import java.util.Stack;
 
 class UserManager {
 
-    private Context context;
     private FileManager fm;
 
-    UserManager(Context context) {
-        this.context = context;
-        fm = new FileManager(context);
+    UserManager() {
+        fm = new FileManager();
     }
 
     boolean processUndo(String username, int gameIndex) {
@@ -29,7 +27,7 @@ class UserManager {
     }
 
     void addOpponent(int gameIndex, String opponent) {
-        LoginManager lm = new LoginManager(context);
+        LoginManager lm = new LoginManager();
         String username = lm.getPersonLoggedIn();
         User user = fm.getUser(username);
         user.getOpponents().put(gameIndex, opponent);

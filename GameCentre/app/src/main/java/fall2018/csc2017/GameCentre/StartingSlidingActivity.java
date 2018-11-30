@@ -28,10 +28,10 @@ public class StartingSlidingActivity extends StartingActivity {
     private int undoLimit;
     private int gameIndex = 0;
     private int size;
-    private String username = new LoginManager(GlobalApplication.getAppContext()).getPersonLoggedIn();
-    private FileManager fm = new FileManager(GlobalApplication.getAppContext());
+    private String username = new LoginManager().getPersonLoggedIn();
+    private FileManager fm = new FileManager();
     private BoardManagerFactory bmFactory = new BoardManagerFactory();
-    private UserManager userManager = new UserManager(GlobalApplication.getAppContext());
+    private UserManager userManager = new UserManager();
 
     /**
      * Creats start screen for sliding tiles with game options.

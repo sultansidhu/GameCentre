@@ -44,7 +44,7 @@ public class GestureDetectGridView extends GridView {
     public GestureDetectGridView(Context context) {
         super(context);
         init(context);
-        LoginManager lm = new LoginManager(context);
+        LoginManager lm = new LoginManager();
         username = lm.getPersonLoggedIn();
     }
 
@@ -54,7 +54,7 @@ public class GestureDetectGridView extends GridView {
     public GestureDetectGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
-        LoginManager lm = new LoginManager(context);
+        LoginManager lm = new LoginManager();
         username = lm.getPersonLoggedIn();
     }
     /*
@@ -64,7 +64,7 @@ public class GestureDetectGridView extends GridView {
     public GestureDetectGridView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
-        LoginManager lm = new LoginManager(context);
+        LoginManager lm = new LoginManager();
         username = lm.getPersonLoggedIn();
     }
     /*

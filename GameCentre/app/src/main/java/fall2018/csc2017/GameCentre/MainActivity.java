@@ -11,7 +11,6 @@ Group #: 0506
 
 import android.content.Context;
 import android.content.Intent;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -44,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
      Invoked as soon as the app is run. This will load the login screen, read the HashMap
      from a serialized file, and initialize all the buttons on the screen
      */
-    private FileManager fm = new FileManager(GlobalApplication.getAppContext());
+    private FileManager fm = new FileManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -80,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 TextView fieldPassword = findViewById(R.id.field_password);
                 final String passwordToAuthenticate = fieldPassword.getText().toString().trim();
                 //authenticate(usernameToAuthenticate, passwordToAuthenticate);
-                LoginManager lm = new LoginManager(GlobalApplication.getAppContext());
+                LoginManager lm = new LoginManager();
                 if (lm.authenticate(usernameToAuthenticate, passwordToAuthenticate)) {
                     gotoGameList();
                 }
@@ -164,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                 Spinner securityQuestions = findViewById(R.id.securityquestions);
                 String selectedQuestion = securityQuestions.getSelectedItem().toString();
 
-                LoginManager lm = new LoginManager(GlobalApplication.getAppContext());
+                LoginManager lm = new LoginManager();
                 if(lm.create(usernameToAdd, passwordToAdd, confirmPassword, selectedQuestion, securityAnswer))
                 {
                     gotoGameList();
@@ -371,7 +370,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void makeToast(String textToDisplay)
     {
-        Toast.makeText(GlobalApplication.getAppContext(), textToDisplay, Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), textToDisplay, Toast.LENGTH_LONG).show();
     }
 
     /**

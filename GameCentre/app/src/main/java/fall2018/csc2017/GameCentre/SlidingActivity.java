@@ -2,7 +2,6 @@ package fall2018.csc2017.GameCentre;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
@@ -30,8 +29,8 @@ public class SlidingActivity extends GameActivity implements Observer {
     private SlidingGestureDetectGridView gridView;
     private static int columnWidth, columnHeight;
     private int gameIndex = 0;
-    private String username = new LoginManager(GlobalApplication.getAppContext()).getPersonLoggedIn();
-    private FileManager fm = new FileManager(GlobalApplication.getAppContext());
+    private String username = new LoginManager().getPersonLoggedIn();
+    private FileManager fm = new FileManager();
     private BoardManagerFactory bmFactory = new BoardManagerFactory();
 
     /**

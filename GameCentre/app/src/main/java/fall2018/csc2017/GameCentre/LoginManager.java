@@ -8,11 +8,9 @@ public class LoginManager {
     private String personLoggedIn = null;
     private FileManager fm;
     private String p2LoggedIn = null;
-    private Context context;
 
-    public LoginManager(Context context) {
-        this.context = context;
-        this.fm = new FileManager(context);
+    public LoginManager() {
+        this.fm = new FileManager();
         for(User user: fm.readObject().values())
         {
             if(user.getLoggedIn())
@@ -174,7 +172,7 @@ public class LoginManager {
 
     public void makeToast(String textToDisplay)
     {
-        Toast.makeText(context, textToDisplay, Toast.LENGTH_LONG).show();//TODO: Make GlobalApplication not static
+        Toast.makeText(GlobalApplication.getAppContext(), textToDisplay, Toast.LENGTH_LONG).show();//TODO: Make GlobalApplication not static
     }
 
 }

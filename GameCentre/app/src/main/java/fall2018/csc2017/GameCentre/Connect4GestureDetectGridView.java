@@ -60,7 +60,7 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView
     public Connect4GestureDetectGridView(Context context) {
         super(context);
         init(context);
-        LoginManager lm = new LoginManager(context);
+        LoginManager lm = new LoginManager();
         username = lm.getPersonLoggedIn();
     }
     /*
@@ -69,7 +69,7 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView
     public Connect4GestureDetectGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
-        LoginManager lm = new LoginManager(context);
+        LoginManager lm = new LoginManager();
         username = lm.getPersonLoggedIn();
     }
     /*
@@ -79,12 +79,12 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView
     public Connect4GestureDetectGridView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
-        LoginManager lm = new LoginManager(context);
+        LoginManager lm = new LoginManager();
         username = lm.getPersonLoggedIn();
     }
 
     private void init(final Context context) {
-        fm = new FileManager(context);
+        fm = new FileManager();
         mController = new MovementController(context);
         gDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             /*
