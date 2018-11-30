@@ -58,7 +58,7 @@ class MovementController {
             else {
                 ScoreboardActivity sc = new ScoreboardActivity();
                 ScoreboardController scon = new ScoreboardController();
-                int[] result = scon.updateUserHighScore(winner, gameIndex);
+                int result = scon.updateUserHighScore(winner, gameIndex);
                 switchToScoreboardScreen(context, result, winner);
             }
         }
@@ -76,9 +76,9 @@ class MovementController {
     /*
     Switches to the scoreboard screen if a game is won
      */
-    public void switchToScoreboardScreen(Context context, int[] results, String username) {
+    public void switchToScoreboardScreen(Context context, int result, String username) {
         Intent intent = new Intent(context, ScoreboardActivity.class);
-        intent.putExtra("results", results);
+        intent.putExtra("result", result);
         intent.putExtra("username", username);
         context.startActivity(intent);
     }
