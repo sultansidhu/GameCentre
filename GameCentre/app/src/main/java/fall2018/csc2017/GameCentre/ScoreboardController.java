@@ -68,7 +68,12 @@ class ScoreboardController {
         return scoreFormat;
     }
 
-    public ArrayList getGlobalScores(int gameIndex) {
+    /**
+     * Gets the global scores for all users, with the game gameIndex
+     * @param gameIndex the identity of the game
+     * @return the ArrayList of global scores
+     */
+    ArrayList getGlobalScores(int gameIndex) {
 
         HashMap<String, User> users = fm.readObject();
         ArrayList highScoresTup = new ArrayList();
