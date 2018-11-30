@@ -83,7 +83,7 @@ class MovementController {
      * Returns the username of the winning player of the specified game
      *
      * @param gameIndex the identity index of the game
-     * @return the winner player's username
+     * @return the userToDisplay player's username
      */
     private String getWinnerUsername(int gameIndex) {
         // get the winning player (current player in the bm)
