@@ -1,12 +1,7 @@
 package fall2018.csc2017.GameCentre;
 
 
-class SlidingScore implements Score
-{
-    /**
-     * The FileManager object used to access the HashMap and serialized file on disk
-     */
-    private FileManager fm;
+class SlidingScore implements Score {
 
     /**
      * A board object
@@ -17,9 +12,7 @@ class SlidingScore implements Score
      * The constructor for this class, which intiailizes the fm object
      */
     SlidingScore()
-    {
-        fm = new FileManager();
-    }
+    {}
 
     /**
      * Calculate and return the score of User user

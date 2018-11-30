@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
     public void addLoginButtonListener() {
         Button loginButton = findViewById(R.id.btn_login);
 
-
         loginButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 TextView fieldUsername = findViewById(R.id.field_username);
@@ -144,8 +143,6 @@ public class MainActivity extends AppCompatActivity {
                 if (lm.create(usernameToAdd, passwordToAdd, confirmPassword, selectedQuestion, securityAnswer)) {
                     gotoGameList();
                 }
-
-
             }
         });
     }
@@ -158,7 +155,6 @@ public class MainActivity extends AppCompatActivity {
     public void gotoGameList() {
         Intent tmp = new Intent(this, GameListActivity.class);
         startActivity(tmp);
-
     }
 
     /**

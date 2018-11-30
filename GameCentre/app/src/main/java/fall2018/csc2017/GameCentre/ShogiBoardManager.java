@@ -415,6 +415,4 @@ public class  ShogiBoardManager implements BoardManager
      * @return the changed status of the board manager
      */
     public boolean getChanged() { return changed; }
-
-
 }

@@ -8,6 +8,7 @@ Author: CSC207 Group 0506
 
 package fall2018.csc2017.GameCentre;
 
+import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
@@ -64,6 +65,7 @@ public class User implements Serializable {
      * @param answer           the answer recorded by the user during sign up
      */
 
+    @SuppressLint("UseSparseArrays")
     User(String username, String password, String securityQuestion, String answer) {
         this.username = username;
         this.password = password;
@@ -271,6 +273,4 @@ public class User implements Serializable {
         }
         return maxScore;
     }
-
-
 }

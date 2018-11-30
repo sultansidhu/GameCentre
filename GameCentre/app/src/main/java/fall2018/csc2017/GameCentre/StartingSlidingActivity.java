@@ -166,8 +166,7 @@ public class StartingSlidingActivity extends StartingActivity {
         try
         {
             boardManager = (SlidingBoardManager)bmFactory.getBoardManager(gameIndex, userStack.peek());
-        } catch (EmptyStackException e)
-        {
+        } catch (EmptyStackException e) {
             System.out.println("Empty stack, nothing to resume!");
         }
     }

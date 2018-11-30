@@ -2,7 +2,6 @@ package fall2018.csc2017.GameCentre;
 
 import android.widget.Toast;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -30,7 +29,6 @@ public class LoginManager {
                 personLoggedIn = user.getUsername();
             }
         }
-        System.out.println(personLoggedIn);
     }
 
     /**
@@ -43,8 +41,8 @@ public class LoginManager {
     }
 
     /**
-     * This method instantiates a new object of type User and adds it to the HashMap.
-     * The HashMap is then saved in the serialized file.
+     * This method instantiates a new object of type User and adds it to the Map.
+     * The Map is then saved in the serialized file.
      *
      * @param username: the username of this new account
      *                  password: the password of this new account
@@ -77,7 +75,7 @@ public class LoginManager {
     }
 
     /**
-     * Returns true if the User whose username is username is present in the HashMap
+     * Returns true if the User whose username is username is present in the Map
      * and the password entered is correct, false otherwise
      *
      * @param username, A String representing the username of the User.
@@ -93,8 +91,6 @@ public class LoginManager {
         else {
             fm.saveObject(setUsersLoggedOut(fm.readObject()));
             setLoggedInTrueAndSave(Objects.requireNonNull(fm.readObject().get(username)));
-            // Todo: check if this still works
-
             personLoggedIn = username;
             makeToast("Logging in...");
             fm.saveObject(fm.readObject());
@@ -104,7 +100,7 @@ public class LoginManager {
     }
 
     /**
-     * Returns true if the User whose username is username is present in the HashMap
+     * Returns true if the User whose username is username is present in the Map
      * and the password entered is correct, false otherwise
      *
      * @param username, A String representing the username of the User
@@ -116,9 +112,7 @@ public class LoginManager {
         if (!fm.readObject().containsKey(username)) {
             makeToast("User Does Not Exist!");
             return false;
-        } else if (!Objects.requireNonNull(fm.readObject().get(username)).getPassword().equals(password))
-        //Todo: changed here too
-        {
+        } else if (!Objects.requireNonNull(fm.readObject().get(username)).getPassword().equals(password)) {
             makeToast("Password Rejected!");
             return false;
         } else {
@@ -127,19 +121,19 @@ public class LoginManager {
     }
 
     /**
-     * This function iterates through the HashMap and logs all Users out
+     * This function iterates through the Map and logs all Users out
      * by changing the isLoggedIn attribute of all Users to false
      *
-     * @param theHashMap, the HashMap mapping username to User object
-     * @return theHashMap, a HashMap where all the Users have been logged out
+     * @param UsersMap, the Map mapping username to User object
+     * @return UsersMap, a Map where all the Users have been logged out
      */
-    private Map<String, User> setUsersLoggedOut(Map<String, User> theHashMap) {
+    private Map<String, User> setUsersLoggedOut(Map<String, User> UsersMap) {
         if (personLoggedIn != null) {
-            for (User user : theHashMap.values()) {
+            for (User user : UsersMap.values()) {
                 user.setLoggedIn(false);
             }
         }
-        return theHashMap;
+        return UsersMap;
     }
 
     /**
@@ -152,7 +146,6 @@ public class LoginManager {
     private void setLoggedInTrueAndSave(User user) {
         Map<String, User> hm = fm.readObject();
         Objects.requireNonNull(hm.get(user.getUsername())).setLoggedIn(true);
-        // todo : change happened here too
         fm.saveObject(hm);
     }
 
@@ -169,6 +162,5 @@ public class LoginManager {
             e.printStackTrace();
         }
     }
-
 }
 

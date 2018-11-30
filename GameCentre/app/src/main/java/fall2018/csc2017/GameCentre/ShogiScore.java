@@ -1,15 +1,6 @@
 package fall2018.csc2017.GameCentre;
 
-class ShogiScore implements Score
-{
-    /**
-    A FileManager object used for accessing the HashMap from the serialized file
-     */
-    private FileManager fm;
-    /**
-    A LoginManager object used for authentication and getting the user logged in
-     */
-    private LoginManager lm;
+class ShogiScore implements Score {
 
     /**
      * A Board object
@@ -17,12 +8,9 @@ class ShogiScore implements Score
     private Board board;
 
     /**
-     * The constructor of this class, which initializes the FileManager and LoginManager attributes
+     * The constructor of this class.
      */
-    ShogiScore() {
-        fm = new FileManager();
-        lm = new LoginManager();
-    }
+    ShogiScore() {}
 
     /**
      * Calculates and returns and integer representing the score of User user

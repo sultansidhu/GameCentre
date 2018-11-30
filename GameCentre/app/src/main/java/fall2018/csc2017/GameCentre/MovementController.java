@@ -1,10 +1,5 @@
 package fall2018.csc2017.GameCentre;
 
-import android.content.Context;
-import android.content.Intent;
-import android.widget.Toast;
-
-
 class MovementController {
     /**
      * The board manager.
@@ -23,9 +18,7 @@ class MovementController {
     /**
      * Default constructor for the Movement Controller
      */
-    MovementController(Context context) {
-        // TODO: FIX THE CONTEXT BOII WITHOUT BREAKING THIS SHIT
-    }
+    MovementController() { }
 
     /**
      * Sets the boardManager of MovementController.
@@ -56,7 +49,7 @@ class MovementController {
      * @param gameIndex the identity index of the game
      * @return the userToDisplay player's username
      */
-    public String getWinnerUsername(int gameIndex) {
+    String getWinnerUsername(int gameIndex) {
         // get the winning player (current player in the bm)
         int playerNumber = 3 - boardManager.getBoard().getCurrPlayer();
         if (gameIndex != 0 && playerNumber == 2) {
@@ -65,22 +58,4 @@ class MovementController {
         return username;
     }
 
-    /**
-     * Switches to the scoreboard screen if a game is won
-     */
-    private void switchToScoreboardScreen(Context context, int result, String username) {
-        Intent intent = new Intent(context, ScoreboardActivity.class);
-        intent.putExtra("result", result);
-        intent.putExtra("username", username);
-        context.startActivity(intent);
-    }
-
-    /**
-     * Switches to the leader-board screen after the game is won by
-     * the guest
-     * @param context the current context
-     */
-    private void switchToLeaderBoardScreen(Context context) {
-        context.startActivity(new Intent(context, LeaderBoardActivity.class));
-    }
 }

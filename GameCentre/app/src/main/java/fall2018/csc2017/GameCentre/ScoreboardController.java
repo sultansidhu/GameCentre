@@ -56,13 +56,12 @@ class ScoreboardController {
      * @param gameIndex the identity of the game
      * @return the ArrayList of global scores
      */
-    // TODO: make this better
+    // TODO: Add comments in this method, it's kind of confusing
     List getGlobalScores(int gameIndex) {
         Map<String, User> users = fm.readObject();
         List<Object> highScoresTup = new ArrayList<>();
         for (Object o : users.entrySet()) {
             HashMap.Entry pair = (HashMap.Entry) o;
-            System.out.println(pair.getKey() + " = " + pair.getValue());
             User u = (User) pair.getValue();
             ArrayList<Integer> highScoresList = u.getHighestScoresList(gameIndex);
             for (int i = 0; i < highScoresList.size(); i++) {

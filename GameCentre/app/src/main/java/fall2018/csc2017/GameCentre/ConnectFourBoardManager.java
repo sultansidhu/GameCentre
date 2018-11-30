@@ -143,9 +143,6 @@ public class ConnectFourBoardManager implements BoardManager {
      * @return an int representing the colorID of the found tile
      */
     private int getTileColor(int position) {
-        if (position == 36) {
-            System.out.println("POSITION BECAME 36 MAYDAY MAYDAY");
-        }
         Board.BoardIterator iter = (Board.BoardIterator) board.iterator();
         Tile nextTile = null;
         while (position >= 0) {
@@ -211,8 +208,6 @@ public class ConnectFourBoardManager implements BoardManager {
         int colorCounter = 0;
         int colNewlyAdded = position % Board.NUM_COLS;
         int rowNewlyAdded = position / Board.NUM_COLS;
-        System.out.println("ROW NEWLY  ADDED ISSSSSS");
-        System.out.println(rowNewlyAdded);
         while (colNewlyAdded < Board.NUM_COLS && rowNewlyAdded >= 0 && colNewlyAdded >= 0) {
             // here check for same color and increment colorCounter
             if ((getTileColor(position) == currentPlayerID) && (getTileColor(position) != R.drawable.tile_25)) {
@@ -387,8 +382,8 @@ public class ConnectFourBoardManager implements BoardManager {
 
     /**
      * Returns if the position tapped by the use is a valid tap.
-     * A tap is valid if the position tapped has on chips and there
-     * is a chip present right underneath it.
+     * A tap is valid if the position tapped has no chips and there
+     * is a chip present right underneath it or it is the bottom row.
      *
      * @param position the position of tapped by the user.
      * @return if the tap is a valid tap or not.
@@ -417,8 +412,6 @@ public class ConnectFourBoardManager implements BoardManager {
         }
         assert next != null;
         return next.getBackground() == R.drawable.tile_25;
-
-
     }
 
     /**
@@ -444,8 +437,6 @@ public class ConnectFourBoardManager implements BoardManager {
         } else {
             return true;
         }
-
-
     }
 
     /**
@@ -486,7 +477,6 @@ public class ConnectFourBoardManager implements BoardManager {
         } else {
             makeToast("Game over! Start a new game!");
         }
-
     }
 
     /**

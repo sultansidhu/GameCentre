@@ -7,8 +7,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class StartingConnectFourActivity extends StartingActivity
-{
+public class StartingConnectFourActivity extends StartingActivity {
     /**
      * The ConnectFourBoardManager to be used in the game
      */

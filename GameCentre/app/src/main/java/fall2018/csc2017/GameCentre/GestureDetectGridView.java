@@ -21,18 +21,6 @@ public class GestureDetectGridView extends GridView {
      * The GestureDetector object that will be used here
      */
     private GestureDetector gDetector;
-    /**
-     * The MovementController object that will be used here
-     */
-    private MovementController mController;
-    /**
-     * An instance of BoardManager that will be used in this class
-     */
-    private BoardManager boardManager;
-    /**
-     * The Username of the player
-     */
-    private String username;
 
 
     /**
@@ -41,8 +29,6 @@ public class GestureDetectGridView extends GridView {
     public GestureDetectGridView(Context context) {
         super(context);
         init(context);
-        LoginManager lm = new LoginManager();
-        username = lm.getPersonLoggedIn();
     }
 
     /**
@@ -51,8 +37,6 @@ public class GestureDetectGridView extends GridView {
     public GestureDetectGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
-        LoginManager lm = new LoginManager();
-        username = lm.getPersonLoggedIn();
     }
 
     /**
@@ -61,8 +45,6 @@ public class GestureDetectGridView extends GridView {
     public GestureDetectGridView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
-        LoginManager lm = new LoginManager();
-        username = lm.getPersonLoggedIn();
     }
 
     /**
@@ -70,20 +52,15 @@ public class GestureDetectGridView extends GridView {
      */
 
     private void init(final Context context) {
-        mController = new MovementController(context);
         gDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-
             @Override
             public boolean onSingleTapConfirmed(MotionEvent event) {
-
                 return true;
             }
-
             @Override
             public boolean onDown(MotionEvent event) {
                 return true;
             }
-
         });
     }
 
@@ -118,13 +95,5 @@ public class GestureDetectGridView extends GridView {
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         return gDetector.onTouchEvent(ev);
-    }
-
-    /**
-     * This function sets the BoardManager attribute of this class
-     *
-     * @param boardManager the boardManager that needs to be set
-     */
-    public void setBoardManager(BoardManager boardManager) {
     }
 }

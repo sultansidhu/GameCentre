@@ -10,15 +10,13 @@ import android.widget.Button;
 /**
  * The gamelist activity with all the games.
  */
-public class GameListActivity extends AppCompatActivity
-{
+public class GameListActivity extends AppCompatActivity {
     /**
      * Invokes when the user logs in or signs up. Displays list of games for user to play.
      * @param savedInstanceState of activity.
      */
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_list);
         addSlidingTilesButtonListener();
@@ -28,8 +26,7 @@ public class GameListActivity extends AppCompatActivity
     /**
      * This will launch the sliding tiles GameActivity on click.
      */
-    public void addSlidingTilesButtonListener()
-    {
+    public void addSlidingTilesButtonListener() {
         Button launchSlidingTiles = findViewById(R.id.btnLaunchSlide);
         launchSlidingTiles.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,8 +71,7 @@ public class GameListActivity extends AppCompatActivity
      * Launches the sliding tiles game based on index.
      * @param gameIndex index of the game selected.
      */
-    public void launchGame(int gameIndex)
-    {
+    public void launchGame(int gameIndex) {
         Intent intent = null;
         switch(gameIndex) {
             case 0:
@@ -85,12 +81,9 @@ public class GameListActivity extends AppCompatActivity
             case 2:
                 intent = new Intent(this, StartingConnectFourActivity.class);
         }
-
         assert intent != null;
         intent.putExtra("gameIndex", gameIndex);
         startActivity(intent);
-
-
     }
 
 }

@@ -130,7 +130,6 @@ public class SlidingBoardManager implements BoardManager, Serializable {
         Collections.shuffle(tiles);
         Board dummyBoard = new Board(tiles);
         while (!dummyBoard.isSolveable()) {
-            System.out.println("TELLS WHETHER THE BOARD IS SOLVABLE OR NOT: " + dummyBoard.isSolveable());
             Collections.shuffle(tiles);
             dummyBoard = new Board(tiles);
         }

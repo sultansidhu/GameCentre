@@ -7,12 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.List;
-import java.util.Objects;
 
 public class LeaderBoardActivity extends AppCompatActivity {
-    //private FileManager fm = new FileManager();
+
     private ScoreboardController scon = new ScoreboardController();
     String winner;
 

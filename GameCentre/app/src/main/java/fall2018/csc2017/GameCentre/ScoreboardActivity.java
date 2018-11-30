@@ -76,7 +76,6 @@ public class ScoreboardActivity extends AppCompatActivity {
                 sessionScore.setText("Your Score: <N/A>");
             }
         } catch (IndexOutOfBoundsException e) {
-            System.out.println("You came from the StartingActivity screen, so no recent score.");
             sessionScore.setText("Your Score: " + "<N/A>");
         }
 
@@ -107,7 +106,6 @@ public class ScoreboardActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LeaderBoardActivity.class);
         startActivity(intent);
     }
-
 
     /**
      * A listener for the reset button. Resets scores when pressed,
@@ -153,7 +151,6 @@ public class ScoreboardActivity extends AppCompatActivity {
         });
 
     }
-
 
     /**
      * A function to transition to the game list screen to start new games or

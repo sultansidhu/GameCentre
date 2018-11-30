@@ -95,7 +95,7 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView {
      * @param context the given context
      */
     private void init(final Context context) {
-        mController = new MovementController(context);
+        mController = new MovementController();
         gDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             /*
             This function is invoked on every tap of the user

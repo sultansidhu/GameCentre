@@ -106,7 +106,7 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
      * @param col the tile column
      * @return the tile at (row, col)
      */
-    public Tile getTile(int row, int col) {
+    Tile getTile(int row, int col) {
         return tiles[row][col];
     }
 

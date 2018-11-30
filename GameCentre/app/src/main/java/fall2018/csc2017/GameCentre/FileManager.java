@@ -118,11 +118,6 @@ public class FileManager implements Serializable {
 
         try
         {
-            if(GlobalApplication.getAppContext() == null) {
-                System.out.println("CONTEXT NULL");
-            } else {
-                System.out.println("CONTEXT NOT NULL");
-            }
             fos = GlobalApplication.getAppContext().openFileOutput("testFile2.ser", Context.MODE_PRIVATE);
             objectOut = new ObjectOutputStream(fos);
             objectOut.writeObject(map);
