@@ -9,7 +9,9 @@ public class ConnectFourScore implements Score {
     /**
      * Calculates the score for Connect4
      */
-    ConnectFourScore() {}
+    ConnectFourScore() {
+    }
+
     /**
      * Sets the board for the game to the given board
      *

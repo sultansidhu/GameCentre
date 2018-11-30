@@ -29,8 +29,8 @@ public class User implements Serializable {
      */
     private String password;
     /**
-    This is a stack holding all the game states of the saved game for this user
-    */
+     * This is a stack holding all the game states of the saved game for this user
+     */
     private Map<Integer, Stack<Board>> savedStates;
     /**
      * This is answer to this user's security question
@@ -38,8 +38,8 @@ public class User implements Serializable {
     private String answer;
 
     /**
-    This is the current highest score of this user per game
-    */
+     * This is the current highest score of this user per game
+     */
     private Map<Integer, ArrayList<Integer>> highestScore;
     /**
      * This is the security question of this user
@@ -56,6 +56,7 @@ public class User implements Serializable {
     private boolean isLoggedIn = false;
 
     private Map<Integer, String> opponents;
+
     /**
      * The user of the application. Object is used to sign in and access various functions.
      *
@@ -188,7 +189,7 @@ public class User implements Serializable {
      * Returm the HashMap mapping a game index integer to the String representing the opponent
      * of the game
      *
-     * @return HashMap<Integer       ,               String>
+     * @return HashMap<Integer               ,                               String>
      */
     Map<Integer, String> getOpponents() {
         return this.opponents;
@@ -246,7 +247,7 @@ public class User implements Serializable {
      *
      * @param gameIndex the index of the game to be reset
      */
-    private void resetScoreHashmapForGame(int gameIndex){
+    private void resetScoreHashmapForGame(int gameIndex) {
         highestScore.put(gameIndex, new ArrayList<Integer>());
     }
 

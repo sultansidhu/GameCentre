@@ -33,9 +33,10 @@ class BoardManagerFactory {
 
     /**
      * Returns a new BoardManager for different games, based on gameIndex and the board given
+     *
      * @param gameIndex, an integer representing which game to initialize a BoardManager for
      *                   (0 --> SlidingTiles    1 --> HasamiShogi   2 --> Connect4)
-     * @param board, a Board object representing the board which BoardManager uses
+     * @param board,     a Board object representing the board which BoardManager uses
      * @return an object of a class implementing BoardManager, depending on gameIndex
      */
 

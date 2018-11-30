@@ -27,6 +27,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
 
     /**
      * Makes toast representing the number of undo's remaining.
+     *
      * @param message represent the number of undo's remaining for the user
      */
     public void showToast(String message) {

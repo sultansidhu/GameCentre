@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -46,13 +47,14 @@ public class ShogiActivity extends GameActivity implements Observer {
 
     /**
      * Called everytime the screen for this activity class is created
+     *
      * @param savedInstanceState the saved instance state bundle
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Stack<Board> userStack = fm.getStack(username, gameIndex);
-        boardManager = (ShogiBoardManager)bmFactory.getBoardManager(gameIndex, userStack.peek());
+        boardManager = (ShogiBoardManager) bmFactory.getBoardManager(gameIndex, userStack.peek());
         createTileButtons(this);
         setContentView(R.layout.activity_main_shogi);
         // Add View to activity
@@ -63,11 +65,9 @@ public class ShogiActivity extends GameActivity implements Observer {
 
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
-                new ViewTreeObserver.OnGlobalLayoutListener()
-                {
+                new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
-                    public void onGlobalLayout()
-                    {
+                    public void onGlobalLayout() {
                         gridView.getViewTreeObserver().removeOnGlobalLayoutListener(
                                 this);
                         int displayWidth = gridView.getMeasuredWidth();
@@ -94,16 +94,14 @@ public class ShogiActivity extends GameActivity implements Observer {
         Button undoButton = findViewById(R.id.btnUndoHS);
         undoButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 if (userManager.processUndo(username, gameIndex)) {
                     User user = fm.getUser(username);
                     makeToastUndo(user, gameIndex);
                     boardManager = (ShogiBoardManager) bmFactory.getBoardManager(gameIndex, user.getGameStack(gameIndex).peek());
                     addBoardObserver();
                     display();
-                }
-                else {
+                } else {
                     showToast("You have used all your undos!");
                 }
             }
@@ -143,7 +141,8 @@ public class ShogiActivity extends GameActivity implements Observer {
 
     /**
      * Updates the display
-     * @param o the observable
+     *
+     * @param o   the observable
      * @param arg the object
      */
     @Override

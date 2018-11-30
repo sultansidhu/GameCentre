@@ -13,6 +13,7 @@ import android.widget.Button;
 public class GameListActivity extends AppCompatActivity {
     /**
      * Invokes when the user logs in or signs up. Displays list of games for user to play.
+     *
      * @param savedInstanceState of activity.
      */
     @Override
@@ -23,6 +24,7 @@ public class GameListActivity extends AppCompatActivity {
         addHasamiShogiButtonListener();
         addConnectFourButtonListener();
     }
+
     /**
      * This will launch the sliding tiles GameActivity on click.
      */
@@ -30,8 +32,7 @@ public class GameListActivity extends AppCompatActivity {
         Button launchSlidingTiles = findViewById(R.id.btnLaunchSlide);
         launchSlidingTiles.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 launchGame(0);
             }
         });
@@ -44,8 +45,7 @@ public class GameListActivity extends AppCompatActivity {
         Button launchHasamiShogi = findViewById(R.id.btnLaunchShogi);
         launchHasamiShogi.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 launchGame(1);
             }
         });
@@ -59,8 +59,7 @@ public class GameListActivity extends AppCompatActivity {
         Button launchHasamiShogi = findViewById(R.id.btnLaunchConnectFour);
         launchHasamiShogi.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 launchGame(2);
             }
         });
@@ -69,15 +68,18 @@ public class GameListActivity extends AppCompatActivity {
 
     /**
      * Launches the sliding tiles game based on index.
+     *
      * @param gameIndex index of the game selected.
      */
     public void launchGame(int gameIndex) {
         Intent intent = null;
-        switch(gameIndex) {
+        switch (gameIndex) {
             case 0:
-                intent = new Intent(this, StartingSlidingActivity.class); break;
+                intent = new Intent(this, StartingSlidingActivity.class);
+                break;
             case 1:
-                intent = new Intent(this, StartingShogiActivity.class); break;
+                intent = new Intent(this, StartingShogiActivity.class);
+                break;
             case 2:
                 intent = new Intent(this, StartingConnectFourActivity.class);
         }

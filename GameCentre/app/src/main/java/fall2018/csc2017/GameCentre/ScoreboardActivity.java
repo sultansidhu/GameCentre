@@ -110,8 +110,8 @@ public class ScoreboardActivity extends AppCompatActivity {
     /**
      * A listener for the reset button. Resets scores when pressed,
      * and this fucction tracks button pressing
-    /*
-    Adds a reset scores button listener which calls a method to set all user high scores to 0.
+     * /*
+     * Adds a reset scores button listener which calls a method to set all user high scores to 0.
      */
     private void addResetScoresButtonListener() {
         Button resetScores = findViewById(R.id.resetScores);

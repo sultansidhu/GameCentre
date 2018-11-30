@@ -57,6 +57,7 @@ public class GestureDetectGridView extends GridView {
             public boolean onSingleTapConfirmed(MotionEvent event) {
                 return true;
             }
+
             @Override
             public boolean onDown(MotionEvent event) {
                 return true;
@@ -67,6 +68,7 @@ public class GestureDetectGridView extends GridView {
     /**
      * Switches to the leader-board screen after the game is won by
      * the guest
+     *
      * @param context the current context
      */
     public void switchToLeaderBoardScreen(Context context, String winner) {

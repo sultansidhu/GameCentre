@@ -18,7 +18,8 @@ class MovementController {
     /**
      * Default constructor for the Movement Controller
      */
-    MovementController() { }
+    MovementController() {
+    }
 
     /**
      * Sets the boardManager of MovementController.

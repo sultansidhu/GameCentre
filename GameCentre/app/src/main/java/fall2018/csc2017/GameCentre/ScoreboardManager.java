@@ -18,8 +18,9 @@ class ScoreboardManager {
     /**
      * Generates the user score for a user, given the username and the
      * game index of the game
-     * @param userLoggedIn  the username of the user
-     * @param gameIndex the game index identity of the game
+     *
+     * @param userLoggedIn the username of the user
+     * @param gameIndex    the game index identity of the game
      * @return the score of the user
      */
     int generateUserScore(String winner, String userLoggedIn, int gameIndex) {
@@ -30,8 +31,7 @@ class ScoreboardManager {
             User user2 = fm.getUser(userLoggedIn);
             s1.setBoard(user2.getGameStack(gameIndex).peek());
             newScore = s1.calculateUserScore(user2.getNumMoves(gameIndex), Board.NUM_COLS);
-        }
-        else {
+        } else {
             s1.setBoard(user.getGameStack(gameIndex).peek());
             newScore = s1.calculateUserScore(user.getNumMoves(gameIndex), Board.NUM_COLS);
         }
@@ -42,6 +42,7 @@ class ScoreboardManager {
 
     /**
      * Formats the scores to display them onto the screen in a better fashion
+     *
      * @param c4Scores the scores of a user from a game of Connect 4
      * @return the StringBuilder representing the
      */

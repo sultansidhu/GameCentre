@@ -16,8 +16,7 @@ class ScoreFactory {
      * @return an object of a class implementing Calculate, depending on gameIndex
      */
     Score getScore(int gameIndex) {
-        switch(gameIndex)
-        {
+        switch (gameIndex) {
             case 0:
                 return new SlidingScore();
             case 1:

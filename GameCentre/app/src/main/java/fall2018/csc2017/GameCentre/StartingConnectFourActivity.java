@@ -35,10 +35,10 @@ public class StartingConnectFourActivity extends StartingActivity {
 
     /**
      * Initializes the activity, by initializing listeners and setting the view
+     *
      * @param savedInstanceState the savedInstanceState
      */
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fm = new FileManager();
         username = new LoginManager().getPersonLoggedIn();
@@ -54,8 +54,7 @@ public class StartingConnectFourActivity extends StartingActivity {
     /**
      * Initializes the spinner which allows the user to select from several board sizes
      */
-    private void setSizeDropdown()
-    {
+    private void setSizeDropdown() {
         Spinner dropdown = findViewById(R.id.dropdownC4);
         String[] itemsForDropdown = new String[]{"6x6", "7x7", "8x8"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, itemsForDropdown);
@@ -66,13 +65,11 @@ public class StartingConnectFourActivity extends StartingActivity {
     /**
      * Adds a listener for the scoreboard button
      */
-    private void addbtnScoreboardListener()
-    {
+    private void addbtnScoreboardListener() {
         Button btnScoreboard = findViewById(R.id.btnScoreboardC4);
 
-        btnScoreboard.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v)
-            {
+        btnScoreboard.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 switchToScoreboardScreen();
             }
         });
@@ -81,18 +78,15 @@ public class StartingConnectFourActivity extends StartingActivity {
     /**
      * Adds a listener for the start button
      */
-    private void addStartButtonListener()
-    {
+    private void addStartButtonListener() {
         Button startGameButton = findViewById(R.id.btnStartGameC4);
-        startGameButton.setOnClickListener(new View.OnClickListener()
-        {
+        startGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 Spinner dropdown = findViewById(R.id.dropdownC4);
                 String selectedSize = dropdown.getSelectedItem().toString();
                 size = Integer.parseInt(selectedSize.substring(0, 1));
-                boardManager = (ConnectFourBoardManager)bmFactory.getBoardManager(gameIndex, size);
+                boardManager = (ConnectFourBoardManager) bmFactory.getBoardManager(gameIndex, size);
                 userManager.setUserUndos(username, 0, gameIndex, boardManager);
                 TextView p2username = findViewById(R.id.txtP2UsernameC4);
                 String p2usernameString = p2username.getText().toString().trim();
@@ -106,12 +100,10 @@ public class StartingConnectFourActivity extends StartingActivity {
     /**
      * Adds a listener for the loadButton.
      */
-    private void addLoadButtonListener()
-    {
+    private void addLoadButtonListener() {
         Button loadButton = findViewById(R.id.btnLoadGameConnect4);
         loadButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 loadGame(gameIndex, username);
             }
         });

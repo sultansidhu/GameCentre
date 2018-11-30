@@ -90,13 +90,12 @@ public class SlidingGestureDetectGridView extends GestureDetectGridView {
             public boolean onSingleTapConfirmed(MotionEvent event) {
                 int position = SlidingGestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
-                if(mController.processTapMovement(position, boardManager)) {
+                if (mController.processTapMovement(position, boardManager)) {
                     if (boardManager.getChanged()) {
                         userManager.saveState(username, boardManager, gameIndex);
                         checkSolved(context, gameIndex);
                     }
-                }
-                else {
+                } else {
                     Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
                 }
                 return true;
@@ -111,6 +110,7 @@ public class SlidingGestureDetectGridView extends GestureDetectGridView {
 
     /**
      * Checks if the board is solved, and thus whether the game is over
+     *
      * @param context   the current context
      * @param gameIndex the identity index of the game
      */

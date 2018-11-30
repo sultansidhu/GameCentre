@@ -49,8 +49,7 @@ public class Tile extends Observable implements Comparable<Tile>, Serializable {
      *
      * @param id the id that needs to be set for the tile
      */
-    public void setId(int id)
-    {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -139,7 +138,7 @@ public class Tile extends Observable implements Comparable<Tile>, Serializable {
             default:
                 background = R.drawable.tile_25;
         }
-   }
+    }
 
     @Override
     public int compareTo(@NonNull Tile o) {

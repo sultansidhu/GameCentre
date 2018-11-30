@@ -85,16 +85,14 @@ public class SlidingActivity extends GameActivity implements Observer {
         Button undoButton = findViewById(R.id.UndoButton);
         undoButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 if (userManager.processUndo(username, gameIndex)) {
                     User user = fm.getUser(username);
                     makeToastUndo(user, gameIndex);
                     boardManager = (SlidingBoardManager) bmFactory.getBoardManager(gameIndex, user.getGameStack(gameIndex).peek());
                     addBoardObserver();
                     display();
-                }
-                else {
+                } else {
                     showToast("You have used all your undos!");
                 }
             }

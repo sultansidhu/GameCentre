@@ -1,14 +1,15 @@
 package fall2018.csc2017.GameCentre;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -16,7 +17,7 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-  /**
+    /**
      * This is a HashMap where the key is a String representing the user's username and
      * the value is an object of type User, which holds the user's password, security question,
      * and last GameState

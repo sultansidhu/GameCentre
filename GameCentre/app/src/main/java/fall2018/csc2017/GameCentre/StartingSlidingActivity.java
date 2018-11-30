@@ -7,11 +7,13 @@ and initializes the screen
 Date: October 30, 2018
 Group #: 0647
 ================================================================== */
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+
 import java.util.EmptyStackException;
 import java.util.Map;
 import java.util.Stack;
@@ -56,6 +58,7 @@ public class StartingSlidingActivity extends StartingActivity {
 
     /**
      * Creats start screen for sliding tiles with game options.
+     *
      * @param savedInstanceState of starting activity.
      */
     @Override
@@ -96,13 +99,12 @@ public class StartingSlidingActivity extends StartingActivity {
     }
 
     /**
-    Activate the LaunchScoreboard button
-    */
+     * Activate the LaunchScoreboard button
+     */
     private void addScoreboardButtonListener() {
         Button scoreboard = findViewById(R.id.btnScoreboard);
 
-        scoreboard.setOnClickListener(new View.OnClickListener()
-        {
+        scoreboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switchToScoreboardScreen();
@@ -130,7 +132,7 @@ public class StartingSlidingActivity extends StartingActivity {
                 } catch (NumberFormatException e) {
                     undoLimit = -1;
                 } finally {
-                    boardManager = (SlidingBoardManager)bmFactory.getBoardManager(gameIndex, size);
+                    boardManager = (SlidingBoardManager) bmFactory.getBoardManager(gameIndex, size);
                     userManager.setUserUndos(username, undoLimit, gameIndex, boardManager);
                     switchToGame(gameIndex);
                 }
@@ -141,13 +143,11 @@ public class StartingSlidingActivity extends StartingActivity {
     /**
      * Activate the load button.
      */
-    private void addLoadButtonListener()
-    {
+    private void addLoadButtonListener() {
         Button loadButton = findViewById(R.id.LoadButton);
         loadButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 loadGame(gameIndex, username);
             }
         });
@@ -163,9 +163,8 @@ public class StartingSlidingActivity extends StartingActivity {
         Map<String, User> users = fm.readObject();
         assert users != null;
         Stack<Board> userStack = users.get(username).getGameStack(gameIndex);
-        try
-        {
-            boardManager = (SlidingBoardManager)bmFactory.getBoardManager(gameIndex, userStack.peek());
+        try {
+            boardManager = (SlidingBoardManager) bmFactory.getBoardManager(gameIndex, userStack.peek());
         } catch (EmptyStackException e) {
             System.out.println("Empty stack, nothing to resume!");
         }

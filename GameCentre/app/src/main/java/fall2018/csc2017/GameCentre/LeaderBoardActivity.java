@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.util.List;
 
 public class LeaderBoardActivity extends AppCompatActivity {
@@ -43,8 +44,7 @@ public class LeaderBoardActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (winner == null || !winner.equals("Guest")) {
                     goToLocalScoreboard();
-                }
-                else {
+                } else {
                     Toast.makeText(getApplicationContext(), "Sign up to save and see your scores!", Toast.LENGTH_SHORT).show();
                 }
             }

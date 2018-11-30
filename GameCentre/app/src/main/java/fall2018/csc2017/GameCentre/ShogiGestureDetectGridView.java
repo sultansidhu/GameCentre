@@ -93,17 +93,17 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
             public boolean onSingleTapConfirmed(MotionEvent event) {
                 int position = ShogiGestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
-                if(mController.processTapMovement(position, boardManager)) {
+                if (mController.processTapMovement(position, boardManager)) {
                     if (boardManager.getChanged()) {
                         userManager.saveState(username, boardManager, gameIndex);
                         checkSolved(context, gameIndex);
                     }
-                }
-                else {
+                } else {
                     Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
                 }
                 return true;
             }
+
             @Override
             public boolean onDown(MotionEvent event) {
                 return true;
@@ -113,6 +113,7 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
 
     /**
      * Checks if the board is solved, and thus whether the game is over
+     *
      * @param context   the current context
      * @param gameIndex the identity index of the game
      */
