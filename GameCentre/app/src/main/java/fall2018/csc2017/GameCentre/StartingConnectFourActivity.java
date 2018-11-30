@@ -9,16 +9,35 @@ import android.widget.TextView;
 
 public class StartingConnectFourActivity extends StartingActivity
 {
-
+    /**
+     * The ConnectFourBoardManager to be used in the game
+     */
     private ConnectFourBoardManager boardManager;
+    /**
+     * The username of the player to play
+     */
     private String username;
-    private FileManager fm;
+    /**
+     * The size of the board
+     */
     private int size;
+    /**
+     * The gameIndex of this game
+     */
     private int gameIndex = 2;
+    /**
+     * The BoardManager factory
+     */
     private BoardManagerFactory bmFactory = new BoardManagerFactory();
+    /**
+     * The UserManager for this game
+     */
     private UserManager userManager;
 
-
+    /**
+     * Initializes the activity, by initializing listeners and setting the view
+     * @param savedInstanceState the savedInstanceState
+     */
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -33,6 +52,9 @@ public class StartingConnectFourActivity extends StartingActivity
         assert username != null; //There should be someone logged in once we get to this screen.
     }
 
+    /**
+     * Initializes the spinner which allows the user to select from several board sizes
+     */
     private void setSizeDropdown()
     {
         Spinner dropdown = findViewById(R.id.dropdownC4);
@@ -42,6 +64,9 @@ public class StartingConnectFourActivity extends StartingActivity
         dropdown.setAdapter(adapter);
     }
 
+    /**
+     * Adds a listener for the scoreboard button
+     */
     private void addbtnScoreboardListener()
     {
         Button btnScoreboard = findViewById(R.id.btnScoreboardC4);
@@ -54,6 +79,9 @@ public class StartingConnectFourActivity extends StartingActivity
         });
     }
 
+    /**
+     * Adds a listener for the start button
+     */
     private void addStartButtonListener()
     {
         Button startGameButton = findViewById(R.id.btnStartGameC4);
@@ -76,6 +104,9 @@ public class StartingConnectFourActivity extends StartingActivity
         });
     }
 
+    /**
+     * Adds a listener for the loadButton.
+     */
     private void addLoadButtonListener()
     {
         Button loadButton = findViewById(R.id.btnLoadGameConnect4);

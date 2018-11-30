@@ -44,6 +44,10 @@ public class ShogiActivity extends GameActivity implements Observer {
         gridView.setAdapter(new CustomAdapter(tileButtons, columnWidth, columnHeight));
     }
 
+    /**
+     * Called everytime the screen for this activity class is created
+     * @param savedInstanceState the saved instance state bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +79,9 @@ public class ShogiActivity extends GameActivity implements Observer {
                 });
     }
 
+    /**
+     * Adds the board observer for shogi
+     */
     private void addBoardObserver() {
         gridView.setBoardManager(boardManager);
         boardManager.getBoard().addObserver(ShogiActivity.this);

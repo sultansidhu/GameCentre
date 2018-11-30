@@ -9,17 +9,10 @@ This extension of GridView contains built in logic for handling swipes between b
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.widget.GridView;
 import android.widget.Toast;
-
-import java.io.File;
-import java.util.HashMap;
-
-//import static fall2018.csc2017.GameCentre.MovementController.username;
 
 public class SlidingGestureDetectGridView extends GestureDetectGridView {
     /*
@@ -108,6 +101,7 @@ public class SlidingGestureDetectGridView extends GestureDetectGridView {
                 }
                 return true;
             }
+
             @Override
             public boolean onDown(MotionEvent event) {
                 return true;
@@ -134,6 +128,10 @@ public class SlidingGestureDetectGridView extends GestureDetectGridView {
         }
     }
 
+    /**
+     * @param ev the MotionEvent
+     * @return if the touch event was a valid one
+     */
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         int action = ev.getActionMasked();
         gDetector.onTouchEvent(ev);
@@ -156,6 +154,10 @@ public class SlidingGestureDetectGridView extends GestureDetectGridView {
         return super.onInterceptTouchEvent(ev);
     }
 
+    /**
+     * @param ev the MotionEvent for user touch
+     * @return boolean representing the status of the touch event
+     */
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent ev) {

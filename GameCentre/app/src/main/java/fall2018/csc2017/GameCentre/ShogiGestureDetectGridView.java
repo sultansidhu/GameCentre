@@ -9,34 +9,34 @@ import android.widget.Toast;
 
 public class ShogiGestureDetectGridView extends GestureDetectGridView {
 
-    /*
-   An int representing the minimum distance to swipe
-   */
+    /**
+     * An int representing the minimum distance to swipe
+     */
     public static final int SWIPE_MIN_DISTANCE = 100;
-    /*
-    The GestureDetector object that will be used here
-    */
+    /**
+     * The GestureDetector object that will be used here
+     */
     private GestureDetector gDetector;
-    /*
-    The MovementController object that will be used here
-    */
+    /**
+     * The MovementController object that will be used here
+     */
     private MovementController mController;
-    /*
-    A boolean value representing if mFlingConfirmed
-    */
+    /**
+     * A boolean value representing if mFlingConfirmed
+     */
     private boolean mFlingConfirmed = false;
-    /*
-    The X coordinate of the mTouch
-    */
+    /**
+     * The X coordinate of the mTouch
+     */
     private float mTouchX;
-    /*
-    The Y coordinate of the mTouch
-    */
+    /**
+     * The Y coordinate of the mTouch
+     */
     private float mTouchY;
 
-    /*
-    An instance of BoardManager that will be used in this class
-    */
+    /**
+     * An instance of BoardManager that will be used in this class
+     */
 
     private ShogiBoardManager boardManager;
 
@@ -45,6 +45,9 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
      */
     private String username = new LoginManager().getPersonLoggedIn();
 
+    /**
+     * The gameIndex identifies the game
+     */
     private int gameIndex = 1;
 
     private UserManager userManager = new UserManager();
@@ -56,16 +59,18 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
         super(context);
         init(context);
     }
-    /*
-    Overloaded Constructor that takes a Context and AttributeSet
-    */
+
+    /**
+     * Overloaded Constructor that takes a Context and AttributeSet
+     */
     public ShogiGestureDetectGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
-    /*
-    Overloaded Constructor that takes a Context, an AttributeSet, and a defaultStyleAttribute integer
-    */
+
+    /**
+     * Overloaded Constructor that takes a Context, an AttributeSet, and a defaultStyleAttribute integer
+     */
 
     public ShogiGestureDetectGridView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -125,6 +130,12 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
         }
     }
 
+    /**
+     * Intercepts the touch events
+     *
+     * @param ev the MotionEvent
+     * @return whether a touch was intercepted
+     */
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         int action = ev.getActionMasked();
         gDetector.onTouchEvent(ev);
@@ -153,11 +164,11 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
         return gDetector.onTouchEvent(ev);
     }
 
-    /*
-    This function sets the BoardManager attribute of this class
-    @param boardManager
-    @return null
-    */
+    /**
+     * This function sets the BoardManager attribute of this class
+     *
+     * @param boardManager the board manager for current shogi game
+     */
     public void setBoardManager(ShogiBoardManager boardManager) {
         this.boardManager = boardManager;
         mController.setBoardManager(boardManager);
