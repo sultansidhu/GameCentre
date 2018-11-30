@@ -52,9 +52,9 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
 
     private UserManager userManager = new UserManager();
 
-    /*
-    Overloaded Constructor that takes a Context
-    */
+    /**
+     * Overloaded Constructor that takes a Context
+     */
     public ShogiGestureDetectGridView(Context context) {
         super(context);
         init(context);

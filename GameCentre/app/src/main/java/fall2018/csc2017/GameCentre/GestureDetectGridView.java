@@ -25,6 +25,7 @@ public class GestureDetectGridView extends GridView {
 
     /**
      * Overloaded Constructor that takes a Context
+     * @param context the given context
      */
     public GestureDetectGridView(Context context) {
         super(context);
@@ -33,6 +34,8 @@ public class GestureDetectGridView extends GridView {
 
     /**
      * Overloaded Constructor that takes a Context and AttributeSet
+     * @param context the given context
+     * @param attrs the given attribute set
      */
     public GestureDetectGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -41,6 +44,9 @@ public class GestureDetectGridView extends GridView {
 
     /**
      * Overloaded Constructor that takes a Context, an AttributeSet, and a defaultStyleAttribute integer
+     * @param context the given context
+     * @param attrs the set of attributes
+     * @param defStyleAttr the style attribute integer
      */
     public GestureDetectGridView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -49,8 +55,8 @@ public class GestureDetectGridView extends GridView {
 
     /**
      * An initializer method for the gesture detector
+     * @param context the given context
      */
-
     private void init(final Context context) {
         gDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             @Override
@@ -79,6 +85,9 @@ public class GestureDetectGridView extends GridView {
 
     /**
      * Switches to the scoreboard screen if a game is won
+     * @param context the given context
+     * @param result the result integer
+     * @param username the username of the winner
      */
     public void switchToScoreboardScreen(Context context, int result, String username) {
         Intent intent = new Intent(context, ScoreboardActivity.class);

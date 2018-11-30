@@ -43,7 +43,7 @@ public class ConnectFourBoardManagerTest {
         assertFalse(bm.checkSides(26));//Various colors on the right
         bm = makeRedWinVerticalBoard();
         assertFalse(bm.checkSides(13));//Blanks on either side
-        bm = makeRedWinHorizontal();
+        bm = makeRedWinHorizontalBoard();
         assertTrue(bm.checkSides(33));
     }
 
@@ -87,7 +87,6 @@ public class ConnectFourBoardManagerTest {
     }
 
     private ConnectFourBoardManager makeEarlyBoard() {
-        //Integer[] moveList = {30, 24, 31, 18, 25, 32, 34, 26, 20, 33, 27, 21, 19, 35};
         ConnectFourBoardManager bm = new ConnectFourBoardManager(6);
         return makeMoves(bm, new int[]{30, 24, 31, 18});
     }
@@ -107,7 +106,7 @@ public class ConnectFourBoardManagerTest {
         return makeMoves(bm, new int[]{30, 24, 31, 18, 25, 32, 34, 26, 20, 33, 27, 21, 19, 35, 13});
     }
 
-    private ConnectFourBoardManager makeRedWinHorizontal() {
+    private ConnectFourBoardManager makeRedWinHorizontalBoard() {
         ConnectFourBoardManager bm = new ConnectFourBoardManager(6);
         return makeMoves(bm, new int[]{30, 24, 31, 25, 32, 26, 33});
     }

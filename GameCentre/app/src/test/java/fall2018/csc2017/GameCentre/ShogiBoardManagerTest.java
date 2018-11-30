@@ -21,7 +21,7 @@ public class ShogiBoardManagerTest {
         assertTrue(bm.puzzleSolved());
         bm = makeOneMoveAwayforBlack();
         assertFalse(bm.puzzleSolved());
-        bm = makeBlackisWinner();
+        bm = makeBlackIsWinner();
         assertTrue(bm.puzzleSolved());
     }
 
@@ -157,7 +157,7 @@ public class ShogiBoardManagerTest {
         return makeMoves(bm);
     }
 
-    private ShogiBoardManager makeBlackisWinner() {
+    private ShogiBoardManager makeBlackIsWinner() {
         ShogiBoardManager bm = makeOneMoveAwayforBlack();
         bm.setTileSelected(33);
         bm.touchMove(34);

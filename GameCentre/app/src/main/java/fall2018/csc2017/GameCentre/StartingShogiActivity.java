@@ -81,9 +81,9 @@ public class StartingShogiActivity extends StartingActivity {
         dropdown.setAdapter(adapter);
     }
 
-    /*
-    Activate the LaunchScoreboard button
-    */
+    /**
+     * Activate the LaunchScoreboard button
+     */
     private void addScoreboardButtonListener() {
         Button scoreboard = findViewById(R.id.btnScoreboardHS);
 
