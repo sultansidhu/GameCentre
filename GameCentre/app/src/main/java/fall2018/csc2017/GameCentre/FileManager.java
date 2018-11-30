@@ -10,6 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 public class FileManager implements Serializable {
@@ -21,7 +22,7 @@ public class FileManager implements Serializable {
      */
     public FileManager()
     {
-        HashMap<String, User> HMfromfile = readObject();
+        Map<String, User> HMfromfile = readObject();
         if(HMfromfile == null) {
             saveObject(new HashMap<String, User>());
         }
@@ -32,7 +33,7 @@ public class FileManager implements Serializable {
      * hash map
      * @return the read hash map from the .ser file
      */
-    HashMap<String, User> readObject()
+    Map<String, User> readObject()
     {
         FileInputStream fis;
         ObjectInputStream objectIn;
@@ -41,10 +42,10 @@ public class FileManager implements Serializable {
             fis = GlobalApplication.getAppContext().openFileInput("testFile2.ser");
             objectIn = new ObjectInputStream(fis);
             @SuppressWarnings("unchecked")
-            HashMap<String, User> hashMapFromFile = (HashMap<String, User>)objectIn.readObject();
+            Map<String, User> mapFromFile = (Map<String, User>)objectIn.readObject();
 
             objectIn.close();
-            return hashMapFromFile;
+            return mapFromFile;
         }
         catch(NullPointerException e){
             return new HashMap<>();
@@ -70,14 +71,14 @@ public class FileManager implements Serializable {
     }
 
     /**
-     This method saves a user to the HashMap and writes the HashMap to the file
+     This method saves a user to the Map and writes the Map to the file
      @param user, the User object to add
      @param username, a String representing the username of the user to add
      */
 
     void saveUser(User user, String username)
     {
-        HashMap<String, User> HMfromfile = readObject();
+        Map<String, User> HMfromfile = readObject();
         HMfromfile.put(username, user);
         saveObject(HMfromfile);
     }
@@ -88,7 +89,7 @@ public class FileManager implements Serializable {
      * @return the User corresponding to the username String
      */
     User getUser(String username) {
-        HashMap<String, User> users = readObject();
+        Map<String, User> users = readObject();
         assert users != null;
         return users.get(username);
     }
@@ -108,9 +109,9 @@ public class FileManager implements Serializable {
     /**
      * Saves the given hashmap to the serialized file, thus saving
      * the users and their games
-     * @param hashMap the hashmap to be saved onto the .ser file
+     * @param map the hashmap to be saved onto the .ser file
      */
-    void saveObject(HashMap<String, User> hashMap)
+    void saveObject(Map<String, User> map)
     {
         FileOutputStream fos;
         ObjectOutputStream objectOut;
@@ -124,7 +125,7 @@ public class FileManager implements Serializable {
             }
             fos = GlobalApplication.getAppContext().openFileOutput("testFile2.ser", Context.MODE_PRIVATE);
             objectOut = new ObjectOutputStream(fos);
-            objectOut.writeObject(hashMap);
+            objectOut.writeObject(map);
             objectOut.close();
 
         } catch (NullPointerException e2) {

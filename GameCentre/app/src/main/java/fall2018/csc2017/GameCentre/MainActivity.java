@@ -11,17 +11,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    /**
+   /**
      * This is a HashMap where the key is a String representing the user's username and
      * the value is an object of type User, which holds the user's password, security question,
      * and last GameState
      */
-    private HashMap<String, User> logins = new HashMap<>();
+    private Map<String, User> logins = new HashMap<>();
 
     /**
      * Invoked as soon as the app is run. This will load the login screen, read the HashMap
