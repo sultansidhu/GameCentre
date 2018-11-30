@@ -19,7 +19,6 @@ class SlidingScore implements Score
     /**
      * The constructor for this class, which intiailizes the fm object
      */
-    // TODO: remove static here
     public SlidingScore()
     {
         fm = new FileManager();
@@ -32,18 +31,12 @@ class SlidingScore implements Score
      * @return score, an integer representing the score of this user
      */
 
-    public int calculateUserScore(int numMoves, int size)
-    {
+    public int calculateUserScore(int numMoves, int size) {
         double score = 2000/numMoves;
         return (int)score + (50 * size);
     }
 
     public void setBoard(Board board){
         this.board = board;
-    }
-
-
-    public void updateUserScore(User user, int newHighScore) {
-
     }
 }

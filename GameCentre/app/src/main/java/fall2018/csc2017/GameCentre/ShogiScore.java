@@ -21,7 +21,6 @@ class ShogiScore implements Score
     /**
      * The constructor of this class, which initializes the FileManager and LoginManager attributes
      */
-    // TODO: remove static here
     public ShogiScore() {
         fm = new FileManager();
         lm = new LoginManager();
@@ -35,8 +34,7 @@ class ShogiScore implements Score
      * @throws null
      */
 
-    public int calculateUserScore(int numMoves, int size)
-    {
+    public int calculateUserScore(int numMoves, int size) {
         return generateScore(numMoves, getPieceDiff(board)) + (50*size);
     }
 
@@ -44,20 +42,11 @@ class ShogiScore implements Score
         this.board = board;
     }
 
-    public void updateUserScore(User user, int newHighScore){
-
-    }
-
     public int getPieceDiff(Board board){
-        int pieceDiff = board.numBlacks() - board.numReds();
-        if (pieceDiff < 0) {
-            pieceDiff *= -1;
-        }
-        return pieceDiff;
+        return Math.abs(board.numBlacks() - board.numReds());
     }
 
     public int generateScore(int numMoves, int pieceDiff){
-
         if(numMoves < 14)
             return 860 + (20 * pieceDiff);
 
@@ -68,30 +57,4 @@ class ShogiScore implements Score
 
         return score;
     }
-
-//    /**
-//     * A helper method that obtains and returns the number of moves taken by User user and the
-//     * last board
-//     * @param username, a String representing the username of the user who just won the game
-//     * @return An array of type Object, holding an integer (numOfMoves) and a Board
-//     */
-//
-//    public Object[] getMovesCountAndBoard(String username)
-//    {
-//        Object[] array = new Object[2];
-//        User user = fm.getUser(username);
-//        if(!(lm.getPersonLoggedIn().equals(user.getUsername())))
-//        {
-//            HashMap<String, User> hm = fm.readObject();
-//            assert hm != null;
-//            User user1 = hm.get(lm.getPersonLoggedIn()); //Gets the person logged in
-//            array[0] = user1.getNumMoves(1) - 1; //p2 requires 1 more move to win
-//            array[1] = user1.getGameStack(1).peek();
-//        }
-//        else {
-//            array[0] = user.getNumMoves(1);
-//            array[1] = getPieceDiff(user.getGameStack(1).peek());
-//        }
-//        return array;
-//    }
 }
