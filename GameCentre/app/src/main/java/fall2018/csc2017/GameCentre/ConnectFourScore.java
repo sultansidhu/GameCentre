@@ -11,9 +11,6 @@ public class ConnectFourScore implements Score {
      */
     private Board board;
 
-    public ConnectFourScore(){
-
-    }
 
     public void setBoard(Board board){
         this.board = board;
@@ -21,9 +18,5 @@ public class ConnectFourScore implements Score {
 
     public int calculateUserScore(int numMoves, int size){
         return Math.round(-4*(numMoves-7) + 1000) + 50*size;
-    }
-
-    public void updateUserScore(User user, int newHighScore) {
-
     }
 }
