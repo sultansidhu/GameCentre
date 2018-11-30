@@ -53,11 +53,13 @@ class MovementController {
     private void checkSolved(Context context, int gameIndex) {
         if (boardManager.puzzleSolved()) {
             String winner = getWinnerUsername(gameIndex); // TODO: CALL TO THE getWinnerUsername() METHOD
-            Toast.makeText(context, "YOU WIN!", Toast.LENGTH_SHORT).show();
+
             if (winner.equals("Guest")) {
                 switchToLeaderBoardScreen(context);
+                Toast.makeText(context, "GUEST WINS!", Toast.LENGTH_SHORT).show();
             }
             else {
+                Toast.makeText(context, "YOU WIN!", Toast.LENGTH_SHORT).show();
                 ScoreboardActivity sc = new ScoreboardActivity();
                 int[] result = sc.updateUserHighScore(winner, gameIndex);
                 switchToScoreboardScreen(context, result, winner);
