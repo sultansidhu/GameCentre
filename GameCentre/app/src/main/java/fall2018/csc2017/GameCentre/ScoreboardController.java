@@ -19,11 +19,21 @@ public class ScoreboardController {
     /**
      * Calculates and updates the user's score, and returns a //TODO: This method does too much stuff
      */
-    public int[] updateUserHighScore(String username, int gameIndex)
+    public int updateUserHighScore(String username, int gameIndex)
     {
         int[] result = new int[4];
-        int newScore = -1;
         //////////////////////////
+        int newScore = generateUserScore(username, gameIndex);
+        ////////////////////////
+        for(int i = 0; i < 3; i++){
+            //result[i] = user.getMaxScore(i);
+        }
+        result[3] = newScore;
+        return newScore;
+    }
+
+    private int generateUserScore(String username, int gameIndex) {
+        int newScore;
         HashMap<String, User> users = fm.readObject();
         assert users != null;
         User user = users.get(username);
@@ -32,18 +42,13 @@ public class ScoreboardController {
         s1.setBoard(userBoard);
         newScore = s1.calculateUserScore(user.getNumMoves(gameIndex), userBoard.NUM_COLS);
         user.addSessionScore(newScore, gameIndex);
-        ////////////////////////
         assert newScore >= 0;
         fm.saveObject(users);
         System.out.println("THE ARRAY OF THE SESSION SCORES IS DISPLAYED HERE: ");
         user.printAllSessionScores();
-
-        for(int i = 0; i < 3; i++){
-            result[i] = user.getMaxScore(i);
-        }
-        result[3] = newScore;
-        return result;
+        return newScore;
     }
+
     public StringBuilder formatScores(ArrayList c4Scores, int numToDisplay) {
         StringBuilder scoreFormat = new StringBuilder();
         for(int i = 0; i < numToDisplay && i < c4Scores.size(); i++){

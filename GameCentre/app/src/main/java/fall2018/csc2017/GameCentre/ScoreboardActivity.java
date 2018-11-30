@@ -74,13 +74,13 @@ public class ScoreboardActivity extends AppCompatActivity
         }
         winner = winnerUsername;
         User user = fm.getUser(winnerUsername);
-        int[] results = getIntent().getIntArrayExtra("results");
-        if (results == null) {//Coming from starting Activity
-            results = new int[3];
-            for (int i = 0; i < 3; i++) {
-                results[i] = user.getMaxScore(i);
-            }
+        int newScore = getIntent().getIntExtra("result", -1);
+        assert newScore >= 0;
+        int[] results = new int[4];
+        for (int i = 0; i < 3; i++) {
+            results[i] = user.getMaxScore(i);
         }
+        results[3] = newScore;
         System.out.println("Results is: ");
         System.out.println(results);
         //String currentUsername = getIntent().getStringExtra("username");
@@ -107,7 +107,12 @@ public class ScoreboardActivity extends AppCompatActivity
         hasamiScore.setText("Hasami Shogi: "+ String.valueOf(results[1]));
         connect4Score.setText("Connect 4: "+ String.valueOf(results[2]));
         try {
-            sessionScore.setText("Your Score: " + String.valueOf(results[3]));
+            if (results[3] > -1) {
+                sessionScore.setText("Your Score: " + String.valueOf(results[3]));
+            }
+            else{
+                sessionScore.setText("Your Score: <N/A>");
+            }
         }
         catch(IndexOutOfBoundsException e){
             System.out.println("You came from the StartingActivity screen, so no recent score.");
