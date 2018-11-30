@@ -6,54 +6,61 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class ScoreboardController {
+class ScoreboardController {
     private FileManager fm;
-    //private LoginManager lm;
     private ScoreFactory scoreFactory = new ScoreFactory();
 
-    public ScoreboardController(){
+    ScoreboardController(){
         this.fm = new FileManager();
-        //this.lm = new LoginManager();
 
     }
     /**
-     * Calculates and updates the user's score, and returns a //TODO: This method does too much stuff
+     * Calculates and updates the user's score, and returns a score
      */
-    public int updateUserHighScore(String username, int gameIndex)
+    int updateUserHighScore(String username, int gameIndex)
     {
         int[] result = new int[4];
-        //////////////////////////
         int newScore = generateUserScore(username, gameIndex);
-        ////////////////////////
-        for(int i = 0; i < 3; i++){
-            //result[i] = user.getMaxScore(i);
-        }
         result[3] = newScore;
         return newScore;
     }
 
+    /**
+     * Generates the user score for a user, given the username and the
+     * game index of the game
+     * @param username the username of the user
+     * @param gameIndex the game index identity of the game
+     * @return the score of the user
+     */
     private int generateUserScore(String username, int gameIndex) {
         int newScore;
         HashMap<String, User> users = fm.readObject();
         assert users != null;
         User user = users.get(username);
         Score s1 = scoreFactory.getScore(gameIndex);
+        assert user != null;
         Board userBoard = user.getGameStack(gameIndex).peek();
         s1.setBoard(userBoard);
-        newScore = s1.calculateUserScore(user.getNumMoves(gameIndex), userBoard.NUM_COLS);
+        newScore = s1.calculateUserScore(user.getNumMoves(gameIndex), Board.NUM_COLS);
         user.addSessionScore(newScore, gameIndex);
-        assert newScore >= 0;
         fm.saveObject(users);
-        System.out.println("THE ARRAY OF THE SESSION SCORES IS DISPLAYED HERE: ");
         user.printAllSessionScores();
         return newScore;
     }
 
-    public StringBuilder formatScores(ArrayList c4Scores, int numToDisplay) {
+    /**
+     * Formats the scores to display them onto the screen in a better
+     * fashion
+     * @param c4Scores the scores of a user from a game of Connect 4
+     * @param numToDisplay the number to display
+     * @return the StringBuilder representing the
+     */
+    StringBuilder formatScores(ArrayList c4Scores, int numToDisplay) {
         StringBuilder scoreFormat = new StringBuilder();
         for(int i = 0; i < numToDisplay && i < c4Scores.size(); i++){
             Object[] scoreTup = (Object[])c4Scores.get(i);
-            scoreFormat.append(scoreTup[0] + ": " + scoreTup[1] + "\n");//Appends the username and score to the tup.
+            scoreFormat.append(scoreTup[0]).append(": ").append(scoreTup[1]).append("\n");
+            //Appends the username and score to the tup.
         }
         if(scoreFormat.length() == 0){
             scoreFormat.append("No scores to show! Be the first one!");
@@ -81,6 +88,12 @@ public class ScoreboardController {
         }
         return sortListofUserandScores(highScoresTup);
     }
+
+    /**
+     * Sorts the arrays of users and their scores for various games.
+     * @param highScoresTup the arraylist of highscores of a user
+     * @return the sorted arraylist of highscores of a user
+     */
     private ArrayList sortListofUserandScores(ArrayList highScoresTup) {
         Collections.sort(highScoresTup, new Comparator() {
             @Override
