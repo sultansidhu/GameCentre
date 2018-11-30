@@ -65,12 +65,17 @@ class MovementController {
     private void checkSolved(Context context, int gameIndex) {
         if (boardManager.puzzleSolved()) {
             String winner = getWinnerUsername(gameIndex);
-            Toast.makeText(context, username + " wins!", Toast.LENGTH_SHORT).show();
+            User user = fm.getUser(winner);
             if (winner.equals("Guest")) {
+                Toast.makeText(context, "Guest wins!", Toast.LENGTH_SHORT).show();
                 switchToLeaderBoardScreen(context);
             } else {
+            }
+            else {
+                Toast.makeText(context, username + " wins!", Toast.LENGTH_SHORT).show();
+                ScoreboardActivity sc = new ScoreboardActivity();
                 ScoreboardController scon = new ScoreboardController();
-                int result = scon.updateUserHighScore(winner, gameIndex);
+                int result = scon.generateUserScore(winner, gameIndex);
                 switchToScoreboardScreen(context, result, winner);
             }
         }

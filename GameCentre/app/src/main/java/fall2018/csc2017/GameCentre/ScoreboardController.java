@@ -33,10 +33,12 @@ class ScoreboardController {
      * @return the score of the user
      */
     private int generateUserScore(String username, int gameIndex) {
+    public int generateUserScore(String username, int gameIndex) {
         int newScore;
         HashMap<String, User> users = fm.readObject();
         assert users != null;
         User user = users.get(username);
+        //User user = fm.getUser(username);
         Score s1 = scoreFactory.getScore(gameIndex);
         assert user != null;
         Board userBoard = user.getGameStack(gameIndex).peek();

@@ -12,8 +12,12 @@ import android.widget.Toast;
 import java.util.HashMap;
 
 public class ScoreboardActivity extends AppCompatActivity {
+//import static fall2018.csc2017.GameCentre.MovementController.username;
+
+public class ScoreboardActivity extends AppCompatActivity {
     /**
      * TextView for the sliding score
+     * List of all the users' highscores.
      */
     TextView slidingScore;
     /**
@@ -37,6 +41,8 @@ public class ScoreboardActivity extends AppCompatActivity {
     /**
      * The file manager, assisting with reading and
      * writing the .ser files
+     * Called when the scoreboard button is pressed, or when the user completes a game.
+     * Displays high scores in a list format.
      */
     FileManager fm = new FileManager();
 
@@ -51,6 +57,9 @@ public class ScoreboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         String winnerUsername = getIntent().getStringExtra("username");
         if (winnerUsername == null) {//If there is no winner since we came from starting activity
+        String winnerUsername = getIntent().getStringExtra("username");//new LoginManager().getPersonLoggedIn();
+        System.out.println("THE WINNERS USERNAME IS --------------%%%%%%%%%%%% -------------" + winnerUsername);
+        if (winnerUsername == null) {//If there is no winner since we came from starting activity
             winnerUsername = new LoginManager().getPersonLoggedIn();
         }
         winner = winnerUsername;
@@ -62,6 +71,9 @@ public class ScoreboardActivity extends AppCompatActivity {
         }
         results[3] = newScore;
 
+        System.out.println("Results is: ");
+        System.out.println(results);
+        System.out.println("THE RESULTS NOW ARE: ----------------------------" + results);
         setContentView(R.layout.scoreboard);
         slidingScore = findViewById(R.id.slidingTilesScoreViewer);
         hasamiScore = findViewById(R.id.hasamiShogiScoreViewer);
@@ -95,6 +107,7 @@ public class ScoreboardActivity extends AppCompatActivity {
      * goes to the global leader-board if pressed
      */
     private void addGoToGlobalScoresListener() {
+    private void addGoToGlobalScoresListener() {
         Button globalScores = findViewById(R.id.goToGlobalScores);
         globalScores.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,6 +129,9 @@ public class ScoreboardActivity extends AppCompatActivity {
     /**
      * A listener for the reset button. Resets scores when pressed,
      * and this fucction tracks button pressing
+    /*
+    Adds a reset scores button listener which calls a method to set all user high scores to 0.
+    @return null
      */
     private void addResetScoresButtonListener() {
         Button resetScores = findViewById(R.id.resetScores);
@@ -136,6 +152,7 @@ public class ScoreboardActivity extends AppCompatActivity {
      */
     @SuppressLint("SetTextI18n")
     public void updateResetScores() {
+    public void updateResetScores() {
         slidingScore.setText("Sliding Tiles: 0");
         hasamiScore.setText("Hasami Shogi: 0");
         connect4Score.setText("Connect 4: 0");
@@ -146,7 +163,10 @@ public class ScoreboardActivity extends AppCompatActivity {
      * Goes to the game list screen to start new games when pressed
      */
     private void addGoToGameListListener() {
+    private void addGoToGameListListener() {
         Button gameListButton = findViewById(R.id.goToGameList);
+        gameListButton.setOnClickListener(new View.OnClickListener() {
+        //gameListButton.setOnClickListener();
         gameListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,6 +180,7 @@ public class ScoreboardActivity extends AppCompatActivity {
      * A function to transition to the game list screen to start new games or
      * load old games
      */
+    public void goToGameList() {
     public void goToGameList() {
         Intent intent = new Intent(this, GameListActivity.class);
         startActivity(intent);
