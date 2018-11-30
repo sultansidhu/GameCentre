@@ -18,8 +18,7 @@ class UserManager {
     }
 
     /**
-     *
-     * @param username the username of the player who wishes to undo
+     * @param username  the username of the player who wishes to undo
      * @param gameIndex the game for which the player wishes to undo
      * @return whether or not the attempted undo was successful.
      */
@@ -28,8 +27,7 @@ class UserManager {
         Stack<Board> userStack = fm.getStack(username, gameIndex);
         if (user.getAvailableUndos(gameIndex) == 0 || userStack.size() == 1) {
             return false;
-        }
-        else {
+        } else {
             user.getGameStack(gameIndex).pop();
             user.setAvailableUndos(gameIndex, user.getAvailableUndos(gameIndex) - 1);
             fm.saveUser(user, username);
@@ -38,9 +36,8 @@ class UserManager {
     }
 
     /**
-     *
      * @param gameIndex The gameindex for which we want to add an opponent for
-     * @param opponent The string representing the opponent to face.
+     * @param opponent  The string representing the opponent to face.
      */
     void addOpponent(int gameIndex, String opponent) {
         LoginManager lm = new LoginManager();
@@ -51,10 +48,9 @@ class UserManager {
     }
 
     /**
-     *
-     * @param username The username for whom we want to set the undos
-     * @param undoLimit the proposed undoLimit
-     * @param gameIndex  the game for which we want to set the undos
+     * @param username     The username for whom we want to set the undos
+     * @param undoLimit    the proposed undoLimit
+     * @param gameIndex    the game for which we want to set the undos
      * @param boardManager the boardmanager to which we will add the initial state.
      */
     void setUserUndos(String username, int undoLimit, int gameIndex, BoardManager boardManager) {

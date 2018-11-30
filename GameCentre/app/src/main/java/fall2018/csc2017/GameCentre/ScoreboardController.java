@@ -44,7 +44,6 @@ class ScoreboardController {
         user.addSessionScore(newScore, gameIndex);
         fm.saveUser(user, username);
         System.out.println("THE ARRAY OF THE SESSION SCORES IS DISPLAYED HERE: ");
-        user.printAllSessionScores();
         return newScore;
     }
 
