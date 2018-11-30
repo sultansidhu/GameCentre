@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class ScoreboardActivity extends AppCompatActivity {
 
@@ -54,7 +55,8 @@ public class ScoreboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String winnerUsername = getIntent().getStringExtra("username");
-        if (winnerUsername == null) {//If there is no winner since we came from starting activity
+        if (winnerUsername == null) {}//If there is no winner since we came from starting activity
+        //TODO: Furthur debug on this stuff;    
             winnerUsername = new LoginManager().getPersonLoggedIn();
             winner = winnerUsername;
             User user = fm.getUser(winnerUsername);
@@ -70,7 +72,7 @@ public class ScoreboardActivity extends AppCompatActivity {
             hasamiScore = findViewById(R.id.hasamiShogiScoreViewer);
             connect4Score = findViewById(R.id.connect4ScoreViewer);
             sessionScore = findViewById(R.id.currentScoreViewer);
-            HashMap<String, User> users = fm.readObject();
+            Map<String, User> users = fm.readObject();
             assert users != null;
 
             fm.saveObject(users);
@@ -91,7 +93,7 @@ public class ScoreboardActivity extends AppCompatActivity {
             addResetScoresButtonListener();
             addGoToGameListListener();
             addGoToGlobalScoresListener();
-        }
+        //}
     }
 
     /**

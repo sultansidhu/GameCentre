@@ -45,11 +45,6 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView {
     private String username;
 
     /**
-     * The file manager instance
-     */
-    private FileManager fm;
-
-    /**
      * In index of the game being played
      */
     private int gameIndex = 2;
@@ -103,7 +98,7 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView {
      * @param context the given context
      */
     private void init(final Context context) {
-        fm = new FileManager();
+        //fm = new FileManager();
         mController = new MovementController(context);
         gDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             /*

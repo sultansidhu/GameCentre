@@ -1,4 +1,4 @@
-/**
+/*
  * ======================================================================
  * This class is a Factory that instantiates different BoardManagers
  * based on the input
