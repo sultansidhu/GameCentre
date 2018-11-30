@@ -120,80 +120,32 @@ public class ConnectFourBoardManagerTest {
         //TODO: Write true tests for gameDrawn
     }
 
-
     public ConnectFourBoardManager makeEarlyBoard(){
         //Integer[] moveList = {30, 24, 31, 18, 25, 32, 34, 26, 20, 33, 27, 21, 19, 35};
         ConnectFourBoardManager bm = new ConnectFourBoardManager(6);
-        bm.touchMove(30);
-        bm.touchMove(24);
-        bm.touchMove(31);
-        bm.touchMove(18);
-        return bm;
+        return makeMoves(bm, new int[]{30,24,31,18});
     }
     public ConnectFourBoardManager makeRedOneMoveAwayBoard(){
         ConnectFourBoardManager bm = new ConnectFourBoardManager(6);
-        bm.touchMove(30);
-        bm.touchMove(24);
-        bm.touchMove(31);
-        bm.touchMove(18);
-        bm.touchMove(25);
-        bm.touchMove(32);
-        bm.touchMove(34);
-        bm.touchMove(26);
-        bm.touchMove(20);
-        bm.touchMove(33);
-        bm.touchMove(27);
-        bm.touchMove(21);
-        bm.touchMove(19);
-        return bm;
+        return makeMoves(bm, new int[]{30,24,31,18,25,32,34,26,20,33,27,21,19});
     }
     public ConnectFourBoardManager makeRedWinDiagonalBoard(){
         ConnectFourBoardManager bm = new ConnectFourBoardManager(6);
-        bm.touchMove(30);
-        bm.touchMove(24);
-        bm.touchMove(31);
-        bm.touchMove(18);
-        bm.touchMove(25);
-        bm.touchMove(32);
-        bm.touchMove(34);
-        bm.touchMove(26);
-        bm.touchMove(20);
-        bm.touchMove(33);
-        bm.touchMove(27);
-        bm.touchMove(21);
-        bm.touchMove(19);
-        bm.touchMove(35);
-        bm.touchMove(15);
-        return bm;
+        return makeMoves(bm, new int[]{30,24,31,18,25,32,34,26,20,33,27,21,19,35,15});
     }
     public ConnectFourBoardManager makeRedWinVerticalBoard(){
         ConnectFourBoardManager bm = new ConnectFourBoardManager(6);
-        bm.touchMove(30);
-        bm.touchMove(24);
-        bm.touchMove(31);
-        bm.touchMove(18);
-        bm.touchMove(25);
-        bm.touchMove(32);
-        bm.touchMove(34);
-        bm.touchMove(26);
-        bm.touchMove(20);
-        bm.touchMove(33);
-        bm.touchMove(27);
-        bm.touchMove(21);
-        bm.touchMove(19);
-        bm.touchMove(35);
-        bm.touchMove(13);
-        return bm;
+        return makeMoves(bm, new int[]{30,24,31,18,25,32,34,26,20,33,27,21,19,35,13});
     }
     public ConnectFourBoardManager makeRedWinHorizontal(){
         ConnectFourBoardManager bm = new ConnectFourBoardManager(6);
-        bm.touchMove(30);
-        bm.touchMove(24);
-        bm.touchMove(31);
-        bm.touchMove(25);
-        bm.touchMove(32);
-        bm.touchMove(26);
-        bm.touchMove(33);
+        return makeMoves(bm, new int[]{30,24,31,25,32,26,33});
+    }
+
+    private ConnectFourBoardManager makeMoves(ConnectFourBoardManager bm, int[] moves) {
+        for (int move : moves) {
+            bm.touchMove(move);
+        }
         return bm;
     }
 }

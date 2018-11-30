@@ -96,23 +96,6 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView
                         (Math.round(event.getX()), Math.round(event.getY()));
                 mController.processTapMovement(context, position, gameIndex);
                 return true;
-//                if (boardManager.isValidTap(position)) {
-//                    mController.processTapMovement(context, boardManager, position);
-//                    User user = fm.getUser(username);
-//                    user.addState(boardManager.getBoard(), gameIndex);
-//                    fm.saveUser(user, username);
-//                    if (boardManager.checkFull() || boardManager.gameDrawn()) {
-//                        switchToScoreboardScreen();
-//                    }
-//                    else if (boardManager.puzzleSolved(position)) {
-//                        updateScoreboard(context, position);
-//                        switchToScoreboardScreen();
-//                    }
-//                    return true;
-//                }
-//                else
-//                    Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
-//                return false;
             }
             @Override
             public boolean onDown(MotionEvent event) {

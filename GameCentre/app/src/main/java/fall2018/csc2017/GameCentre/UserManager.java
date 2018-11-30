@@ -4,20 +4,17 @@ import android.content.Context;
 
 import java.util.Stack;
 
-public class UserManager {
+class UserManager {
 
     private Context context;
-    private String username;
     private FileManager fm;
 
-    public UserManager(Context context) {
+    UserManager(Context context) {
         this.context = context;
         fm = new FileManager(context);
-        username = new LoginManager(context).getPersonLoggedIn();
-
     }
 
-    public boolean processUndo(String username, int gameIndex) {
+    boolean processUndo(String username, int gameIndex) {
         User user = fm.getUser(username);
         Stack<Board> userStack = fm.getStack(username, gameIndex);
         if (user.getAvailableUndos(gameIndex) == 0 || userStack.size() == 1) {
@@ -31,7 +28,7 @@ public class UserManager {
         }
     }
 
-    public void addOpponent(int gameIndex, String opponent) {
+    void addOpponent(int gameIndex, String opponent) {
         LoginManager lm = new LoginManager(context);
         String username = lm.getPersonLoggedIn();
         User user = fm.getUser(username);
@@ -39,7 +36,7 @@ public class UserManager {
         fm.saveUser(user, username);
     }
 
-    public void setUserUndos(String username, int undoLimit, int gameIndex, BoardManager boardManager) {
+    void setUserUndos(String username, int undoLimit, int gameIndex, BoardManager boardManager) {
         User user = fm.getUser(username);
         user.setAvailableUndos(gameIndex, undoLimit);
         user.resetGameStack(gameIndex);

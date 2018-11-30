@@ -50,47 +50,6 @@ class MovementController {
         else { Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show(); }
     }
 
-//    /**
-//     * Processes a tap for the user.
-//     * @param context of the application.
-//     * @param position that the user tapped.
-//     */
-//    void processTapMovement(Context context, ConnectFourBoardManager boardManager, int position) {
-//        if (!boardManager.gameOver){
-//            if (boardManager.isValidTap(position)) {
-//                boardManager.touchMove(position);
-//                if (boardManager.puzzleSolved(position)) {
-//                   // Toast.makeText(context, winner + " Wins!", Toast.LENGTH_LONG).show();
-//                    boardManager.setGameOver();
-//                }
-//
-//
-//            } else { Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show(); }
-//        } else {
-//            boardManager.makeToast("The game is over! Please start a new game!");
-//        }
-//    }
-
-//    /**
-//     * Overloaded processTapmovement parameters for shogi
-//     * @param context context
-//     * @param boardManager boardmanager
-//     * @param fromTile subject tile
-//     * @param toTile target tile
-//     */
-
-//    void processTapMovement(Context context, ShogiBoardManager boardManager, int fromTile, int toTile) {
-//        if (boardManager.isValidTap(fromTile, toTile)) {
-//            boardManager.touchMove(fromTile, toTile);
-//            if (boardManager.puzzleSolved()) {
-//                if(boardManager.getBoard().numBlacks() <= 1)
-//                    Toast.makeText(context, "BLACK WINS!", Toast.LENGTH_SHORT).show();
-//                else
-//                    Toast.makeText(context, "RED WINS!", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
-
     private void checkSolved(Context context, int gameIndex) {
         if (boardManager.puzzleSolved()) {
             String winner = getWinnerUsername(gameIndex); // TODO: CALL TO THE getWinnerUsername() METHOD
@@ -133,7 +92,6 @@ class MovementController {
         }
         return username;
     }
-
 
     /*
     Switches to the scoreboard screen if a game is won
