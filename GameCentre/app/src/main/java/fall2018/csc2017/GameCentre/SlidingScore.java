@@ -1,8 +1,5 @@
 package fall2018.csc2017.GameCentre;
 
-import java.sql.SQLOutput;
-import java.util.HashMap;
-
 
 class SlidingScore implements Score
 {
@@ -19,7 +16,7 @@ class SlidingScore implements Score
     /**
      * The constructor for this class, which intiailizes the fm object
      */
-    public SlidingScore()
+    SlidingScore()
     {
         fm = new FileManager();
     }
@@ -36,6 +33,10 @@ class SlidingScore implements Score
         return (int)score + (50 * size);
     }
 
+    /**
+     * A setter for the board of this class.
+     * @param board the board to be set
+     */
     public void setBoard(Board board){
         this.board = board;
     }
