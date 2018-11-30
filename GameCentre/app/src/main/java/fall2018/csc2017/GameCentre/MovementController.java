@@ -54,12 +54,15 @@ class MovementController {
         if (boardManager.puzzleSolved()) {
             String winner = getWinnerUsername(gameIndex); // TODO: CALL TO THE getWinnerUsername() METHOD
             Toast.makeText(context, "YOU WIN!", Toast.LENGTH_SHORT).show();
-            ScoreboardActivity sc = new ScoreboardActivity();
-            int[] result = sc.updateUserHighScore(winner, gameIndex);
-            switchToScoreboardScreen(context, result, winner);
-            System.out.println("LE RESULT ISCH ------------- : " + result);
-
-
+            if (winner.equals("Guest")) {
+                switchToLeaderBoardScreen(context);
+            }
+            else {
+                ScoreboardActivity sc = new ScoreboardActivity();
+                int[] result = sc.updateUserHighScore(winner, gameIndex);
+                switchToScoreboardScreen(context, result, winner);
+                System.out.println("LE RESULT ISCH ------------- : " + result);
+            }
         }
     }
 
@@ -102,5 +105,9 @@ class MovementController {
         tmp.putExtra("results", results);
         tmp.putExtra("username", username);
         context.startActivity(tmp);
+    }
+
+    public void switchToLeaderBoardScreen(Context context) {
+        context.startActivity(new Intent(context, LeaderBoardActivity.class));
     }
 }
