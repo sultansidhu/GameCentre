@@ -172,7 +172,12 @@ public class LoginManager {
 
     public void makeToast(String textToDisplay)
     {
-        Toast.makeText(GlobalApplication.getAppContext(), textToDisplay, Toast.LENGTH_LONG).show();//TODO: Make GlobalApplication not static
+        try {
+            Toast.makeText(GlobalApplication.getAppContext(), textToDisplay, Toast.LENGTH_LONG).show();//TODO: Make GlobalApplication not static
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            System.out.println("CONTEXT NULL WHILE MAKING TOAST!");
+        }
     }
 
 }

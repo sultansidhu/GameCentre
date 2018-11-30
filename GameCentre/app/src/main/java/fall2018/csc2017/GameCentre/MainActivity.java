@@ -164,8 +164,7 @@ public class MainActivity extends AppCompatActivity {
                 String selectedQuestion = securityQuestions.getSelectedItem().toString();
 
                 LoginManager lm = new LoginManager();
-                if(lm.create(usernameToAdd, passwordToAdd, confirmPassword, selectedQuestion, securityAnswer))
-                {
+                if(lm.create(usernameToAdd, passwordToAdd, confirmPassword, selectedQuestion, securityAnswer)) {
                     gotoGameList();
                 }
 

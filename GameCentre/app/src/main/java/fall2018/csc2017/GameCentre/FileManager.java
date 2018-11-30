@@ -30,7 +30,7 @@ public class FileManager implements Serializable {
         try
         {
             //fis = context.openFileInput("testFile.ser");
-            fis = GlobalApplication.getAppContext().openFileInput("SAVED_USERS.ser");
+            fis = GlobalApplication.getAppContext().openFileInput("testFile2.ser");
             objectIn = new ObjectInputStream(fis);
             @SuppressWarnings("unchecked")
             HashMap<String, User> hashMapFromFile = (HashMap<String, User>)objectIn.readObject();
@@ -96,11 +96,19 @@ public class FileManager implements Serializable {
         try
         {
             //fos = context.openFileOutput("testFile.ser", Context.MODE_PRIVATE);
-            fos = GlobalApplication.getAppContext().openFileOutput("SAVED_USERS.ser", Context.MODE_PRIVATE);
+            if(GlobalApplication.getAppContext() == null) {
+                System.out.println("CONTEXT NULL");
+            } else {
+                System.out.println("CONTEXT NOT NULL");
+            }
+            fos = GlobalApplication.getAppContext().openFileOutput("testFile2.ser", Context.MODE_PRIVATE);
             objectOut = new ObjectOutputStream(fos);
             objectOut.writeObject(hashMap);
             objectOut.close();
 
+        } catch (NullPointerException e2) {
+            e2.printStackTrace();
+            System.out.println("CONTEXT IS NULL WHILE SAVING");
         }
         catch(FileNotFoundException e1)
         {
