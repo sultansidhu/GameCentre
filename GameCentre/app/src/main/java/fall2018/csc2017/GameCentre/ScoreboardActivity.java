@@ -12,9 +12,7 @@ import android.widget.Toast;
 import java.util.HashMap;
 
 public class ScoreboardActivity extends AppCompatActivity {
-//import static fall2018.csc2017.GameCentre.MovementController.username;
 
-public class ScoreboardActivity extends AppCompatActivity {
     /**
      * TextView for the sliding score
      * List of all the users' highscores.
@@ -107,7 +105,6 @@ public class ScoreboardActivity extends AppCompatActivity {
      * goes to the global leader-board if pressed
      */
     private void addGoToGlobalScoresListener() {
-    private void addGoToGlobalScoresListener() {
         Button globalScores = findViewById(R.id.goToGlobalScores);
         globalScores.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,7 +149,6 @@ public class ScoreboardActivity extends AppCompatActivity {
      */
     @SuppressLint("SetTextI18n")
     public void updateResetScores() {
-    public void updateResetScores() {
         slidingScore.setText("Sliding Tiles: 0");
         hasamiScore.setText("Hasami Shogi: 0");
         connect4Score.setText("Connect 4: 0");
@@ -162,7 +158,6 @@ public class ScoreboardActivity extends AppCompatActivity {
      * A listener for the going to the game list button
      * Goes to the game list screen to start new games when pressed
      */
-    private void addGoToGameListListener() {
     private void addGoToGameListListener() {
         Button gameListButton = findViewById(R.id.goToGameList);
         gameListButton.setOnClickListener(new View.OnClickListener() {
@@ -180,7 +175,6 @@ public class ScoreboardActivity extends AppCompatActivity {
      * A function to transition to the game list screen to start new games or
      * load old games
      */
-    public void goToGameList() {
     public void goToGameList() {
         Intent intent = new Intent(this, GameListActivity.class);
         startActivity(intent);

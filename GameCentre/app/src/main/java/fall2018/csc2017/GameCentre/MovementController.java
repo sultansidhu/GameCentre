@@ -70,8 +70,6 @@ class MovementController {
                 Toast.makeText(context, "Guest wins!", Toast.LENGTH_SHORT).show();
                 switchToLeaderBoardScreen(context);
             } else {
-            }
-            else {
                 Toast.makeText(context, username + " wins!", Toast.LENGTH_SHORT).show();
                 ScoreboardActivity sc = new ScoreboardActivity();
                 ScoreboardController scon = new ScoreboardController();

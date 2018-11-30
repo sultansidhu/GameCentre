@@ -32,8 +32,7 @@ class ScoreboardController {
      * @param gameIndex the game index identity of the game
      * @return the score of the user
      */
-    private int generateUserScore(String username, int gameIndex) {
-    public int generateUserScore(String username, int gameIndex) {
+    int generateUserScore(String username, int gameIndex) {
         int newScore;
         HashMap<String, User> users = fm.readObject();
         assert users != null;
