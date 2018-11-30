@@ -9,11 +9,9 @@ Follow these steps to set up the repository:
 * Select "Git" then enter in the URL found above. Click "clone."
 * Select "Yes" when prompted to create an Android Studio project.
 * On the following screen, select "Create Project From Existing Sources." Click "Next".
-* Add \Phase1\slidingtiles to the project directory.
 * Continue to click "Next" then click "Finish".
 * The project should now clone.
 * Should you encounter a dialog which alludes to a VCS root not being set, expand the dialog and click "Add Root."
-* Note, the local.properties sdk and build.gradle (applicationId "com.example.nizar17.group0506.phase1.slidingtiles") should be modified to local paths.
 * Should you encounter enourmous blocks of red text, go to File -> Invalidate Caches and Restart -> Invalidate Caches and restart.
 * You will now be able to run the app by clicking the "run" button (green arrow) near the top right corner of your screen.
 * Should you encounter issues when running the application, specifically when setting up configurations, close the project (File -> Close Project) and open the subdirectory labelled "SlidingTiles" by clicking on it. The app will now run.
