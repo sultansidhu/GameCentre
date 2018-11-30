@@ -55,49 +55,43 @@ public class ScoreboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         String winnerUsername = getIntent().getStringExtra("username");
         if (winnerUsername == null) {//If there is no winner since we came from starting activity
-        String winnerUsername = getIntent().getStringExtra("username");//new LoginManager().getPersonLoggedIn();
-        System.out.println("THE WINNERS USERNAME IS --------------%%%%%%%%%%%% -------------" + winnerUsername);
-        if (winnerUsername == null) {//If there is no winner since we came from starting activity
             winnerUsername = new LoginManager().getPersonLoggedIn();
-        }
-        winner = winnerUsername;
-        User user = fm.getUser(winnerUsername);
-        int newScore = getIntent().getIntExtra("result", -1);
-        int[] results = new int[4];
-        for (int i = 0; i < 3; i++) {
-            results[i] = user.getMaxScore(i);
-        }
-        results[3] = newScore;
-
-        System.out.println("Results is: ");
-        System.out.println(results);
-        System.out.println("THE RESULTS NOW ARE: ----------------------------" + results);
-        setContentView(R.layout.scoreboard);
-        slidingScore = findViewById(R.id.slidingTilesScoreViewer);
-        hasamiScore = findViewById(R.id.hasamiShogiScoreViewer);
-        connect4Score = findViewById(R.id.connect4ScoreViewer);
-        sessionScore = findViewById(R.id.currentScoreViewer);
-        HashMap<String, User> users = fm.readObject();
-        assert users != null;
-
-        fm.saveObject(users);
-        slidingScore.setText("Sliding Tiles: " + String.valueOf(results[0]));
-        hasamiScore.setText("Hasami Shogi: " + String.valueOf(results[1]));
-        connect4Score.setText("Connect 4: " + String.valueOf(results[2]));
-        try {
-            if (results[3] > -1) {
-                sessionScore.setText("Your Score: " + String.valueOf(results[3]));
-            } else {
-                sessionScore.setText("Your Score: <N/A>");
+            winner = winnerUsername;
+            User user = fm.getUser(winnerUsername);
+            int newScore = getIntent().getIntExtra("result", -1);
+            int[] results = new int[4];
+            for (int i = 0; i < 3; i++) {
+                results[i] = user.getMaxScore(i);
             }
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("You came from the StartingActivity screen, so no recent score.");
-            sessionScore.setText("Your Score: " + "<N/A>");
-        }
+            results[3] = newScore;
 
-        addResetScoresButtonListener();
-        addGoToGameListListener();
-        addGoToGlobalScoresListener();
+            setContentView(R.layout.scoreboard);
+            slidingScore = findViewById(R.id.slidingTilesScoreViewer);
+            hasamiScore = findViewById(R.id.hasamiShogiScoreViewer);
+            connect4Score = findViewById(R.id.connect4ScoreViewer);
+            sessionScore = findViewById(R.id.currentScoreViewer);
+            HashMap<String, User> users = fm.readObject();
+            assert users != null;
+
+            fm.saveObject(users);
+            slidingScore.setText("Sliding Tiles: " + String.valueOf(results[0]));
+            hasamiScore.setText("Hasami Shogi: " + String.valueOf(results[1]));
+            connect4Score.setText("Connect 4: " + String.valueOf(results[2]));
+            try {
+                if (results[3] > -1) {
+                    sessionScore.setText("Your Score: " + String.valueOf(results[3]));
+                } else {
+                    sessionScore.setText("Your Score: <N/A>");
+                }
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("You came from the StartingActivity screen, so no recent score.");
+                sessionScore.setText("Your Score: " + "<N/A>");
+            }
+
+            addResetScoresButtonListener();
+            addGoToGameListListener();
+            addGoToGlobalScoresListener();
+        }
     }
 
     /**
@@ -128,7 +122,6 @@ public class ScoreboardActivity extends AppCompatActivity {
      * and this fucction tracks button pressing
     /*
     Adds a reset scores button listener which calls a method to set all user high scores to 0.
-    @return null
      */
     private void addResetScoresButtonListener() {
         Button resetScores = findViewById(R.id.resetScores);
@@ -161,8 +154,6 @@ public class ScoreboardActivity extends AppCompatActivity {
     private void addGoToGameListListener() {
         Button gameListButton = findViewById(R.id.goToGameList);
         gameListButton.setOnClickListener(new View.OnClickListener() {
-        //gameListButton.setOnClickListener();
-        gameListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goToGameList();
@@ -170,6 +161,7 @@ public class ScoreboardActivity extends AppCompatActivity {
         });
 
     }
+
 
     /**
      * A function to transition to the game list screen to start new games or
@@ -179,5 +171,5 @@ public class ScoreboardActivity extends AppCompatActivity {
         Intent intent = new Intent(this, GameListActivity.class);
         startActivity(intent);
     }
+    }
 
-}
