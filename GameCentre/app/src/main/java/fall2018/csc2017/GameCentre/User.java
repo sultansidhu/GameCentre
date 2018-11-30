@@ -10,7 +10,9 @@ package fall2018.csc2017.GameCentre;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Stack;
 
 public class User implements Serializable
@@ -214,7 +216,7 @@ public class User implements Serializable
      *
      * @return the highest score of the user
      */
-    ArrayList<Integer> getHighestScore(int gameIndex)
+    ArrayList<Integer> getHighestScoresList(int gameIndex)
     {
         return highestScore.get(gameIndex);
     }
@@ -321,6 +323,19 @@ public class User implements Serializable
         for (int i = 0; i <= highestScore.size()-1; i++){
             printSessionScoresForGame(i);
         }
+    }
+    public int getMaxScore(int gameIndex) {
+        //TextView slidingScores = findViewById(R.id.slidingTilesScoreViewer);
+        Integer maxScore;
+        //User user = fm.readObject().get(username);
+        //assert user != null;
+        List scoreList = getHighestScoresList(gameIndex);
+        if (scoreList.size() == 0) {
+            maxScore = 0;
+        } else {
+            maxScore = (int) Collections.max(scoreList);
+        }
+        return maxScore;
     }
 
 
