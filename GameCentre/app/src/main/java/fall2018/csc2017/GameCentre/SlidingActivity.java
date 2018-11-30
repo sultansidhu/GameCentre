@@ -95,7 +95,7 @@ public class SlidingActivity extends GameActivity implements Observer {
                     display();
                 }
                 else {
-                    makeToastNoUndo();
+                    showToast("You have used all your undos!");
                 }
             }
         });
