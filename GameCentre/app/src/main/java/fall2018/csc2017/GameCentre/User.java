@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 public class User implements Serializable
@@ -28,7 +29,7 @@ public class User implements Serializable
     /**
     This is a stack holding all the game states of the saved game for this user
     */
-    private HashMap<Integer, Stack<Board>> savedStates;
+    private Map<Integer, Stack<Board>> savedStates;
     /**
     This is answer to this user's security question
     */
@@ -38,7 +39,7 @@ public class User implements Serializable
     /**
     This is the current highest score of this user per game
     */
-    private HashMap<Integer, ArrayList<Integer>> highestScore;
+    private Map<Integer, ArrayList<Integer>> highestScore;
     /**
     This is the security question of this user
     */
@@ -50,11 +51,11 @@ public class User implements Serializable
     /**
     This is a couter keeping track of the available undos foe a user
      */
-    private HashMap<Integer, Integer> availableUndos;
+    private Map<Integer, Integer> availableUndos;
 
     private boolean isLoggedIn = false;
 
-    private HashMap<Integer, String> opponents;
+    private Map<Integer, String> opponents;
     /**
      * The user of the application. Object is used to sign in and access various functions.
      * @param username the username of the user
@@ -68,10 +69,10 @@ public class User implements Serializable
         this.password = password;
         this.securityQuestion = securityQuestion;
         this.answer = answer;
-        this.opponents = new HashMap<Integer, String>();
-        this.highestScore = new HashMap<Integer, ArrayList<Integer>>();
-        this.savedStates = new HashMap<Integer, Stack<Board>>();
-        this.availableUndos = new HashMap<Integer, Integer>();
+        this.opponents = new HashMap<>();
+        this.highestScore = new HashMap<>();
+        this.savedStates = new HashMap<>();
+        this.availableUndos = new HashMap<>();
         for(int i = 0; i <= 2; i++) {//Initializes the stack
             this.savedStates.put(i, new Stack<Board>());
             this.highestScore.put(i, new ArrayList<Integer>());
@@ -236,7 +237,7 @@ public class User implements Serializable
      * of the game
      * @return HashMap<Integer, String>
      */
-    public HashMap<Integer, String> getOpponents()
+    public Map<Integer, String> getOpponents()
     {
         return this.opponents;
     }
@@ -295,11 +296,7 @@ public class User implements Serializable
      * @param gameIndex the index of the game to be reset
      */
     public void resetScoreHashmapForGame(int gameIndex){
-        System.out.println("THE OLD ARRAYLIST FOR GAME INDEX " + gameIndex);
-        System.out.println(highestScore.get(gameIndex));
         highestScore.put(gameIndex, new ArrayList<Integer>());
-        System.out.println("THE NEW ARRAYLIST FOR GAME INDEX " + gameIndex);
-        System.out.println(highestScore.get(gameIndex));
     }
 
     /**
@@ -311,19 +308,6 @@ public class User implements Serializable
         }
     }
 
-    /**
-     * THIS BOI BEEN IMPLEMENTED FOR TESTING PURPOSES
-     * @param gameIndex INDEX OF THE GAME BOIIIIIIIIS
-     */
-    public void printSessionScoresForGame(Integer gameIndex){
-        System.out.println(highestScore.get(gameIndex));
-    }
-
-    public void printAllSessionScores(){
-        for (int i = 0; i <= highestScore.size()-1; i++){
-            printSessionScoresForGame(i);
-        }
-    }
     public int getMaxScore(int gameIndex) {
         //TextView slidingScores = findViewById(R.id.slidingTilesScoreViewer);
         Integer maxScore;

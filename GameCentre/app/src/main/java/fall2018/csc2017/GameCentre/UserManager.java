@@ -42,4 +42,10 @@ class UserManager {
         fm.saveUser(user, username);
     }
 
+    void saveState(String username, BoardManager boardManager, int gameIndex) {
+        User user = fm.getUser(username);
+        user.addState(boardManager.getBoard(), gameIndex);
+        fm.saveUser(user, username);
+    }
+
 }

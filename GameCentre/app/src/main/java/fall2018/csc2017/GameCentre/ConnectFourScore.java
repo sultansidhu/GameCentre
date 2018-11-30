@@ -9,10 +9,7 @@ public class ConnectFourScore implements Score {
     /**
      * Calculates the score for Connect4
      */
-    ConnectFourScore() {
-
-    }
-
+    ConnectFourScore() {}
     /**
      * Sets the board for the game to the given board
      *
@@ -32,17 +29,5 @@ public class ConnectFourScore implements Score {
      */
     public int calculateUserScore(int numMoves, int size) {
         return Math.round(-4 * (numMoves - 7) + 1000) + 50 * size;
-    }
-
-    /**
-     * Updates the user score, given the user object and the
-     * new highscore set by the user
-     *
-     * @param user         the user setting the highscore and playing
-     *                     the current game
-     * @param newHighScore the highscore set by the user
-     */
-    public void updateUserScore(User user, int newHighScore) {
-
     }
 }

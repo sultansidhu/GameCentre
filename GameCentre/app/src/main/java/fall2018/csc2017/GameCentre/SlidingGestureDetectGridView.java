@@ -106,7 +106,7 @@ public class SlidingGestureDetectGridView extends GestureDetectGridView {
             public boolean onSingleTapConfirmed(MotionEvent event) {
                 int position = SlidingGestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
-                mController.processTapMovement(context, position, gameIndex);
+//                mController.processTapMovement(context, position, gameIndex);
                 return true;
             }
             @Override

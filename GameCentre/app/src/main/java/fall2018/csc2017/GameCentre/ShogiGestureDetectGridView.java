@@ -2,6 +2,7 @@ package fall2018.csc2017.GameCentre;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -58,6 +59,8 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
 
     private int gameIndex = 1;
 
+    private UserManager userManager = new UserManager();
+
     /*
     Overloaded Constructor that takes a Context
     */
@@ -98,9 +101,16 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
             public boolean onSingleTapConfirmed(MotionEvent event) {
                 int position = ShogiGestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
-                mController.processTapMovement(context, position, gameIndex);
+                if(!mController.processTapMovement(position, boardManager)) {
+                    Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    if (boardManager.getChanged()) {
+                        userManager.saveState(username, boardManager, gameIndex);
+                        checkSolved(context, gameIndex);
+                    }
+                }
                 return true;
-//                return checkTap(context, position);
             }
 
             @Override
@@ -109,90 +119,44 @@ public class ShogiGestureDetectGridView extends GestureDetectGridView {
             }
         });
     }
+    /**
+     * Checks if the board is solved, and thus whether the game is over
+     * @param context   the current context
+     * @param gameIndex the identity index of the game
+     */
+    private void checkSolved(Context context, int gameIndex) {
+        if (boardManager.puzzleSolved()) {
+            String winner = mController.getWinnerUsername(gameIndex);
+            Toast.makeText(context, winner + " wins!", Toast.LENGTH_SHORT).show();
+            if (winner.equals("Guest")) {
+                switchToLeaderBoardScreen(context);
+            } else {
+                ScoreboardActivity sc = new ScoreboardActivity();
+                ScoreboardController scon = new ScoreboardController();
+                int result = scon.generateUserScore(winner, gameIndex);
+                switchToScoreboardScreen(context, result, winner);
+            }
+        }
+    }
 
-//    public boolean checkTap(Context context, int position) {
-//        Tile currTile = boardManager.getBoard().getTile(position/Board.NUM_ROWS, position%Board.NUM_ROWS);
-//        int tileOwner = getTileOwner(currTile);
-//        if (isTurn(tileOwner)) {
-//            setTileToMove(context, position, currTile);
-//        }
-//        else if (tileOwner == 0 && tileSelected != -1 && boardManager.isValidTap(tileSelected, position)) {
-//            boardManager.setTileSelected(tileSelected);
-//            setBoardManager(boardManager);
-////            mController.processTapMovement(context, boardManager, tileSelected, position);
-////            mController.processTapMovement(context, position);
-//
-//            resetTileSelected();
-//            switchPlayer();
-//            if (boardManager.puzzleSolved()) {
-//                updateScoreboard(context);
-//                switchToScoreboardScreen();
-//            }
-//        }
-//        else {
-//            makeInvalidToast(context, tileOwner);
-//        }
-//        return true;
-//    }
+    /**
+     * Switches to the leader-board screen after the game is won by
+     * the guest
+     * @param context the current context
+     */
+    private void switchToLeaderBoardScreen(Context context) {
+        context.startActivity(new Intent(context, LeaderBoardActivity.class));
+    }
 
-//    public int getTileOwner(Tile currTile) {
-//        if (currTile.getBackground() == R.drawable.black) { return 1; }
-//        else if (currTile.getBackground() == R.drawable.red) {return 2; }
-//        else { return 0; }
-//    }
-//
-//    public boolean isTurn(int tileOwner) {
-//        return tileOwner == boardManager.getBoard().getCurrPlayer();
-//    }
-//
-//    public void setTileToMove(Context context, int position, Tile currTile) {
-//        if (tileSelected == -1
-//                || boardManager.getBoard().getTile(
-//                tileSelected/Board.NUM_ROWS, tileSelected%Board.NUM_ROWS).getBackground()
-//                == currTile.getBackground()) {
-//            tileSelected = position;
-//        }
-//        else {
-//            Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-//
-//    public void updateScoreboard(Context context) {
-//        ScoreboardActivity sc = new ScoreboardActivity();
-//        if (boardManager.getBoard().getCurrPlayer() == 2) {//Player already swapped therefore p2
-//            sc.updateUserHighScore(username, 1);
-//        }
-//        else {
-//            String opponent = fm.getUser(username).getOpponents().get(1);
-//            if (!opponent.equals("Guest")){
-//                sc.updateUserHighScore(opponent, 1);
-//            } else {
-//                Toast.makeText(context, "Guest won!", Toast.LENGTH_SHORT).show();
-//            }
-//
-//        }
-//    }
-//
-//    public void makeInvalidToast(Context context, int tileOwner) {
-//        if (tileOwner != boardManager.getBoard().getCurrPlayer() && tileOwner != 0){
-//            Toast.makeText(context, "It is Player " + boardManager.getBoard().getCurrPlayer() + "'s turn!", Toast.LENGTH_SHORT).show();
-//        }
-//        else {
-//            Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-//
-//    public void resetTileSelected() {
-//        tileSelected = -1;
-//    }
-//
-//    public void switchPlayer() {
-//        boardManager.getBoard().setCurrPlayer(3 - boardManager.getBoard().getCurrPlayer());
-//        Toast.makeText(getContext(), "Player " + boardManager.getBoard().getCurrPlayer() + "'s turn", Toast.LENGTH_SHORT).show();
-//        User user = fm.getUser(username);
-//        user.addState(boardManager.getBoard(), 1);
-//        fm.saveUser(user, username);
-//    }
+    /**
+     * Switches to the scoreboard screen if a game is won
+     */
+    private void switchToScoreboardScreen(Context context, int result, String username) {
+        Intent intent = new Intent(context, ScoreboardActivity.class);
+        intent.putExtra("result", result);
+        intent.putExtra("username", username);
+        context.startActivity(intent);
+    }
 
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         int action = ev.getActionMasked();

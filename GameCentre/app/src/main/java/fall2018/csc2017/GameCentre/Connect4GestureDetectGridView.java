@@ -113,7 +113,7 @@ public class Connect4GestureDetectGridView extends GestureDetectGridView {
             public boolean onSingleTapConfirmed(MotionEvent event) {
                 int position = Connect4GestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
-                mController.processTapMovement(context, position, gameIndex);
+//                mController.processTapMovement(context, position, gameIndex);
                 return true;
             }
 

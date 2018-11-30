@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import java.util.ArrayList;
+import java.util.List;
 
 public class LeaderBoardActivity extends AppCompatActivity {
     //private FileManager fm = new FileManager();
@@ -16,12 +16,12 @@ public class LeaderBoardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scoreboard_global);
-        ArrayList c4Scores = scon.getGlobalScores(2);
-        ArrayList shScores = scon.getGlobalScores(1);
-        ArrayList stScores = scon.getGlobalScores(0);
-        StringBuilder c4Format = scon.formatScores(c4Scores, 4);
-        StringBuilder shFormat = scon.formatScores(shScores, 4);
-        StringBuilder stFormat = scon.formatScores(stScores, 4);
+        List c4Scores = scon.getGlobalScores(2);
+        List shScores = scon.getGlobalScores(1);
+        List stScores = scon.getGlobalScores(0);
+        StringBuilder c4Format = scon.formatScores(c4Scores);
+        StringBuilder shFormat = scon.formatScores(shScores);
+        StringBuilder stFormat = scon.formatScores(stScores);
         TextView connect4box = findViewById(R.id.c4HighScores);
         TextView shBox = findViewById(R.id.hsHighScores);
         TextView stBox = findViewById(R.id.stHighScores);
