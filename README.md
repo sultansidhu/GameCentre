@@ -1,4 +1,4 @@
-#GameCenter
+# GameCenter
 
 ##### Citations and Credits 
 The following website was used for help in devising an algorithm to make sure the Board is always solvable (for SlidingTiles): 
